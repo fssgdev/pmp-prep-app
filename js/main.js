@@ -8,13 +8,14 @@
     return r.json();
   });
   try {
-    const [modules, calendar, questions, lessons, scenarios] = await Promise.all([
-      get('data/modules.json'), get('data/calendar.json'), get('data/questions.json'), get('data/lessons.json'), get('data/scenarios.json')
+    const [modules, calendar, questions, lessons, scenarios, concepts, tips] = await Promise.all([
+      get('data/modules.json'), get('data/calendar.json'), get('data/questions.json'), get('data/lessons.json'),
+      get('data/scenarios.json'), get('data/concepts.json'), get('data/tips.json')
     ]);
-    window.PMP_DATA = {modules, sessions: calendar.sessions, stages: calendar.stages, questions, course: lessons, scenarios};
-    const s = document.createElement('script');
-    s.src = 'js/app.js';
-    document.body.append(s);
+    window.PMP_DATA = {modules, sessions: calendar.sessions, stages: calendar.stages, questions, course: lessons, scenarios, concepts, tips};
+    const load = src => new Promise((ok, fail) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => fail(new Error(src)); document.body.append(s); });
+    await load('js/study.js');
+    await load('js/app.js');
   } catch (err) {
     main.innerHTML = '<p class="loading">No se pudo cargar el contenido de la app. Recarga la página.<br><small>' +
       String(err.message).replace(/[<>&]/g, '') + '</small></p>';

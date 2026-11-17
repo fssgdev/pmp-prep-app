@@ -12,7 +12,10 @@ Roles: **ChatGPT** supervisa y guía (issues con etiqueta `para-claude`); **Clau
 ## Arquitectura (sitio estático en GitHub Pages)
 - `index.html` — esqueleto. `assets/styles.css` — estilos.
 - `data/modules.json` — dominios y temas. `data/calendar.json` — sesiones INGENIUM y etapas. `data/questions.json` — banco de preguntas. `data/scenarios.json` — escenarios compartidos. `data/lessons.json` — lecciones del curso v4.1.
-- `js/main.js` carga los JSON y arranca `js/app.js` (lógica y vistas, enrutado por `#hash`).
+- `data/concepts.json` — conceptos clave (`[[palabra clave]]` se resalta), ejemplo de construcción y sus `cards` (flashcards). `data/tips.json` — tips diarios.
+- `js/main.js` carga los JSON, luego `js/study.js` (plan con vencimientos, flashcards con repetición espaciada, conceptos, agenda/.ics/Google, simulacros) y después `js/app.js` (vistas base, cuestionario, ajustes; enrutado por `#hash`).
+- Secciones: Inicio, Agenda, Ruta de aprendizaje, Conceptos clave, Flashcards, Simulacros; además Módulos, Banco, Errores, Mi preparación y Notas.
+- Plan: cada sesión de `data/calendar.json` lleva `topics`, `ppt`, `lesson41` y `mapping` (`confirmada` / `por confirmar`). El cuestionario vence el día anterior a la siguiente sesión; repasos a +1, +3, +7 y +14 días; tramo final desde el 7 de enero. Las actividades completadas se guardan por id en `state.tasksDone`.
 - `js/sync.js` + `js/config.js` — sincronización del progreso en Supabase (tabla `progress`, ver `supabase/schema.sql`). Sin credenciales, todo queda en localStorage.
 
 ## Reglas de contenido
