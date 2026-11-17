@@ -8,10 +8,10 @@
     return r.json();
   });
   try {
-    const [modules, calendar, questions, lessons] = await Promise.all([
-      get('data/modules.json'), get('data/calendar.json'), get('data/questions.json'), get('data/lessons.json')
+    const [modules, calendar, questions, lessons, scenarios] = await Promise.all([
+      get('data/modules.json'), get('data/calendar.json'), get('data/questions.json'), get('data/lessons.json'), get('data/scenarios.json')
     ]);
-    window.PMP_DATA = {modules, sessions: calendar.sessions, stages: calendar.stages, questions, course: lessons};
+    window.PMP_DATA = {modules, sessions: calendar.sessions, stages: calendar.stages, questions, course: lessons, scenarios};
     const s = document.createElement('script');
     s.src = 'js/app.js';
     document.body.append(s);

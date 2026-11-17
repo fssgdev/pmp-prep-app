@@ -1,0 +1,55 @@
+[
+  {
+    "id": "sc-mirador",
+    "title": "Caso Mirador: edificio residencial de 6 pisos",
+    "context": "Una inmobiliaria ejecuta un edificio de 6 pisos con enfoque predictivo. El presupuesto hasta la conclusión (BAC) es de S/ 1 200 mil y la duración planificada es de 6 meses. El gráfico muestra los valores acumulados (en miles de soles) del valor planificado (PV), el valor ganado (EV) y el costo real (AC). La fecha de corte es el cierre del mes 4.",
+    "chart": {
+      "type": "line",
+      "title": "Caso Mirador: valores acumulados (miles de S/)",
+      "yLabel": "Miles de S/",
+      "labels": [
+        "Mes 1",
+        "Mes 2",
+        "Mes 3",
+        "Mes 4",
+        "Mes 5",
+        "Mes 6"
+      ],
+      "series": [
+        {
+          "name": "PV (planificado)",
+          "values": [
+            100,
+            250,
+            450,
+            650,
+            900,
+            1200
+          ]
+        },
+        {
+          "name": "EV (ganado)",
+          "values": [
+            90,
+            220,
+            380,
+            560,
+            null,
+            null
+          ]
+        },
+        {
+          "name": "AC (costo real)",
+          "values": [
+            95,
+            240,
+            410,
+            600,
+            null,
+            null
+          ]
+        }
+      ]
+    }
+  }
+]

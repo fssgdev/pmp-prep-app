@@ -1118,15 +1118,15 @@
     "category": "Conceptual",
     "prompt": "El equipo empieza historias de usuario sin datos de prueba ni diseño aprobado, y se bloquea a mitad del sprint. ¿Qué práctica ayudaría más a evitarlo?",
     "options": [
-      "Alargar el sprint para absorber los bloqueos.",
-      "Endurecer la definición de terminado (DoD).",
+      "Endurecer la definición de terminado (DoD) para que no se acepten historias incompletas.",
+      "Dedicar la primera mitad de cada sprint a conseguir datos y aprobaciones.",
       "Acordar una definición de listo (DoR) que el elemento cumpla antes de entrar al sprint.",
-      "Que el director asigne cada historia individualmente."
+      "Pedir al dueño de producto que reduzca el número de historias por sprint."
     ],
     "correct": [
       2
     ],
-    "rationale": "La DoR indica qué debe estar disponible para empezar a trabajar un elemento. La DoD define cuándo está terminado, no cuándo puede empezar; alargar el sprint o microgestionar no resuelve la falta de preparación."
+    "rationale": "La DoR fija qué debe estar disponible para empezar un elemento, y así ataca la causa: historias que entran sin preparación. La DoD regula cuándo algo está terminado, no cuándo puede empezar; reservar medio sprint o reducir historias atenúa el síntoma sin prevenirlo."
   },
   {
     "id": "process-l3-004",
@@ -1156,15 +1156,15 @@
     "category": "Lectura",
     "prompt": "Un supervisor pide incluir una rampa adicional que no figura en el enunciado del alcance aprobado, 'porque es pequeña'. El proyecto tiene un plan de gestión de cambios. ¿Qué debe hacer el director?",
     "options": [
-      "Construirla para mantener la relación con el supervisor.",
-      "Rechazarla porque la línea base no puede modificarse.",
-      "Pedir al equipo que la haga fuera del horario.",
-      "Registrar la solicitud y evaluarla según el plan de gestión de cambios."
+      "Construirla, porque su costo es menor que el umbral que el director puede aprobar sin trámite.",
+      "Registrar la solicitud y evaluar su impacto según el plan de gestión de cambios.",
+      "Incluirla como mejora dentro de la reserva de contingencia del proyecto.",
+      "Rechazarla, porque la línea base del alcance ya fue aprobada."
     ],
     "correct": [
-      3
+      1
     ],
-    "rationale": "Con la línea base aprobada, los cambios solo se incorporan mediante el proceso acordado. El tamaño no exime de evaluar impactos; rechazar sin análisis o ejecutarla de forma informal elude la decisión autorizada."
+    "rationale": "Con la línea base aprobada, todo cambio de alcance pasa por el proceso acordado, aunque sea pequeño: se registra, se evalúa y lo decide quien tiene autoridad. Un umbral de costo no autoriza cambiar el alcance por fuera del proceso; la contingencia cubre riesgos identificados, no trabajo nuevo; y una línea base aprobada sí puede cambiar mediante control de cambios."
   },
   {
     "id": "process-l3-006",
@@ -1195,15 +1195,15 @@
     "category": "Mentalidad",
     "prompt": "A mitad del proyecto, el interesado principal afirma que lo entregado no le aporta el valor esperado, aunque todo cumple las especificaciones. ¿Qué debería hacer primero el director?",
     "options": [
-      "Mostrar que los entregables cumplen lo aprobado y continuar.",
-      "Agregar todas las funciones que pida sin evaluarlas.",
-      "Comprender qué valor espera y revisar prioridades con él y el responsable de producto.",
-      "Escalar al comité para cerrar el proyecto."
+      "Mostrar con evidencia que los entregables cumplen lo aprobado y pedir que acepte el avance.",
+      "Registrar una solicitud de cambio con las funciones que el interesado pida.",
+      "Comprender qué valor espera y revisar las prioridades con él y el responsable de producto.",
+      "Pedir al patrocinador que confirme si el caso de negocio sigue vigente."
     ],
     "correct": [
       2
     ],
-    "rationale": "El valor no equivale a cumplir entregables: hay que entender la brecha y repriorizar con base en el valor y la retroalimentación. Defender la especificación ignora el problema; aceptar todo o cerrar sin análisis no son decisiones informadas."
+    "rationale": "Cumplir especificaciones no garantiza valor; primero hay que entender la brecha y luego repriorizar. Defender la especificación ignora el problema; registrar un cambio antes de entender la necesidad se adelanta a la solución; revisar el caso de negocio puede llegar después, si la brecha lo justifica."
   },
   {
     "id": "process-l3-008",
@@ -1214,15 +1214,15 @@
     "category": "Conceptual",
     "prompt": "Un banco puede lanzar primero una versión mínima de su app de pagos y ampliarla cada mes, o esperar a tener todas las funciones. ¿Cuál es la principal ventaja de la primera opción?",
     "options": [
+      "Reduce el costo total del producto al dividir el trabajo en partes.",
       "Genera beneficios y retroalimentación antes, adelantando el retorno.",
-      "Elimina la necesidad de gestionar riesgos.",
-      "Garantiza un costo total menor.",
-      "Permite omitir la definición de criterios de aceptación."
+      "Disminuye la necesidad de involucrar al cliente durante el desarrollo.",
+      "Permite fijar todo el alcance desde el inicio con menos riesgo."
     ],
     "correct": [
-      0
+      1
     ],
-    "rationale": "La entrega incremental (por ejemplo, un MVP) permite capturar valor y aprender antes, lo que acelera el retorno. No elimina riesgos, no garantiza un costo total menor ni sustituye los criterios de aceptación."
+    "rationale": "La entrega incremental (por ejemplo, un MVP) captura valor y aprendizaje antes, lo que adelanta el retorno. No garantiza un costo total menor, requiere más participación del cliente, no menos, y su ventaja es justamente adaptar el alcance, no fijarlo."
   },
   {
     "id": "process-l3-009",
@@ -1230,7 +1230,7 @@
     "topicId": "process-3",
     "approach": "Predictivo",
     "type": "single",
-    "category": "Cálculo",
+    "category": "Conceptual",
     "prompt": "El comité compara dos proyectos. A: VAN = +120 000. B: VAN = −15 000. Sin otros criterios, ¿qué indica el VAN?",
     "options": [
       "Ambos son viables porque generan flujos positivos en algún año.",
@@ -1252,15 +1252,15 @@
     "category": "Conceptual",
     "prompt": "El patrocinador quiere medir si un proyecto de atención al cliente realmente genera beneficios después de la entrega. ¿Qué conviene establecer durante la planificación?",
     "options": [
-      "Solo el porcentaje de avance físico.",
-      "Un sistema de medición de beneficios con métricas, responsables y momentos de revisión.",
-      "El número de reuniones con el cliente.",
-      "Un indicador de horas trabajadas por el equipo."
+      "Un sistema de medición de beneficios con métricas, responsables y momentos de revisión, incluso después del cierre.",
+      "El índice de desempeño del cronograma (SPI) hasta la entrega final.",
+      "Una encuesta de satisfacción al cierre del proyecto.",
+      "Los criterios de aceptación de cada entregable."
     ],
     "correct": [
-      1
+      0
     ],
-    "rationale": "Para seguir la realización de beneficios hacen falta métricas de resultado, responsables y revisiones, que pueden continuar después del cierre. Avance, reuniones u horas miden actividad, no beneficios."
+    "rationale": "Los beneficios se realizan a menudo después de la entrega, por eso hace falta un sistema con métricas de resultado, responsables y revisiones. El SPI mide desempeño del cronograma; una encuesta al cierre es un solo punto y los criterios de aceptación confirman entregables, no beneficios."
   },
   {
     "id": "process-l3-011",
@@ -1271,15 +1271,15 @@
     "category": "Lectura",
     "prompt": "Un objetivo es 'mejorar la experiencia de compra'. ¿Cuál de estas opciones es un resultado clave (KR) bien formulado?",
     "options": [
-      "Trabajar más en la experiencia del usuario.",
-      "Lanzar muchas funciones nuevas.",
+      "Lanzar el rediseño del proceso de pago antes de fin de trimestre.",
+      "Mejorar notablemente la satisfacción de los compradores frecuentes.",
       "Reducir el abandono del carrito del 30 % al 18 % antes del cierre del trimestre.",
-      "Que el equipo esté satisfecho con el diseño."
+      "Realizar 20 pruebas de usabilidad con clientes durante el trimestre."
     ],
     "correct": [
       2
     ],
-    "rationale": "Un resultado clave es específico, medible y limitado en el tiempo. Las otras opciones son vagas o miden la actividad o la percepción del equipo, no el progreso hacia el objetivo."
+    "rationale": "Un resultado clave mide el resultado buscado, con cifra y plazo. Lanzar un rediseño o hacer pruebas son actividades (entregables), no resultados; 'mejorar notablemente' no es medible."
   },
   {
     "id": "business-l3-001",
@@ -1290,15 +1290,15 @@
     "category": "Mentalidad",
     "prompt": "Durante la ejecución de un hospital, el equipo detecta que un acabado elegido no cumple la norma sanitaria vigente. Faltan tres meses para la entrega. ¿Qué es lo más apropiado?",
     "options": [
-      "Esperar a la inspección final por si no lo observan.",
-      "Cambiar el material sin informar para no generar alarma.",
-      "Trasladar toda la responsabilidad al proveedor del acabado.",
-      "Registrar el riesgo de incumplimiento, evaluar el impacto con el responsable de cumplimiento y gestionar la corrección por el proceso acordado."
+      "Registrar el hallazgo como riesgo de incumplimiento y monitorearlo hasta la inspección final.",
+      "Tratarlo como un incumplimiento ya detectado: evaluar el impacto con el responsable de cumplimiento y gestionar la corrección por el proceso acordado; un posible retraso se registra como riesgo derivado.",
+      "Reemplazar el acabado de inmediato, porque cualquier incumplimiento normativo autoriza actuar sin pasar por control de cambios.",
+      "Solicitar al proveedor una carta de garantía y continuar con la instalación prevista."
     ],
     "correct": [
-      3
+      1
     ],
-    "rationale": "El cumplimiento se trata como objetivo del proyecto y se valida antes del cierre para evitar problemas en la transferencia. Ocultarlo, esperar la inspección o culpar al proveedor sin análisis no gestiona la obligación."
+    "rationale": "El acabado ya incumple la norma: es un problema actual, no un riesgo. Corresponde evaluar el impacto y corregirlo mediante el proceso acordado; el atraso que pueda generar la corrección sí es un riesgo derivado. Monitorearlo como riesgo lo posterga, actuar sin control de cambios omite la autorización y una garantía no corrige el incumplimiento."
   },
   {
     "id": "business-l3-002",
@@ -1309,16 +1309,16 @@
     "category": "Conceptual",
     "prompt": "Un proyecto manejará datos personales de clientes. Selecciona DOS acciones que ayudan a planificar el cumplimiento.",
     "options": [
-      "Identificar las leyes de privacidad aplicables y quién es responsable del cumplimiento en la organización.",
-      "Asumir que el área legal revisará todo al final.",
-      "Incluir los riesgos de cumplimiento en el registro con dueño, impacto y respuesta.",
-      "Evitar mencionar el tema al equipo para no retrasarlo."
+      "Identificar las leyes de privacidad aplicables y quién responde por el cumplimiento en la organización.",
+      "Encargar al área legal una revisión de cumplimiento antes de la entrega final.",
+      "Incluir los riesgos de cumplimiento en el registro, con dueño, impacto y respuesta.",
+      "Incorporar una cláusula de confidencialidad en los contratos de los proveedores y dar el tema por cubierto."
     ],
     "correct": [
       0,
       2
     ],
-    "rationale": "Planificar el cumplimiento implica identificar obligaciones y responsables, y gestionar sus riesgos de forma proactiva. Dejarlo para el final o no informar al equipo aumenta la probabilidad de incumplir."
+    "rationale": "Planificar el cumplimiento exige identificar las obligaciones y a sus responsables, y gestionar sus riesgos de forma proactiva. Una revisión solo al final llega tarde para corregir, y una cláusula contractual es una medida útil pero no cubre las obligaciones del propio proyecto."
   },
   {
     "id": "business-l3-003",
@@ -1348,14 +1348,312 @@
     "category": "Lectura",
     "prompt": "En una empresa con oficial de cumplimiento y PMO, el director de proyecto asume que el cumplimiento 'no es su tema'. ¿Qué afirmación es correcta?",
     "options": [
+      "La PMO y el oficial de cumplimiento responden por el cumplimiento; el proyecto solo debe reportarles.",
       "El equipo del proyecto también responde por el cumplimiento de sus procesos, entregables y proveedores.",
-      "La PMO y el oficial de cumplimiento asumen toda la responsabilidad.",
-      "El cumplimiento solo aplica a proyectos públicos.",
-      "El cumplimiento se verifica únicamente en el cierre."
+      "El proyecto responde solo por las normas que figuran en su contrato.",
+      "El cumplimiento del proyecto se demuestra en la auditoría de cierre."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La PMO vigila el cumplimiento a nivel organizacional, pero el equipo responde por el de sus actividades: calidad de procesos y entregables, y trabajo de proveedores. Las obligaciones no se limitan al contrato y se validan durante todo el ciclo de vida, no solo al cierre."
+  },
+  {
+    "id": "process-l4-evm-001",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Al cierre del mes, un proyecto tiene PV = 200, EV = 180 y AC = 150 (miles de S/), todos a la misma fecha de corte. ¿Cuáles son el SPI y el CPI y qué indican?",
+    "options": [
+      "SPI = 1,11 (adelanto) y CPI = 0,83 (sobrecosto).",
+      "SPI = 0,90 (atraso) y CPI = 1,20 (por debajo del presupuesto).",
+      "SPI = 0,75 (atraso) y CPI = 1,20 (por debajo del presupuesto).",
+      "SPI = 0,90 (atraso) y CPI = 0,75 (sobrecosto)."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "SPI = EV / PV = 180 / 200 = 0,90: se ganó menos trabajo del planificado (atraso). CPI = EV / AC = 180 / 150 = 1,20: el trabajo hecho costó menos de lo que vale. Invertir los cocientes da 1,11 y 0,83; dividir AC entre PV (150 / 200 = 0,75) compara gasto con plan sin considerar el trabajo ganado. Regla: ambos índices llevan EV en el numerador; mayor que 1 es favorable."
+  },
+  {
+    "id": "process-l4-evm-002",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "En la fecha de corte, EV = 300, AC = 340 y PV = 320 (miles de S/). ¿Cuáles son la variación del costo (CV) y la variación del cronograma (SV)?",
+    "options": [
+      "CV = −20 y SV = −20.",
+      "CV = +40 y SV = +20.",
+      "CV = −20 y SV = −40.",
+      "CV = −40 (sobrecosto) y SV = −20 (atraso)."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "CV = EV − AC = 300 − 340 = −40 (sobrecosto). SV = EV − PV = 300 − 320 = −20 (atraso). Restar al revés cambia el signo (+40, +20); comparar PV con AC da −20, una cifra que no usa el trabajo ganado; intercambiar las fórmulas confunde costo con cronograma. Regla: ambas variaciones parten de EV y un valor negativo es desfavorable."
+  },
+  {
+    "id": "process-l4-evm-003",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Un proyecto con BAC = 500 lleva EV = 160 y AC = 200 (CPI = 0,80). El análisis muestra que la causa del sobrecosto continuará. ¿Cuál es la estimación a la conclusión (EAC) más adecuada?",
+    "options": [
+      "400, porque el presupuesto se ajusta al desempeño: BAC × CPI.",
+      "540, sumando al gasto real el trabajo pendiente al costo planificado.",
+      "625, proyectando el desempeño actual: BAC / CPI.",
+      "500, porque el presupuesto aprobado no cambia."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Si la variación continuará (típica), EAC = BAC / CPI = 500 / 0,80 = 625. La fórmula AC + (BAC − EV) = 540 solo corresponde cuando la variación fue atípica y el resto se ejecutará según lo planificado. BAC × CPI reduce el pronóstico cuando hay sobrecosto, lo cual es ilógico, y mantener 500 ignora los datos."
+  },
+  {
+    "id": "process-l4-evm-004",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Con BAC = 1 000, EV = 400 y AC = 500, el patrocinador quiere saber qué eficiencia de costos se necesita en el trabajo restante para terminar dentro del presupuesto original. ¿Cuál es el TCPI y qué significa?",
+    "options": [
+      "1,20: el trabajo restante debe rendir 20 % mejor que lo planificado.",
+      "0,83: basta con mantener el desempeño actual.",
+      "0,80: el proyecto puede gastar más de lo previsto.",
+      "1,25: es el CPI actual expresado al revés."
     ],
     "correct": [
       0
     ],
-    "rationale": "La PMO vigila el cumplimiento a nivel organizacional, pero el equipo responde por el de sus actividades: calidad de procesos y entregables, y trabajo de proveedores. Aplica en todo tipo de proyecto y durante todo el ciclo de vida."
+    "rationale": "TCPI = (BAC − EV) / (BAC − AC) = 600 / 500 = 1,20. Un TCPI mayor que 1 indica que hay que rendir mejor de lo que se ha rendido para cumplir el BAC. 0,83 invierte el cociente; 0,80 es el CPI actual (EV / AC) y 1,25 es AC / EV."
+  },
+  {
+    "id": "process-l4-evm-005",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "A mitad del proyecto, SPI = 1,05 y CPI = 0,88. El patrocinador pregunta si todo va bien porque 'vamos adelantados'. ¿Qué debería hacer primero el director?",
+    "options": [
+      "Confirmar que el proyecto está sano, ya que el cronograma es la prioridad del patrocinador.",
+      "Solicitar fondos de la reserva de gestión para cubrir la diferencia de costos.",
+      "Reducir alcance de inmediato para compensar el sobrecosto.",
+      "Analizar con el equipo la causa del sobrecosto, actualizar el pronóstico y presentar opciones al patrocinador."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Un adelanto puede estar ocultando un sobrecosto (por ejemplo, horas extra para acelerar). Primero se entiende la causa y el pronóstico, y luego se proponen acciones por la gobernanza. Declarar el proyecto sano omite el CPI; pedir reservas o recortar alcance son respuestas posibles, pero prematuras sin análisis."
+  },
+  {
+    "id": "process-l4-evm-006",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Ocurre un evento que nunca fue identificado en el registro de riesgos y genera un costo adicional significativo. ¿Cómo se financia normalmente?",
+    "options": [
+      "Con la reserva de contingencia, que el director usa sin aprobación adicional.",
+      "Con la reserva de gestión, que requiere aprobación de la dirección y luego se refleja en la línea base de costos.",
+      "Con el margen de ganancia del contratista.",
+      "Redistribuyendo el presupuesto de las actividades que van adelantadas."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La reserva de contingencia cubre riesgos identificados y forma parte de la línea base de costos. Lo no identificado se cubre con la reserva de gestión, que está fuera de la línea base y requiere aprobación de la dirección; al usarla se actualiza la línea base. Mover presupuesto entre actividades o usar el margen del contratista no son mecanismos de financiamiento del proyecto."
+  },
+  {
+    "id": "process-l4-res-001",
+    "module": "process",
+    "topicId": "process-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Un especialista quedó asignado a dos actividades simultáneas que suman 16 horas diarias. El patrocinador exige mantener la fecha de fin. ¿Qué técnica conviene aplicar?",
+    "options": [
+      "Nivelación de recursos, aunque pueda mover la fecha de fin.",
+      "Intensificación (crashing) de las dos actividades.",
+      "Suavizado de recursos, ajustando solo dentro de la holgura disponible.",
+      "Ejecución rápida (fast tracking) de las actividades en conflicto."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "El suavizado redistribuye la carga sin superar la holgura, por lo que no altera la fecha de fin. La nivelación resuelve la sobreasignación pero puede extender la ruta crítica. Intensificar o hacer ejecución rápida comprimen el cronograma, y la ejecución rápida incluso aumentaría la simultaneidad del conflicto."
+  },
+  {
+    "id": "process-l4-res-002",
+    "module": "process",
+    "topicId": "process-4",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "En la matriz RACI del proyecto, la actividad 'Aprobar diseño estructural' tiene dos personas marcadas con A (Accountable). ¿Qué problema debe corregirse?",
+    "options": [
+      "Cada actividad debe tener una sola persona que rinda cuentas (A).",
+      "Debe haber al menos dos personas responsables (R) por actividad.",
+      "Los consultados (C) deberían reemplazarse por informados (I).",
+      "La matriz RACI solo se usa en proyectos ágiles."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Con dos 'A' no queda claro quién decide y rinde cuentas. Pueden existir varias R, C o I, pero la responsabilidad final debe ser única. Cambiar C por I no resuelve la ambigüedad y la RACI se usa en cualquier enfoque."
+  },
+  {
+    "id": "process-l4-res-003",
+    "module": "process",
+    "topicId": "process-4",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "La única topógrafa de la empresa está asignada a tu proyecto y a otro, y en tres semanas ambos la necesitarán al mismo tiempo. ¿Qué es lo más adecuado?",
+    "options": [
+      "Contratar un topógrafo externo sin consultar, para evitar el conflicto.",
+      "Pedirle que trabaje horas extra para atender ambos proyectos.",
+      "Esperar a que surja el conflicto y escalarlo entonces.",
+      "Revisar el calendario de recursos y negociar con el gerente funcional y el otro director una asignación acordada."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Anticipar el conflicto y negociar con quien controla el recurso permite una decisión informada sobre prioridades. Contratar sin consultar compromete costos sin autorización, las horas extra no son una solución sostenible y esperar convierte un riesgo manejable en un problema."
+  },
+  {
+    "id": "process-l4-int-001",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El cronograma prevé montar los ascensores en la semana 20, pero el plan de adquisiciones fija la entrega del proveedor en la semana 24. Los planes se elaboraron por separado. ¿Qué falla de planificación revela esto?",
+    "options": [
+      "Que el proveedor fue mal seleccionado y debe cambiarse.",
+      "Que los planes subsidiarios no se integraron: hay que conciliar dependencias y actualizar el plan por el proceso acordado.",
+      "Que el cronograma es demasiado detallado para un proyecto predictivo.",
+      "Que la semana 24 debe aceptarse como nueva fecha de fin sin análisis."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El plan para la dirección del proyecto integra los planes subsidiarios y sus dependencias; la contradicción revela falta de integración. Cambiar al proveedor o aceptar una nueva fecha sin análisis se adelanta a una decisión que requiere evaluar opciones; el nivel de detalle no es la causa."
+  },
+  {
+    "id": "process-l4-int-002",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "El patrocinador va a aprobar el plan para la dirección del proyecto. ¿Qué conjunto forma parte de ese plan?",
+    "options": [
+      "El acta de constitución y el caso de negocio.",
+      "El registro de riesgos y el registro de incidentes.",
+      "Las líneas base de alcance, cronograma y costos, y los planes subsidiarios de gestión.",
+      "Los informes de desempeño del trabajo y el registro de lecciones aprendidas."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "El plan para la dirección integra las líneas base y los planes subsidiarios. El acta y el caso de negocio son entradas previas; los registros y los informes son documentos del proyecto que se actualizan con frecuencia y no forman parte del plan."
+  },
+  {
+    "id": "process-l4-sc-001",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "scenarioId": "sc-mirador",
+    "prompt": "Con los datos del gráfico al cierre del mes 4, ¿cuál es el índice de desempeño del cronograma (SPI) y qué indica?",
+    "options": [
+      "SPI ≈ 1,16: el proyecto va adelantado.",
+      "SPI ≈ 0,92: el atraso es leve.",
+      "SPI ≈ 0,86: se ha ganado menos trabajo del planificado (atraso).",
+      "SPI ≈ 0,93: el proyecto está atrasado."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "En el mes 4, EV = 560 y PV = 650, así que SPI = 560 / 650 ≈ 0,86 (atraso). 1,16 invierte el cociente; 0,92 resulta de AC / PV (600 / 650) y no considera el trabajo ganado; 0,93 es EV / AC, es decir, el CPI."
+  },
+  {
+    "id": "process-l4-sc-002",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "scenarioId": "sc-mirador",
+    "prompt": "El equipo concluye que la causa del sobrecosto (precio del acero) se mantendrá hasta el final. ¿Cuál es la EAC más adecuada?",
+    "options": [
+      "≈ S/ 1 286 mil (BAC / CPI).",
+      "≈ S/ 1 120 mil (BAC × CPI).",
+      "S/ 1 240 mil (AC + BAC − EV).",
+      "≈ S/ 1 393 mil (BAC / SPI)."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "CPI = 560 / 600 ≈ 0,933. Si la variación es típica, EAC = BAC / CPI = 1 200 / 0,933 ≈ 1 286. AC + BAC − EV = 1 240 asume que el resto costará lo planificado (variación atípica), lo que contradice el análisis. BAC × CPI reduce el pronóstico y BAC / SPI usa un índice de cronograma para pronosticar costos."
+  },
+  {
+    "id": "process-l4-sc-003",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "scenarioId": "sc-mirador",
+    "prompt": "Observando la evolución mes a mes en el gráfico, ¿qué afirmación es correcta?",
+    "options": [
+      "Como AC está por debajo de PV, el proyecto está dentro del presupuesto.",
+      "Los desvíos se mantienen estables; basta con seguir monitoreando.",
+      "El proyecto se está recuperando, porque EV crece cada mes.",
+      "Tanto el atraso (PV − EV) como el sobrecosto (AC − EV) aumentan cada mes; hay que analizar causas y presentar un pronóstico."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "PV − EV pasa de 10 a 30, 70 y 90, y AC − EV de 5 a 20, 30 y 40: ambas brechas crecen. Comparar AC con PV es un error frecuente, porque el presupuesto se evalúa contra el trabajo ganado. Que EV crezca es normal en cualquier proyecto en avance; lo relevante es su distancia respecto de PV y AC."
+  },
+  {
+    "id": "process-l4-match-001",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada indicador de valor ganado con lo que significa.",
+    "items": [
+      "SPI = 0,85",
+      "CPI = 1,10",
+      "CV negativo",
+      "TCPI = 1,15"
+    ],
+    "options": [
+      "El costo real supera el valor del trabajo realizado.",
+      "El trabajo restante debe rendir mejor que hasta ahora para cumplir el presupuesto.",
+      "Se ha avanzado menos de lo planificado a la fecha.",
+      "El trabajo realizado costó menos de lo que vale.",
+      "El proyecto terminará antes de la fecha planificada."
+    ],
+    "correct": [
+      2,
+      3,
+      0,
+      1
+    ],
+    "rationale": "SPI < 1 indica avance menor al planificado; CPI > 1, que el trabajo hecho costó menos de lo que vale; CV < 0, sobrecosto; TCPI > 1, que el resto del trabajo debe ser más eficiente. Ningún indicador por sí solo garantiza terminar antes: un SPI favorable a la fecha no asegura la fecha de fin."
   }
 ]
