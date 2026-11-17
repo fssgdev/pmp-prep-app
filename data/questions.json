@@ -1,0 +1,1074 @@
+[
+  {
+    "id": "q01",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Dos especialistas discrepan sobre una solución técnica y el desacuerdo bloquea al equipo. No existe una urgencia de seguridad. ¿Qué debería hacer primero quien dirige el proyecto?",
+    "options": [
+      "Escalar al patrocinador para que elija la solución.",
+      "Escuchar a ambas partes para comprender intereses, hechos y contexto.",
+      "Elegir la propuesta de la persona con más experiencia.",
+      "Cambiar a uno de los especialistas de equipo."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Comprender el conflicto permite facilitar una resolución adecuada. Escalar o cambiar personas antes de analizarlo elimina oportunidades de colaboración; la antigüedad por sí sola no determina la mejor solución.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q02",
+    "module": "people",
+    "topicId": "people-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "Al iniciar el proyecto, operaciones considera que el éxito consiste en reducir incidentes, mientras ventas espera lanzar cuanto antes. ¿Qué acción ayuda mejor a construir una visión compartida?",
+    "options": [
+      "Usar únicamente la fecha de entrega como criterio.",
+      "Pedir a ventas que acepte la definición de operaciones.",
+      "Facilitar un acuerdo sobre resultados y criterios de éxito con los interesados clave.",
+      "Continuar la planificación y resolverlo al cierre."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Una conversación facilitada hace explícitos los resultados y permite acordar qué significa éxito. Imponer un criterio o aplazar la discrepancia mantiene la desalineación y puede generar retrabajo.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q03",
+    "module": "people",
+    "topicId": "people-3",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Un equipo capacitado espera autorización del director para todas las decisiones cotidianas. ¿Qué intervención favorece mejor su autonomía responsable?",
+    "options": [
+      "Aclarar límites de decisión y acompañar al equipo mientras asume esas decisiones.",
+      "Asignar cada tarea diaria personalmente.",
+      "Retirarse de todas las conversaciones de inmediato.",
+      "Solicitar un informe de aprobación por cada decisión."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La autonomía necesita claridad sobre objetivos y autoridad, además de apoyo. La microgestión mantiene la dependencia; retirarse sin acuerdos puede dejar decisiones y responsabilidades ambiguas.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q04",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Híbrido",
+    "type": "multi",
+    "prompt": "Una nueva autoridad regulatoria afecta al proyecto. Selecciona DOS acciones apropiadas para actualizar el involucramiento.",
+    "options": [
+      "Identificar su influencia y necesidades de información.",
+      "Esperar hasta que rechace una entrega.",
+      "Adaptar el plan de participación y comunicación.",
+      "Suponer que el patrocinador ya informó a todos."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "Analizar al nuevo interesado y adaptar la participación permite anticipar necesidades. Esperar un rechazo o asumir que otra persona comunicó la información omite la verificación del involucramiento.",
+    "category": "Lectura"
+  },
+  {
+    "id": "q05",
+    "module": "people",
+    "topicId": "people-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "Dos interesados solicitan características incompatibles. ¿Qué debería hacer el director antes de comprometer una solución?",
+    "options": [
+      "Prometer ambas características para preservar la relación.",
+      "Facilitar la discusión de necesidades, restricciones y prioridades.",
+      "Eliminar las dos características del alcance unilateralmente.",
+      "Aceptar la solicitud recibida primero."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Alinear expectativas exige entender necesidades y facilitar acuerdos informados. Prometer algo inviable, usar el orden de llegada o eliminar solicitudes sin discusión evita el análisis de valor y restricciones.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q06",
+    "module": "people",
+    "topicId": "people-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "El cliente aprobó los requisitos iniciales, pero la retroalimentación de una entrega intermedia muestra insatisfacción. ¿Qué acción corresponde?",
+    "options": [
+      "Recordarle la aprobación inicial y cerrar la conversación.",
+      "Investigar las expectativas actuales y evaluar los ajustes mediante el mecanismo acordado.",
+      "Agregar todas las solicitudes sin evaluar sus efectos.",
+      "Esperar a la aceptación final para medir satisfacción."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Las expectativas se monitorean durante la entrega. Comprender la brecha y evaluar ajustes permite responder de forma controlada; la aprobación inicial no reemplaza el seguimiento y ningún cambio debe asumirse gratuito.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q07",
+    "module": "people",
+    "topicId": "people-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "Una especialista dejará el proyecto en dos semanas. Su conocimiento es indispensable para operar el producto. ¿Qué plan de transferencia es más sólido?",
+    "options": [
+      "Pedirle únicamente que envíe sus archivos.",
+      "Grabar una charla y dar por terminada la transferencia.",
+      "Combinar documentación, acompañamiento y una demostración de la persona que recibe el conocimiento.",
+      "Esperar a que el reemplazo descubra cómo funciona."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La demostración comprueba que el conocimiento puede aplicarse, apoyada por documentación y práctica. Los archivos o una grabación aislada no confirman comprensión ni capacidad de ejecución.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q08",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Una herramienta de IA generó el informe semanal con información financiera del proyecto. ¿Qué debería hacer la persona responsable antes de distribuirlo?",
+    "options": [
+      "Enviarlo porque la herramienta reduce errores humanos.",
+      "Verificar datos, destinatarios y cumplimiento de las políticas de información.",
+      "Eliminar todas las cifras para evitar revisarlas.",
+      "Pedir al cliente que detecte cualquier error después del envío."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La responsabilidad sobre precisión y manejo de información sigue siendo humana. La revisión de datos y políticas es necesaria; eliminar información útil o trasladar la verificación al receptor debilita la comunicación.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q09",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "La construcción de una sala requiere aprobaciones estables, pero el software que se instalará necesita experimentar con usuarios. ¿Qué enfoque es razonable evaluar?",
+    "options": [
+      "Un único ciclo predictivo para impedir cualquier adaptación.",
+      "Una combinación de planificación predictiva para la sala y entregas adaptativas de software con puntos de integración.",
+      "Un enfoque ágil que omita las aprobaciones de construcción.",
+      "Empezar ambos componentes sin coordinar dependencias."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La adaptación debe responder a las características de cada componente y mantener su integración. Imponer un enfoque único o ignorar controles y dependencias no resuelve las necesidades distintas.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q10",
+    "module": "process",
+    "topicId": "process-2",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "El equipo entrega una función solicitada informalmente por un usuario que no figura en el alcance aprobado. ¿Qué práctica habría prevenido mejor esta situación?",
+    "options": [
+      "Eliminar toda comunicación directa con usuarios.",
+      "Mantener trazabilidad del alcance y aplicar el proceso acordado para cambios.",
+      "Permitir cualquier mejora siempre que parezca útil.",
+      "Pedir al equipo que trabaje más horas."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La trazabilidad y el control de cambios permiten evaluar solicitudes antes de comprometer trabajo. La comunicación debe continuar; trabajar más o considerar útil una mejora no reemplaza su aprobación.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q11",
+    "module": "process",
+    "topicId": "process-3",
+    "approach": "Ágil",
+    "type": "single",
+    "context": "Caso Aurora: un equipo desarrolla una plataforma de atención. Una nueva integración reduciría un 30% el tiempo de respuesta; un informe visual solicitado antes aporta menos beneficio inmediato.",
+    "prompt": "¿Cómo debería decidirse la siguiente prioridad del backlog?",
+    "options": [
+      "Elegir el informe porque se solicitó primero.",
+      "Elegir la integración sin consultar a quien prioriza el producto.",
+      "Revisar valor, esfuerzo, riesgo y retroalimentación con el responsable de producto para ordenar el backlog.",
+      "Desarrollar ambos elementos simultáneamente sin revisar capacidad."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La decisión de prioridad debe considerar valor y viabilidad con la responsabilidad de producto. El orden de solicitud no mide beneficio; una decisión unilateral o sobrecargar la capacidad evita el acuerdo informado.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q12",
+    "module": "process",
+    "topicId": "process-4",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "La única persona con una habilidad crítica no estará disponible durante una actividad próxima. ¿Qué debería evaluar primero el director?",
+    "options": [
+      "El impacto y las alternativas de capacidad con el equipo y el responsable de recursos.",
+      "La contratación inmediata de cinco personas.",
+      "La cancelación del proyecto.",
+      "La eliminación del requisito que requiere esa habilidad."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Analizar impacto y opciones permite decidir entre capacitación, redistribución, contratación o cambios de secuencia. Las otras respuestas comprometen recursos o alcance sin conocer la necesidad real.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q13",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "El alcance de una compra está bien definido y el comprador busca mayor previsibilidad del precio. ¿Qué tipo de contrato conviene evaluar primero, considerando también sus riesgos?",
+    "options": [
+      "Precio fijo.",
+      "Tiempo y materiales sin límite.",
+      "Reembolso de todos los costos sin controles.",
+      "Un acuerdo verbal sin criterios de aceptación."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Un alcance estable permite evaluar precio fijo para previsibilidad del comprador. No elimina riesgos ni reemplaza especificaciones y criterios de aceptación; las otras opciones ofrecen menor certeza del costo.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q14",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "El valor ganado (EV) es 80 000 y el costo real (AC) es 100 000. ¿Cuál es el índice de desempeño del costo (CPI) y su interpretación?",
+    "options": [
+      "1,25: desempeño de costo favorable.",
+      "0,80: se obtiene 0,80 de valor ganado por cada unidad gastada.",
+      "0,20: queda el 20% del proyecto.",
+      "80%: porcentaje físico de avance confirmado."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "CPI = EV / AC = 80 000 / 100 000 = 0,80, lo que indica desempeño de costo desfavorable. Invertir la división produce 1,25; CPI no es el porcentaje de avance físico ni el trabajo restante.",
+    "category": "Cálculo"
+  },
+  {
+    "id": "q15",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "El mismo defecto reaparece en varias entregas. ¿Qué acción aborda mejor su recurrencia?",
+    "options": [
+      "Aumentar únicamente la inspección final.",
+      "Ocultar los defectos menores en los informes.",
+      "Analizar la causa y mejorar el proceso, verificando luego el efecto.",
+      "Solicitar que se acepten los defectos sin revisión."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La causa recurrente requiere una mejora del proceso y comprobar su efecto. Inspeccionar puede detectar defectos, pero por sí solo no elimina su causa; ocultarlos o aceptar indiscriminadamente reduce transparencia y calidad.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q16",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "Hay dos rutas independientes: A–B dura 4 + 6 días y C–D dura 3 + 5 días. Todas las actividades deben terminar para cerrar el proyecto. Sin restricciones adicionales, ¿cuál es la duración mínima?",
+    "options": [
+      "8 días.",
+      "9 días.",
+      "10 días.",
+      "18 días."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La ruta A–B dura 10 días y C–D dura 8; la más larga determina la duración mínima de 10 días. No se suman rutas que pueden ejecutarse en paralelo.",
+    "category": "Cálculo"
+  },
+  {
+    "id": "q17",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Híbrido",
+    "type": "single",
+    "context": "Caso Aurora: un equipo desarrolla una plataforma de atención. El reporte automatizado indica cumplimiento del plazo, pero el tablero muestra trabajo bloqueado y entregables que el cliente aún no ha aceptado.",
+    "prompt": "¿Qué debería hacer el director antes de confirmar que el proyecto está dentro de lo previsto?",
+    "options": [
+      "Usar el reporte automatizado por ser más reciente.",
+      "Validar la coherencia de los datos y analizar aceptación, bloqueos y tendencias.",
+      "Eliminar del tablero el trabajo bloqueado.",
+      "Informar que todo está completo porque se gastó el presupuesto planificado."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Evaluar el estado requiere datos fiables y resultados aceptados, además de cifras de actividad. La automatización no garantiza calidad y el gasto no demuestra avance ni valor entregado.",
+    "category": "Lectura"
+  },
+  {
+    "id": "q18",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Predictivo",
+    "type": "multi",
+    "prompt": "Un proyecto obtiene la aceptación de sus entregables. Selecciona DOS acciones que contribuyen a un cierre adecuado.",
+    "options": [
+      "Verificar obligaciones contractuales y transferencia a operación.",
+      "Liberar al equipo antes de planificar cualquier transferencia.",
+      "Registrar lecciones y acordar responsables de seguimiento de beneficios.",
+      "Declarar que todos los beneficios futuros ya se realizaron."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "El cierre incluye obligaciones, transferencia y aprendizaje, y puede dejar medición de beneficios a responsables posteriores. La aceptación no prueba beneficios futuros; liberar al equipo sin transferencia puede comprometer la operación.",
+    "category": "Lectura"
+  },
+  {
+    "id": "q19",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "El equipo detecta una decisión que excede el umbral de costo autorizado al director. ¿Cuál es la acción apropiada?",
+    "options": [
+      "Aprobarla para evitar una demora.",
+      "Dividir el gasto en partes menores para evitar el umbral.",
+      "Usar la ruta de escalamiento y presentar análisis y opciones al órgano autorizado.",
+      "Esperar al cierre para informar el exceso."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La gobernanza define autoridad y escalamiento. Presentar información y opciones facilita una decisión legítima; fraccionar el gasto, exceder autoridad u ocultar el problema vulnera los acuerdos.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q20",
+    "module": "business",
+    "topicId": "business-2",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Una norma obligatoria de privacidad entrará en vigor antes de lanzar el producto. ¿Qué debería hacer el director?",
+    "options": [
+      "Ignorarla porque no existía al aprobar la línea base.",
+      "Evaluar el impacto con especialistas e interesados y planificar el cumplimiento mediante la gobernanza.",
+      "Esperar una sanción antes de actuar.",
+      "Trasladar toda responsabilidad al proveedor sin revisar el contrato."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La obligación debe analizarse y traducirse en acciones y evidencia de cumplimiento. Una línea base anterior no exime de la norma y delegar sin verificar acuerdos no resuelve el riesgo.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q21",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "El patrocinador solicita una nueva característica que cambia la línea base. El proyecto tiene un proceso formal de control de cambios. ¿Qué corresponde hacer a continuación?",
+    "options": [
+      "Implementarla de inmediato porque la pidió el patrocinador.",
+      "Registrar y evaluar el impacto para su decisión mediante el proceso acordado.",
+      "Rechazarla sin análisis para proteger el plan.",
+      "Pedir al equipo que la oculte dentro del trabajo existente."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El origen de la solicitud no elimina la necesidad de evaluar impactos y aplicar la autoridad acordada. Implementar, rechazar u ocultar sin análisis impide una decisión informada.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q22",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Un proveedor ya incumplió una entrega y ahora bloquea al equipo. ¿Cómo debería tratarse esta situación actual?",
+    "options": [
+      "Solo como un riesgo futuro sin acción inmediata.",
+      "Como un incidente o impedimento: colaborar en una solución, asignar acciones y seguir su resolución.",
+      "Como una lección que se revisará al terminar el proyecto.",
+      "Como motivo automático para cancelar el contrato."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El evento ya ocurrió y necesita gestión de un problema actual. Puede generar riesgos futuros, pero registrarlo solo como riesgo o aprendizaje aplaza la solución; cancelar exige evaluar condiciones y alternativas.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q23",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Híbrido",
+    "type": "multi",
+    "prompt": "Una tecnología nueva podría reducir el consumo energético, aunque aún no se ha probado en el proyecto. Selecciona DOS acciones útiles de gestión de riesgos.",
+    "options": [
+      "Analizar tanto la oportunidad de mejora como las amenazas de adopción.",
+      "Suponer que un beneficio ambiental elimina todos los riesgos.",
+      "Asignar responsables y respuestas proporcionadas con seguimiento.",
+      "Registrar únicamente amenazas y descartar oportunidades."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "La gestión de riesgos incluye oportunidades y amenazas, análisis, responsables y respuestas. Un beneficio potencial no garantiza viabilidad ni elimina efectos técnicos o financieros.",
+    "category": "Lectura"
+  },
+  {
+    "id": "q24",
+    "module": "business",
+    "topicId": "business-6",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "En una retrospectiva se identifica que las revisiones tardías producen retrabajo. ¿Qué acción representa mejor una mejora continua?",
+    "options": [
+      "Registrar la observación y repetir el mismo proceso.",
+      "Probar revisiones más tempranas, asignar una acción y medir el retrabajo en la siguiente iteración.",
+      "Prohibir cualquier cambio de proceso.",
+      "Sustituir al equipo sin analizar la causa."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Una mejora se convierte en acción observable y se evalúa su efecto. Registrar sin actuar no cambia el resultado; prohibir cambios o sustituir personas omite el aprendizaje sobre el proceso.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q25",
+    "module": "business",
+    "topicId": "business-7",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "El sistema cumple sus requisitos, pero quienes deberán usarlo mantienen el proceso anterior. ¿Qué aspecto necesita atención para lograr los resultados esperados?",
+    "options": [
+      "Únicamente el cierre técnico del contrato.",
+      "La adopción: entender barreras, involucrar usuarios y apoyar el cambio organizacional.",
+      "La adición de funciones sin consultar usuarios.",
+      "La declaración de éxito porque el software está instalado."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Los beneficios dependen de adopción y uso, además de la entrega técnica. Comprender barreras y acompañar el cambio permite sostener resultados; instalar o añadir funciones no asegura adopción.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q26",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Un cambio del mercado reduce sustancialmente el beneficio esperado del producto durante su desarrollo. ¿Qué debería hacer el director?",
+    "options": [
+      "Continuar sin revisión porque el presupuesto ya fue aprobado.",
+      "Reevaluar impacto, valor y prioridades con los responsables de decisión.",
+      "Suspender unilateralmente todo el proyecto sin informar.",
+      "Mantener el cambio de mercado fuera de los reportes."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La revisión del entorno puede cambiar la justificación y requiere decisiones informadas sobre prioridades o continuidad. El presupuesto aprobado no asegura valor; una suspensión sin autoridad o la falta de transparencia impiden una respuesta apropiada.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q27",
+    "module": "agile",
+    "topicId": "agile-1",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Durante una iteración, el equipo encuentra un bloqueo que requiere coordinación con otra área. ¿Qué acción refleja liderazgo de servicio?",
+    "options": [
+      "Facilitar la coordinación y ayudar a eliminar el bloqueo con el equipo.",
+      "Ordenar una solución técnica sin escuchar al equipo.",
+      "Asignar la culpa al área externa.",
+      "Dejar el problema sin atender para preservar la autonomía."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "El liderazgo de servicio ayuda a crear condiciones para que el equipo avance y conserve responsabilidad. Imponer, culpar o ignorar un impedimento no favorece su resolución.",
+    "category": "Mentalidad"
+  },
+  {
+    "id": "q28",
+    "module": "agile",
+    "topicId": "agile-2",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "El equipo quiere inspeccionar cómo colaboró y acordar una mejora de su forma de trabajo. ¿En qué evento de Scrum corresponde enfocarlo?",
+    "options": [
+      "Revisión del sprint.",
+      "Retrospectiva del sprint.",
+      "Reunión diaria como informe al gerente.",
+      "Planificación de lanzamiento con proveedores."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La retrospectiva examina la forma de trabajo y acuerda mejoras. La revisión del sprint se centra en el resultado del producto y la adaptación futura; la reunión diaria sirve al plan de trabajo del equipo.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q29",
+    "module": "agile",
+    "topicId": "agile-3",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Una columna del tablero Kanban alcanzó su límite de trabajo en curso y tiene varios elementos bloqueados. ¿Qué conviene priorizar?",
+    "options": [
+      "Empezar más elementos para mantener ocupadas a todas las personas.",
+      "Colaborar para desbloquear y terminar trabajo antes de incorporar más a esa columna.",
+      "Eliminar el límite cada vez que se alcanza.",
+      "Ocultar los elementos bloqueados del tablero."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El límite hace visibles problemas de flujo y favorece terminar trabajo. Empezar más, quitar límites sin análisis u ocultar bloqueos aumenta incertidumbre y puede ampliar los tiempos de ciclo.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q30",
+    "module": "agile",
+    "topicId": "agile-4",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Los usuarios descubren una necesidad nueva después de revisar un incremento. ¿Cómo se incorpora mejor ese aprendizaje?",
+    "options": [
+      "Ignorarlo hasta finalizar todo el proyecto.",
+      "Refinar el elemento y revisarlo con el responsable de producto para priorizarlo en el backlog.",
+      "Interrumpir automáticamente todo el trabajo actual sin conversación.",
+      "Sustituir los criterios de aceptación de forma unilateral."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El aprendizaje alimenta el backlog y la priorización, considerando capacidad y objetivos. No implica interrumpir automáticamente una iteración ni cambiar acuerdos sin colaboración.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q31",
+    "module": "agile",
+    "topicId": "agile-5",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "La dirección quiere comparar la productividad de dos equipos usando sus velocidades, estimadas con escalas propias. ¿Qué explicación es más adecuada?",
+    "options": [
+      "La velocidad permite una comparación directa entre cualquier equipo.",
+      "La velocidad es contextual y sirve mejor para pronosticar y aprender dentro de cada equipo.",
+      "La velocidad equivale al valor de negocio monetario entregado.",
+      "El equipo con más puntos siempre tiene mayor calidad."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Las escalas y contextos propios impiden tratar los puntos como una unidad universal. La velocidad puede apoyar pronósticos internos, pero no demuestra por sí misma valor, productividad comparable o calidad.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "q32",
+    "module": "agile",
+    "topicId": "agile-6",
+    "approach": "Híbrido",
+    "type": "multi",
+    "prompt": "Un proyecto combina obras predictivas con software iterativo. Selecciona DOS acuerdos que ayudan a integrar ambas formas de trabajo.",
+    "options": [
+      "Definir dependencias y puntos de integración entre componentes.",
+      "Dar por hecho que los calendarios se alinearán sin coordinación.",
+      "Acordar criterios de aceptación y cómo se gestionan decisiones que afectan a ambos componentes.",
+      "Eliminar todos los controles de las obras para igualar los enfoques."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "La integración necesita dependencias, acuerdos de aceptación y mecanismos de decisión compartidos. Combinar enfoques no elimina restricciones ni produce alineación automática.",
+    "category": "Lectura"
+  },
+  {
+    "id": "people-extra-001",
+    "module": "people",
+    "topicId": "people-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "Un hospital inicia un proyecto digital. La dirección mide éxito por ahorro y el personal clínico por tiempo de atención. ¿Qué conviene acordar antes de detallar la solución?",
+    "options": [
+      "Un conjunto compartido de resultados medibles y sus prioridades.",
+      "La lista de funcionalidades que propone el proveedor.",
+      "Un indicador exclusivo de ahorro.",
+      "Las fechas de todas las actividades."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La visión compartida conecta necesidades distintas con resultados y prioridades explícitas. Elegir funcionalidades o fechas no resuelve la discrepancia sobre el éxito.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-002",
+    "module": "people",
+    "topicId": "people-1",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Un equipo entrega todas las historias previstas, pero no sabe qué problema del usuario está resolviendo. ¿Qué intervención aporta más valor?",
+    "options": [
+      "Aumentar la velocidad objetivo.",
+      "Pedir al responsable de producto y al equipo que conecten el objetivo del producto con resultados del usuario.",
+      "Agregar más historias al sprint.",
+      "Asignar puntos a la satisfacción."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Vincular el trabajo con el propósito permite decidir y aprender. La velocidad y el volumen no sustituyen una comprensión del beneficio esperado.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-003",
+    "module": "people",
+    "topicId": "people-1",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Dos proveedores interpretan de forma distinta el propósito de una misma entrega. ¿Cómo comprobar que quedaron alineados después de un taller?",
+    "options": [
+      "Enviarles las diapositivas.",
+      "Solicitar que firmen la asistencia.",
+      "Pedir que expliquen el resultado esperado y contrasten ejemplos de aceptación.",
+      "Preguntar si tienen dudas y cerrar si nadie responde."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La explicación con ejemplos verifica comprensión compartida. La recepción de documentos o el silencio no demuestran alineación.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-004",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "En una retrospectiva dos integrantes debaten si los retrasos provienen de pruebas o de requisitos ambiguos. Hay datos disponibles y tiempo para analizarlos. ¿Qué técnica conviene?",
+    "options": [
+      "Imponer la interpretación del integrante más antiguo.",
+      "Evitar el tema para preservar la armonía.",
+      "Dividir la diferencia sin revisar datos.",
+      "Facilitar una resolución colaborativa basada en hechos y causas."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Cuando hay tiempo y colaboración posible, analizar causas permite una solución sostenible. Evitar, imponer o transigir sin análisis puede mantener el problema.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-005",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "En una obra un desacuerdo está llevando a ejecutar una maniobra que incumple el procedimiento de seguridad. ¿Qué debe hacerse primero?",
+    "options": [
+      "Detener la maniobra insegura conforme al procedimiento y después abordar el desacuerdo.",
+      "Esperar a que las partes alcancen consenso.",
+      "Registrar el conflicto para la reunión semanal.",
+      "Permitir que el encargado decida mientras continúa la maniobra."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La exposición inmediata exige aplicar el procedimiento de seguridad. La resolución del conflicto sigue después de controlar el peligro; no se espera consenso mientras continúa la condición insegura.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-006",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Dos áreas acordaron cómo repartir un recurso, pero el conflicto reaparece cada semana. ¿Qué acción ayuda a resolverlo de forma sostenible?",
+    "options": [
+      "Repetir el acuerdo sin modificaciones.",
+      "Revisar con ambas áreas las causas del incumplimiento y acordar reglas de asignación y seguimiento.",
+      "Transferir siempre el recurso al área que más insiste.",
+      "Pedir que dejen de informar los desacuerdos."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La recurrencia exige revisar causas, capacidad y reglas aplicables. Repetir el acuerdo o favorecer a una parte no aborda su viabilidad.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-007",
+    "module": "people",
+    "topicId": "people-3",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Una persona nueva tiene poca experiencia con una herramienta crítica y empieza a cometer errores. El resto del equipo domina la herramienta. ¿Qué apoyo es más adecuado?",
+    "options": [
+      "Dejar que aprenda sola para fomentar autonomía.",
+      "Aplicar el mismo nivel de supervisión a todo el equipo.",
+      "Acordar acompañamiento práctico y reducirlo conforme demuestre competencia.",
+      "Retirarle toda responsabilidad indefinidamente."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "El liderazgo se adapta a la competencia y necesidad de apoyo. El acompañamiento temporal desarrolla autonomía sin abandonar a quien aprende ni microgestionar a todos.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-008",
+    "module": "people",
+    "topicId": "people-3",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Un integrante capacitado ha bajado su desempeño durante dos semanas. Antes de reasignarlo, ¿qué debería hacer quien dirige el proyecto?",
+    "options": [
+      "Informar al equipo de su bajo rendimiento.",
+      "Aplicar una sanción estándar.",
+      "Asignarle tareas adicionales para motivarlo.",
+      "Conversar en privado, revisar hechos y comprender obstáculos para acordar apoyo."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "La conversación privada basada en hechos permite identificar causas y acordar acciones. Suponer falta de motivación o sancionar sin entender puede agravar el problema.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-009",
+    "module": "people",
+    "topicId": "people-3",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "El equipo propone una solución dentro de su autoridad, distinta de la preferida por el director. Cumple las restricciones y tiene riesgos aceptables. ¿Cómo apoyar su autonomía?",
+    "options": [
+      "Permitir la decisión del equipo y acordar cómo observar sus resultados.",
+      "Exigir que use la solución del director.",
+      "Escalar toda decisión técnica al patrocinador.",
+      "Aprobarla solo si todos garantizan que no habrá errores."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La autonomía requiere respetar decisiones dentro de límites acordados y aprender de resultados. Imponer preferencias o exigir certeza absoluta mantiene dependencia.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-010",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "Una comunidad afectada por accesos temporales no figura en el registro de interesados. ¿Cuál es la mejor siguiente acción?",
+    "options": [
+      "Esperar a recibir una queja formal.",
+      "Identificar representantes y necesidades, evaluar impactos y acordar participación.",
+      "Informar solo al cliente porque financia el proyecto.",
+      "Enviar un aviso estándar al final de la obra."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Los afectados también son interesados aunque no financien el proyecto. Identificarlos y escucharlos tempranamente permite ajustar participación y gestionar impactos.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-011",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Un interesado de alta influencia nunca asiste a las reuniones y luego cuestiona decisiones. ¿Qué conviene hacer primero?",
+    "options": [
+      "Escalar su falta de asistencia.",
+      "Retirarlo de la lista de distribución.",
+      "Conversar sobre barreras y necesidades para ajustar su participación.",
+      "Duplicar la duración de las reuniones."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Entender disponibilidad y necesidades permite elegir un mecanismo eficaz. Aumentar reuniones o escalar sin comprender la causa puede no mejorar el involucramiento.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-012",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Ágil",
+    "type": "multi",
+    "prompt": "Los representantes de usuarios participan en revisiones, pero un turno operativo nunca está representado. ¿Qué dos acciones mejoran el involucramiento? Selecciona DOS.",
+    "options": [
+      "Suponer que un turno representa todos los contextos.",
+      "Pedir aprobación final sin mostrar incrementos.",
+      "Incorporar representantes del turno ausente.",
+      "Adaptar horarios o mecanismos de retroalimentación."
+    ],
+    "correct": [
+      2,
+      3
+    ],
+    "rationale": "La representación y los mecanismos accesibles permiten recoger necesidades distintas. La presencia de un grupo no prueba que todos los contextos estén cubiertos.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-013",
+    "module": "people",
+    "topicId": "people-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "El patrocinador solicita prometer una fecha a un cliente antes de consultar al equipo sobre viabilidad. ¿Qué respuesta es más apropiada?",
+    "options": [
+      "Aclarar restricciones, evaluar opciones con el equipo y acordar un compromiso sustentado.",
+      "Prometer la fecha y añadir recursos después.",
+      "Rechazar toda conversación con el cliente.",
+      "Publicar una fecha sin comunicar supuestos."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Alinear expectativas exige compromisos sustentados y supuestos explícitos. Una promesa sin evaluación traslada la incertidumbre al cliente y al equipo.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-014",
+    "module": "people",
+    "topicId": "people-5",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Dos áreas compiten por prioridad en el backlog y ambas se consideran urgentes. ¿Cómo facilitar el acuerdo?",
+    "options": [
+      "Dar prioridad al área de mayor jerarquía.",
+      "Comparar valor, riesgo y objetivos con los interesados y el responsable de producto.",
+      "Alternar prioridades al azar.",
+      "Permitir que cada área asigne trabajo directamente al equipo."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Los criterios compartidos y la responsabilidad de producto permiten priorizar de manera transparente. La jerarquía o asignación paralela no resuelven prioridades en conflicto.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-015",
+    "module": "people",
+    "topicId": "people-5",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Un cliente interpreta una demostración como compromiso de incluir todas las funciones mostradas. ¿Qué conviene hacer?",
+    "options": [
+      "Mantener silencio hasta que solicite aceptación.",
+      "Agregar automáticamente todas las funciones al alcance.",
+      "Aclarar qué era exploratorio, contrastar el alcance acordado y gestionar nuevas solicitudes.",
+      "Eliminar las demostraciones futuras."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Hacer explícito el significado de la demostración corrige expectativas. Nuevas funciones deben evaluarse según los acuerdos del proyecto, sin incorporarse automáticamente.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-016",
+    "module": "people",
+    "topicId": "people-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "Un informe muestra avance según plan, pero el cliente dice que las entregas no le permiten operar. ¿Qué conviene revisar primero?",
+    "options": [
+      "El formato gráfico del informe.",
+      "La cantidad de reuniones del equipo.",
+      "La disponibilidad de presupuesto para publicidad.",
+      "Los resultados esperados y criterios de aceptación con el cliente."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Cumplir actividades no garantiza satisfacer el uso esperado. Contrastar expectativas y aceptación permite identificar brechas concretas antes de proponer cambios.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-017",
+    "module": "people",
+    "topicId": "people-6",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Después de una revisión, los usuarios piden un ajuste que aporta valor, pero no cabe en la capacidad disponible. ¿Cómo gestionar sus expectativas?",
+    "options": [
+      "Analizar prioridades y alternativas con el responsable de producto y comunicar el acuerdo.",
+      "Garantizar que se entregará sin afectar nada.",
+      "Solicitar horas extra sin hablar con el equipo.",
+      "Ignorar la petición porque el sprint ya fue revisado."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Gestionar expectativas implica transparentar capacidad y decisiones de prioridad. Promesas sin negociación ocultan los efectos del ajuste.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-018",
+    "module": "people",
+    "topicId": "people-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Un retraso confirmado afectará una entrega que el cliente necesita para capacitar a su personal. ¿Qué comunicación es más útil?",
+    "options": [
+      "Esperar a recuperar el atraso antes de informar.",
+      "Informar el impacto, las alternativas y una propuesta de coordinación con el cliente.",
+      "Enviar únicamente el porcentaje de avance.",
+      "Afirmar que no habrá impacto sin comprobarlo."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La comunicación oportuna permite al cliente adaptar sus decisiones y participar en alternativas. Un porcentaje aislado no explica el efecto operativo.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-019",
+    "module": "people",
+    "topicId": "people-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "El equipo entregó manuales al personal de operación. ¿Qué evidencia demuestra mejor que la transferencia fue eficaz?",
+    "options": [
+      "La cantidad de páginas entregadas.",
+      "El correo que confirma recepción.",
+      "Que operación ejecute una tarea representativa y resuelva incidencias previstas con el apoyo acordado.",
+      "La firma del autor del manual."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Aplicar el conocimiento verifica capacidad de operación. Recibir documentación o medir su volumen solo demuestra entrega de información.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-020",
+    "module": "people",
+    "topicId": "people-7",
+    "approach": "Ágil",
+    "type": "multi",
+    "prompt": "Solo una persona sabe mantener un componente importante. ¿Qué dos acciones reducen la dependencia? Selecciona DOS.",
+    "options": [
+      "Reservarle todas las tareas del componente.",
+      "Esperar a que anuncie su salida.",
+      "Realizar trabajo en pareja y rotar tareas con acompañamiento.",
+      "Documentar decisiones y validar que otra persona pueda mantenerlo."
+    ],
+    "correct": [
+      2,
+      3
+    ],
+    "rationale": "La práctica compartida y la documentación validada distribuyen conocimiento tácito y explícito. Concentrar tareas aumenta la dependencia.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-021",
+    "module": "people",
+    "topicId": "people-7",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Dos equipos enfrentan repetidamente el mismo fallo de integración. Hay lecciones registradas, pero no se aplican. ¿Qué conviene hacer?",
+    "options": [
+      "Revisar juntos la lección, incorporarla a su práctica y comprobar su aplicación en la siguiente integración.",
+      "Crear otra carpeta con los mismos documentos.",
+      "Pedir más informes sin cambiar la práctica.",
+      "Esperar al cierre para compartir el fallo."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "El conocimiento genera valor cuando cambia la práctica y se verifica su uso. Archivar más documentos no garantiza aprendizaje ni prevención.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-022",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "prompt": "El patrocinador pide decisiones ejecutivas y recibe un informe de treinta páginas de detalle técnico. ¿Qué ajuste es más adecuado?",
+    "options": [
+      "Enviar el mismo documento con mayor frecuencia.",
+      "Preparar un resumen de impactos, alternativas y decisiones requeridas, con detalle accesible.",
+      "Eliminar toda información técnica del proyecto.",
+      "Dejar de informar hasta que pregunte."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El contenido debe adaptarse a las necesidades de decisión de la audiencia, conservando acceso al detalle. Frecuencia o volumen no sustituyen relevancia.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-023",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Ágil",
+    "type": "single",
+    "prompt": "Un equipo distribuido interpreta de distintas formas un requisito escrito. ¿Qué acción reduce mejor la ambigüedad?",
+    "options": [
+      "Solicitar que relean el mismo mensaje.",
+      "Agregar más destinatarios al correo.",
+      "Facilitar una conversación con ejemplos y registrar el entendimiento acordado.",
+      "Permitir que cada sede implemente su interpretación."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Una conversación con ejemplos y confirmación cierra el circuito de comunicación. Reenviar el mensaje no comprueba comprensión.",
+    "category": "Conceptual"
+  },
+  {
+    "id": "people-extra-024",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "prompt": "Un tablero informa que una entrega está terminada, mientras el responsable confirma que falta una prueba crítica. ¿Qué debe hacerse antes de comunicar el estado?",
+    "options": [
+      "Usar el dato del tablero porque parece objetivo.",
+      "Promediar las dos versiones.",
+      "Elegir el dato más favorable.",
+      "Verificar la evidencia y el criterio de terminado, corregir el dato y comunicar el estado sustentado."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "La fiabilidad depende de evidencia y criterios compartidos. Automatización o presentación visual no sustituyen validación de datos contradictorios.",
+    "category": "Conceptual"
+  }
+]

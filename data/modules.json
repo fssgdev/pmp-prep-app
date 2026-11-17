@@ -1,0 +1,266 @@
+[
+  {
+    "id": "people",
+    "name": "PEOPLE",
+    "spanish": "Personas",
+    "weight": 33,
+    "color": "#6556d7",
+    "description": "Lidera, comunica y construye acuerdos para que el equipo y los interesados compartan una dirección.",
+    "topics": [
+      {
+        "id": "people-1",
+        "code": "I.1",
+        "title": "Desarrollar una visión compartida",
+        "guide": "Conecta el propósito del proyecto con resultados que los interesados puedan reconocer. Comprueba que todos entiendan el éxito de la misma manera y revisa la visión cuando cambie el contexto.",
+        "exercise": "Redacta una visión en dos frases y tres criterios observables de éxito."
+      },
+      {
+        "id": "people-2",
+        "code": "I.2",
+        "title": "Gestionar conflictos",
+        "guide": "Identifica la fuente del desacuerdo y escucha a las partes antes de elegir una estrategia. Facilita una solución adecuada al contexto, acuerda acciones y comprueba que se cumplan las reglas del equipo.",
+        "exercise": "Distingue hechos, posiciones e intereses en un conflicto de tu trabajo."
+      },
+      {
+        "id": "people-3",
+        "code": "I.3",
+        "title": "Liderar al equipo del proyecto",
+        "guide": "Aclara roles, expectativas y decisiones que el equipo puede tomar. Adapta tu liderazgo a la situación, desarrolla capacidades y elimina barreras para el trabajo responsable.",
+        "exercise": "Escribe una intervención de coaching y otra de dirección; explica cuándo usar cada una."
+      },
+      {
+        "id": "people-4",
+        "code": "I.4",
+        "title": "Involucrar a los interesados",
+        "guide": "Identifica a quienes afectan o reciben los resultados y analiza su influencia y necesidades. Construye confianza mediante participación temprana, comunicación adaptada y revisión continua del involucramiento.",
+        "exercise": "Crea un mapa de cuatro interesados con una acción concreta de participación para cada uno."
+      },
+      {
+        "id": "people-5",
+        "code": "I.5",
+        "title": "Alinear expectativas de los interesados",
+        "guide": "Haz explícitas las necesidades que compiten y facilita acuerdos sobre prioridades y límites. Usa conversaciones y mentoría para lograr una comprensión compartida antes de comprometer la entrega.",
+        "exercise": "Resuelve una discrepancia entre velocidad de entrega y calidad usando criterios de valor."
+      },
+      {
+        "id": "people-6",
+        "code": "I.6",
+        "title": "Gestionar las expectativas de los interesados",
+        "guide": "Verifica durante la ejecución si los resultados siguen respondiendo a las expectativas del cliente. Recoge retroalimentación, responde a desviaciones y comunica decisiones con sus efectos.",
+        "exercise": "Diseña dos preguntas para detectar insatisfacción antes de la aceptación final."
+      },
+      {
+        "id": "people-7",
+        "code": "I.7",
+        "title": "Facilitar la transferencia de conocimiento",
+        "guide": "Identifica el conocimiento crítico y el riesgo de que se pierda. Combina documentación útil, práctica compartida y acompañamiento; confirma que otra persona pueda aplicar lo aprendido.",
+        "exercise": "Planifica una transferencia que incluya una demostración realizada por quien recibe el conocimiento."
+      },
+      {
+        "id": "people-8",
+        "code": "I.8",
+        "title": "Planificar y gestionar la comunicación",
+        "guide": "Selecciona contenido, canal, frecuencia y responsables según las necesidades de cada audiencia. Comprueba la comprensión con un circuito de retroalimentación y comunica información fiable, incluso si usas IA para preparar borradores.",
+        "exercise": "Convierte un mismo retraso en un mensaje para el equipo y otro para el patrocinador."
+      }
+    ]
+  },
+  {
+    "id": "process",
+    "name": "PROCESS",
+    "spanish": "Procesos",
+    "weight": 41,
+    "color": "#248b85",
+    "description": "Integra decisiones de alcance, entrega, recursos y control para producir resultados útiles.",
+    "topics": [
+      {
+        "id": "process-1",
+        "code": "II.1",
+        "title": "Integrar el plan y planificar la entrega",
+        "guide": "Elige un enfoque predictivo, adaptativo o híbrido según incertidumbre, necesidades y restricciones. Integra dependencias, información de sostenibilidad y planes de trabajo; utiliza datos validados para actualizar las decisiones.",
+        "exercise": "Justifica el enfoque de un proyecto con requisitos regulatorios estables y una interfaz incierta."
+      },
+      {
+        "id": "process-2",
+        "code": "II.2",
+        "title": "Desarrollar y gestionar el alcance",
+        "guide": "Acuerda límites, entregables y criterios de aceptación con los interesados. Descompón el trabajo al nivel apropiado y mantén trazabilidad entre necesidades, alcance y aceptación.",
+        "exercise": "Distingue una solicitud nueva de una corrección de defecto dentro del alcance acordado."
+      },
+      {
+        "id": "process-3",
+        "code": "II.3",
+        "title": "Asegurar una entrega basada en valor",
+        "guide": "Prioriza resultados por el valor que generan y contrasta las prioridades con retroalimentación. Define cómo se medirán los beneficios y evalúa entregas incrementales cuando permitan aprender o capturar valor antes.",
+        "exercise": "Ordena tres entregables por valor, riesgo y oportunidad de aprendizaje."
+      },
+      {
+        "id": "process-4",
+        "code": "II.4",
+        "title": "Planificar y gestionar recursos",
+        "guide": "Estima capacidades, disponibilidad y necesidades de recursos a lo largo de la entrega. Revisa cuellos de botella y acuerda ajustes sin asumir que agregar personas siempre acorta el trabajo.",
+        "exercise": "Plantea una respuesta a la ausencia temporal de un especialista crítico."
+      },
+      {
+        "id": "process-5",
+        "code": "II.5",
+        "title": "Planificar y gestionar adquisiciones",
+        "guide": "Alinea la estrategia contractual con la incertidumbre, el riesgo y los resultados esperados. Define criterios de selección y seguimiento, negocia acuerdos y verifica el desempeño del proveedor.",
+        "exercise": "Compara precio fijo y tiempo y materiales para un alcance incierto."
+      },
+      {
+        "id": "process-6",
+        "code": "II.6",
+        "title": "Planificar y gestionar las finanzas",
+        "guide": "Estima necesidades financieras y reservas de acuerdo con el riesgo. Controla variaciones, revisa pronósticos y utiliza la gobernanza para decidir ajustes; interpreta las cifras en el contexto de la entrega.",
+        "exercise": "Calcula CPI y SPI de un ejemplo y explica qué indican sin confundirlos con porcentajes de avance."
+      },
+      {
+        "id": "process-7",
+        "code": "II.7",
+        "title": "Planificar y optimizar la calidad",
+        "guide": "Acuerda requisitos y medidas de calidad desde el inicio, incluidos cumplimiento y sostenibilidad cuando correspondan. Prevén defectos mediante procesos adecuados y usa revisiones y datos para mejorar los entregables.",
+        "exercise": "Distingue una acción de aseguramiento de calidad de una de control de calidad."
+      },
+      {
+        "id": "process-8",
+        "code": "II.8",
+        "title": "Planificar y gestionar el cronograma",
+        "guide": "Analiza secuencias, dependencias y capacidad para construir un pronóstico realista. Evalúa alternativas de ajuste por sus costos y riesgos, y revisa el cronograma con información del desempeño.",
+        "exercise": "Identifica la ruta crítica de una red pequeña y el efecto de retrasar una actividad con holgura."
+      },
+      {
+        "id": "process-9",
+        "code": "II.9",
+        "title": "Evaluar el estado del proyecto",
+        "guide": "Compara resultados con objetivos, líneas base o métricas acordadas. Verifica la calidad de los datos y comunica tendencias y opciones de respuesta, usando la IA como apoyo sujeto a revisión humana.",
+        "exercise": "Transforma tres indicadores en una recomendación de acción para el patrocinador."
+      },
+      {
+        "id": "process-10",
+        "code": "II.10",
+        "title": "Gestionar el cierre del proyecto",
+        "guide": "Verifica aceptación, obligaciones contractuales y transferencia a quienes operarán el resultado. Registra aprendizajes, libera recursos y deja claros los responsables de medir beneficios posteriores.",
+        "exercise": "Construye una lista de cierre para un proyecto que termina antes de lo previsto."
+      }
+    ]
+  },
+  {
+    "id": "business",
+    "name": "BUSINESS ENVIRONMENT",
+    "spanish": "Entorno de negocio",
+    "weight": 26,
+    "color": "#c87b31",
+    "description": "Conecta la entrega con gobernanza, cumplimiento, riesgos y cambios del entorno.",
+    "topics": [
+      {
+        "id": "business-1",
+        "code": "III.1",
+        "title": "Definir y establecer la gobernanza",
+        "guide": "Aclara quién decide, cómo se reporta y qué umbrales requieren escalamiento. Alinea políticas, ética y métricas de éxito con el valor esperado del proyecto.",
+        "exercise": "Define un umbral de escalamiento y la persona u órgano que puede autorizar la respuesta."
+      },
+      {
+        "id": "business-2",
+        "code": "III.2",
+        "title": "Planificar y gestionar el cumplimiento",
+        "guide": "Identifica obligaciones aplicables y acuerda cómo demostrar cumplimiento durante la entrega. Evalúa consecuencias y acciones ante cambios normativos, incluyendo privacidad y uso responsable de datos.",
+        "exercise": "Relaciona tres requisitos de cumplimiento con evidencia y responsable."
+      },
+      {
+        "id": "business-3",
+        "code": "III.3",
+        "title": "Gestionar y controlar cambios",
+        "guide": "Evalúa los efectos de una solicitud sobre valor, alcance, costos, riesgos y calendario. Aplica el mecanismo de decisión acordado según el enfoque y comunica la resolución antes de ejecutar cambios que requieran autorización.",
+        "exercise": "Recorre el tratamiento de una solicitud de cambio predictiva y compárala con una repriorización de backlog."
+      },
+      {
+        "id": "business-4",
+        "code": "III.4",
+        "title": "Eliminar impedimentos y gestionar incidentes",
+        "guide": "Distingue un riesgo futuro de un problema que ya ocurre. Colabora con las personas adecuadas, asigna acciones y revisa su resolución; escala cuando se excedan la autoridad o los umbrales acordados.",
+        "exercise": "Clasifica cinco situaciones entre riesgo, incidente e impedimento y elige la siguiente acción."
+      },
+      {
+        "id": "business-5",
+        "code": "III.5",
+        "title": "Planificar y gestionar riesgos",
+        "guide": "Identifica y analiza amenazas y oportunidades con el equipo y los interesados. Asigna responsables y respuestas proporcionadas, incorpora riesgos de seguridad y sostenibilidad y vigila señales de cambio.",
+        "exercise": "Redacta un riesgo con causa, evento y efecto; define respuesta y señal de activación."
+      },
+      {
+        "id": "business-6",
+        "code": "III.6",
+        "title": "Impulsar la mejora continua",
+        "guide": "Convierte los aprendizajes en cambios concretos de la forma de trabajar. Evalúa el efecto de una mejora y actualiza prácticas y activos útiles para próximos proyectos.",
+        "exercise": "Propón un experimento de mejora con una métrica y una fecha de revisión."
+      },
+      {
+        "id": "business-7",
+        "code": "III.7",
+        "title": "Apoyar el cambio organizacional",
+        "guide": "Evalúa cultura, preparación e impacto del cambio sobre las personas y el proyecto. Acompaña la adopción con participación, formación y retroalimentación para sostener los resultados.",
+        "exercise": "Diseña una acción de adopción para un grupo que se resiste a un nuevo sistema."
+      },
+      {
+        "id": "business-8",
+        "code": "III.8",
+        "title": "Evaluar cambios del entorno externo",
+        "guide": "Revisa factores regulatorios, tecnológicos, sociales, geopolíticos y de mercado que alteren el proyecto. Evalúa su impacto sobre el valor y las prioridades, incluyendo oportunidades y riesgos de IA o sostenibilidad.",
+        "exercise": "Analiza cómo una nueva regulación modifica un backlog, un riesgo y una decisión de inversión."
+      }
+    ]
+  },
+  {
+    "id": "agile",
+    "name": "AGILE / HYBRID",
+    "spanish": "Enfoques ágiles e híbridos",
+    "weight": null,
+    "color": "#ad5b87",
+    "description": "Práctica transversal: aplica enfoques ágiles e híbridos dentro de los tres dominios del examen.",
+    "topics": [
+      {
+        "id": "agile-1",
+        "code": "A.1",
+        "title": "Mentalidad ágil y liderazgo de servicio",
+        "guide": "Trabaja con ciclos de aprendizaje y entrega frecuente de valor. Facilita autonomía, transparencia y colaboración, adaptando decisiones a la evidencia disponible.",
+        "exercise": "Explica cómo facilitarías una decisión del equipo sin imponer la solución."
+      },
+      {
+        "id": "agile-2",
+        "code": "A.2",
+        "title": "Scrum y trabajo por iteraciones",
+        "guide": "Comprende responsabilidades, objetivos y eventos de Scrum en relación con inspección y adaptación. Usa la revisión para aprender del producto y la retrospectiva para mejorar la forma de trabajar.",
+        "exercise": "Distingue revisión de sprint, retrospectiva y reunión diaria con un ejemplo de cada una."
+      },
+      {
+        "id": "agile-3",
+        "code": "A.3",
+        "title": "Kanban, flujo y límites de trabajo",
+        "guide": "Visualiza el trabajo y limita lo que está en curso para detectar bloqueos. Usa tiempos de ciclo, trabajo terminado y políticas explícitas para mejorar el flujo.",
+        "exercise": "Decide qué hacer cuando una columna alcanza su límite de trabajo en curso."
+      },
+      {
+        "id": "agile-4",
+        "code": "A.4",
+        "title": "Producto, backlog y priorización",
+        "guide": "Ordena el trabajo por valor, riesgo y aprendizaje con quien ejerce la responsabilidad de producto. Refina elementos y criterios de aceptación con el equipo y revisa prioridades con retroalimentación.",
+        "exercise": "Reordena un backlog cuando una entrega deja de aportar el beneficio esperado."
+      },
+      {
+        "id": "agile-5",
+        "code": "A.5",
+        "title": "Métricas, estimación y adaptación",
+        "guide": "Usa métricas del equipo para conversar sobre previsibilidad y mejora. Interpreta velocidad y gráficos de flujo dentro del contexto del equipo; evita convertirlos en objetivos que distorsionen el comportamiento.",
+        "exercise": "Explica por qué no compararías directamente la velocidad de dos equipos."
+      },
+      {
+        "id": "agile-6",
+        "code": "A.6",
+        "title": "Diseñar y gestionar enfoques híbridos",
+        "guide": "Combina prácticas según necesidades de aprendizaje, cumplimiento y entrega. Define interfaces claras entre componentes predictivos y adaptativos y acuerda cómo se integran sus decisiones y resultados.",
+        "exercise": "Diseña una entrega con infraestructura predictiva y desarrollo de software adaptativo."
+      }
+    ]
+  }
+]

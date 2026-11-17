@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173f38">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Tu centro de preparación PMP 2027: calendario INGENIUM, estudio, práctica y progreso.">
+  <title>PMP Master Plan 2027</title>
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQwIiBmaWxsPSIjMTczZjM4Ii8+PHRleHQgeD0iMzUiIHk9IjEyNSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTA0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZDRlZTk0Ij5QPC90ZXh0PjxwYXRoIGQ9Ik0xMTIgNTBoMjZ2MjZtMC0yNi0zOCAzOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDRlZTk0IiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg0K" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Ir al contenido</a>
+  <aside class="sidebar" aria-label="Navegación principal">
+    <a class="brand" href="#inicio"><span class="brand-mark">P<span>↗</span></span><span>PMP <b>MASTER PLAN</b><small>Tu objetivo. Tu siguiente nivel.</small></span></a>
+    <div class="side-label">TU ESPACIO DE PREPARACIÓN</div>
+    <nav id="navigation"></nav>
+    <div class="side-bottom"><span class="live-dot"></span> LÍNEA BASE · ENERO 2027<p>Un paso a la vez.<br>Una decisión mejor cada día.</p><button class="side-help" data-action="help">Guía de uso <span>↗</span></button></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div class="mobile-brand">PMP <b>2027</b></div><div class="breadcrumb">MI PREPARACIÓN <span>/</span> <strong id="crumb">Centro de control</strong></div><div class="top-actions"><span class="saved" id="save-state"><i></i> Guardado en este dispositivo</span><button class="icon-button" data-action="settings" aria-label="Ajustes y respaldo" title="Ajustes y respaldo" id="settings-icon"></button><span class="avatar" aria-hidden="true">PM</span></div></header>
+    <main id="main" tabindex="-1"></main>
+    <footer>Hecho para tu próximo paso. <span>PMP MASTER PLAN 2027 · Preparación independiente</span></footer>
+  </div>
+  <nav class="mobile-nav" id="mobile-navigation" aria-label="Navegación móvil"></nav>
+  <dialog id="modal"><div class="dialog-header"><h2 id="dialog-title"></h2><button class="icon-button" data-action="close-dialog" aria-label="Cerrar">✕</button></div><div id="dialog-body"></div></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+  <noscript><p style="padding:40px">Esta aplicación necesita JavaScript.</p></noscript>
+  <script src="js/config.js"></script>
+  <script src="js/sync.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
