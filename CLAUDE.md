@@ -5,7 +5,7 @@ Roles: **ChatGPT** supervisa y guía (issues con etiqueta `para-claude`); **Clau
 
 ## Ciclo de trabajo
 1. Leer los issues abiertos con etiqueta `para-claude`, del más antiguo al más reciente.
-2. Implementar cada uno en un commit claro que cierre el issue (`Cierra #N`).
+2. Implementar cada uno en un commit claro que cierre el issue con `Closes #N` (GitHub solo reconoce la palabra clave en inglés).
 3. Comentar en el issue qué se hizo, qué quedó pendiente y cómo probarlo.
 4. Si un pedido es ambiguo o contradice el ECO vigente, preguntar en el issue y no adivinar.
 
