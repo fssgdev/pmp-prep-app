@@ -18,7 +18,8 @@ Roles: **ChatGPT** supervisa y guía (issues con etiqueta `para-claude`); **Clau
 ## Reglas de contenido
 - Las preguntas son **originales**. No copiar texto del PMBOK, libros ni material del curso: el repositorio es público.
 - Cada pregunta: `id` único, `module`, `topicId` existente, `approach` (Predictivo/Ágil/Híbrido), `type` (single/multi), 4 `options`, `correct` (índices), `rationale` que explique por qué las otras fallan, `category` (Conceptual/Mentalidad/Lectura/Cálculo).
-- Referencia de dominios: ECO PMP 2026 (People 33 %, Process 41 %, Business Environment 26 %).
+- Referencia de dominios: ECO PMP julio 2026 (People 33 %, Process 41 %, Business Environment 26 %). Los `code` de los temas (1.1–3.8) son los números de tarea del ECO.
+- Estructura de estudio: curso PMI v4.1 (9 lecciones) en `data/lessons.json`. "4.1" es la versión del curso, no del ECO.
 
 ## Reglas técnicas
 - Sin frameworks ni paso de build: HTML/CSS/JS plano.

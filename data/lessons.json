@@ -1,0 +1,15 @@
+{
+  "course": "Curso de preparación PMP® de PMI dirigido por instructor · versión 4.1 (abril 2026)",
+  "eco": "ECO PMP julio 2026: People 33 %, Process 41 %, Business Environment 26 %",
+  "lessons": [
+    {"n": 1, "title": "Introducción", "focus": "Certificación PMP, estructura del examen y del curso.", "eco": []},
+    {"n": 2, "title": "Panorama general: dominios, ciclos de vida y gobernanza", "focus": "Principios, ciclos de vida, enfoques predictivo, adaptativo e híbrido; gobernanza y PMO.", "eco": ["3.1"]},
+    {"n": 3, "title": "Interesados, visión y comunicación", "focus": "Identificar y analizar interesados, visión compartida, expectativas y comunicación.", "eco": ["1.1", "1.4", "1.5", "1.6", "1.8"]},
+    {"n": 4, "title": "Equipo, conflicto y conocimiento", "focus": "Liderazgo, desarrollo del equipo, conflictos y transferencia de conocimiento.", "eco": ["1.2", "1.3", "1.7"]},
+    {"n": 5, "title": "Planificación básica: alcance, valor, recursos, finanzas y riesgo", "focus": "Requisitos, EDT, entrega de valor, cumplimiento, recursos, finanzas y riesgos.", "eco": ["2.2", "2.3", "2.4", "2.6", "3.2", "3.5"]},
+    {"n": 6, "title": "Planificación integrada: métodos, cronograma, calidad y adquisiciones", "focus": "Plan integrado, adaptación del enfoque, cronograma, calidad y adquisiciones.", "eco": ["2.1", "2.5", "2.7", "2.8"]},
+    {"n": 7, "title": "Ejecución, monitoreo, cambios e impedimentos", "focus": "Seguimiento del desempeño, tableros y burndown, control de cambios e incidentes.", "eco": ["2.9", "3.3", "3.4"]},
+    {"n": 8, "title": "Entorno empresarial, mejora continua y cierre", "focus": "PESTLE y VUCA, cambio organizacional, lecciones aprendidas y cierre.", "eco": ["2.10", "3.6", "3.7", "3.8"]},
+    {"n": 9, "title": "Próximos pasos: preparación para el examen", "focus": "Solicitud, programación y estrategia para el día del examen.", "eco": []}
+  ]
+}

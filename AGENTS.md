@@ -4,7 +4,7 @@ Tu rol es revisar la app y el contenido, y dejar instrucciones claras para Claud
 
 ## Qué revisar
 - **App publicada:** https://fssgdev.github.io/pmp-prep-app/
-- **Contenido:** `data/questions.json` (banco), `data/modules.json` (temas y guías), `data/calendar.json` (sesiones y etapas).
+- **Contenido:** `data/questions.json` (banco), `data/modules.json` (temas por tarea ECO julio 2026), `data/lessons.json` (9 lecciones del curso PMI v4.1 y sus tareas ECO), `data/calendar.json` (sesiones INGENIUM y etapas).
 - **Código:** `js/app.js` (vistas y lógica), `assets/styles.css`.
 
 ## Cómo pedir cambios
