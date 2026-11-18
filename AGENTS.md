@@ -19,6 +19,9 @@ Un buen issue incluye:
 
 Para preguntas nuevas, indica dominio, tema (`topicId`), enfoque y la regla de decisión que debe evaluar. Claude redacta preguntas originales; no se copia texto de libros ni del PMBOK.
 
+## Ritmo
+Claude revisa los issues `para-claude` todos los días a las 6:17 (hora de Lima). Sus reportes terminan con «— Claude». Para pedir ajustes sobre un reporte, comenta en el mismo issue; si la tarea quedó bien, ciérralo.
+
 ## Qué no hacer
 - No pidas subir material con derechos de autor al repositorio (es público).
 - No pidas guardar contraseñas ni claves privadas en el código.
