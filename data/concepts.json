@@ -1,70 +1,411 @@
 [
-{"id":"alcance-producto-proyecto","title":"Alcance del producto vs. alcance del proyecto","topicId":"process-2",
- "definition":"El [[alcance del producto]] son las [[características y funciones]] del resultado. El [[alcance del proyecto]] es el [[trabajo]] necesario para entregarlo. Un mismo contrato puede describir ambos, pero se gestionan por separado.",
- "example":"En un edificio de departamentos, 'losas para 250 kg/m², 40 departamentos y ascensor para 8 personas' es alcance del producto. Los planos, las licencias, las pruebas de resistencia del concreto y la capacitación del administrador son alcance del proyecto.",
- "cards":[{"id":"c-app-1","front":"¿Qué diferencia el alcance del producto del alcance del proyecto?","back":"Producto: características y funciones del resultado. Proyecto: el trabajo necesario para entregarlo."}]},
-{"id":"linea-base-alcance","title":"Línea base del alcance","topicId":"process-2",
- "definition":"Es la versión [[aprobada]] del alcance contra la que se mide el avance. Tiene tres componentes: [[enunciado del alcance]], [[EDT]] y [[diccionario de la EDT]]. Solo cambia mediante [[control de cambios]].",
- "example":"Al aprobar el proyecto de un colegio, se congela el enunciado (6 aulas, laboratorio y cerco), la EDT y su diccionario. Si luego el cliente pide un auditorio, no se 'agrega al Excel': se registra la solicitud, se evalúa y, si se aprueba, se actualiza la línea base.",
- "cards":[{"id":"c-lba-1","front":"¿Cuáles son los 3 componentes de la línea base del alcance?","back":"Enunciado del alcance aprobado + EDT + diccionario de la EDT."},{"id":"c-lba-2","front":"¿Cómo se modifica una línea base aprobada?","back":"Solo mediante el proceso de control de cambios acordado (registrar, evaluar el impacto, decidir con autoridad, actualizar y comunicar)."}]},
-{"id":"edt","title":"EDT (estructura de desglose del trabajo)","topicId":"process-2",
- "definition":"Es la [[descomposición jerárquica]] de todo el trabajo en [[entregables]] cada vez más pequeños, hasta llegar a los [[paquetes de trabajo]]. Debe cubrir el [[100 % del alcance]]: lo que no está en la EDT no forma parte del proyecto.",
- "example":"Edificio → Estructuras → Losa del piso 3 → paquete de trabajo 'Encofrado, acero y vaciado de la losa del piso 3'. Ese paquete se puede estimar, asignar a un responsable y controlar. El diccionario de la EDT detalla sus criterios de aceptación (f'c = 280 kg/cm², por ejemplo).",
- "cards":[{"id":"c-edt-1","front":"¿Cuál es el nivel más bajo de la EDT y para qué sirve?","back":"El paquete de trabajo: se puede estimar, asignar y controlar. Las actividades del cronograma se derivan de él."},{"id":"c-edt-2","front":"¿Qué es la regla del 100 % en la EDT?","back":"La EDT incluye todo el trabajo del alcance, y nada más: lo que no aparece en ella no forma parte del proyecto."}]},
-{"id":"dor-dod","title":"Definición de listo (DoR) y de terminado (DoD)","topicId":"process-2",
- "definition":"La [[DoR]] indica qué debe estar disponible para [[empezar]] un elemento. La [[DoD]] indica qué debe cumplirse para considerarlo [[terminado]] y utilizable. La DoD equivale a los [[criterios de aceptación]] del enfoque predictivo.",
- "example":"En la remodelación ágil de un hotel por habitaciones, una habitación está 'lista' si ya tiene los acabados elegidos, el material en obra y el permiso del administrador. Está 'terminada' si pasó la inspección de instalaciones, se limpió y el cliente la recibió conforme.",
- "cards":[{"id":"c-dor-1","front":"DoR vs. DoD: ¿cuál decide si se puede empezar y cuál si se puede entregar?","back":"DoR → se puede empezar. DoD → está terminado y se puede entregar."}]},
-{"id":"control-cambios","title":"Control integrado de cambios","topicId":"business-3",
- "definition":"Toda solicitud que afecte a una [[línea base]] se [[registra]], se [[analiza su impacto]] (alcance, cronograma, costo, riesgo, calidad), la decide quien tiene [[autoridad]] (por ejemplo, un comité de cambios) y, si se aprueba, se [[actualiza el plan]] y se [[comunica]]. La fuente de la solicitud no salta el proceso.",
- "example":"El gerente del cliente pide en obra cambiar el porcelanato por mármol. El residente no lo ordena de inmediato: registra la solicitud, calcula el sobrecosto y los días adicionales, y lo eleva al comité. Con la aprobación, actualiza el presupuesto y el cronograma y avisa a compras.",
- "cards":[{"id":"c-cc-1","front":"Ante un cambio que afecta la línea base, ¿cuál es el primer paso?","back":"Registrar la solicitud y analizar su impacto antes de decidir; no implementarla ni rechazarla sin análisis."},{"id":"c-cc-2","front":"¿El patrocinador puede saltarse el control de cambios?","back":"No. El origen de la solicitud no elimina la evaluación; el patrocinador participa decidiendo dentro del proceso."}]},
-{"id":"cambio-agil","title":"Cambio en enfoques ágiles: repriorizar el backlog","topicId":"agile-4",
- "definition":"En un enfoque adaptativo los cambios se [[esperan]]: el nuevo pedido entra al [[backlog]] y el [[dueño del producto]] lo [[prioriza por valor]]. Normalmente no se interrumpe la iteración en curso.",
- "example":"En el desarrollo de la app de reservas de áreas comunes de un condominio, los vecinos piden pagos en línea. La solicitud se agrega al backlog y el dueño del producto decide si entra en el próximo sprint frente a otras historias.",
- "cards":[{"id":"c-ca-1","front":"En ágil, ¿quién decide la prioridad de un cambio solicitado?","back":"El dueño del producto, que lo ordena en el backlog según su valor, normalmente para una próxima iteración."}]},
-{"id":"valor","title":"Valor del negocio","topicId":"process-3",
- "definition":"Es el [[beneficio neto]] (tangible o intangible) que se obtiene por encima de lo invertido. [[Entregable no es igual a valor]]: los entregables producen [[resultados]], los resultados generan [[beneficios]] y los beneficios crean valor.",
- "example":"Entregar el hospital a tiempo es un entregable. El valor está en atender más pacientes por día con menos tiempo de espera. Si el hospital cumple los planos pero el flujo de pacientes no funciona, el proyecto no entregó el valor esperado.",
- "cards":[{"id":"c-val-1","front":"Completa la cadena: entregables → ... → ... → valor","back":"Entregables → resultados → beneficios → valor."}]},
-{"id":"entrega-incremental","title":"Entrega incremental y MVP","topicId":"process-3",
- "definition":"Liberar el producto por [[partes funcionales]] permite [[capturar valor antes]], [[recibir retroalimentación]] y adelantar el [[retorno de la inversión]]. El [[MVP]] es la versión mínima que ya aporta valor y permite aprender.",
- "example":"Un condominio de 4 torres se entrega por torres: la torre 1 ya genera ventas y la experiencia de los primeros propietarios sirve para ajustar los acabados de las siguientes torres.",
- "cards":[{"id":"c-inc-1","front":"¿Cuál es la principal ventaja de la entrega incremental?","back":"Captura valor y retroalimentación antes, y adelanta el retorno; no garantiza un costo total menor."}]},
-{"id":"van-roi","title":"VAN, ROI y TIR","topicId":"process-3",
- "definition":"[[VAN > 0]]: los beneficios en valor presente superan los costos, así que se acepta. [[ROI > 0]]: hay ganancia sobre lo invertido. [[TIR > costo de capital]]: es aceptable. En el examen se [[interpretan]], no se calculan.",
- "example":"La inmobiliaria compara dos terrenos: el proyecto A tiene VAN de S/ 2 millones y el B, de −S/ 300 mil. Financieramente se prefiere A, aunque B tenga flujos positivos en algunos años.",
- "cards":[{"id":"c-van-1","front":"¿Cuándo es aceptable un proyecto según su VAN y según su TIR?","back":"VAN > 0. TIR mayor que el costo de capital."}]},
-{"id":"okr","title":"OKR: objetivos y resultados clave","topicId":"process-3",
- "definition":"El [[objetivo]] es cualitativo e inspirador. Los [[resultados clave]] (de 3 a 5) son [[medibles]] y tienen [[plazo]]. Miden resultados, [[no actividades]].",
- "example":"Objetivo: 'entregar departamentos sin observaciones'. KR: reducir las observaciones por departamento en la entrega de 12 a 4 antes de junio. 'Hacer 20 inspecciones' sería una actividad, no un resultado clave.",
- "cards":[{"id":"c-okr-1","front":"¿'Realizar 20 inspecciones de calidad' es un buen resultado clave?","back":"No: es una actividad. Un KR mide un resultado con cifra y plazo, como reducir las observaciones de 12 a 4 antes de junio."}]},
-{"id":"cumplimiento","title":"Cumplimiento (compliance)","topicId":"business-2",
- "definition":"Las obligaciones legales, normativas y de políticas internas se tratan como [[objetivo del proyecto]]. El equipo también [[responde]] por ellas, no solo la PMO. Un [[incumplimiento detectado]] es un [[problema actual]] que se corrige; el posible retraso que genere es un [[riesgo derivado]].",
- "example":"La supervisión detecta que las barandas instaladas no cumplen la altura del RNE. No es 'un riesgo a monitorear': es un incumplimiento que se evalúa y se corrige por el proceso acordado, y el atraso que pueda generar se registra como riesgo.",
- "cards":[{"id":"c-cum-1","front":"Un acabado instalado ya incumple la norma. ¿Riesgo o problema?","back":"Problema (incumplimiento detectado): evaluar el impacto y corregir por el proceso acordado. El retraso posible es un riesgo derivado."}]},
-{"id":"riesgo-incidente","title":"Riesgo vs. incidente (problema)","topicId":"business-4",
- "definition":"Un [[riesgo]] es un evento [[incierto y futuro]], que puede ser amenaza u oportunidad. Un [[incidente]] o problema [[ya ocurrió]] y se gestiona con acciones y responsable. Los riesgos van al registro de riesgos; los problemas, al [[registro de incidentes]].",
- "example":"'Podría llover en la semana del vaciado' es un riesgo. 'Llovió y se inundó la excavación' es un incidente: se asigna a un responsable para bombear el agua y se reprograma.",
- "cards":[{"id":"c-ri-1","front":"¿Cuál es la diferencia clave entre un riesgo y un incidente?","back":"El riesgo es incierto y futuro; el incidente ya ocurrió y requiere acción ahora."}]},
-{"id":"pv-ev-ac","title":"PV, EV y AC","topicId":"process-6",
- "definition":"[[PV]] (valor planificado) es lo que [[debía estar hecho]] a la fecha, en dinero. [[EV]] (valor ganado) es el [[valor del trabajo realmente hecho]]. [[AC]] (costo real) es lo que [[realmente se gastó]]. Los tres deben estar a la [[misma fecha de corte]].",
- "example":"A fin de mes debías haber vaciado 4 losas de S/ 50 mil cada una (PV = 200 mil). Vaciaste 3 (EV = 150 mil) y gastaste S/ 170 mil (AC). Comparar AC con PV no dice nada; lo que importa es contra EV.",
- "cards":[{"id":"c-pv-1","front":"Define en una frase PV, EV y AC.","back":"PV: lo que debía estar hecho. EV: el valor de lo realmente hecho. AC: lo que realmente se gastó."}]},
-{"id":"spi-cpi","title":"SPI y CPI","topicId":"process-6",
- "definition":"[[SPI = EV / PV]] mide el cronograma y [[CPI = EV / AC]] mide el costo. Ambos llevan [[EV en el numerador]]. [[Mayor que 1 es favorable]]; menor que 1, desfavorable.",
- "example":"Con EV = 150, PV = 200 y AC = 170: SPI = 0,75 (atraso) y CPI = 0,88 (cada sol gastado produjo 0,88 soles de avance).",
- "cards":[{"id":"c-spi-1","front":"Fórmulas de SPI y CPI","back":"SPI = EV / PV; CPI = EV / AC. EV siempre va en el numerador; mayor que 1 es favorable."},{"id":"c-spi-2","front":"SPI = 1,05 y CPI = 0,88. ¿Qué haces primero?","back":"Analizar la causa del sobrecosto (¿horas extra para adelantar?), actualizar el pronóstico y presentar opciones. Un adelanto puede ocultar un sobrecosto."}]},
-{"id":"cv-sv","title":"CV y SV","topicId":"process-6",
- "definition":"[[CV = EV − AC]] y [[SV = EV − PV]]. Ambas parten de EV. [[Negativo es desfavorable]]: sobrecosto o atraso.",
- "example":"EV = 300, AC = 340, PV = 320 → CV = −40 (sobrecosto de S/ 40 mil) y SV = −20 (atraso valorizado en S/ 20 mil).",
- "cards":[{"id":"c-cv-1","front":"Fórmulas de CV y SV, y su signo desfavorable","back":"CV = EV − AC; SV = EV − PV. Negativo es desfavorable."}]},
-{"id":"eac-etc-tcpi","title":"EAC, ETC y TCPI","topicId":"process-6",
- "definition":"Si la variación [[continuará]]: [[EAC = BAC / CPI]]. Si fue [[atípica]]: [[EAC = AC + (BAC − EV)]]. [[ETC = EAC − AC]] es lo que falta gastar. [[TCPI = (BAC − EV) / (BAC − AC)]] es la eficiencia necesaria para cumplir el BAC; si es [[mayor que 1]], hay que rendir mejor.",
- "example":"Presupuesto de la obra: BAC = 1 200. Con CPI = 0,93 por el alza sostenida del acero, EAC ≈ 1 290. Si el sobrecosto se debió a un único vaciado rechazado, se usa AC + (BAC − EV).",
- "cards":[{"id":"c-eac-1","front":"¿Cuándo usar EAC = BAC / CPI y cuándo EAC = AC + (BAC − EV)?","back":"BAC / CPI si la variación continuará (típica). AC + (BAC − EV) si fue atípica y el resto se hará según lo planificado."},{"id":"c-eac-2","front":"TCPI = 1,20. ¿Qué significa?","back":"El trabajo restante debe rendir 20 % mejor de lo planificado para terminar dentro del BAC."}]},
-{"id":"reservas","title":"Reserva de contingencia vs. reserva de gestión","topicId":"process-6",
- "definition":"La [[reserva de contingencia]] cubre [[riesgos identificados]] (los 'conocidos-desconocidos'), [[forma parte de la línea base]] de costos y la usa el director según el plan. La [[reserva de gestión]] cubre lo [[no identificado]], está [[fuera de la línea base]] y requiere [[aprobación de la dirección]].",
- "example":"Se previó que el estudio de suelos podría exigir pilotes: ese monto va en contingencia. Si aparece un hallazgo arqueológico imprevisto, se solicita reserva de gestión a la gerencia y, si se aprueba, se actualiza la línea base.",
- "cards":[{"id":"c-res-1","front":"Evento nunca identificado como riesgo: ¿qué reserva se usa y quién la aprueba?","back":"La reserva de gestión, que está fuera de la línea base y la aprueba la dirección. Luego se actualiza la línea base."}]}
+  {
+    "id": "alcance-producto-proyecto",
+    "title": "Alcance del producto vs. alcance del proyecto",
+    "topicId": "process-2",
+    "definition": "El [[alcance del producto]] son las [[características y funciones]] del resultado. El [[alcance del proyecto]] es el [[trabajo]] necesario para entregarlo. Un mismo contrato puede describir ambos, pero se gestionan por separado.",
+    "example": "En un edificio de departamentos, 'losas para 250 kg/m², 40 departamentos y ascensor para 8 personas' es alcance del producto. Los planos, las licencias, las pruebas de resistencia del concreto y la capacitación del administrador son alcance del proyecto.",
+    "cards": [
+      {
+        "id": "c-app-1",
+        "front": "¿Qué diferencia el alcance del producto del alcance del proyecto?",
+        "back": "Producto: características y funciones del resultado. Proyecto: el trabajo necesario para entregarlo."
+      }
+    ]
+  },
+  {
+    "id": "linea-base-alcance",
+    "title": "Línea base del alcance",
+    "topicId": "process-2",
+    "definition": "Es la versión [[aprobada]] del alcance contra la que se mide el avance. Tiene tres componentes: [[enunciado del alcance]], [[EDT]] y [[diccionario de la EDT]]. Solo cambia mediante [[control de cambios]].",
+    "example": "Al aprobar el proyecto de un colegio, se congela el enunciado (6 aulas, laboratorio y cerco), la EDT y su diccionario. Si luego el cliente pide un auditorio, no se 'agrega al Excel': se registra la solicitud, se evalúa y, si se aprueba, se actualiza la línea base.",
+    "cards": [
+      {
+        "id": "c-lba-1",
+        "front": "¿Cuáles son los 3 componentes de la línea base del alcance?",
+        "back": "Enunciado del alcance aprobado + EDT + diccionario de la EDT."
+      },
+      {
+        "id": "c-lba-2",
+        "front": "¿Cómo se modifica una línea base aprobada?",
+        "back": "Solo mediante el proceso de control de cambios acordado (registrar, evaluar el impacto, decidir con autoridad, actualizar y comunicar)."
+      }
+    ]
+  },
+  {
+    "id": "edt",
+    "title": "EDT (estructura de desglose del trabajo)",
+    "topicId": "process-2",
+    "definition": "Es la [[descomposición jerárquica]] de todo el trabajo en [[entregables]] cada vez más pequeños, hasta llegar a los [[paquetes de trabajo]]. Debe cubrir el [[100 % del alcance]]: lo que no está en la EDT no forma parte del proyecto.",
+    "example": "Edificio → Estructuras → Losa del piso 3 → paquete de trabajo 'Encofrado, acero y vaciado de la losa del piso 3'. Ese paquete se puede estimar, asignar a un responsable y controlar. El diccionario de la EDT detalla sus criterios de aceptación (f'c = 280 kg/cm², por ejemplo).",
+    "cards": [
+      {
+        "id": "c-edt-1",
+        "front": "¿Cuál es el nivel más bajo de la EDT y para qué sirve?",
+        "back": "El paquete de trabajo: se puede estimar, asignar y controlar. Las actividades del cronograma se derivan de él."
+      },
+      {
+        "id": "c-edt-2",
+        "front": "¿Qué es la regla del 100 % en la EDT?",
+        "back": "La EDT incluye todo el trabajo del alcance, y nada más: lo que no aparece en ella no forma parte del proyecto."
+      }
+    ]
+  },
+  {
+    "id": "dor-dod",
+    "title": "Definición de listo (DoR) y de terminado (DoD)",
+    "topicId": "process-2",
+    "definition": "La [[DoR]] indica qué debe estar disponible para [[empezar]] un elemento. La [[DoD]] indica qué debe cumplirse para considerarlo [[terminado]] y utilizable. La DoD equivale a los [[criterios de aceptación]] del enfoque predictivo.",
+    "example": "En la remodelación ágil de un hotel por habitaciones, una habitación está 'lista' si ya tiene los acabados elegidos, el material en obra y el permiso del administrador. Está 'terminada' si pasó la inspección de instalaciones, se limpió y el cliente la recibió conforme.",
+    "cards": [
+      {
+        "id": "c-dor-1",
+        "front": "DoR vs. DoD: ¿cuál decide si se puede empezar y cuál si se puede entregar?",
+        "back": "DoR → se puede empezar. DoD → está terminado y se puede entregar."
+      }
+    ]
+  },
+  {
+    "id": "control-cambios",
+    "title": "Control integrado de cambios",
+    "topicId": "business-3",
+    "definition": "Toda solicitud que afecte a una [[línea base]] se [[registra]], se [[analiza su impacto]] (alcance, cronograma, costo, riesgo, calidad), la decide quien tiene [[autoridad]] (por ejemplo, un comité de cambios) y, si se aprueba, se [[actualiza el plan]] y se [[comunica]]. La fuente de la solicitud no salta el proceso.",
+    "example": "El gerente del cliente pide en obra cambiar el porcelanato por mármol. El residente no lo ordena de inmediato: registra la solicitud, calcula el sobrecosto y los días adicionales, y lo eleva al comité. Con la aprobación, actualiza el presupuesto y el cronograma y avisa a compras.",
+    "cards": [
+      {
+        "id": "c-cc-1",
+        "front": "Ante un cambio que afecta la línea base, ¿cuál es el primer paso?",
+        "back": "Registrar la solicitud y analizar su impacto antes de decidir; no implementarla ni rechazarla sin análisis."
+      },
+      {
+        "id": "c-cc-2",
+        "front": "¿El patrocinador puede saltarse el control de cambios?",
+        "back": "No. El origen de la solicitud no elimina la evaluación; el patrocinador participa decidiendo dentro del proceso."
+      }
+    ]
+  },
+  {
+    "id": "cambio-agil",
+    "title": "Cambio en enfoques ágiles: repriorizar el backlog",
+    "topicId": "agile-4",
+    "definition": "En un enfoque adaptativo los cambios se [[esperan]]: el nuevo pedido entra al [[backlog]] y el [[dueño del producto]] lo [[prioriza por valor]]. Normalmente no se interrumpe la iteración en curso.",
+    "example": "En el desarrollo de la app de reservas de áreas comunes de un condominio, los vecinos piden pagos en línea. La solicitud se agrega al backlog y el dueño del producto decide si entra en el próximo sprint frente a otras historias.",
+    "cards": [
+      {
+        "id": "c-ca-1",
+        "front": "En ágil, ¿quién decide la prioridad de un cambio solicitado?",
+        "back": "El dueño del producto, que lo ordena en el backlog según su valor, normalmente para una próxima iteración."
+      }
+    ]
+  },
+  {
+    "id": "valor",
+    "title": "Valor del negocio",
+    "topicId": "process-3",
+    "definition": "Es el [[beneficio neto]] (tangible o intangible) que se obtiene por encima de lo invertido. [[Entregable no es igual a valor]]: los entregables producen [[resultados]], los resultados generan [[beneficios]] y los beneficios crean valor.",
+    "example": "Entregar el hospital a tiempo es un entregable. El valor está en atender más pacientes por día con menos tiempo de espera. Si el hospital cumple los planos pero el flujo de pacientes no funciona, el proyecto no entregó el valor esperado.",
+    "cards": [
+      {
+        "id": "c-val-1",
+        "front": "Completa la cadena: entregables → ... → ... → valor",
+        "back": "Entregables → resultados → beneficios → valor."
+      }
+    ]
+  },
+  {
+    "id": "entrega-incremental",
+    "title": "Entrega incremental y MVP",
+    "topicId": "process-3",
+    "definition": "Liberar el producto por [[partes funcionales]] permite [[capturar valor antes]], [[recibir retroalimentación]] y adelantar el [[retorno de la inversión]]. El [[MVP]] es la versión mínima que ya aporta valor y permite aprender.",
+    "example": "Un condominio de 4 torres se entrega por torres: la torre 1 ya genera ventas y la experiencia de los primeros propietarios sirve para ajustar los acabados de las siguientes torres.",
+    "cards": [
+      {
+        "id": "c-inc-1",
+        "front": "¿Cuál es la principal ventaja de la entrega incremental?",
+        "back": "Captura valor y retroalimentación antes, y adelanta el retorno; no garantiza un costo total menor."
+      }
+    ]
+  },
+  {
+    "id": "van-roi",
+    "title": "VAN, ROI y TIR",
+    "topicId": "process-3",
+    "definition": "[[VAN > 0]]: los beneficios en valor presente superan los costos, así que se acepta. [[ROI > 0]]: hay ganancia sobre lo invertido. [[TIR > costo de capital]]: es aceptable. En el examen se [[interpretan]], no se calculan.",
+    "example": "La inmobiliaria compara dos terrenos: el proyecto A tiene VAN de S/ 2 millones y el B, de −S/ 300 mil. Financieramente se prefiere A, aunque B tenga flujos positivos en algunos años.",
+    "cards": [
+      {
+        "id": "c-van-1",
+        "front": "¿Cuándo es aceptable un proyecto según su VAN y según su TIR?",
+        "back": "VAN > 0. TIR mayor que el costo de capital."
+      }
+    ]
+  },
+  {
+    "id": "okr",
+    "title": "OKR: objetivos y resultados clave",
+    "topicId": "process-3",
+    "definition": "El [[objetivo]] es cualitativo e inspirador. Los [[resultados clave]] (de 3 a 5) son [[medibles]] y tienen [[plazo]]. Miden resultados, [[no actividades]].",
+    "example": "Objetivo: 'entregar departamentos sin observaciones'. KR: reducir las observaciones por departamento en la entrega de 12 a 4 antes de junio. 'Hacer 20 inspecciones' sería una actividad, no un resultado clave.",
+    "cards": [
+      {
+        "id": "c-okr-1",
+        "front": "¿'Realizar 20 inspecciones de calidad' es un buen resultado clave?",
+        "back": "No: es una actividad. Un KR mide un resultado con cifra y plazo, como reducir las observaciones de 12 a 4 antes de junio."
+      }
+    ]
+  },
+  {
+    "id": "cumplimiento",
+    "title": "Cumplimiento (compliance)",
+    "topicId": "business-2",
+    "definition": "Las obligaciones legales, normativas y de políticas internas se tratan como [[objetivo del proyecto]]. El equipo también [[responde]] por ellas, no solo la PMO. Un [[incumplimiento detectado]] es un [[problema actual]] que se corrige; el posible retraso que genere es un [[riesgo derivado]].",
+    "example": "La supervisión detecta que las barandas instaladas no cumplen la altura del RNE. No es 'un riesgo a monitorear': es un incumplimiento que se evalúa y se corrige por el proceso acordado, y el atraso que pueda generar se registra como riesgo.",
+    "cards": [
+      {
+        "id": "c-cum-1",
+        "front": "Un acabado instalado ya incumple la norma. ¿Riesgo o problema?",
+        "back": "Problema (incumplimiento detectado): evaluar el impacto y corregir por el proceso acordado. El retraso posible es un riesgo derivado."
+      }
+    ]
+  },
+  {
+    "id": "riesgo-incidente",
+    "title": "Riesgo vs. incidente (problema)",
+    "topicId": "business-4",
+    "definition": "Un [[riesgo]] es un evento [[incierto y futuro]], que puede ser amenaza u oportunidad. Un [[incidente]] o problema [[ya ocurrió]] y se gestiona con acciones y responsable. Los riesgos van al registro de riesgos; los problemas, al [[registro de incidentes]].",
+    "example": "'Podría llover en la semana del vaciado' es un riesgo. 'Llovió y se inundó la excavación' es un incidente: se asigna a un responsable para bombear el agua y se reprograma.",
+    "cards": [
+      {
+        "id": "c-ri-1",
+        "front": "¿Cuál es la diferencia clave entre un riesgo y un incidente?",
+        "back": "El riesgo es incierto y futuro; el incidente ya ocurrió y requiere acción ahora."
+      }
+    ]
+  },
+  {
+    "id": "pv-ev-ac",
+    "title": "PV, EV y AC",
+    "topicId": "process-6",
+    "definition": "[[PV]] (valor planificado) es lo que [[debía estar hecho]] a la fecha, en dinero. [[EV]] (valor ganado) es el [[valor del trabajo realmente hecho]]. [[AC]] (costo real) es lo que [[realmente se gastó]]. Los tres deben estar a la [[misma fecha de corte]].",
+    "example": "A fin de mes debías haber vaciado 4 losas de S/ 50 mil cada una (PV = 200 mil). Vaciaste 3 (EV = 150 mil) y gastaste S/ 170 mil (AC). Comparar AC con PV no dice nada; lo que importa es contra EV.",
+    "cards": [
+      {
+        "id": "c-pv-1",
+        "front": "Define en una frase PV, EV y AC.",
+        "back": "PV: lo que debía estar hecho. EV: el valor de lo realmente hecho. AC: lo que realmente se gastó."
+      }
+    ]
+  },
+  {
+    "id": "spi-cpi",
+    "title": "SPI y CPI",
+    "topicId": "process-6",
+    "definition": "[[SPI = EV / PV]] mide el cronograma y [[CPI = EV / AC]] mide el costo. Ambos llevan [[EV en el numerador]]. [[Mayor que 1 es favorable]]; menor que 1, desfavorable.",
+    "example": "Con EV = 150, PV = 200 y AC = 170: SPI = 0,75 (atraso) y CPI = 0,88 (cada sol gastado produjo 0,88 soles de avance).",
+    "cards": [
+      {
+        "id": "c-spi-1",
+        "front": "Fórmulas de SPI y CPI",
+        "back": "SPI = EV / PV; CPI = EV / AC. EV siempre va en el numerador; mayor que 1 es favorable."
+      },
+      {
+        "id": "c-spi-2",
+        "front": "SPI = 1,05 y CPI = 0,88. ¿Qué haces primero?",
+        "back": "Analizar la causa del sobrecosto (¿horas extra para adelantar?), actualizar el pronóstico y presentar opciones. Un adelanto puede ocultar un sobrecosto."
+      }
+    ]
+  },
+  {
+    "id": "cv-sv",
+    "title": "CV y SV",
+    "topicId": "process-6",
+    "definition": "[[CV = EV − AC]] y [[SV = EV − PV]]. Ambas parten de EV. [[Negativo es desfavorable]]: sobrecosto o atraso.",
+    "example": "EV = 300, AC = 340, PV = 320 → CV = −40 (sobrecosto de S/ 40 mil) y SV = −20 (atraso valorizado en S/ 20 mil).",
+    "cards": [
+      {
+        "id": "c-cv-1",
+        "front": "Fórmulas de CV y SV, y su signo desfavorable",
+        "back": "CV = EV − AC; SV = EV − PV. Negativo es desfavorable."
+      }
+    ]
+  },
+  {
+    "id": "eac-etc-tcpi",
+    "title": "EAC, ETC y TCPI",
+    "topicId": "process-6",
+    "definition": "Si la variación [[continuará]]: [[EAC = BAC / CPI]]. Si fue [[atípica]]: [[EAC = AC + (BAC − EV)]]. [[ETC = EAC − AC]] es lo que falta gastar. [[TCPI = (BAC − EV) / (BAC − AC)]] es la eficiencia necesaria para cumplir el BAC; si es [[mayor que 1]], hay que rendir mejor.",
+    "example": "Presupuesto de la obra: BAC = 1 200. Con CPI = 0,93 por el alza sostenida del acero, EAC ≈ 1 290. Si el sobrecosto se debió a un único vaciado rechazado, se usa AC + (BAC − EV).",
+    "cards": [
+      {
+        "id": "c-eac-1",
+        "front": "¿Cuándo usar EAC = BAC / CPI y cuándo EAC = AC + (BAC − EV)?",
+        "back": "BAC / CPI si la variación continuará (típica). AC + (BAC − EV) si fue atípica y el resto se hará según lo planificado."
+      },
+      {
+        "id": "c-eac-2",
+        "front": "TCPI = 1,20. ¿Qué significa?",
+        "back": "El trabajo restante debe rendir 20 % mejor de lo planificado para terminar dentro del BAC."
+      }
+    ]
+  },
+  {
+    "id": "reservas",
+    "title": "Reserva de contingencia vs. reserva de gestión",
+    "topicId": "process-6",
+    "definition": "La [[reserva de contingencia]] cubre [[riesgos identificados]] (los 'conocidos-desconocidos'), [[forma parte de la línea base]] de costos y la usa el director según el plan. La [[reserva de gestión]] cubre lo [[no identificado]], está [[fuera de la línea base]] y requiere [[aprobación de la dirección]].",
+    "example": "Se previó que el estudio de suelos podría exigir pilotes: ese monto va en contingencia. Si aparece un hallazgo arqueológico imprevisto, se solicita reserva de gestión a la gerencia y, si se aprueba, se actualiza la línea base.",
+    "cards": [
+      {
+        "id": "c-res-1",
+        "front": "Evento nunca identificado como riesgo: ¿qué reserva se usa y quién la aprueba?",
+        "back": "La reserva de gestión, que está fuera de la línea base y la aprueba la dirección. Luego se actualiza la línea base."
+      }
+    ]
+  },
+  {
+    "id": "ruta-critica",
+    "title": "Ruta crítica y holgura",
+    "topicId": "process-8",
+    "definition": "La [[ruta crítica]] es la secuencia de actividades [[más larga]] de la red: define la [[duración mínima]] del proyecto. La [[holgura total]] es cuánto puede retrasarse una actividad [[sin mover la fecha de fin]]; en la ruta crítica es [[cero]].",
+    "example": "Estructura del edificio (10 semanas) en paralelo con el cerco perimétrico (3 semanas). La estructura es crítica: cada día de atraso mueve la entrega. El cerco tiene 7 semanas de holgura: puede esperar sin afectar la fecha de fin.",
+    "cards": [
+      {
+        "id": "c-rc-1",
+        "front": "¿Qué define la ruta crítica?",
+        "back": "La secuencia más larga de actividades: fija la duración mínima del proyecto. Su holgura es cero."
+      },
+      {
+        "id": "c-rc-2",
+        "front": "Una actividad con 5 días de holgura se retrasa 3. ¿Qué pasa con la fecha de fin?",
+        "back": "No cambia; la holgura baja a 2 días."
+      }
+    ]
+  },
+  {
+    "id": "compresion",
+    "title": "Intensificación vs. ejecución rápida",
+    "topicId": "process-8",
+    "definition": "La [[intensificación (crashing)]] agrega recursos a actividades [[críticas]] para acortarlas: [[sube el costo]]. La [[ejecución rápida (fast tracking)]] hace [[en paralelo]] actividades que iban en secuencia: [[sube el riesgo]] de retrabajo. Comprimir actividades no críticas no acorta el proyecto.",
+    "example": "Para entregar dos semanas antes: un segundo turno de vaciado es intensificación (más costo). Empezar los tabiques antes de terminar de desencofrar todos los pisos es ejecución rápida (riesgo de interferencias y retrabajo).",
+    "cards": [
+      {
+        "id": "c-cmp-1",
+        "front": "Crashing vs. fast tracking: ¿cuál sube el costo y cuál el riesgo?",
+        "back": "Crashing (más recursos): sube el costo. Fast tracking (en paralelo): sube el riesgo de retrabajo."
+      }
+    ]
+  },
+  {
+    "id": "tipos-contrato",
+    "title": "Tipos de contrato y riesgo",
+    "topicId": "process-5",
+    "definition": "En [[precio fijo]] el riesgo de costo lo asume sobre todo el [[proveedor]]; exige un [[alcance bien definido]]. En [[costos reembolsables]] el riesgo lo asume más el [[comprador]]; sirve para alcances [[inciertos]]. [[Tiempo y materiales]] es un híbrido para trabajos pequeños o de alcance abierto, idealmente con [[tope]].",
+    "example": "Un almacén con planos completos se contrata a precio fijo. La remediación de un suelo contaminado de extensión desconocida, a costo más honorario de incentivo. Las horas de un especialista para revisar planos, a tiempo y materiales con tope.",
+    "cards": [
+      {
+        "id": "c-con-1",
+        "front": "¿Quién asume más riesgo de costo en precio fijo y quién en costos reembolsables?",
+        "back": "Precio fijo: el proveedor. Costos reembolsables: el comprador."
+      },
+      {
+        "id": "c-con-2",
+        "front": "Alcance muy incierto y quieres incentivar al proveedor a ahorrar. ¿Qué contrato?",
+        "back": "Costo más honorario de incentivo (CPIF)."
+      }
+    ]
+  },
+  {
+    "id": "qa-qc",
+    "title": "Aseguramiento vs. control de la calidad",
+    "topicId": "process-7",
+    "definition": "El [[aseguramiento (QA)]] se enfoca en los [[procesos]]: verificar que se siguen y mejorarlos para [[prevenir]] defectos. El [[control (QC)]] se enfoca en los [[entregables]]: inspeccionar y medir para [[detectar]] no conformidades.",
+    "example": "Auditar que el procedimiento de vaciado se cumple y ajustarlo es QA. Romper probetas a los 28 días, medir el slump o rechazar un lote de fierro es QC.",
+    "cards": [
+      {
+        "id": "c-qa-1",
+        "front": "QA vs. QC: ¿cuál previene y cuál detecta?",
+        "back": "QA (procesos) previene. QC (entregables) detecta."
+      }
+    ]
+  },
+  {
+    "id": "costo-calidad",
+    "title": "Costo de la calidad",
+    "topicId": "process-7",
+    "definition": "[[Costo de conformidad]]: [[prevención]] (capacitación, procedimientos, pruebas piloto) y [[evaluación]] (inspecciones y ensayos). [[Costo de no conformidad]]: [[fallas internas]] (retrabajo antes de entregar) y [[fallas externas]] (reclamos y garantías después de entregar). Invertir en prevención suele reducir el costo total.",
+    "example": "Capacitar a la cuadrilla en impermeabilización es prevención; probar estanqueidad es evaluación; rehacer un techo antes de entregarlo es falla interna; atender la filtración que reclama el propietario es falla externa.",
+    "cards": [
+      {
+        "id": "c-cq-1",
+        "front": "Clasifica: capacitar a la cuadrilla antes de impermeabilizar",
+        "back": "Costo de prevención (conformidad)."
+      },
+      {
+        "id": "c-cq-2",
+        "front": "Clasifica: reparar una filtración reclamada por el propietario tras la entrega",
+        "back": "Costo de falla externa (no conformidad)."
+      }
+    ]
+  },
+  {
+    "id": "respuestas-riesgo",
+    "title": "Estrategias de respuesta a riesgos",
+    "topicId": "business-5",
+    "definition": "Amenazas: [[evitar]] (cambiar el plan para eliminarla), [[mitigar]] (reducir probabilidad o impacto), [[transferir]] (pasar el impacto a un tercero), [[aceptar]] (asumirla, con reserva si es activa) y [[escalar]] (si excede la autoridad). Oportunidades: [[explotar]] (asegurar que ocurra), [[mejorar]], [[compartir]], aceptar y escalar.",
+    "example": "Seguro todo riesgo: transferir. Hacer estudios de suelos adicionales: mitigar. Rediseñar para no excavar junto al edificio vecino: evitar. Asignar las mejores cuadrillas para ganar un bono por entrega anticipada: explotar.",
+    "cards": [
+      {
+        "id": "c-rr-1",
+        "front": "Contratar un seguro: ¿qué respuesta es?",
+        "back": "Transferir (el impacto financiero pasa a un tercero)."
+      },
+      {
+        "id": "c-rr-2",
+        "front": "Explotar vs. mejorar una oportunidad",
+        "back": "Explotar asegura que ocurra (los mejores recursos); mejorar solo aumenta su probabilidad o impacto."
+      }
+    ]
+  },
+  {
+    "id": "emv",
+    "title": "Valor monetario esperado (EMV)",
+    "topicId": "business-5",
+    "definition": "[[EMV = probabilidad × impacto]]. Las amenazas tienen EMV [[negativo]] y las oportunidades, [[positivo]]. Sumar los EMV de los riesgos ayuda a dimensionar la [[reserva de contingencia]].",
+    "example": "Hay 30 % de probabilidad de cambiar la cimentación por S/ 50 000: EMV = −S/ 15 000. Hay 20 % de probabilidad de un descuento de S/ 20 000 por compra anticipada: EMV = +S/ 4 000.",
+    "cards": [
+      {
+        "id": "c-emv-1",
+        "front": "30 % de probabilidad, impacto −S/ 50 000. ¿EMV?",
+        "back": "−S/ 15 000 (0,30 × −50 000)."
+      }
+    ]
+  },
+  {
+    "id": "pestle-vuca",
+    "title": "PESTLE y VUCA",
+    "topicId": "business-8",
+    "definition": "[[PESTLE]] analiza el entorno externo en seis factores: [[político, económico, social, tecnológico, legal y ambiental]]. [[VUCA]] describe un entorno [[volátil, incierto, complejo y ambiguo]]; en él conviene [[planificar por ciclos cortos]] y validar con frecuencia.",
+    "example": "Una nueva ordenanza de alturas (legal), el alza del acero (económico) o una paralización vecinal (social) son factores PESTLE. Un mercado inmobiliario donde la demanda cambia cada trimestre es un entorno VUCA: conviene definir la tipología por etapas de venta.",
+    "cards": [
+      {
+        "id": "c-pes-1",
+        "front": "¿Qué significan las letras de PESTLE?",
+        "back": "Político, Económico, Social, Tecnológico, Legal y Ambiental (Environmental)."
+      }
+    ]
+  },
+  {
+    "id": "gobernanza",
+    "title": "Gobernanza y umbrales de autoridad",
+    "topicId": "business-1",
+    "definition": "La [[gobernanza]] define [[quién decide]], [[cómo se reporta]] y qué [[umbrales]] requieren [[escalamiento]]. El director decide dentro de su autoridad; si la excede, [[escala con análisis y opciones]]. No se [[fraccionan gastos]] para evitar umbrales.",
+    "example": "El residente puede aprobar adicionales de hasta S/ 20 000; por encima decide el comité directivo. Ante un adicional de S/ 35 000, presenta el análisis y las alternativas al comité en lugar de dividirlo en dos órdenes.",
+    "cards": [
+      {
+        "id": "c-gob-1",
+        "front": "Una decisión supera tu umbral de autoridad. ¿Qué haces?",
+        "back": "Escalar a quien tiene la autoridad, con análisis, opciones e impacto. Nunca fraccionar el gasto."
+      }
+    ]
+  }
 ]

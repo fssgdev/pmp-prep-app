@@ -1655,5 +1655,661 @@
       1
     ],
     "rationale": "SPI < 1 indica avance menor al planificado; CPI > 1, que el trabajo hecho costó menos de lo que vale; CV < 0, sobrecosto; TCPI > 1, que el resto del trabajo debe ser más eficiente. Ningún indicador por sí solo garantiza terminar antes: un SPI favorable a la fecha no asegura la fecha de fin."
+  },
+  {
+    "id": "process-l6-proc-001",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Se contratará la remediación de un suelo contaminado cuya extensión real solo se conocerá al excavar. El comprador quiere que el proveedor tenga un incentivo para controlar costos. ¿Qué tipo de contrato conviene evaluar?",
+    "options": [
+      "Precio fijo cerrado, para trasladar todo el riesgo al proveedor.",
+      "Costo más honorario de incentivo, con metas de costo compartidas.",
+      "Tiempo y materiales sin tope, porque el alcance es incierto.",
+      "Precio fijo con ajuste económico de precios."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Con un alcance muy incierto, un precio fijo obligaría al proveedor a sobrecotizar o lo llevaría a reclamaciones. El costo más honorario de incentivo reembolsa los costos reales y premia al proveedor si los reduce. Tiempo y materiales sin tope no incentiva la eficiencia, y el ajuste económico cubre la variación de precios de insumos, no la incertidumbre del alcance."
+  },
+  {
+    "id": "process-l6-proc-002",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "En un contrato de precio fijo cerrado para la construcción de un almacén con planos completos, ¿quién asume principalmente el riesgo de que los costos superen lo previsto?",
+    "options": [
+      "El comprador, porque paga el contrato.",
+      "Ambos por igual, según la cláusula de penalidades.",
+      "El proveedor, porque cobra el precio pactado aunque sus costos suban.",
+      "La supervisión de obra."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "En precio fijo, el proveedor recibe el monto acordado; si sus costos aumentan, la diferencia sale de su margen. Por eso exige un alcance bien definido. El comprador asume más riesgo de costo en los contratos de costos reembolsables, y las penalidades no reparten el riesgo de costo."
+  },
+  {
+    "id": "process-l6-proc-003",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El proveedor de ventanas ha incumplido dos entregas parciales y eso empieza a afectar los acabados. ¿Qué debe hacer primero el director del proyecto?",
+    "options": [
+      "Revisar los términos del contrato y los registros de desempeño, y comunicar formalmente el incumplimiento al proveedor para acordar acciones.",
+      "Rescindir el contrato y buscar otro proveedor.",
+      "Retener los pagos pendientes sin notificar al proveedor.",
+      "Comprar ventanas a otro proveedor de manera informal para no detener la obra."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La relación se gestiona según el contrato: hay que verificar las obligaciones, documentar el desempeño y notificar formalmente para acordar acciones correctivas. Rescindir, retener pagos o comprar por fuera son medidas que pueden corresponder después, pero hacerlo sin seguir el contrato expone al proyecto a reclamaciones."
+  },
+  {
+    "id": "process-l6-proc-004",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la licitación del sistema de climatización, la oferta más barata no acredita la experiencia mínima exigida en las bases. El patrocinador sugiere adjudicarla por precio. ¿Qué corresponde?",
+    "options": [
+      "Adjudicar al más barato, porque el precio es el factor decisivo.",
+      "Negociar en privado con el más barato para que complete la experiencia después.",
+      "Cambiar las bases para eliminar el requisito de experiencia.",
+      "Aplicar los criterios de selección publicados y explicar al patrocinador por qué la oferta no califica."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "La selección debe seguir los criterios definidos y comunicados a todos los postores; es un tema de transparencia y equidad. Cambiar las bases a mitad del proceso o negociar en privado vulnera la equidad, y el precio por sí solo no compensa incumplir un requisito obligatorio."
+  },
+  {
+    "id": "process-l6-qual-001",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "¿Cuál de estas actividades corresponde al aseguramiento de la calidad (QA) y no al control de la calidad (QC)?",
+    "options": [
+      "Ensayar probetas de concreto a los 28 días.",
+      "Auditar si el procedimiento de vaciado se está aplicando como fue aprobado.",
+      "Rechazar un lote de fierro con certificado vencido.",
+      "Medir el asentamiento (slump) en cada mixer."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "QA se enfoca en los procesos: verificar que se siguen y mejorarlos para prevenir defectos. QC inspecciona y mide los entregables para detectar no conformidades, como los ensayos, el rechazo de lotes o la medición del slump."
+  },
+  {
+    "id": "process-l6-qual-002",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Antes de impermeabilizar los techos, se capacita a la cuadrilla en el procedimiento y se valida un tramo de prueba. ¿En qué categoría del costo de la calidad se ubica este gasto?",
+    "options": [
+      "Costo de falla interna.",
+      "Costo de evaluación.",
+      "Costo de prevención.",
+      "Costo de falla externa."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Capacitar y validar el método antes de ejecutar evita defectos: es un costo de prevención, parte del costo de conformidad. La evaluación incluye inspecciones y ensayos; las fallas internas son retrabajos detectados antes de entregar, y las externas, reclamos después de entregar."
+  },
+  {
+    "id": "process-l6-qual-003",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "La postventa registró 240 observaciones de 15 tipos distintos en los departamentos entregados. El equipo quiere concentrarse en los pocos tipos que explican la mayoría. ¿Qué herramienta es la más adecuada?",
+    "options": [
+      "Diagrama de dispersión.",
+      "Diagrama de control.",
+      "Histograma de frecuencias por día.",
+      "Diagrama de Pareto."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "El diagrama de Pareto ordena las categorías de mayor a menor frecuencia y muestra el porcentaje acumulado, lo que permite identificar el 'pocos vitales'. La dispersión relaciona dos variables, el diagrama de control vigila la estabilidad de un proceso en el tiempo y un histograma por día no prioriza por tipo."
+  },
+  {
+    "id": "process-l6-qual-004",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "En el diagrama de control de la resistencia del concreto, los últimos siete resultados están por debajo de la media, aunque todos dentro de los límites de control. ¿Qué indica?",
+    "options": [
+      "Una posible causa especial: el proceso podría estar fuera de control y conviene investigar.",
+      "El proceso está bajo control porque ningún punto cruza los límites.",
+      "Hay que recalcular los límites con esos siete datos.",
+      "Todos los vaciados deben demolerse de inmediato."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Según la 'regla de siete', siete puntos consecutivos del mismo lado de la media sugieren una tendencia no aleatoria, aunque no se crucen los límites: hay que investigar la causa. Recalcular los límites ocultaría el problema y demoler sin analizar es desproporcionado, porque los resultados siguen dentro de los límites."
+  },
+  {
+    "id": "process-l6-sch-001",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Red de actividades (en semanas): A (3) precede a B (4) y a C (6); B y C preceden a D (2). ¿Cuál es la duración del proyecto y la holgura total de B?",
+    "options": [
+      "9 semanas y holgura de B = 2.",
+      "15 semanas y holgura de B = 4.",
+      "11 semanas y holgura de B = 2.",
+      "11 semanas y holgura de B = 0."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Rutas: A-B-D = 3 + 4 + 2 = 9 y A-C-D = 3 + 6 + 2 = 11. La ruta crítica es A-C-D (11 semanas). B puede retrasarse 11 − 9 = 2 semanas sin mover el fin. 9 es la ruta más corta, 15 suma todas las actividades como si fueran secuenciales y B no está en la ruta crítica, así que su holgura no es 0."
+  },
+  {
+    "id": "process-l6-sch-002",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El cliente necesita la obra dos semanas antes. Hay presupuesto adicional disponible, pero no se acepta el riesgo de retrabajo de ejecutar en paralelo actividades dependientes. ¿Qué técnica conviene?",
+    "options": [
+      "Ejecución rápida (fast tracking) de las actividades críticas.",
+      "Intensificación (crashing) de las actividades críticas, empezando por la de menor costo por día ganado.",
+      "Agregar recursos a todas las actividades por igual.",
+      "Intensificar las actividades con mayor holgura."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La intensificación agrega recursos para acortar actividades críticas, a cambio de más costo, y conviene empezar por la de menor costo marginal. La ejecución rápida solapa actividades y eleva el riesgo de retrabajo, que aquí no se acepta. Acortar actividades con holgura no reduce la duración del proyecto."
+  },
+  {
+    "id": "process-l6-sch-003",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "La instalación del cerco perimétrico tiene una holgura total de 5 días y se retrasa 3 días. Las demás actividades avanzan según lo planificado. ¿Qué efecto tiene en el proyecto?",
+    "options": [
+      "La fecha de fin se retrasa 3 días.",
+      "La actividad pasa a la ruta crítica y la fecha se retrasa 2 días.",
+      "No afecta la fecha de fin; su holgura se reduce a 2 días.",
+      "Hay que intensificar de inmediato otra actividad para compensar."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Mientras el retraso sea menor que la holgura total, la fecha de fin no cambia; solo se consume holgura (5 − 3 = 2 días). La actividad aún no es crítica y no hace falta comprimir otras actividades, aunque conviene vigilarla."
+  },
+  {
+    "id": "process-l6-sch-004",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Para la app de postventa, el backlog restante suma 120 puntos de historia. La velocidad promedio del equipo es de 20 puntos por sprint, y cada sprint dura 2 semanas. ¿Cuál es el pronóstico de tiempo restante?",
+    "options": [
+      "Unas 12 semanas (6 sprints).",
+      "Unas 6 semanas.",
+      "Unas 24 semanas.",
+      "No se puede pronosticar en ágil."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "120 / 20 = 6 sprints, y 6 × 2 semanas = 12 semanas. Responder 6 semanas confunde sprints con semanas, y 24 duplica el cálculo. La velocidad sí sirve para pronosticar dentro del mismo equipo, aunque no para comparar equipos."
+  },
+  {
+    "id": "process-l6-sch-005",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada técnica de cronograma con su descripción.",
+    "items": [
+      "Intensificación (crashing)",
+      "Ejecución rápida (fast tracking)",
+      "Nivelación de recursos",
+      "Suavizado de recursos"
+    ],
+    "options": [
+      "Resolver sobreasignaciones aunque pueda extender la fecha de fin.",
+      "Agregar recursos a actividades críticas para acortarlas, con mayor costo.",
+      "Ajustar el uso de recursos solo dentro de la holgura disponible.",
+      "Eliminar actividades del alcance para terminar antes.",
+      "Hacer en paralelo actividades que iban en secuencia, con mayor riesgo."
+    ],
+    "correct": [
+      1,
+      4,
+      0,
+      2
+    ],
+    "rationale": "La intensificación agrega recursos y eleva el costo; la ejecución rápida solapa actividades y aumenta el riesgo. La nivelación resuelve sobreasignaciones y puede mover la fecha de fin, mientras que el suavizado no supera la holgura. Eliminar actividades es un cambio de alcance, no una técnica de cronograma."
+  },
+  {
+    "id": "business-be-gov-001",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "En un proyecto híbrido (obra predictiva y software ágil), se propone aumentar el presupuesto total aprobado. ¿Quién debería tomar esa decisión?",
+    "options": [
+      "El dueño del producto, porque prioriza el backlog.",
+      "El equipo de desarrollo por consenso.",
+      "El director del proyecto, porque conoce mejor los costos.",
+      "El órgano de gobernanza que la estructura del proyecto define para ese umbral, por ejemplo el comité directivo o el patrocinador."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Los cambios que superan la autoridad delegada los decide quien la gobernanza define para ese umbral. El dueño del producto prioriza el valor dentro del presupuesto, no lo aumenta; el director prepara el análisis y las opciones, y el equipo no tiene esa autoridad."
+  },
+  {
+    "id": "business-be-gov-002",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "La PMO de la inmobiliaria exige plantillas, revisiones de fase y auditorías de cumplimiento, pero no dirige los proyectos. ¿Qué tipo de PMO es?",
+    "options": [
+      "De apoyo: ofrece plantillas y buenas prácticas, con bajo control.",
+      "Controladora: exige cumplimiento de metodología y estándares, con control moderado.",
+      "Directiva: gestiona los proyectos directamente, con alto control.",
+      "Ágil: reemplaza a los dueños de producto."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La PMO controladora exige el cumplimiento de plantillas, procesos y revisiones (control moderado). La de apoyo sugiere sin exigir; la directiva asume la dirección de los proyectos. 'PMO ágil' no reemplaza a los dueños de producto."
+  },
+  {
+    "id": "business-be-gov-003",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Durante la evaluación de ofertas, uno de los postores invita al director del proyecto a un viaje 'sin compromiso'. ¿Qué debe hacer?",
+    "options": [
+      "Aceptar, ya que no influirá en su evaluación.",
+      "Aceptar y revelarlo al cierre del proyecto.",
+      "Rechazar la invitación, declarar la situación según la política de la organización y mantener la imparcialidad del proceso.",
+      "Excluir a ese postor de la licitación sin informar a nadie."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Aceptar crearía un conflicto de intereses, real o aparente; lo correcto es rechazarla y declararla según la política y el código de ética. Revelarlo al final no corrige el conflicto, y excluir al postor sin un proceso transparente también vulnera la equidad."
+  },
+  {
+    "id": "business-be-chg-001",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "En la revisión de un incremento, los futuros usuarios piden dos cosas: mover una columna del lobby, que forma parte de la estructura aprobada, y añadir una función de reserva de áreas comunes a la app. ¿Cómo se gestionan?",
+    "options": [
+      "Ambas se agregan al backlog y el dueño del producto decide.",
+      "La columna va al control de cambios de la parte predictiva; la función de la app entra al backlog para que el dueño del producto la priorice.",
+      "Ambas pasan por el comité de cambios, porque el proyecto es uno solo.",
+      "Se rechazan ambas, porque el alcance ya fue aprobado."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "En un proyecto híbrido, cada componente usa su mecanismo: la estructura tiene línea base y requiere control formal de cambios; el software adaptativo absorbe cambios mediante la priorización del backlog. Un mecanismo único para todo ignora la naturaleza de cada parte, y rechazar sin análisis no gestiona el cambio."
+  },
+  {
+    "id": "business-be-chg-002",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "El comité aprobó cambiar el tipo de fachada. ¿Qué corresponde antes de ejecutar el cambio?",
+    "options": [
+      "Ejecutar de inmediato, porque ya está aprobado.",
+      "Someterlo a votación del equipo.",
+      "Archivar la solicitud aprobada en el expediente.",
+      "Actualizar el plan y las líneas base afectadas y comunicar la decisión a los interesados."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Tras la aprobación se actualizan el plan, las líneas base y los documentos afectados, y se comunica a quienes ejecutarán y a los interesados; luego se implementa y se verifica. Ejecutar sin actualizar deja el plan desfasado; archivar no basta y el equipo no tiene autoridad para votar un cambio aprobado."
+  },
+  {
+    "id": "business-be-chg-003",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un ingeniero de la contratista instaló por iniciativa propia un sistema de iluminación más sofisticado del especificado, 'para dar valor agregado al cliente'. ¿Qué debe hacer el director?",
+    "options": [
+      "Felicitarlo, porque mejora el producto sin costo para el cliente.",
+      "Analizar el impacto, tratarlo por el control de cambios y reforzar con el equipo que no se agregan elementos no aprobados.",
+      "Ordenar retirarlo de inmediato sin evaluar el impacto.",
+      "Ocultarlo en el informe de avance para evitar discusiones."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Agregar trabajo no aprobado (gold plating) introduce riesgos, costos y expectativas no acordadas. Se analiza el impacto, se decide por el proceso de cambios y se refuerza la práctica con el equipo. Felicitarlo normaliza el problema, retirarlo sin análisis puede generar más costo y ocultarlo afecta la transparencia."
+  },
+  {
+    "id": "business-be-iss-001",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "Hoy un inspector municipal paralizó la excavación por falta de un permiso de la vía pública. ¿Dónde se registra principalmente y cómo se gestiona?",
+    "options": [
+      "En el registro de riesgos, con probabilidad alta.",
+      "En el registro de lecciones aprendidas, para el cierre.",
+      "En el registro de incidentes, con un responsable, acciones y fecha de solución.",
+      "En el acta de constitución."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La paralización ya ocurrió: es un incidente que se registra con responsable, acciones y seguimiento. El registro de riesgos sirve para eventos inciertos; las lecciones se recogen durante todo el proyecto, pero no reemplazan la gestión del problema actual."
+  },
+  {
+    "id": "business-be-iss-002",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El equipo que desarrolla el tablero de control de obra lleva tres días bloqueado esperando que el área de TI le dé acceso a la base de datos. ¿Qué debería hacer el líder del equipo?",
+    "options": [
+      "Pedir al equipo que resuelva el acceso por su cuenta.",
+      "Esperar a la retrospectiva para registrar el problema.",
+      "Agregar 'obtener acceso' como historia al final del backlog.",
+      "Coordinar con TI para eliminar el impedimento y escalar si no se resuelve en el plazo acordado."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Eliminar impedimentos es una función central del líder de servicio. Esperar a la retrospectiva o mandar el bloqueo al final del backlog prolonga la pérdida de flujo, y dejarlo al equipo ignora que el problema requiere coordinación con otra área."
+  },
+  {
+    "id": "business-be-iss-003",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Para resolver un incidente con la red de agua se necesita un gasto que supera el monto que el director puede aprobar. ¿Qué es lo más adecuado?",
+    "options": [
+      "Aprobar el gasto para no demorar la obra y explicarlo después.",
+      "Dividir el gasto en órdenes menores para no superar el límite.",
+      "Escalar a quien tiene autoridad, con el análisis del incidente, las opciones y su impacto.",
+      "Esperar a que el patrocinador lo note en el informe mensual."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Cuando la solución excede la autoridad delegada, se escala con información para una decisión oportuna. Aprobar por encima del límite o fraccionar el gasto vulnera la gobernanza, y esperar al informe retrasa una decisión necesaria."
+  },
+  {
+    "id": "business-be-risk-001",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "La constructora contrata un seguro todo riesgo de construcción y montaje. ¿Qué estrategia de respuesta a la amenaza representa?",
+    "options": [
+      "Evitar.",
+      "Mitigar.",
+      "Aceptar activamente.",
+      "Transferir."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Un seguro traslada a un tercero el impacto financiero del riesgo, aunque no elimina el evento: es transferir. Evitar cambia el plan para eliminar la amenaza, mitigar reduce su probabilidad o impacto, y aceptar activamente reserva fondos o tiempo para cuando ocurra."
+  },
+  {
+    "id": "business-be-risk-002",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "El contrato da un bono si la obra termina un mes antes. Para asegurar esa oportunidad, el director asigna a sus mejores cuadrillas y un turno adicional. ¿Qué estrategia aplica?",
+    "options": [
+      "Mejorar.",
+      "Compartir.",
+      "Explotar.",
+      "Aceptar."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Explotar busca que la oportunidad ocurra con certeza, asignando los mejores recursos. Mejorar solo aumenta su probabilidad o impacto, compartir la asigna a un tercero mejor posicionado y aceptar es aprovecharla si ocurre, sin acciones."
+  },
+  {
+    "id": "business-be-risk-003",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Se activa la señal de un riesgo identificado: el proveedor de ascensores anuncia un retraso de importación. Existe un plan de contingencia documentado con su responsable. ¿Qué debe ocurrir?",
+    "options": [
+      "Que el responsable del riesgo ejecute la respuesta planificada y se informe su efecto.",
+      "Convocar a todos los interesados para replanificar desde cero.",
+      "Esperar a confirmar el retraso real antes de actuar.",
+      "Registrar un nuevo riesgo con el mismo nombre."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Cuando se cumple el disparador, el responsable implementa la respuesta acordada y se monitorea su efectividad. Replanificar desde cero desaprovecha la planificación hecha, esperar puede hacer perder el margen que da la contingencia y duplicar el registro no aporta nada."
+  },
+  {
+    "id": "business-be-risk-004",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "El equipo identificó 45 riesgos en el taller inicial y necesita priorizarlos rápidamente para decidir en cuáles enfocarse. ¿Qué herramienta es la más adecuada en este momento?",
+    "options": [
+      "Simulación de Monte Carlo del cronograma.",
+      "Matriz de probabilidad e impacto.",
+      "Análisis de valor ganado.",
+      "Diagrama de Gantt."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El análisis cualitativo con matriz de probabilidad e impacto ordena muchos riesgos de forma rápida. Monte Carlo es cuantitativo y se reserva para los riesgos priorizados o el análisis global; el valor ganado y el Gantt no evalúan riesgos."
+  },
+  {
+    "id": "business-be-risk-005",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Existe un 30 % de probabilidad de que el estudio de suelos obligue a cambiar la cimentación, con un impacto estimado de S/ 50 000. ¿Cuál es el valor monetario esperado (EMV) de este riesgo?",
+    "options": [
+      "−S/ 35 000.",
+      "−S/ 50 000.",
+      "−S/ 15 000.",
+      "−S/ 1 500."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "EMV = probabilidad × impacto = 0,30 × (−50 000) = −15 000. −50 000 ignora la probabilidad, −35 000 resta en lugar de multiplicar y −1 500 tiene un error de decimales."
+  },
+  {
+    "id": "business-be-imp-001",
+    "module": "business",
+    "topicId": "business-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "¿Cuándo conviene recoger y aplicar las lecciones aprendidas?",
+    "options": [
+      "Durante todo el proyecto, para aplicarlas en las siguientes fases o iteraciones y en otros proyectos.",
+      "Solo al cierre, cuando el equipo tiene la visión completa.",
+      "Únicamente cuando el proyecto fracasa.",
+      "Solo si el patrocinador lo solicita."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Las lecciones se capturan de forma continua para mejorar mientras el proyecto avanza y alimentar los activos de la organización. Esperar al cierre hace que se pierdan detalles y beneficios, y limitarlas a los fracasos ignora lo que sí funcionó."
+  },
+  {
+    "id": "business-be-imp-002",
+    "module": "business",
+    "topicId": "business-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un nuevo sistema de encofrado se probó en el piso 3 y redujo un 20 % el tiempo del ciclo de losa, sin problemas de calidad. Siguiendo el ciclo PDCA, ¿cuál es el siguiente paso?",
+    "options": [
+      "Volver a planificar desde cero otro piloto.",
+      "Estandarizar el método: actualizar el procedimiento, capacitar a las cuadrillas y seguir midiendo.",
+      "Esperar a terminar el edificio para decidir.",
+      "Aplicarlo solo cuando el residente lo considere."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "En PDCA, tras Planificar, Hacer y Verificar con resultados positivos viene Actuar: estandarizar e institucionalizar la mejora y seguir midiendo. Repetir el piloto o esperar desaprovecha el aprendizaje, y dejarlo a criterio individual impide la estandarización."
+  },
+  {
+    "id": "business-be-oc-001",
+    "module": "business",
+    "topicId": "business-7",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "La empresa implementa una plataforma digital de control de calidad en obra, pero varios supervisores siguen usando formatos en papel. ¿Qué acción favorece mejor la adopción?",
+    "options": [
+      "Emitir un memorando que prohíba el papel desde mañana.",
+      "Reemplazar a los supervisores que no se adapten.",
+      "Postergar la implementación hasta el próximo proyecto.",
+      "Entender sus barreras, involucrar a supervisores referentes y ofrecer capacitación práctica y acompañamiento."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "La adopción se sostiene entendiendo la resistencia y acompañando el cambio con participación, formación y apoyo. Imponerlo o reemplazar personas genera rechazo, y postergar no resuelve la necesidad de cambio."
+  },
+  {
+    "id": "business-be-oc-002",
+    "module": "business",
+    "topicId": "business-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Antes de desplegar en todas las obras una nueva metodología de planificación, la gerencia quiere anticipar dónde habrá dificultades. ¿Qué conviene hacer?",
+    "options": [
+      "Desplegarla de golpe y corregir en el camino.",
+      "Evaluar la preparación organizacional: cultura, capacidades e impacto en cada área.",
+      "Pedir a cada residente que decida si la adopta.",
+      "Comprar más licencias de software."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Una evaluación de preparación para el cambio identifica las brechas de cultura, capacidades e impacto, lo que permite diseñar acciones de adopción. Desplegar de golpe, delegarlo a cada residente o comprar licencias no aborda las condiciones para que el cambio funcione."
+  },
+  {
+    "id": "business-be-env-001",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "El comité quiere examinar de forma estructurada cómo pueden afectar al proyecto los factores políticos, económicos, sociales, tecnológicos, legales y ambientales. ¿Qué herramienta corresponde?",
+    "options": [
+      "Análisis PESTLE.",
+      "Diagrama de Pareto.",
+      "VUCA.",
+      "Matriz RACI."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "PESTLE organiza el análisis del entorno externo en esas seis dimensiones. VUCA describe las características de un entorno (volátil, incierto, complejo y ambiguo), pero no es una lista de factores; Pareto prioriza causas y la RACI asigna responsabilidades."
+  },
+  {
+    "id": "business-be-env-002",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El precio del acero sube un 25 % por un cambio en el mercado internacional, a mitad de la obra. ¿Qué debe hacer el director del proyecto?",
+    "options": [
+      "Esperar a que el precio baje antes de informar.",
+      "Comprar todo el acero restante de inmediato, sin consultar.",
+      "Evaluar el impacto en el presupuesto y el caso de negocio, actualizar los riesgos y presentar opciones al patrocinador.",
+      "Reducir la cuantía de acero en los planos para compensar."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Un cambio del entorno externo se analiza por su impacto en el valor y en las restricciones, y se comunica con opciones para decidir. Esperar retrasa la decisión, comprar sin autorización compromete fondos y cambiar el diseño estructural para ahorrar sería un cambio de alcance con riesgo de seguridad."
+  },
+  {
+    "id": "business-be-env-003",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "El mercado inmobiliario de la zona es muy volátil y la demanda de tipologías cambia cada trimestre. ¿Qué enfoque ayuda a responder mejor en este entorno?",
+    "options": [
+      "Fijar todo el alcance al inicio para dar certeza.",
+      "Planificar en ciclos cortos con validación frecuente con el mercado y decisiones por etapas.",
+      "Evitar cambios hasta el cierre del proyecto.",
+      "Basarse solo en la experiencia de proyectos anteriores."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "En entornos VUCA conviene un enfoque adaptativo o por etapas, con retroalimentación frecuente, para ajustar según la evidencia (por ejemplo, definir la mezcla de tipologías por fases de venta). Fijar todo el alcance o evitar cambios aumenta el riesgo de entregar algo que el mercado ya no quiere, y la experiencia previa sola no anticipa la volatilidad."
   }
 ]
