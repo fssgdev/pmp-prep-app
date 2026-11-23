@@ -51,5 +51,58 @@
         }
       ]
     }
+  },
+  {
+    "id": "sc-torre-pacifico",
+    "title": "Caso Torre Pacífico: exposición al riesgo",
+    "context": "La Torre Pacífico es un edificio de oficinas de 14 pisos frente al mar, con estructura gestionada de forma predictiva y un sistema de gestión del edificio (BMS) desarrollado por sprints. Cada mes el equipo actualiza la exposición total al riesgo: la suma del valor monetario esperado (EMV) de las amenazas abiertas, en miles de soles. La reserva de contingencia aprobada es de S/ 260 mil. El gráfico muestra la exposición planificada (si las respuestas funcionan según lo previsto) y la real.",
+    "chart": {
+      "type": "line",
+      "title": "Torre Pacífico: exposición al riesgo (EMV acumulado de amenazas, miles de S/)",
+      "yLabel": "Miles de S/",
+      "labels": [
+        "Mes 1",
+        "Mes 2",
+        "Mes 3",
+        "Mes 4",
+        "Mes 5",
+        "Mes 6"
+      ],
+      "series": [
+        {
+          "name": "Exposición planificada",
+          "values": [
+            300,
+            260,
+            210,
+            160,
+            110,
+            60
+          ]
+        },
+        {
+          "name": "Exposición real",
+          "values": [
+            300,
+            280,
+            270,
+            275,
+            null,
+            null
+          ]
+        },
+        {
+          "name": "Reserva de contingencia",
+          "values": [
+            260,
+            260,
+            260,
+            260,
+            260,
+            260
+          ]
+        }
+      ]
+    }
   }
 ]

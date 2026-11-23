@@ -8,7 +8,8 @@ const MOCK_BLOCK = 60;            // 3 bloques de 60 preguntas
 const MOCK_DOMAINS = ['people', 'process', 'business'];
 let mockTimer = null, mockReviewOpen = null;
 
-function mockBank() { return D.questions.filter(q => [...MOCK_DOMAINS, 'agile'].includes(q.module)); }
+/* Solo ítems de nivel examen: las preguntas level:"intro" son práctica introductoria (issue #7). */
+function mockBank() { return D.questions.filter(q => [...MOCK_DOMAINS, 'agile'].includes(q.module) && q.level !== 'intro'); }
 function mockRun() { return state.mockRun && typeof state.mockRun === 'object' && Array.isArray(state.mockRun.ids) ? state.mockRun : null; }
 function mockQ(id) { return D.questions.find(q => q.id === id); }
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -24,15 +25,17 @@ function mockNeeds() {
 /* Arma el examen: calificadas por dominio + 10 no puntuadas, sin repeticiones.
    Las preguntas de un mismo escenario se presentan juntas, al inicio (sección de caso). */
 function buildMock() {
-  const need = mockNeeds(), bank = mockBank(), scored = [], used = new Set();
+  const need = mockNeeds(), bank = mockBank(), scored = [], used = new Set(), fams = new Set();
+  /* Una sola pregunta por familia (reformulaciones del mismo caso, campo opcional "family"). */
+  const take = q => { if (used.has(q.id) || (q.family && fams.has(q.family))) return false; used.add(q.id); if (q.family) fams.add(q.family); return true; };
   for (const d of MOCK_DOMAINS) {
-    const pool = shuffle(bank.filter(q => q.module === d));
-    if (pool.length < need[d]) return null;
-    pool.slice(0, need[d]).forEach(q => { scored.push(q.id); used.add(q.id); });
+    let n = 0;
+    for (const q of shuffle(bank.filter(q => q.module === d))) { if (n >= need[d]) break; if (take(q)) { scored.push(q.id); n++; } }
+    if (n < need[d]) return null;
   }
-  const rest = shuffle(bank.filter(q => !used.has(q.id)));
-  if (rest.length < MOCK_FORMAT.unscored) return null;
-  const unscored = rest.slice(0, MOCK_FORMAT.unscored).map(q => q.id);
+  const unscored = [];
+  for (const q of shuffle(bank.filter(q => !used.has(q.id)))) { if (unscored.length >= MOCK_FORMAT.unscored) break; if (take(q)) unscored.push(q.id); }
+  if (unscored.length < MOCK_FORMAT.unscored) return null;
   const chosen = [...scored, ...unscored].map(mockQ);
   const groups = {}, singles = [];
   chosen.forEach(q => q.scenarioId ? (groups[q.scenarioId] = groups[q.scenarioId] || []).push(q.id) : singles.push(q.id));

@@ -1806,7 +1806,8 @@
     "correct": [
       0
     ],
-    "rationale": "Según la 'regla de siete', siete puntos consecutivos del mismo lado de la media sugieren una tendencia no aleatoria, aunque no se crucen los límites: hay que investigar la causa. Recalcular los límites ocultaría el problema y demoler sin analizar es desproporcionado, porque los resultados siguen dentro de los límites."
+    "rationale": "Según la 'regla de siete', siete puntos consecutivos del mismo lado de la media sugieren una tendencia no aleatoria, aunque no se crucen los límites: hay que investigar la causa. Recalcular los límites ocultaría el problema y demoler sin analizar es desproporcionado, porque los resultados siguen dentro de los límites.",
+    "family": "control-regla-de-siete"
   },
   {
     "id": "process-l6-sch-001",
@@ -3662,5 +3663,1145 @@
       2
     ],
     "rationale": "Remover impedimentos que el equipo no puede resolver por sí mismo es tarea del líder de servicio, y debe hacerse en cuanto se conocen. Dejar que el desarrollador siga solo prolonga el bloqueo; sacar la historia del sprint es prematuro sin intentar resolverlo; y el bloqueo ya está ocurriendo, así que es un impedimento, no un riesgo para esperar a la retrospectiva."
+  },
+  {
+    "id": "x7-sc-001",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Lectura",
+    "scenarioId": "sc-torre-pacifico",
+    "prompt": "Según el gráfico, ¿qué describe mejor la situación al cierre del mes 4?",
+    "options": [
+      "La exposición real baja al ritmo planificado; las respuestas funcionan.",
+      "La exposición real se estancó e incluso subió, y ya supera la reserva de contingencia; las respuestas no están reduciendo el riesgo como se esperaba.",
+      "Como la exposición real es menor que en el mes 1, no hay nada que revisar.",
+      "La reserva de contingencia debe aumentarse de inmediato al valor de la exposición."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "En el mes 4 la exposición real es 275, frente a 160 planificados, y supera la reserva de 260; además subió desde el mes 3. Compararla solo con el mes 1 ignora la tendencia contra el plan. Aumentar la reserva puede ser una opción, pero primero hay que entender por qué las respuestas no funcionan."
+  },
+  {
+    "id": "x7-sc-002",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "scenarioId": "sc-torre-pacifico",
+    "prompt": "El análisis muestra que la amenaza más grande, la corrosión por ambiente marino en el acero expuesto, no bajó porque la respuesta planificada (un recubrimiento especial) nunca se ejecutó. ¿Qué debería hacer primero el director?",
+    "options": [
+      "Revisar con el dueño del riesgo por qué no se implementó la respuesta, decidir acciones y actualizar el registro de riesgos.",
+      "Cerrar el riesgo porque aún no se ha materializado.",
+      "Transferir el riesgo comprando un seguro sin evaluar otras opciones.",
+      "Esperar al informe del mes 5 para confirmar la tendencia."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Una respuesta asignada que no se ejecuta es un fallo de seguimiento: el dueño del riesgo debe explicar la causa y acordar acciones, y el registro se actualiza. Cerrar un riesgo vigente o esperar aumenta la exposición; un seguro es una opción, pero no la primera acción sin análisis."
+  },
+  {
+    "id": "x7-sc-003",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "scenarioId": "sc-torre-pacifico",
+    "prompt": "Para financiar la respuesta pendiente se necesitan S/ 90 mil por encima de lo que queda en la reserva de contingencia. El director puede aprobar gastos de hasta S/ 50 mil. ¿Qué corresponde?",
+    "options": [
+      "Aprobarlo en dos órdenes de S/ 45 mil para no superar su límite.",
+      "Tomar los fondos del presupuesto del BMS, que va adelantado, sin consultar.",
+      "Presentar al órgano de gobernanza el análisis de exposición, las opciones y el monto solicitado, por ejemplo con cargo a la reserva de gestión.",
+      "Postergar la respuesta hasta que la amenaza se materialice."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "El monto supera la autoridad delegada, así que se escala con información para una decisión oportuna, posiblemente con cargo a la reserva de gestión. Fraccionar el gasto o reasignar presupuesto sin autorización vulnera la gobernanza; postergar convierte un riesgo gestionable en un problema."
+  },
+  {
+    "id": "x7-gov-001",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un equipo ágil que desarrolla la app de reservas de una inmobiliaria quiere publicar en producción una función que procesa pagos. La política de la empresa exige la aprobación del área de seguridad de la información para todo cambio que maneje pagos. ¿Qué debe hacer el equipo?",
+    "options": [
+      "Publicar, porque en ágil el equipo es autónomo para decidir qué libera.",
+      "Incluir la revisión de seguridad en su definición de terminado y obtener la aprobación antes de liberar.",
+      "Publicar y pedir la aprobación después, si alguien la solicita.",
+      "Descartar la función para evitar trámites."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La autonomía del equipo opera dentro de la gobernanza de la organización. Integrar la revisión en la definición de terminado mantiene el flujo y cumple la política. Liberar sin aprobación excede su autoridad, y descartar la función sacrifica valor sin necesidad."
+  },
+  {
+    "id": "x7-gov-002",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "El acta de constitución indica que el director puede aprobar cambios de cronograma de hasta 10 días hábiles; por encima decide el comité directivo. Un cambio aprobado por el cliente agrega 14 días hábiles. ¿Quién debe aprobarlo dentro del proyecto?",
+    "options": [
+      "El director, porque el cliente ya lo aprobó.",
+      "El comité directivo, porque supera el umbral de 10 días.",
+      "El supervisor de obra, porque conoce el impacto en campo.",
+      "Nadie más; basta con informar el nuevo plazo."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La autoridad la define el acta: 14 días superan el umbral del director, así que decide el comité directivo. La aprobación del cliente no reemplaza la gobernanza interna, y el supervisor no tiene esa autoridad."
+  },
+  {
+    "id": "x7-gov-003",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Conceptual",
+    "prompt": "Al establecer la gobernanza de un proyecto híbrido, ¿qué DOS elementos conviene definir explícitamente? Selecciona DOS.",
+    "options": [
+      "Los umbrales de decisión y la ruta de escalamiento para cada tipo de cambio.",
+      "Quién prioriza el backlog del componente ágil y cómo se coordina con el comité de cambios del componente predictivo.",
+      "Que todas las decisiones, por pequeñas que sean, las tome el patrocinador.",
+      "Que los informes se envíen solo al cierre del proyecto."
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "rationale": "La gobernanza aclara quién decide qué, con qué umbrales y cómo se integran los mecanismos de cada componente. Centralizar todo en el patrocinador crea cuellos de botella, e informar solo al cierre impide decidir a tiempo."
+  },
+  {
+    "id": "x7-gov-004",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la revisión de fin de fase de un hospital, los indicadores muestran que el caso de negocio ya no se sostiene por un cambio en la demanda. El patrocinador pide continuar 'porque ya se invirtió mucho'. ¿Qué es lo más adecuado?",
+    "options": [
+      "Continuar, porque lo invertido justifica terminar.",
+      "Detener el proyecto de inmediato por decisión propia.",
+      "Ocultar los indicadores hasta tener mejores noticias.",
+      "Presentar al órgano de gobernanza el análisis actualizado del caso de negocio y las opciones (continuar, replantear o cerrar) para que decida."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Las revisiones de fase existen para decidir con información si el proyecto sigue siendo valioso; lo ya gastado no debe guiar la decisión (costo hundido). Detenerlo sin autoridad o esconder los datos impide una decisión legítima."
+  },
+  {
+    "id": "x7-cmp-001",
+    "module": "business",
+    "topicId": "business-2",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El equipo que desarrolla el portal de propietarios descubre a mitad del sprint que una historia almacena datos personales sin el consentimiento que exige la ley de protección de datos. ¿Qué debería hacer?",
+    "options": [
+      "Terminar la historia y corregirla en el próximo sprint.",
+      "Evaluar la obligación con el responsable de cumplimiento, ajustar los criterios de aceptación y no liberar la historia hasta cumplir.",
+      "Publicarla, porque el dueño del producto la priorizó.",
+      "Eliminar del backlog todas las historias que usan datos personales."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Primero se evalúa la obligación y se incorpora a los criterios de aceptación; lo que no cumple no se libera. Postergar la corrección o publicar expone a sanciones, y eliminar todas las historias sacrifica valor sin análisis."
+  },
+  {
+    "id": "x7-cmp-002",
+    "module": "business",
+    "topicId": "business-2",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "A dos meses de terminar la obra, entra en vigor una nueva norma de accesibilidad que podría aplicar a las áreas comunes. El cliente pide 'no complicarse'. ¿Cuál es el primer paso?",
+    "options": [
+      "Ignorarla, porque el diseño se aprobó con la norma anterior.",
+      "Rediseñar de inmediato todas las áreas comunes.",
+      "Confirmar con especialistas si la norma aplica al proyecto y qué exige, y luego evaluar el impacto y las opciones mediante la gobernanza.",
+      "Pedir al proveedor de ascensores que asuma el cumplimiento."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Antes de actuar hay que confirmar si la obligación aplica y su alcance; luego se evalúa el impacto y se decide por la vía acordada. Ignorarla expone a observaciones de conformidad de obra, rediseñar todo sin análisis es desproporcionado y trasladarlo al proveedor no cubre las áreas comunes."
+  },
+  {
+    "id": "x7-cmp-003",
+    "module": "business",
+    "topicId": "business-2",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada situación con la acción de cumplimiento más adecuada.",
+    "items": [
+      "Se identifica una nueva obligación legal que podría aplicar.",
+      "Una auditoría interna está programada para el próximo mes.",
+      "Se detecta que un entregable ya instalado incumple la norma.",
+      "El proveedor debe demostrar que su material cumple la especificación."
+    ],
+    "options": [
+      "Preparar la evidencia de cumplimiento y los registros para la auditoría.",
+      "Evaluar si aplica y qué exige antes de cambiar el plan.",
+      "Gestionarlo como incidente: evaluar el impacto y corregir por el proceso acordado.",
+      "Exigir los certificados y verificarlos antes de aceptar el material.",
+      "Esperar a la inspección final para revisarlo."
+    ],
+    "correct": [
+      1,
+      0,
+      2,
+      3
+    ],
+    "rationale": "Una obligación nueva se evalúa antes de actuar; una auditoría se prepara con evidencias; un incumplimiento detectado es un problema actual que se corrige; y el cumplimiento del proveedor se verifica con certificados antes de aceptar. Esperar a la inspección final no gestiona ninguna obligación."
+  },
+  {
+    "id": "x7-cmp-004",
+    "module": "business",
+    "topicId": "business-2",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "¿Cuál es la mejor forma de demostrar el cumplimiento de los requisitos de seguridad estructural durante la ejecución?",
+    "options": [
+      "Una declaración del residente al cierre de obra.",
+      "Registros verificables (protocolos, ensayos y liberaciones firmadas) vinculados a cada requisito y a su responsable.",
+      "La ausencia de reclamos del cliente.",
+      "Fotografías generales del avance."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El cumplimiento se demuestra con evidencia trazable a cada requisito y responsable, generada durante la ejecución. Una declaración al final, la ausencia de reclamos o fotos generales no prueban que cada requisito se cumplió."
+  },
+  {
+    "id": "x7-chg-001",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En plena iteración, el gerente comercial pide al equipo que deje lo que está haciendo para construir un reporte 'urgente' que no está en el backlog. El objetivo del sprint sigue siendo válido. ¿Qué es lo más adecuado?",
+    "options": [
+      "Que el equipo atienda al gerente de inmediato, porque es un interesado de alto nivel.",
+      "Rechazar el pedido sin más conversación.",
+      "Cancelar el sprint para incorporar el reporte.",
+      "Derivar el pedido al dueño del producto para que lo evalúe y priorice en el backlog, sin interrumpir el objetivo del sprint salvo decisión suya."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "En ágil los cambios entran por el backlog y los prioriza el dueño del producto; se protege el objetivo del sprint. Atender por jerarquía rompe el flujo y rechazar sin conversación ignora una necesidad. Cancelar un sprint solo tiene sentido si su objetivo perdió validez."
+  },
+  {
+    "id": "x7-chg-002",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Predictivo",
+    "type": "multi",
+    "category": "Lectura",
+    "prompt": "Llega una solicitud para cambiar el tipo de ventana en todo el edificio. Antes de presentarla al comité de cambios, ¿qué DOS análisis son imprescindibles? Selecciona DOS.",
+    "options": [
+      "El impacto en costo, cronograma, calidad y riesgos.",
+      "La opinión personal del director sobre la estética de la ventana.",
+      "El efecto sobre otros entregables y requisitos, como la acústica, la eficiencia energética y las licencias.",
+      "Cuántos proveedores conoce el equipo."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "El análisis de impacto integrado cubre las restricciones y los efectos sobre otros entregables y requisitos. La preferencia estética del director o los contactos del equipo no son criterios de impacto."
+  },
+  {
+    "id": "x7-chg-003",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El comité rechazó un cambio de acabados que el cliente quería. El cliente insiste directamente con el maestro de obra para que lo haga 'de todos modos'. ¿Qué debe hacer el director?",
+    "options": [
+      "Permitirlo si el cliente lo paga en efectivo.",
+      "Hacer que el equipo lo ejecute en secreto para mantener la relación.",
+      "Comunicar al cliente la decisión y sus razones, recordar al equipo que solo se ejecuta lo aprobado y, si el cliente lo desea, explicarle cómo presentar una nueva solicitud.",
+      "Escalar el caso a la gerencia general sin hablar con el cliente."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Hay que respetar la decisión de la gobernanza y gestionar las expectativas con transparencia, ofreciendo el camino formal si hay información nueva. Ejecutarlo por fuera del proceso o con pagos informales vulnera los controles, y escalar sin conversar se salta la gestión directa del interesado."
+  },
+  {
+    "id": "x7-chg-004",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "En un proyecto ágil con contrato de alcance flexible, el cliente quiere reemplazar una función aún no iniciada por otra de tamaño similar. ¿Cómo suele tratarse?",
+    "options": [
+      "Como un intercambio dentro del backlog priorizado por el dueño del producto, sin un proceso formal de control de cambios.",
+      "Como una modificación de contrato que requiere renegociar todo el alcance.",
+      "Como un defecto que el equipo debe corregir.",
+      "Como un cambio prohibido, porque el plan ya fue aprobado."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Con alcance flexible, cambiar un elemento no iniciado por otro de tamaño similar es un ajuste normal del backlog: lo prioriza el dueño del producto. No es un defecto ni requiere renegociar todo el contrato, y el enfoque adaptativo justamente acepta estos cambios."
+  },
+  {
+    "id": "x7-iss-001",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la reunión diaria, una desarrolladora menciona que lleva dos días sin poder probar porque el entorno de pruebas falla. Nadie lo había registrado. ¿Qué es lo más adecuado?",
+    "options": [
+      "Esperar a la retrospectiva para analizarlo.",
+      "Que la desarrolladora lo resuelva sola, porque el equipo es autoorganizado.",
+      "Hacer visible el impedimento, acordar en ese momento quién lo atiende y darle seguimiento hasta que se resuelva.",
+      "Reducir la meta del sprint sin investigar la causa."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Los impedimentos se hacen visibles y se atienden de inmediato, con un responsable y seguimiento. Esperar a la retrospectiva prolonga el bloqueo, dejarlo a una sola persona ignora que puede requerir apoyo, y reducir la meta sin investigar no lo resuelve."
+  },
+  {
+    "id": "x7-iss-002",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "¿Qué información mínima debe tener cada entrada del registro de incidentes para gestionarla eficazmente?",
+    "options": [
+      "Solo la descripción del problema.",
+      "La probabilidad y el impacto estimados, como en un riesgo.",
+      "El nombre del culpable y la sanción aplicada.",
+      "La descripción, el responsable, las acciones acordadas, la fecha objetivo y el estado."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Un incidente ya ocurrió: se gestiona con responsable, acciones, fecha objetivo y seguimiento del estado. La probabilidad es propia de los riesgos; buscar culpables no ayuda a resolver, y una descripción sola no permite gestionarlo."
+  },
+  {
+    "id": "x7-rsk-001",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "¿Cómo se gestionan habitualmente los riesgos en un equipo ágil?",
+    "options": [
+      "Solo en un taller al inicio del proyecto.",
+      "Delegándolos a una oficina de riesgos externa al equipo.",
+      "De forma continua: se discuten en la planificación y la retrospectiva, se hacen visibles y las respuestas pueden entrar al backlog como trabajo priorizado.",
+      "No se gestionan, porque las iteraciones cortas eliminan los riesgos."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "En ágil la gestión de riesgos es continua y visible, y las respuestas pueden incorporarse al backlog. Un único taller inicial no capta los riesgos emergentes, delegarlos fuera aleja a quien mejor los conoce y las iteraciones cortas reducen el riesgo pero no lo eliminan."
+  },
+  {
+    "id": "x7-rsk-002",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Durante la excavación aparece una tubería de agua no registrada en los planos de interferencias. No figuraba en el registro de riesgos. ¿Cuál es el primer paso?",
+    "options": [
+      "Aplicar el plan de contingencia de otro riesgo similar.",
+      "Tratarlo como un incidente: asegurar el área, evaluar el impacto con los involucrados y definir una solución alternativa (workaround), y luego revisar la identificación de riesgos.",
+      "Registrarlo como riesgo futuro y seguir excavando.",
+      "Esperar a que la empresa de agua indique qué hacer."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Lo que no fue identificado y ya ocurrió se trata como incidente: se controla, se evalúa y se responde con una solución alternativa; después se revisa por qué no se identificó. Usar la contingencia de otro riesgo no corresponde, registrarlo como futuro niega el hecho y esperar pasivamente prolonga la parada."
+  },
+  {
+    "id": "x7-rsk-003",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada acción con la estrategia de respuesta al riesgo que representa.",
+    "items": [
+      "Cambiar el método de excavación para no trabajar bajo el nivel freático.",
+      "Instalar un sistema de bombeo de respaldo para reducir el impacto de una inundación.",
+      "Formar un consorcio con un especialista para aprovechar un proyecto mayor.",
+      "Registrar la amenaza de alza de precios y reservar fondos si ocurre."
+    ],
+    "options": [
+      "Mitigar.",
+      "Compartir (oportunidad).",
+      "Evitar.",
+      "Aceptar activamente.",
+      "Explotar (oportunidad)."
+    ],
+    "correct": [
+      2,
+      0,
+      1,
+      3
+    ],
+    "rationale": "Cambiar el plan para eliminar la exposición es evitar; reducir el impacto es mitigar; asociarse con un tercero mejor posicionado para capturar una oportunidad es compartir; y reservar fondos sin actuar sobre la causa es aceptar activamente. Explotar sería asegurar que la oportunidad ocurra."
+  },
+  {
+    "id": "x7-rsk-004",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Hay dos amenazas abiertas: A (40 % de probabilidad, impacto S/ 80 000) y B (10 % de probabilidad, impacto S/ 200 000), y una oportunidad C (25 % de probabilidad, beneficio S/ 40 000). ¿Cuál es la exposición neta (suma de EMV)?",
+    "options": [
+      "−S/ 42 000.",
+      "−S/ 52 000.",
+      "−S/ 320 000.",
+      "−S/ 62 000."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "EMV A = 0,40 × −80 000 = −32 000; EMV B = 0,10 × −200 000 = −20 000; EMV C = 0,25 × 40 000 = +10 000. Suma = −42 000. −52 000 omite la oportunidad, −62 000 la resta en lugar de sumarla y −320 000 suma los impactos sin probabilidad."
+  },
+  {
+    "id": "x7-rsk-005",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El equipo identificó 30 riesgos, pero el registro no indica responsables ni fechas de revisión, y nadie lo ha abierto en seis semanas. ¿Qué debería hacer el director?",
+    "options": [
+      "Asignar un dueño a cada riesgo priorizado, acordar sus respuestas y disparadores, e incorporar la revisión de riesgos a las reuniones periódicas.",
+      "Archivar el registro, porque no ha ocurrido nada grave.",
+      "Pedir a un consultor externo un nuevo registro desde cero.",
+      "Enviar el registro al patrocinador como evidencia de gestión."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Un registro sin dueños ni revisión no gestiona nada: hay que asignar responsables, respuestas y disparadores, y revisarlo de forma periódica. Archivarlo o enviarlo como evidencia no reduce el riesgo, y rehacerlo desde cero desperdicia el trabajo ya hecho."
+  },
+  {
+    "id": "x7-env-001",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un competidor lanza una app de postventa con funciones que los clientes empiezan a pedir. El equipo ágil de la inmobiliaria está a mitad de su hoja de ruta. ¿Qué es lo más adecuado?",
+    "options": [
+      "Copiar todas las funciones del competidor en el próximo sprint.",
+      "Ignorar al competidor y seguir la hoja de ruta original.",
+      "Evaluar con el dueño del producto el impacto en el valor y la retroalimentación de los clientes, y repriorizar la hoja de ruta y el backlog si corresponde.",
+      "Detener el desarrollo hasta tener un nuevo plan aprobado."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Un cambio del entorno se evalúa por su impacto en el valor antes de adaptar. En ágil, la adaptación se refleja en la hoja de ruta y el backlog. Copiar sin análisis, ignorar el mercado o detener todo son reacciones extremas."
+  },
+  {
+    "id": "x7-env-002",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Predictivo",
+    "type": "multi",
+    "category": "Lectura",
+    "prompt": "El gobierno anuncia que en seis meses exigirá certificación de eficiencia energética para obtener la conformidad de obra de nuevos edificios. Tu proyecto termina en ocho meses. ¿Qué DOS acciones son las más adecuadas ahora? Selecciona DOS.",
+    "options": [
+      "Evaluar con especialistas qué exige la certificación y su impacto en el diseño, el costo y el plazo.",
+      "Esperar a que la norma se publique oficialmente antes de analizar nada.",
+      "Registrar el cambio en el análisis del entorno y en el registro de riesgos, e informar al patrocinador con opciones.",
+      "Acelerar la obra para terminar antes de los seis meses sin evaluar el impacto en la calidad ni en el costo."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "Ante un cambio externo con impacto probable, se evalúa qué implica y se integra en la gestión de riesgos y la comunicación con quien decide. Esperar reduce el margen de respuesta, y acelerar sin análisis puede generar costos y riesgos de calidad mayores."
+  },
+  {
+    "id": "x7-env-003",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "La inmobiliaria quiere incorporar la sostenibilidad como criterio en la cartera de proyectos. ¿Qué implica para el director de un proyecto en curso?",
+    "options": [
+      "Nada, porque la sostenibilidad solo aplica a proyectos nuevos.",
+      "Evaluar el impacto ambiental y social de las decisiones del proyecto, incorporar los criterios acordados en requisitos y riesgos, y medir los resultados pertinentes.",
+      "Reemplazar todos los materiales por alternativas ecológicas sin evaluar el costo.",
+      "Delegar el tema por completo al área de marketing."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La sostenibilidad se integra en requisitos, riesgos y métricas del proyecto de forma proporcionada. Ignorarla contradice la estrategia; reemplazar todo sin análisis es desproporcionado, y delegarlo a marketing lo reduce a comunicación."
+  },
+  {
+    "id": "x7-cnf-001",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la retrospectiva, dos integrantes del equipo se acusan mutuamente por un defecto que llegó a producción. El ambiente se tensa. ¿Qué debería hacer el facilitador?",
+    "options": [
+      "Dar por terminada la retrospectiva para evitar que el conflicto escale.",
+      "Decidir quién tuvo la culpa para cerrar el tema.",
+      "Pedir al dueño del producto que resuelva la disputa.",
+      "Reconducir la conversación hacia los hechos y el proceso, sin buscar culpables, y ayudar al equipo a acordar una mejora concreta."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Un conflicto centrado en personas se reconduce hacia hechos y proceso en un espacio seguro, para que el equipo aprenda. Terminar la reunión evita el problema, buscar culpables destruye la confianza y el dueño del producto no es quien arbitra la dinámica del equipo."
+  },
+  {
+    "id": "x7-cnf-002",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El jefe de producción y la supervisora de calidad discuten en obra porque ella rechazó un vaciado por falta de liberación del acero. Hay un mixer esperando. ¿Qué es lo más adecuado?",
+    "options": [
+      "Respaldar el criterio de calidad para este vaciado y, después, reunirse con ambos para analizar por qué la liberación no estaba lista y cómo evitarlo.",
+      "Autorizar el vaciado para no perder el concreto y revisar después.",
+      "Pedir que se pongan de acuerdo entre ellos sin intervenir.",
+      "Reemplazar a la supervisora por generar retrasos."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Un requisito de calidad no se negocia bajo presión; después se aborda la causa del conflicto (planificación de liberaciones) con ambos. Vaciar sin liberación compromete la estructura, no intervenir deja escalar el conflicto y reemplazar a la supervisora castiga a quien cumplió su función."
+  },
+  {
+    "id": "x7-cnf-003",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada fuente frecuente de conflicto con la medida preventiva más adecuada.",
+    "items": [
+      "Dos frentes de obra reclaman la misma grúa torre los mismos días.",
+      "Nadie sabe si la liberación de encofrados la firma producción o calidad.",
+      "El equipo discute cada vez qué solución técnica elegir sin criterios comunes.",
+      "El cliente cambia prioridades y cada área se entera por distinta vía."
+    ],
+    "options": [
+      "Acordar criterios de decisión técnica antes de evaluar alternativas.",
+      "Definir responsabilidades con una matriz RACI.",
+      "Planificar el recurso compartido en un cronograma visible y acordado.",
+      "Establecer un canal único y oportuno para comunicar los cambios de prioridad.",
+      "Sancionar a quien inicie la discusión."
+    ],
+    "correct": [
+      2,
+      1,
+      0,
+      3
+    ],
+    "rationale": "Prevenir conflictos implica atacar su fuente: los recursos compartidos se programan, los roles difusos se aclaran con una RACI, los debates técnicos se ordenan con criterios previos y los cambios de prioridad se comunican por un canal único. Sancionar no resuelve ninguna causa."
+  },
+  {
+    "id": "x7-cnf-004",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Dos desarrolladores no se ponen de acuerdo sobre la arquitectura de una función y llevan días sin avanzar. El equipo es autoorganizado. ¿Qué debería hacer primero el líder de servicio?",
+    "options": [
+      "Elegir él mismo la arquitectura para destrabar el avance.",
+      "Facilitar una conversación en la que ambos expongan criterios y evidencias, por ejemplo con un experimento corto (spike), para que el equipo decida.",
+      "Asignar la función a otro desarrollador.",
+      "Escalar el desacuerdo al patrocinador."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El líder de servicio facilita para que el equipo resuelva con datos; un spike reduce la incertidumbre técnica. Imponer la decisión debilita la autoorganización, reasignar evita el conflicto sin resolverlo y escalar al patrocinador es prematuro."
+  },
+  {
+    "id": "x7-cnf-005",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "¿Cuál de estas situaciones justifica mejor usar un enfoque de forzar para resolver un conflicto?",
+    "options": [
+      "Dos ingenieros discrepan sobre el formato de un informe.",
+      "Un subcontratista quiere trabajar en altura sin línea de vida para terminar antes, y el resto del equipo duda.",
+      "El equipo debate qué software de planificación usar el próximo año.",
+      "Dos áreas compiten por la misma sala de reuniones."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Forzar se reserva para decisiones urgentes o no negociables, como la seguridad de las personas. En los demás casos hay tiempo para colaborar o conciliar, y forzar dañaría las relaciones sin necesidad."
+  },
+  {
+    "id": "x7-cnf-006",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Mentalidad",
+    "prompt": "El equipo predictivo de obra y el equipo ágil del BMS se culpan mutuamente por los retrasos en las interfaces. ¿Qué DOS acciones ayudan a resolver la raíz del conflicto? Selecciona DOS.",
+    "options": [
+      "Establecer una reunión de coordinación periódica con representantes de ambos equipos y un tablero común de dependencias.",
+      "Separar por completo a los equipos para que no interactúen.",
+      "Acordar con ambos equipos los criterios de entrega de cada interfaz y quién es responsable de cada una.",
+      "Anunciar que el equipo con más retrasos perderá su bono."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "El conflicto nace de dependencias poco visibles y responsabilidades difusas: coordinar y acordar criterios y responsables ataca esa causa. Aislar a los equipos empeora la integración y las amenazas aumentan la tensión sin resolver nada."
+  },
+  {
+    "id": "x7-int-001",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un proyecto incluye la construcción del casco de un edificio y el desarrollo de una app para los propietarios, cuyos requisitos aún son inciertos. ¿Cómo debería adaptarse (tailoring) el enfoque?",
+    "options": [
+      "Aplicar el mismo enfoque predictivo a todo para mantener la coherencia.",
+      "Aplicar el mismo enfoque ágil a todo, porque es más moderno.",
+      "Esperar a que los requisitos de la app sean estables para iniciar todo el proyecto.",
+      "Planificar el casco de forma predictiva y la app de forma adaptativa, e integrar ambos con hitos y dependencias comunes."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "La adaptación elige el enfoque según la incertidumbre de cada componente y luego integra los planes. Un solo enfoque para todo ignora esas diferencias, y esperar requisitos estables desperdicia la oportunidad de aprender mientras se construye."
+  },
+  {
+    "id": "x7-int-002",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "¿Cuál es el propósito principal del plan para la dirección del proyecto?",
+    "options": [
+      "Integrar las líneas base y los planes subsidiarios en un documento que describe cómo se ejecutará, monitoreará, controlará y cerrará el proyecto.",
+      "Registrar los problemas diarios de la obra.",
+      "Reemplazar el acta de constitución.",
+      "Listar las tareas del equipo para la próxima semana."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "El plan para la dirección integra líneas base y planes subsidiarios. El registro diario de problemas es el registro de incidentes, el acta autoriza el proyecto y la lista semanal es un nivel de detalle de ejecución."
+  },
+  {
+    "id": "x7-int-003",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El plan de calidad exige ensayos que el plan de cronograma no contempla, y el plan de adquisiciones asume plazos de entrega distintos a los del cronograma. ¿Qué revela esto y qué conviene hacer?",
+    "options": [
+      "Que los planes subsidiarios son independientes; no hay que hacer nada.",
+      "Una integración deficiente: hay que conciliar los planes y actualizar las líneas base mediante el control de cambios.",
+      "Que el plan de calidad es excesivo y debe eliminarse.",
+      "Que el cronograma siempre prevalece sobre los demás planes."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Los planes subsidiarios deben ser coherentes entre sí; las contradicciones se resuelven integrándolos, y si cambian las líneas base, mediante el control de cambios. Ni el cronograma prevalece por defecto ni la calidad se elimina para cuadrar."
+  },
+  {
+    "id": "x7-int-004",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "En un proyecto ágil, ¿cómo se planifica normalmente la entrega?",
+    "options": [
+      "Con un plan detallado de todas las tareas aprobado antes de empezar.",
+      "Sin ningún tipo de plan, porque el equipo improvisa en cada sprint.",
+      "Con una hoja de ruta de alto nivel y planes de lanzamiento y de iteración que se refinan progresivamente.",
+      "Solo con la fecha final fijada por el patrocinador."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La planificación ágil es progresiva: hoja de ruta, lanzamientos e iteraciones que se ajustan con lo aprendido. Un plan exhaustivo inicial contradice la adaptación, y trabajar sin plan o con una sola fecha no permite coordinar ni pronosticar."
+  },
+  {
+    "id": "x7-int-005",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Conceptual",
+    "prompt": "¿Qué DOS factores deben influir al decidir el enfoque de entrega de un proyecto? Selecciona DOS.",
+    "options": [
+      "El grado de incertidumbre de los requisitos y de la tecnología.",
+      "La preferencia personal del director por un método.",
+      "La capacidad del cliente para participar con frecuencia y las restricciones contractuales y regulatorias.",
+      "El enfoque que usó el último proyecto de la empresa, sin analizar si aplica."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "El enfoque se elige según las características del proyecto y su entorno: incertidumbre, participación del cliente y restricciones. La preferencia personal o repetir lo anterior sin análisis no responden a lo que el proyecto necesita."
+  },
+  {
+    "id": "x7-int-006",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El patrocinador pide empezar la obra 'mañana mismo' sin plan, porque el terreno ya está listo. Aún no hay planes de seguridad ni de calidad aprobados. ¿Qué debería hacer el director?",
+    "options": [
+      "Empezar y documentar los planes en paralelo cuando haya tiempo.",
+      "Negarse a empezar hasta tener un plan completo de todo el proyecto.",
+      "Renunciar al proyecto por falta de condiciones.",
+      "Explicar los riesgos de iniciar sin planes mínimos y proponer una planificación acotada y rápida de lo indispensable (seguridad, calidad y primeras actividades) antes de arrancar."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Planificar es proporcional: lo indispensable para arrancar con seguridad se prepara primero y el resto se elabora progresivamente. Empezar sin planes expone a accidentes y retrabajo; exigir el plan completo de todo antes de iniciar es desproporcionado."
+  },
+  {
+    "id": "x7-qa-001",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "chart": {
+      "type": "line",
+      "title": "Asentamiento del concreto por mixer (pulgadas)",
+      "yLabel": "Pulgadas",
+      "labels": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5",
+        "M6",
+        "M7",
+        "M8",
+        "M9",
+        "M10"
+      ],
+      "series": [
+        {
+          "name": "Asentamiento medido",
+          "values": [
+            4,
+            4.2,
+            4.4,
+            4.3,
+            4.5,
+            4.4,
+            4.6,
+            4.5,
+            4.7,
+            4.6
+          ]
+        },
+        {
+          "name": "Media del proceso",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "Límite superior de control",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "name": "Límite inferior de control",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ]
+    },
+    "prompt": "El gráfico de control muestra el asentamiento de los últimos 10 mixers. Ningún punto supera los límites de control. ¿Qué concluyes?",
+    "options": [
+      "El proceso está bajo control porque ningún punto sale de los límites.",
+      "El proceso está fuera de control: hay 9 puntos seguidos por encima de la media (regla de los siete), lo que indica una causa asignable que conviene investigar.",
+      "El proceso es aceptable porque el promedio está dentro de la especificación.",
+      "Hay que ajustar los límites de control para que se acerquen a los datos."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Siete o más puntos consecutivos del mismo lado de la media señalan una tendencia no aleatoria aunque ningún punto salga de los límites. Concluir que está bajo control ignora esa señal, el promedio no prueba estabilidad y mover los límites para que encajen los datos falsea el control.",
+    "family": "control-regla-de-siete"
+  },
+  {
+    "id": "x7-qa-002",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "En el último trimestre se gastaron: capacitación en procedimientos S/ 12 000, inspecciones y ensayos S/ 18 000, demolición y rehechura de un muro S/ 25 000 y reparaciones atendidas en postventa S/ 15 000. ¿Cuál fue el costo de la no conformidad?",
+    "options": [
+      "S/ 30 000.",
+      "S/ 25 000.",
+      "S/ 40 000.",
+      "S/ 70 000."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "El costo de la no conformidad suma las fallas internas (rehechura, 25 000) y externas (postventa, 15 000): 40 000. 30 000 es el costo de la conformidad (prevención 12 000 + evaluación 18 000), 25 000 omite las fallas externas y 70 000 es el costo total de la calidad."
+  },
+  {
+    "id": "x7-qa-003",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "¿Cuál es la diferencia principal entre el aseguramiento y el control de calidad?",
+    "options": [
+      "El aseguramiento revisa los entregables terminados y el control revisa los procesos.",
+      "Son lo mismo con distinto nombre.",
+      "El aseguramiento lo hace el cliente y el control lo hace el contratista.",
+      "El aseguramiento busca que los procesos sean adecuados para prevenir defectos; el control inspecciona los entregables para verificar que cumplen los requisitos."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "El aseguramiento se enfoca en el proceso y la prevención; el control, en el producto y la verificación. La primera opción invierte los conceptos, no son sinónimos y ambos pueden realizarlos el equipo del proyecto o terceros."
+  },
+  {
+    "id": "x7-qa-004",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El equipo ágil quiere acelerar y propone dejar las pruebas automatizadas 'para el final del lanzamiento'. ¿Qué es lo más adecuado?",
+    "options": [
+      "Mantener la calidad integrada en cada incremento según la definición de terminado y buscar otras formas de mejorar el flujo.",
+      "Aceptarlo, porque el equipo es autoorganizado.",
+      "Contratar un equipo de pruebas que revise todo al final.",
+      "Reducir la cobertura de pruebas a la mitad para equilibrar."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "En ágil la calidad se construye en cada incremento; postergar las pruebas acumula deuda técnica y defectos caros de corregir. La autoorganización no elimina la definición de terminado, y probar todo al final o recortar cobertura traslada el problema."
+  },
+  {
+    "id": "x7-qa-005",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "Un diagrama de Pareto de las observaciones de postventa muestra que tres causas (filtraciones en baños, fisuras en tabiquería y fallas de carpintería) explican el 78 % de los reclamos. ¿Cómo se usa mejor esta información?",
+    "options": [
+      "Atender los reclamos en el orden en que llegaron.",
+      "Concentrar el análisis de causa raíz y las acciones de mejora en esas tres causas primero.",
+      "Distribuir el presupuesto de mejora en partes iguales entre todas las causas.",
+      "Descartar las causas restantes porque no importan."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Pareto ayuda a priorizar las pocas causas que generan la mayoría del problema. Atender por orden de llegada o repartir en partes iguales diluye el esfuerzo, y las causas menores no se descartan: se atienden después."
+  },
+  {
+    "id": "x7-qa-006",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada herramienta de calidad con su uso principal.",
+    "items": [
+      "Diagrama de causa y efecto (Ishikawa).",
+      "Hoja de verificación.",
+      "Diagrama de dispersión.",
+      "Histograma."
+    ],
+    "options": [
+      "Mostrar la distribución de frecuencias de una variable.",
+      "Explorar las posibles causas de un problema por categorías.",
+      "Ver si dos variables están relacionadas.",
+      "Recoger datos de forma ordenada en campo.",
+      "Programar las actividades en el tiempo."
+    ],
+    "correct": [
+      1,
+      3,
+      2,
+      0
+    ],
+    "rationale": "Ishikawa organiza posibles causas; la hoja de verificación recoge datos de campo; la dispersión muestra la relación entre dos variables; el histograma, la distribución de frecuencias. Programar actividades corresponde al cronograma, no a una herramienta de calidad."
+  },
+  {
+    "id": "x7-agl-001",
+    "module": "agile",
+    "topicId": "agile-1",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un líder recién asignado a un equipo ágil quiere demostrar control y empieza a asignar tareas individualmente cada mañana. ¿Qué le recomendarías?",
+    "options": [
+      "Seguir así, porque aclara las responsabilidades.",
+      "Pedir informes diarios por escrito a cada persona.",
+      "Pasar a un rol de liderazgo de servicio: eliminar impedimentos, proteger al equipo y dejar que este se organice para cumplir el objetivo.",
+      "Delegar todas las decisiones en el dueño del producto."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "En ágil el líder sirve al equipo y favorece la autoorganización. Asignar tareas o pedir informes diarios es microgestión, y el dueño del producto decide qué construir, no cómo se organiza el equipo."
+  },
+  {
+    "id": "x7-agl-002",
+    "module": "agile",
+    "topicId": "agile-2",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "level": "intro",
+    "prompt": "¿Cuál es el propósito de la revisión del sprint?",
+    "options": [
+      "Mostrar a los interesados el incremento terminado y obtener retroalimentación para ajustar el backlog.",
+      "Analizar cómo trabajó el equipo y acordar mejoras del proceso.",
+      "Planificar las tareas del siguiente sprint.",
+      "Evaluar el desempeño individual de cada integrante."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La revisión inspecciona el producto con los interesados. Mejorar el proceso es la retrospectiva, planificar es la planificación del sprint y evaluar personas no es propósito de ningún evento de Scrum."
+  },
+  {
+    "id": "x7-agl-003",
+    "module": "agile",
+    "topicId": "agile-3",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "En el tablero Kanban del área de postventa, la columna 'En reparación' tiene un límite de 4 y hoy tiene 7 tarjetas, mientras 'Verificación' está vacía. ¿Qué indica y qué conviene hacer?",
+    "options": [
+      "Que el equipo está muy productivo; conviene subir el límite a 8.",
+      "Que hay un cuello de botella en reparación y se superó el límite de trabajo en curso; conviene dejar de iniciar trabajo nuevo y ayudar a terminar lo que está en curso.",
+      "Que la verificación es innecesaria y puede eliminarse.",
+      "Que hay que agregar más columnas al tablero."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Superar el límite de trabajo en curso señala un cuello de botella; Kanban pide terminar antes de empezar. Subir el límite oculta el problema, eliminar la verificación sacrifica calidad y más columnas no resuelven el flujo."
+  },
+  {
+    "id": "x7-agl-004",
+    "module": "agile",
+    "topicId": "agile-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Varios interesados piden que su historia sea la primera del backlog. ¿Quién debe decidir el orden y con qué criterio?",
+    "options": [
+      "El equipo de desarrollo, según lo que le resulte más fácil.",
+      "El interesado de mayor cargo.",
+      "El director del proyecto, según la fecha de cada solicitud.",
+      "El dueño del producto, maximizando el valor y considerando riesgos, dependencias y retroalimentación de los interesados."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "El dueño del producto ordena el backlog para maximizar el valor, escuchando a los interesados. La facilidad técnica, el cargo o el orden de llegada no son criterios de valor."
+  },
+  {
+    "id": "x7-agl-005",
+    "module": "agile",
+    "topicId": "agile-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Un equipo completó 22, 26 y 24 puntos en sus tres últimos sprints. Quedan 120 puntos en el backlog del lanzamiento. ¿Cuántos sprints más necesitará aproximadamente?",
+    "options": [
+      "4 sprints.",
+      "2 sprints.",
+      "5 sprints.",
+      "3 sprints."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Velocidad media = (22 + 26 + 24) / 3 = 24 puntos; 120 / 24 = 5 sprints. 4 sprints sale de usar solo la mejor velocidad (26) y redondear hacia abajo; 2 sprints divide entre la suma de las tres velocidades (72) en lugar de su media, y 3 sprints confunde los sprints observados con el pronóstico."
+  },
+  {
+    "id": "x7-agl-006",
+    "module": "agile",
+    "topicId": "agile-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En un proyecto híbrido, el componente ágil quiere cambiar una interfaz que el componente predictivo ya construyó según la línea base. ¿Qué es lo más adecuado?",
+    "options": [
+      "Que el equipo ágil haga el cambio por su cuenta, porque trabaja con alcance flexible.",
+      "Evaluar el impacto con ambos componentes y, como afecta la línea base, tramitarlo por el control de cambios integrado acordado.",
+      "Rechazarlo siempre, porque lo predictivo no admite cambios.",
+      "Esperar al cierre para negociarlo."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La flexibilidad del componente ágil no autoriza a modificar lo ya construido bajo línea base: se evalúa el impacto y se usa el control de cambios acordado. Rechazar todo cambio o esperar al cierre ignora el valor que podría aportar."
+  },
+  {
+    "id": "x7-intro-001",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "level": "intro",
+    "prompt": "¿Qué diferencia a un riesgo de un incidente?",
+    "options": [
+      "Un riesgo es un evento incierto que podría ocurrir; un incidente es algo que ya ocurrió.",
+      "Un riesgo siempre es negativo y un incidente siempre es positivo.",
+      "No hay diferencia; son sinónimos.",
+      "Un riesgo lo gestiona el patrocinador y un incidente, el equipo."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La diferencia está en la certeza: el riesgo es futuro e incierto (puede ser amenaza u oportunidad) y el incidente ya está ocurriendo. No son sinónimos, y quién los gestiona depende de la asignación de responsables, no de su naturaleza."
+  },
+  {
+    "id": "x7-intro-002",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "level": "intro",
+    "prompt": "¿Qué es el costo de la calidad?",
+    "options": [
+      "Solo el costo de los ensayos de laboratorio.",
+      "El precio adicional de usar materiales de mejor marca.",
+      "El costo total de lograr la calidad (prevención y evaluación) más el de no lograrla (fallas internas y externas).",
+      "El monto que el cliente descuenta por defectos."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "El costo de la calidad agrupa el costo de la conformidad y el de la no conformidad. Los ensayos son solo una parte (evaluación); la marca del material o los descuentos del cliente son elementos aislados, no el concepto."
+  },
+  {
+    "id": "x7-intro-003",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "level": "intro",
+    "prompt": "¿Cuál de estas técnicas de resolución de conflictos suele dar el resultado más duradero cuando hay tiempo y confianza?",
+    "options": [
+      "Retirarse.",
+      "Suavizar.",
+      "Forzar.",
+      "Colaborar."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Colaborar aborda las causas y busca que ambas partes ganen, por eso suele ser la solución más duradera. Retirarse y suavizar postergan el conflicto, y forzar resuelve rápido pero puede dejar resentimiento."
+  },
+  {
+    "id": "x7-intro-004",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "level": "intro",
+    "prompt": "¿Qué define la gobernanza de un proyecto?",
+    "options": [
+      "La lista de tareas del equipo.",
+      "El marco de decisión: quién decide qué, con qué autoridad y umbrales, y cómo se supervisa el proyecto.",
+      "El presupuesto detallado por partidas.",
+      "Solo las reglas de seguridad de la obra."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La gobernanza establece la estructura de decisiones, autoridad y supervisión. Las tareas, el presupuesto o las reglas de seguridad son elementos de planificación que operan dentro de esa gobernanza."
   }
 ]

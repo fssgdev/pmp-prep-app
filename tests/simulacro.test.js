@@ -25,6 +25,9 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     assert(info.n === 180 && info.uniq === 180, '180 preguntas únicas');
     assert(info.uns === 10, '10 no puntuadas');
     assert(info.c.people === 56 && info.c.process === 70 && info.c.business === 44, 'calificadas 56/70/44 ' + JSON.stringify(info.c));
+    // issue #7: 200 simulacros generados sin preguntas introductorias ni dos de la misma familia
+    const integ = await page.evaluate(() => { let bad = 0; for (let k = 0; k < 200; k++) { const r = buildMock(); if (!r) { bad++; continue; } const qs = r.ids.map(mockQ), fam = qs.filter(q => q.family).map(q => q.family); if (qs.some(q => q.level === 'intro') || new Set(fam).size !== fam.length || new Set(r.ids).size !== 180) bad++; } return bad; });
+    assert(integ === 0, 'simulacros sin introductorias ni reformulaciones (200 generados, fallos: ' + integ + ')');
     // responde la primera con la UI
     const first = page.locator('.options input, .match-list select').first();
     if (await page.locator('.options input').count()) await page.locator('.options label').first().click(); else await page.locator('.match-list select').first().selectOption('0');
