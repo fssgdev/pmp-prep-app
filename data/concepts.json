@@ -407,5 +407,326 @@
         "back": "Escalar a quien tiene la autoridad, con análisis, opciones e impacto. Nunca fraccionar el gasto."
       }
     ]
+  },
+  {
+    "id": "liderazgo-servicio",
+    "title": "Liderazgo de servicio",
+    "topicId": "people-3",
+    "definition": "El [[liderazgo de servicio]] pone primero las necesidades del equipo: el líder quita obstáculos, protege el foco y facilita en lugar de dar órdenes. Su meta es que el equipo crezca en [[autonomía]] y pueda [[eliminar impedimentos]] con apoyo, no que dependa del líder para cada decisión.",
+    "example": "En un equipo que desarrolla la app de citas de un hospital, los programadores pierden horas esperando accesos al servidor de pruebas. El líder no reparte tareas ni presiona por velocidad: gestiona los permisos con el área de TI, bloquea reuniones innecesarias en la agenda del equipo y pregunta en cada retrospectiva qué más les está frenando.",
+    "cards": [
+      {
+        "id": "c-lsv-1",
+        "front": "¿Cuál es la prioridad de un líder de servicio?",
+        "back": "Atender las necesidades del equipo: quitar obstáculos, proteger su foco y facilitar su crecimiento."
+      },
+      {
+        "id": "c-lsv-2",
+        "front": "Un miembro del equipo ágil está bloqueado por otra área. ¿Qué hace primero el líder de servicio?",
+        "back": "Ayuda a eliminar el impedimento (o enseña al equipo a hacerlo), en vez de reasignar tareas o escalar de inmediato."
+      },
+      {
+        "id": "c-lsv-3",
+        "front": "¿Liderazgo de servicio significa que el líder hace el trabajo del equipo?",
+        "back": "No. Facilita y apoya; el equipo conserva la responsabilidad y las decisiones sobre cómo hacer el trabajo."
+      }
+    ]
+  },
+  {
+    "id": "tuckman",
+    "title": "Etapas de desarrollo del equipo (Tuckman)",
+    "topicId": "people-3",
+    "definition": "Los equipos suelen pasar por [[formación]], [[conflicto]] (storming), [[normalización]], [[desempeño]] y disolución. Cada etapa pide un estilo distinto del líder: más dirección al inicio, más facilitación y delegación cuando el equipo madura. Un cambio de integrantes puede devolver al equipo a una etapa anterior.",
+    "example": "En la construcción de un colegio, el nuevo equipo de obra empieza educado y prudente (formación). A la tercera semana chocan el residente y el jefe de instalaciones por el orden de los trabajos (conflicto); el director facilita una reunión y acuerdan reglas de coordinación (normalización). Dos meses después el equipo resuelve solo los cruces de especialidades (desempeño). Cuando llega un nuevo supervisor, vuelven las fricciones y el director retoma la facilitación.",
+    "cards": [
+      {
+        "id": "c-tuk-1",
+        "front": "¿En qué orden suelen darse las etapas de Tuckman?",
+        "back": "Formación, conflicto (storming), normalización, desempeño y disolución."
+      },
+      {
+        "id": "c-tuk-2",
+        "front": "El equipo discute sobre roles y métodos de trabajo. ¿En qué etapa está y qué hace el líder?",
+        "back": "Conflicto (storming). El líder facilita el diálogo y ayuda a acordar reglas y roles, sin ignorar ni imponer."
+      },
+      {
+        "id": "c-tuk-3",
+        "front": "Entra un integrante nuevo a un equipo que ya rendía bien. ¿Qué puede pasar?",
+        "back": "El equipo puede retroceder a etapas anteriores (formación o conflicto); el líder vuelve a apoyar más."
+      }
+    ]
+  },
+  {
+    "id": "resolucion-conflictos",
+    "title": "Modos de resolución de conflictos",
+    "topicId": "people-2",
+    "definition": "Ante un conflicto se puede [[colaborar]] (resolver el problema de fondo con todos), [[comprometer]] (cada parte cede algo), suavizar (resaltar coincidencias), forzar (imponer) o [[evitar]] (posponer o retirarse). Colaborar suele dar soluciones duraderas, pero el modo adecuado depende de la urgencia, la relación y lo que está en juego.",
+    "example": "En un proyecto de software para una municipalidad, el analista de seguridad exige cifrar todos los reportes y el líder de producto teme que eso retrase la entrega. El director junta a ambos, revisan qué datos son sensibles y acuerdan cifrar solo los campos personales desde el inicio: una solución de colaboración. Si el plazo hubiera sido de horas y hubiera un riesgo legal, forzar la regla de seguridad habría sido aceptable.",
+    "cards": [
+      {
+        "id": "c-cnf-1",
+        "front": "¿Qué modo de resolución de conflictos busca una solución en la que todos ganan?",
+        "back": "Colaborar (resolver el problema): se analiza la causa de fondo con todas las partes."
+      },
+      {
+        "id": "c-cnf-2",
+        "front": "¿Qué diferencia comprometer de colaborar?",
+        "back": "Comprometer: cada parte cede algo (nadie queda del todo satisfecho). Colaborar: se busca la solución que atiende el interés de todos."
+      },
+      {
+        "id": "c-cnf-3",
+        "front": "¿Cuándo puede ser razonable forzar?",
+        "back": "Ante una emergencia, un tema de seguridad o cumplimiento, cuando no hay tiempo para negociar."
+      }
+    ]
+  },
+  {
+    "id": "inteligencia-emocional",
+    "title": "Inteligencia emocional",
+    "topicId": "people-3",
+    "definition": "La [[inteligencia emocional]] es la capacidad de reconocer y manejar las propias emociones y de leer las de los demás. Incluye [[autoconciencia]], autorregulación, [[empatía]] y habilidades sociales. Un líder que la desarrolla responde a la presión sin reaccionar en caliente y detecta tensiones antes de que se vuelvan conflictos.",
+    "example": "En la implementación de una historia clínica electrónica, una enfermera jefa critica con dureza el sistema en una reunión. La directora nota su propio enojo, respira y no responde a la defensiva (autorregulación). Luego conversa a solas con ella, descubre que teme no poder atender bien a los pacientes durante la transición (empatía) y acuerdan turnos de apoyo en el piso los primeros días.",
+    "cards": [
+      {
+        "id": "c-ie-1",
+        "front": "¿Cuáles son los componentes habituales de la inteligencia emocional?",
+        "back": "Autoconciencia, autorregulación, empatía y habilidades sociales (algunos modelos agregan motivación)."
+      },
+      {
+        "id": "c-ie-2",
+        "front": "Un interesado reacciona con enojo en una reunión. ¿Qué muestra inteligencia emocional?",
+        "back": "Mantener la calma, no responder a la defensiva y buscar luego entender la preocupación de fondo."
+      }
+    ]
+  },
+  {
+    "id": "acta-equipo",
+    "title": "Acta del equipo y reglas básicas",
+    "topicId": "people-1",
+    "definition": "El [[acta del equipo]] (team charter) es un acuerdo escrito por el propio equipo sobre sus valores, forma de trabajo, toma de decisiones y comunicación. Sus [[reglas básicas]] fijan conductas esperadas, como horarios de reunión o cómo dar desacuerdos. Al ser [[construida en conjunto]], el equipo la respeta más y la usa para autorregularse.",
+    "example": "Un equipo híbrido que construye un puente peatonal tiene ingenieros en obra y proyectistas remotos. En la primera semana redactan juntos su acta: reunión diaria de 15 minutos a las 8:00, respuesta a consultas técnicas en menos de 24 horas, decisiones de diseño por consenso con el especialista como desempate y críticas al trabajo, nunca a la persona. Cuando alguien falta repetidamente a la reunión diaria, el mismo equipo le recuerda el acuerdo.",
+    "cards": [
+      {
+        "id": "c-act-1",
+        "front": "¿Quién elabora el acta del equipo (team charter)?",
+        "back": "El propio equipo, facilitado por el líder; no la impone el director ni el patrocinador."
+      },
+      {
+        "id": "c-act-2",
+        "front": "¿Qué suele contener el acta del equipo?",
+        "back": "Valores, reglas básicas, cómo se decide, cómo se comunica y cómo se manejan los desacuerdos."
+      },
+      {
+        "id": "c-act-3",
+        "front": "Un miembro incumple una regla básica. ¿Cuál es la primera respuesta esperada?",
+        "back": "Recordar el acuerdo del acta, idealmente desde el propio equipo, antes de escalar."
+      }
+    ]
+  },
+  {
+    "id": "matriz-involucramiento",
+    "title": "Matriz de evaluación del involucramiento de interesados",
+    "topicId": "people-4",
+    "definition": "La [[matriz de involucramiento]] compara para cada interesado su nivel [[actual]] (desconocedor, reticente, neutral, partidario o líder) con el nivel [[deseado]]. La brecha entre ambos indica dónde invertir esfuerzo de comunicación y gestión de relaciones.",
+    "example": "En la renovación del sistema de cobranza de una empresa de agua, el jefe de atención al cliente aparece como reticente y se necesita que sea partidario, porque su área usará el sistema a diario. El equipo planifica demostraciones con su personal y lo invita a validar las pantallas. Al jefe de contabilidad, ya partidario, solo se le envían avances quincenales.",
+    "cards": [
+      {
+        "id": "c-inv-1",
+        "front": "¿Qué dos niveles compara la matriz de involucramiento?",
+        "back": "El nivel actual de cada interesado (A o C) y el nivel deseado (D)."
+      },
+      {
+        "id": "c-inv-2",
+        "front": "¿Cuáles son los cinco niveles de involucramiento?",
+        "back": "Desconocedor, reticente, neutral, partidario y líder."
+      },
+      {
+        "id": "c-inv-3",
+        "front": "Un interesado clave pasa de partidario a reticente. ¿Qué haces?",
+        "back": "Hablar con él para entender la causa y ajustar la estrategia de involucramiento; actualizar el registro y el plan."
+      }
+    ]
+  },
+  {
+    "id": "poder-interes",
+    "title": "Matriz poder/interés",
+    "topicId": "people-6",
+    "definition": "La [[matriz poder/interés]] clasifica a los interesados según su capacidad de influir y su interés en el proyecto. Sugiere cuatro estrategias: [[gestionar de cerca]] (alto poder, alto interés), mantener satisfecho (alto poder, bajo interés), [[mantener informado]] (bajo poder, alto interés) y monitorear (bajo en ambos).",
+    "example": "En la ampliación de una carretera regional, el gobernador tiene alto poder y alto interés: se le reporta en persona cada mes. El ministerio de transportes tiene mucho poder pero poco interés diario: se le mantiene satisfecho con informes ejecutivos. Los vecinos afectados tienen alto interés y poco poder formal: se les informa por asambleas y un canal de mensajes. Los proveedores de señalización solo se monitorean.",
+    "cards": [
+      {
+        "id": "c-pi-1",
+        "front": "¿Qué estrategia corresponde a un interesado con alto poder y alto interés?",
+        "back": "Gestionar de cerca (involucrarlo activamente)."
+      },
+      {
+        "id": "c-pi-2",
+        "front": "Alto poder y bajo interés: ¿qué estrategia?",
+        "back": "Mantener satisfecho, sin saturarlo de detalles."
+      },
+      {
+        "id": "c-pi-3",
+        "front": "¿La clasificación de la matriz poder/interés es fija?",
+        "back": "No. El poder y el interés cambian; se revisa durante el proyecto y se actualiza el registro de interesados."
+      }
+    ]
+  },
+  {
+    "id": "plan-comunicaciones",
+    "title": "Plan de gestión de las comunicaciones y canales",
+    "topicId": "people-8",
+    "definition": "El [[plan de gestión de las comunicaciones]] define qué información necesita cada interesado, con qué frecuencia, en qué formato y quién la envía. La cantidad de [[canales de comunicación]] crece rápido con el tamaño del grupo según la fórmula [[n(n-1)/2]], por eso sumar personas complica la coordinación.",
+    "example": "En un proyecto de telemedicina con 8 interesados hay 8×7/2 = 28 canales. Al sumarse 4 personas de una clínica aliada, el grupo llega a 12 y los canales a 12×11/2 = 66: se agregan 38. El director actualiza el plan: un tablero semanal compartido para todos, un resumen ejecutivo mensual para la dirección y una reunión técnica solo con los responsables de integración.",
+    "cards": [
+      {
+        "id": "c-com-1",
+        "front": "¿Cuántos canales de comunicación hay con 10 personas?",
+        "back": "10×9/2 = 45 canales."
+      },
+      {
+        "id": "c-com-2",
+        "front": "Un equipo pasa de 6 a 9 personas. ¿Cuántos canales se agregan?",
+        "back": "De 15 (6×5/2) a 36 (9×8/2): se agregan 21."
+      },
+      {
+        "id": "c-com-3",
+        "front": "¿Qué define el plan de gestión de las comunicaciones?",
+        "back": "Qué información, para quién, con qué frecuencia, en qué formato, por qué medio y quién es responsable."
+      }
+    ]
+  },
+  {
+    "id": "conocimiento-tacito-explicito",
+    "title": "Conocimiento tácito vs. explícito",
+    "topicId": "people-7",
+    "definition": "El [[conocimiento explícito]] se puede escribir y compartir con documentos, manuales o bases de datos. El [[conocimiento tácito]] vive en la experiencia de las personas (criterio, intuición, trucos) y se transfiere mejor por [[interacción]]: mentoría, trabajo en pares, comunidades de práctica o conversaciones.",
+    "example": "En una planta de tratamiento de agua, el procedimiento de arranque de bombas está en un manual (explícito). Pero el operador con 20 años sabe por el sonido cuándo una bomba va a fallar (tácito). Antes de su jubilación, el proyecto de modernización programa turnos compartidos con los operadores jóvenes y graba sesiones donde explica qué escucha y por qué.",
+    "cards": [
+      {
+        "id": "c-tac-1",
+        "front": "¿Cuál es la diferencia entre conocimiento tácito y explícito?",
+        "back": "Explícito: se puede documentar. Tácito: está en la experiencia de las personas y es difícil de escribir."
+      },
+      {
+        "id": "c-tac-2",
+        "front": "¿Cómo se transfiere mejor el conocimiento tácito?",
+        "back": "Con interacción: mentoría, trabajo en pares, observación, comunidades de práctica y conversaciones."
+      }
+    ]
+  },
+  {
+    "id": "seguridad-psicologica",
+    "title": "Seguridad psicológica",
+    "topicId": "people-3",
+    "definition": "La [[seguridad psicológica]] es la confianza de que en el equipo se puede opinar, preguntar o admitir un [[error]] sin miedo a burlas ni castigos. Favorece la [[transparencia]], el aprendizaje y la detección temprana de problemas. No significa ausencia de exigencia, sino un ambiente donde decir la verdad es seguro.",
+    "example": "En un equipo de software, una desarrolladora junior nota que una migración de datos puede borrar registros, pero duda en decirlo porque la última vez que alguien reportó un error lo culparon en público. El líder cambia la dinámica: en la retrospectiva agradece cada alerta temprana, analiza los fallos sin buscar culpables y él mismo cuenta un error suyo. Desde entonces los riesgos se reportan en la reunión diaria.",
+    "cards": [
+      {
+        "id": "c-seg-1",
+        "front": "¿Qué es la seguridad psicológica en un equipo?",
+        "back": "La confianza de poder opinar, preguntar o admitir errores sin miedo a represalias ni humillación."
+      },
+      {
+        "id": "c-seg-2",
+        "front": "¿Qué acción del líder refuerza la seguridad psicológica?",
+        "back": "Analizar los fallos sin buscar culpables, agradecer las alertas tempranas y mostrar sus propios errores."
+      },
+      {
+        "id": "c-seg-3",
+        "front": "¿Seguridad psicológica significa bajar los estándares?",
+        "back": "No. Se puede exigir alto desempeño; lo que cambia es que decir la verdad no tiene castigo."
+      }
+    ]
+  },
+  {
+    "id": "tailoring",
+    "title": "Adaptación (tailoring) del enfoque",
+    "topicId": "process-1",
+    "definition": "La [[adaptación]] (tailoring) consiste en ajustar enfoque, procesos, herramientas y documentos a las características del proyecto y de la organización. Se elige entre [[predictivo, ágil o híbrido]] según la incertidumbre del alcance, el riesgo, la regulación y la cultura. El objetivo es usar [[solo lo que agrega valor]], ni más ni menos.",
+    "example": "Un hospital construye un nuevo pabellón y, a la vez, su sistema de reservas en línea. La obra civil, con normas sísmicas y alcance estable, se gestiona de forma predictiva con cronograma y control de cambios formal. El sistema de reservas, cuyos requisitos cambian con la opinión de los pacientes, se desarrolla en iteraciones de dos semanas. Ambos comparten un tablero integrado: un enfoque híbrido.",
+    "cards": [
+      {
+        "id": "c-tlr-1",
+        "front": "¿Qué significa adaptar (tailoring) el enfoque del proyecto?",
+        "back": "Ajustar enfoque, procesos, herramientas y documentos al contexto del proyecto, usando solo lo que agrega valor."
+      },
+      {
+        "id": "c-tlr-2",
+        "front": "¿Qué factores orientan la elección entre predictivo, ágil o híbrido?",
+        "back": "Estabilidad de requisitos, nivel de incertidumbre y riesgo, regulación, tamaño, cultura y frecuencia de entregas posible."
+      }
+    ]
+  },
+  {
+    "id": "nivelacion-alisado",
+    "title": "Nivelación vs. alisado de recursos",
+    "topicId": "process-4",
+    "definition": "La [[nivelación de recursos]] reprograma actividades para no superar la disponibilidad de un recurso, y puede [[cambiar la ruta crítica]] y alargar la fecha de fin. El [[alisado de recursos]] reduce picos de uso moviendo actividades solo dentro de su holgura, por lo que no altera la fecha de fin, aunque quizá no elimine todas las sobreasignaciones.",
+    "example": "En la construcción de un centro de salud solo hay una grúa, pero el cronograma la pide para dos vaciados en la misma semana. Si se mueve el vaciado no crítico dentro de su holgura, es alisado y la fecha de entrega se mantiene. Si ambos vaciados están en la ruta crítica y uno debe esperar, es nivelación: la entrega se retrasa una semana y la ruta crítica cambia.",
+    "cards": [
+      {
+        "id": "c-niv-1",
+        "front": "¿Cuál técnica puede retrasar la fecha de fin: nivelación o alisado?",
+        "back": "La nivelación; el alisado solo usa la holgura disponible y no mueve la fecha de fin."
+      },
+      {
+        "id": "c-niv-2",
+        "front": "¿Por qué el alisado puede no resolver todas las sobreasignaciones?",
+        "back": "Porque solo mueve actividades dentro de su holgura; si no hay holgura suficiente, el conflicto persiste."
+      },
+      {
+        "id": "c-niv-3",
+        "front": "Un recurso clave solo está disponible medio tiempo. ¿Qué técnica aplicas y qué efecto esperas?",
+        "back": "Nivelación de recursos; puede alargar la duración y cambiar la ruta crítica."
+      }
+    ]
+  },
+  {
+    "id": "cierre-proyecto",
+    "title": "Cierre del proyecto o fase",
+    "topicId": "process-10",
+    "definition": "Cerrar un proyecto o fase implica obtener la [[aceptación formal]] de los entregables, hacer la [[transición]] del producto a operaciones o al cliente y registrar las [[lecciones aprendidas]]. También se cierran contratos, se liberan recursos y se archiva la información. Si el proyecto se cancela antes de tiempo, igual se cierra formalmente.",
+    "example": "Al terminar un sistema de trámites en línea para una municipalidad, el director obtiene el acta de aceptación firmada por el gerente municipal, capacita a la mesa de ayuda y entrega manuales y accesos al área de TI que lo operará. Cierra el contrato con el proveedor de hosting temporal, reúne al equipo para documentar qué funcionó y qué no, y libera a los desarrolladores hacia otros proyectos.",
+    "cards": [
+      {
+        "id": "c-cie-1",
+        "front": "¿Qué tres resultados clave persigue el cierre de un proyecto o fase?",
+        "back": "Aceptación formal de los entregables, transición a operaciones o al cliente y lecciones aprendidas registradas."
+      },
+      {
+        "id": "c-cie-2",
+        "front": "El patrocinador cancela el proyecto a mitad de camino. ¿Qué hace el director?",
+        "back": "Ejecuta el cierre formal: documenta el estado, cierra contratos, libera recursos y registra lecciones aprendidas."
+      },
+      {
+        "id": "c-cie-3",
+        "front": "¿Cuándo se recogen las lecciones aprendidas?",
+        "back": "Durante todo el proyecto; en el cierre se consolidan y se archivan para la organización."
+      }
+    ]
+  },
+  {
+    "id": "cambio-organizacional",
+    "title": "Gestión del cambio organizacional",
+    "topicId": "business-7",
+    "definition": "Un proyecto solo genera valor si la organización adopta lo que entrega. Gestionar el cambio implica evaluar la [[preparación para el cambio]], entender y atender la [[resistencia]] (miedo, pérdida de control, falta de información) y acompañar la [[adopción]] con comunicación, capacitación y refuerzo hasta que el nuevo modo de trabajo se vuelva habitual.",
+    "example": "Una red de centros de salud reemplaza las fichas en papel por un sistema digital. Antes del lanzamiento, el equipo mide la preparación de cada centro con encuestas y visitas, y detecta que el personal mayor teme cometer errores. Organiza capacitaciones prácticas, nombra referentes en cada turno y revisa durante tres meses indicadores de uso real; en los centros con baja adopción refuerza el acompañamiento en lugar de dar por cerrado el cambio.",
+    "cards": [
+      {
+        "id": "c-gco-1",
+        "front": "¿Por qué la gestión del cambio es parte del trabajo del director de proyecto?",
+        "back": "Porque los beneficios solo llegan si la organización adopta los entregables; entregar no basta."
+      },
+      {
+        "id": "c-gco-2",
+        "front": "Usuarios clave se resisten al nuevo sistema. ¿Cuál es la primera acción?",
+        "back": "Entender las causas de la resistencia escuchándolos, y luego atenderlas con comunicación, capacitación o ajustes."
+      },
+      {
+        "id": "c-gco-3",
+        "front": "¿Cómo se confirma que un cambio fue adoptado?",
+        "back": "Con indicadores de uso real y comportamiento sostenido en el tiempo, no solo con la puesta en marcha."
+      }
+    ]
   }
 ]

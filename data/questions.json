@@ -2311,5 +2311,1356 @@
       1
     ],
     "rationale": "En entornos VUCA conviene un enfoque adaptativo o por etapas, con retroalimentación frecuente, para ajustar según la evidencia (por ejemplo, definir la mezcla de tipologías por fases de venta). Fijar todo el alcance o evitar cambios aumenta el riesgo de entregar algo que el mercado ya no quiere, y la experiencia previa sola no anticipa la volatilidad."
+  },
+  {
+    "id": "people-b2-001",
+    "module": "people",
+    "topicId": "people-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la reunión de arranque de la construcción de un centro de salud municipal, el alcalde insiste en inaugurar antes de fin de año, el director del hospital habla de ampliar camas y la constructora de proteger su margen. ¿Qué debe hacer primero el director del proyecto?",
+    "options": [
+      "Elaborar el cronograma detallado con la inauguración de fin de año como hito fijo.",
+      "Facilitar un taller para acordar el propósito del proyecto y criterios de éxito comunes a las tres partes.",
+      "Pedir al patrocinador que elija cuál de las tres prioridades prevalece y comunicarlo.",
+      "Registrar las tres expectativas en el registro de interesados y seguir con la planificación."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Antes de planificar en detalle, el director debe construir una visión compartida que integre las perspectivas en criterios de éxito acordados. Fijar la fecha del alcalde privilegia a un solo interesado; pedir al patrocinador que elija salta el diálogo y deja insatisfechos a los demás; registrar las expectativas sin conciliarlas deja el desacuerdo latente para más adelante."
+  },
+  {
+    "id": "people-b2-002",
+    "module": "people",
+    "topicId": "people-1",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "El equipo de una aplicación para una cadena de tiendas pide al responsable de producto un objetivo que lo oriente. ¿Qué característica hace que esa visión ayude al equipo a decidir en el día a día?",
+    "options": [
+      "Contiene la lista completa de funcionalidades priorizadas para todo el año.",
+      "Incluye la velocidad objetivo que el equipo debe alcanzar en cada sprint.",
+      "Describe de forma breve el resultado esperado para el cliente y permite juzgar si una historia contribuye a él.",
+      "Está aprobada formalmente por la gerencia y no puede cambiar durante el proyecto."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Una visión útil es breve, centrada en el resultado para el cliente y sirve como filtro para priorizar y decidir. Una lista de funcionalidades describe salidas, no propósito; la velocidad es una medida interna de capacidad; una visión congelada impide adaptarse a lo que se aprende."
+  },
+  {
+    "id": "people-b2-003",
+    "module": "people",
+    "topicId": "people-1",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En un programa de modernización de una entidad pública, un equipo ágil desarrolla el portal ciudadano y otro equipo predictivo instala la infraestructura. Los nuevos integrantes de infraestructura se quejan de que no entienden por qué las prioridades del portal cambian cada dos semanas. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Explicarles que así funciona el enfoque ágil y que deben adaptarse a ese ritmo.",
+      "Separar las reuniones de ambos equipos para que cada uno se concentre en su parte.",
+      "Escalar al patrocinador para que el programa adopte un único enfoque.",
+      "Revisar con ambos equipos la visión del programa y mostrar cómo los ajustes de prioridad sirven al mismo resultado."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Reforzar la visión común ayuda a que equipos con enfoques distintos entiendan cómo su trabajo contribuye al mismo objetivo. Pedir que se adapten sin explicación no genera comprensión; separar a los equipos aumenta la desconexión; escalar para imponer un solo enfoque es prematuro y no resuelve la falta de propósito compartido."
+  },
+  {
+    "id": "people-b2-004",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En una obra vial, la ingeniera de calidad y el jefe de frente discuten sobre si un tramo puede liberarse, y cada uno culpa al otro ante el resto del equipo. El director del proyecto se entera por terceros. ¿Qué debe hacer primero?",
+    "options": [
+      "Reunirse en privado con ambos para entender los intereses de cada uno y buscar juntos una solución.",
+      "Informar al gerente funcional de ambos para que decida quién tiene la razón.",
+      "Decidir él mismo qué criterio de liberación aplicar para no detener la obra.",
+      "Esperar a la reunión semanal para ver si el desacuerdo se resuelve por sí solo."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "El conflicto debe abordarse pronto, en privado y entendiendo los intereses de las partes, buscando una solución colaborativa. Escalar al gerente funcional es prematuro; imponer un criterio (forzar) ignora la experiencia de ambos y deja el conflicto latente; esperar (evitar) permite que la tensión siga dañando al equipo."
+  },
+  {
+    "id": "people-b2-005",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Durante la reunión diaria, dos desarrolladores empiezan a discutir con intensidad sobre qué arquitectura usar para un servicio de pagos. ¿Qué debería hacer el líder ágil?",
+    "options": [
+      "Elegir la arquitectura él mismo para que el sprint no se retrase.",
+      "Pedir al responsable de producto que decida, porque es quien responde por el valor.",
+      "Proponer continuar la conversación después de la reunión y facilitar una sesión en que el equipo compare ambas opciones con criterios acordados.",
+      "Recordar que en la reunión diaria no se debaten temas y pasar al siguiente punto sin más seguimiento."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "El líder de servicio protege el formato de la reunión diaria y, a la vez, facilita que el equipo resuelva el desacuerdo técnico con criterios objetivos. Decidir él mismo quita autonomía al equipo; la arquitectura es una decisión técnica que no corresponde al responsable de producto; cortar el tema sin seguimiento evita el conflicto en lugar de resolverlo."
+  },
+  {
+    "id": "people-b2-006",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Predictivo",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Relaciona cada situación de un proyecto minero con el modo de gestión de conflictos que se está aplicando.",
+    "items": [
+      "Las dos jefaturas analizan juntas los datos de producción y diseñan un turno que cumple las necesidades de ambas.",
+      "Cada área acepta ceder dos horas semanales de equipo pesado para cerrar el acuerdo, aunque ninguna queda conforme.",
+      "El director destaca lo que ambas partes comparten y resta importancia a la diferencia para mantener la armonía.",
+      "Ante un riesgo inmediato de derrumbe, el jefe de seguridad ordena detener la voladura sin abrir discusión."
+    ],
+    "options": [
+      "Evitar / retirarse",
+      "Colaborar / resolver el problema",
+      "Forzar / dirigir",
+      "Suavizar / acomodar",
+      "Comprometer / conciliar"
+    ],
+    "correct": [
+      1,
+      4,
+      3,
+      2
+    ],
+    "rationale": "Colaborar busca una solución que satisfaga a ambas partes; comprometer implica que cada parte cede algo y el resultado es parcial; suavizar enfatiza los acuerdos y minimiza las diferencias; forzar impone una decisión y es apropiado en emergencias de seguridad. Evitar (posponer o retirarse del conflicto) no describe ninguna de las situaciones."
+  },
+  {
+    "id": "people-b2-007",
+    "module": "people",
+    "topicId": "people-2",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Mentalidad",
+    "prompt": "En un proyecto con un proveedor externo de software y un equipo interno de operaciones, ambos grupos discuten cada semana sobre quién causó los retrasos en las integraciones. El equipo es virtual y las discusiones se dan por chat. ¿Qué dos acciones son las más adecuadas? Elige dos.",
+    "options": [
+      "Revisar con ambos grupos los acuerdos de trabajo del acta del equipo sobre cómo tratar y escalar desacuerdos.",
+      "Establecer que, en adelante, el proveedor asuma las demoras porque es quien recibe el pago.",
+      "Organizar una conversación por video con representantes de ambas partes, centrada en intereses y en datos del cronograma.",
+      "Retirar el tema de la agenda hasta que termine la fase para no afectar el clima."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "Reforzar los acuerdos de trabajo y facilitar una conversación sincrónica basada en datos e intereses atacan la causa del conflicto recurrente; además, el chat favorece malentendidos. Imponer que el proveedor cargue con las demoras es forzar sin análisis y puede dañar la relación contractual; posponer el tema es evitar y deja crecer el conflicto."
+  },
+  {
+    "id": "people-b2-008",
+    "module": "people",
+    "topicId": "people-3",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un equipo ágil lleva tres días sin poder probar sus historias porque el área de infraestructura no habilita el entorno de pruebas solicitado. ¿Qué debería hacer el líder del equipo?",
+    "options": [
+      "Pedir al equipo que avance con otras tareas y mencionar el retraso en la retrospectiva.",
+      "Gestionar con infraestructura la eliminación del impedimento y mantener informado al equipo.",
+      "Encargar al desarrollador más experimentado que configure el entorno por su cuenta.",
+      "Retirar del sprint las historias afectadas para no afectar la meta comprometida."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Como líder de servicio, su función es remover impedimentos que el equipo no puede resolver solo, en especial los que dependen de otras áreas. Esperar a la retrospectiva deja el bloqueo activo; desviar a un desarrollador consume capacidad y puede saltarse controles de infraestructura; retirar historias sin hablar con el responsable de producto altera el sprint sin atacar la causa."
+  },
+  {
+    "id": "people-b2-009",
+    "module": "people",
+    "topicId": "people-3",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En un proyecto minero, un supervisor con buen historial empezó a cometer errores en los reportes de producción. Se lo ve cansado y responde de mal modo en las reuniones. ¿Qué debería hacer primero el director del proyecto?",
+    "options": [
+      "Documentar los errores y comunicarlos al área de recursos humanos.",
+      "Reasignar sus tareas críticas a otra persona de inmediato.",
+      "Recordar al equipo en la próxima reunión la importancia de la calidad de los reportes.",
+      "Conversar con él en privado para escuchar qué ocurre y acordar juntos qué apoyo necesita."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "La inteligencia emocional lleva a hablar primero con la persona, en privado, para comprender la causa del cambio de comportamiento antes de actuar. Escalar a recursos humanos o reasignar tareas son medidas prematuras sin conocer la situación; el recordatorio general no aborda el problema individual y puede exponerlo ante sus compañeros."
+  },
+  {
+    "id": "people-b2-010",
+    "module": "people",
+    "topicId": "people-3",
+    "approach": "Predictivo",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Relaciona cada comportamiento observado en el equipo de un proyecto hospitalario con la etapa del modelo de desarrollo de equipos de Tuckman.",
+    "items": [
+      "Los integrantes son cordiales, esperan instrucciones y todavía no tienen claros sus roles.",
+      "Surgen choques sobre cómo hacer el trabajo y sobre quién toma las decisiones.",
+      "El equipo acuerda sus propias normas y empieza a confiar en las capacidades de los demás.",
+      "El equipo trabaja de forma interdependiente y resuelve los problemas sin intervención del director."
+    ],
+    "options": [
+      "Desempeño",
+      "Formación",
+      "Disolución",
+      "Turbulencia",
+      "Normalización"
+    ],
+    "correct": [
+      1,
+      3,
+      4,
+      0
+    ],
+    "rationale": "En formación el equipo es cauteloso y depende del líder; en turbulencia aparecen los desacuerdos sobre trabajo y autoridad; en normalización se consolidan acuerdos y confianza; en desempeño el equipo es autónomo e interdependiente. La disolución corresponde al cierre, cuando el equipo se separa, y no describe ninguna de estas situaciones."
+  },
+  {
+    "id": "people-b2-011",
+    "module": "people",
+    "topicId": "people-3",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En un equipo virtual con integrantes de cuatro países, una analista recién incorporada casi nunca habla en las videollamadas, aunque sus aportes escritos son muy buenos. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Asignarle trabajo individual para que no necesite participar en las reuniones.",
+      "Pedirle su opinión en público en cada reunión para que se acostumbre a intervenir.",
+      "Conversar con ella para conocer sus preferencias y ajustar las dinámicas, por ejemplo con rondas estructuradas y aportes escritos previos.",
+      "Comentar a su gerente funcional que su participación en el equipo es baja."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Crear seguridad psicológica implica entender a la persona y adaptar las dinámicas para que todas las voces se escuchen, considerando diferencias culturales y de estilo. Aislarla reduce la colaboración; exponerla en público puede aumentar su incomodidad; informar al gerente funcional es escalar sin haber hablado con ella."
+  },
+  {
+    "id": "people-b2-012",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "En la matriz de evaluación del involucramiento de un proyecto de planta de tratamiento, la gerente de operaciones figura con nivel actual «Reticente» y nivel deseado «Partidario». Los demás interesados clave ya están en el nivel deseado. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Reunirse con la gerente para entender sus preocupaciones y definir acciones de involucramiento específicas para ella.",
+      "Solicitar al patrocinador que le pida formalmente apoyar el proyecto.",
+      "Reducir la información que se le envía para evitar nuevas objeciones.",
+      "Reclasificarla como de bajo interés en la matriz de poder e interés."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La brecha entre el nivel actual y el deseado indica dónde enfocar el esfuerzo; el primer paso es comprender las causas de la resistencia y planificar acciones dirigidas. Recurrir al patrocinador es escalar antes de intentar el diálogo; ocultarle información aumenta la desconfianza; cambiar su clasificación maquilla el problema en lugar de resolverlo."
+  },
+  {
+    "id": "people-b2-013",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Mentalidad",
+    "prompt": "En un proyecto ágil para una red de farmacias, los representantes de los usuarios casi no asisten a las revisiones de sprint y sus comentarios llegan tarde, cuando ya cuesta incorporarlos. ¿Qué dos acciones favorecen mejor su involucramiento? Elige dos.",
+    "options": [
+      "Enviar grabaciones de las demostraciones y dar por aprobado el incremento si no hay comentarios en 48 horas.",
+      "Acordar con los usuarios horarios convenientes y mostrar el incremento funcionando con preguntas concretas para ellos.",
+      "Reducir las revisiones a una por trimestre para que sean más fáciles de agendar.",
+      "Invitarlos a sesiones de refinamiento del backlog para que vean cómo su retroalimentación cambia las prioridades."
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "rationale": "Adaptar las revisiones a la disponibilidad de los usuarios y mostrarles el efecto de sus aportes aumenta su compromiso y acorta el ciclo de retroalimentación. La aprobación tácita no es involucramiento real y puede ocultar desacuerdos; espaciar las revisiones retrasa aún más la retroalimentación, que es justo el problema."
+  },
+  {
+    "id": "people-b2-014",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "En un proyecto híbrido de ampliación de un puerto, la autoridad ambiental tiene gran poder para detener las obras, pero muestra poco interés en el día a día del proyecto. Según la matriz de poder e interés, ¿cuál es la estrategia más adecuada?",
+    "options": [
+      "Gestionarla de cerca, con reuniones de trabajo frecuentes y participación en las decisiones.",
+      "Mantenerla informada mediante boletines generales sobre el avance.",
+      "Mantenerla satisfecha, atendiendo sus requisitos y consultándola en los hitos clave.",
+      "Monitorearla con un esfuerzo mínimo hasta que muestre más interés."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Un interesado con alto poder y bajo interés se mantiene satisfecho: se cumplen sus requisitos y se le consulta en momentos relevantes sin saturarlo. La gestión cercana corresponde a alto poder y alto interés; mantener informado es para bajo poder y alto interés; el monitoreo mínimo es para bajo poder y bajo interés y aquí ignoraría su capacidad de detener la obra."
+  },
+  {
+    "id": "people-b2-015",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "A mitad de un proyecto de equipamiento hospitalario asume un nuevo director regional de salud que no participó en la planificación y que tiene autoridad sobre los fondos. ¿Qué debería hacer primero el director del proyecto?",
+    "options": [
+      "Enviarle el plan para la dirección del proyecto completo para que lo revise.",
+      "Continuar con el plan, ya que fue aprobado por su antecesor.",
+      "Pedir al patrocinador que obtenga su firma de respaldo al proyecto.",
+      "Actualizar el análisis de interesados y reunirse con él para conocer sus prioridades y expectativas."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Un cambio de interesado clave obliga a actualizar el registro y el análisis, y a involucrarlo directamente para entender sus expectativas. Enviar todo el plan sin conversar no asegura comprensión ni apoyo; asumir que la aprobación anterior basta ignora su autoridad sobre los fondos; buscar su firma por medio del patrocinador omite conocer sus prioridades."
+  },
+  {
+    "id": "people-b2-016",
+    "module": "people",
+    "topicId": "people-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Durante la ejecución de un edificio de oficinas, el cliente reclama que los acabados que se están instalando no son los que vio en la imagen de presentación del proyecto. Los acabados actuales cumplen las especificaciones aprobadas. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Incluir los acabados que pide el cliente para preservar la relación comercial.",
+      "Revisar con el cliente la línea base del alcance y los criterios de aceptación y, si aún desea otros acabados, tramitarlos mediante control de cambios.",
+      "Explicarle que la imagen era solo ilustrativa y que el tema queda cerrado.",
+      "Trasladar el reclamo al área legal de la constructora."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Alinear expectativas implica volver juntos a lo acordado y, si hay una nueva necesidad, gestionarla por el proceso de cambios. Cambiar los acabados sin control genera desvíos de costo y alcance; cerrar el tema sin diálogo deja la expectativa insatisfecha; involucrar al área legal es una escalada prematura de algo que puede resolverse conversando."
+  },
+  {
+    "id": "people-b2-017",
+    "module": "people",
+    "topicId": "people-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "La directora de marketing espera que todo el backlog de una tienda en línea esté listo para la campaña de diciembre. Con la velocidad promedio de los últimos seis sprints, el pronóstico indica que solo se completaría alrededor del 60 % del backlog para esa fecha. ¿Qué debería hacer el líder del equipo?",
+    "options": [
+      "Pedir al equipo horas extra hasta que el pronóstico alcance el 100 %.",
+      "Mantener el compromiso y recortar alcance en silencio en los últimos sprints.",
+      "Mostrar el pronóstico basado en datos y trabajar con el responsable de producto y la directora para priorizar lo de mayor valor para la campaña.",
+      "Proponer cambiar a un enfoque predictivo para fijar el alcance y la fecha."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La transparencia con datos reales permite alinear expectativas y concentrar la capacidad en lo que más valor aporta a la fecha clave. Las horas extra sostenidas no son sostenibles y suelen bajar la calidad; recortar en silencio rompe la confianza; cambiar de enfoque no altera la capacidad real del equipo."
+  },
+  {
+    "id": "people-b2-018",
+    "module": "people",
+    "topicId": "people-5",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Una empresa minera implementa un sistema de mantenimiento con entregas incrementales. Operaciones, mantenimiento y TI entienden de forma distinta cuándo una entrega está «terminada». ¿Qué práctica alinea mejor estas expectativas desde el inicio?",
+    "options": [
+      "Acordar con los interesados criterios de aceptación y una definición de terminado explícitos y visibles para todos.",
+      "Preparar un informe de avance semanal con más detalle técnico para cada área.",
+      "Dejar que el equipo técnico interprete cada requisito según su experiencia.",
+      "Programar una única revisión de aceptación al final del proyecto."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Criterios de aceptación y una definición de terminado acordados y visibles crean un entendimiento común de qué significa completar una entrega. Más detalle en los informes no resuelve diferencias de criterio; delegar la interpretación al equipo técnico ignora a los demás interesados; una sola revisión final descubre las diferencias cuando ya es costoso corregirlas."
+  },
+  {
+    "id": "people-b2-019",
+    "module": "people",
+    "topicId": "people-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El ministerio anunció públicamente la fecha de apertura de un nuevo centro de atención ciudadana. El director del proyecto detecta que una demora en la importación de equipos probablemente retrasará esa apertura unas tres semanas. ¿Qué debería hacer?",
+    "options": [
+      "Esperar a confirmar el retraso para no generar alarma innecesaria.",
+      "Informar pronto al patrocinador y a los interesados clave del impacto estimado y de las opciones de respuesta.",
+      "Comprimir el cronograma con horas extra sin avisar para intentar cumplir la fecha anunciada.",
+      "Pedir directamente al comité de control de cambios una extensión del plazo antes de analizar alternativas."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Gestionar expectativas exige comunicar de forma temprana y transparente, acompañando el problema con su impacto y alternativas. Esperar reduce el margen de reacción de los interesados; comprimir sin informar oculta un riesgo relevante; solicitar una extensión sin analizar opciones es una respuesta prematura que puede no ser necesaria."
+  },
+  {
+    "id": "people-b2-020",
+    "module": "people",
+    "topicId": "people-6",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En una revisión de sprint, el jefe de un almacén dice que el incremento no es lo que esperaba y propone una forma distinta de registrar las devoluciones. La historia cumple sus criterios de aceptación. ¿Qué debería hacer el equipo con su líder?",
+    "options": [
+      "Explicar que la historia cumplió los criterios acordados y dar el tema por cerrado.",
+      "Comprometerse a incluir el cambio en el sprint en curso para mantener satisfecho al interesado.",
+      "Registrar la retroalimentación y trabajar con el responsable de producto para reflejarla y priorizarla en el backlog.",
+      "Suspender la revisión y reprogramarla cuando el interesado esté más tranquilo."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La revisión de sprint existe para obtener retroalimentación; el responsable de producto la convierte en elementos del backlog y decide su prioridad. Cerrar el tema desaprovecha información valiosa; agregar trabajo al sprint en curso altera el compromiso sin priorizar; suspender la reunión evita la conversación necesaria."
+  },
+  {
+    "id": "people-b2-021",
+    "module": "people",
+    "topicId": "people-6",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Mentalidad",
+    "prompt": "En la implementación de un sistema de gestión hospitalaria, la encuesta trimestral muestra que la satisfacción de jefes de servicio y enfermería bajó de forma notable. ¿Qué dos acciones debería tomar el director del proyecto? Elige dos.",
+    "options": [
+      "Analizar los resultados con los propios interesados para identificar causas concretas de insatisfacción.",
+      "Aumentar la cantidad de informes que se envían a todos los interesados.",
+      "Posponer el análisis hasta el cierre de la fase para no distraer al equipo.",
+      "Ajustar las estrategias de involucramiento y comunicación según lo aprendido y volver a medir."
+    ],
+    "correct": [
+      0,
+      3
+    ],
+    "rationale": "Gestionar expectativas es un ciclo: entender las causas con los interesados, ajustar las estrategias y comprobar el efecto. Enviar más informes sin conocer la causa puede empeorar la percepción; posponer el análisis deja que la insatisfacción crezca y se traduzca en resistencia."
+  },
+  {
+    "id": "people-b2-022",
+    "module": "people",
+    "topicId": "people-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "En la organización de una feria internacional, un patrocinador comercial expresa su preocupación porque los espacios asignados no coinciden con lo conversado. El director del proyecto necesita dar seguimiento al tema con un responsable y una fecha de solución. ¿Dónde debería registrarlo?",
+    "options": [
+      "En el registro de riesgos.",
+      "En el registro de incidentes.",
+      "En el registro de lecciones aprendidas.",
+      "En la matriz de trazabilidad de requisitos."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Una preocupación que ya está ocurriendo y requiere acción se registra en el registro de incidentes, con responsable, fecha y estado. El registro de riesgos trata eventos inciertos futuros; las lecciones aprendidas capturan conocimiento para mejorar, no hacen seguimiento de acciones; la matriz de trazabilidad vincula requisitos con entregables."
+  },
+  {
+    "id": "people-b2-023",
+    "module": "people",
+    "topicId": "people-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "En una planta concentradora, un operador con veinte años de experiencia sabe reconocer por el sonido cuándo un molino necesita ajustes, pero nunca lo ha puesto por escrito. ¿Cuál es la forma más eficaz de transferir ese tipo de conocimiento?",
+    "options": [
+      "Pedirle que lo documente en el repositorio de procedimientos de la planta.",
+      "Enviar al personal nuevo el registro de lecciones aprendidas del proyecto.",
+      "Preparar un curso virtual estandarizado sobre la operación de molinos.",
+      "Organizar acompañamiento en planta, observación y mentoría con quienes asumirán la tarea."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Se trata de conocimiento tácito, basado en la experiencia y difícil de expresar; se transfiere mejor mediante interacción directa, observación y práctica guiada. Documentarlo, distribuir lecciones aprendidas o crear un curso sirven para conocimiento explícito, pero no capturan bien la habilidad práctica del operador."
+  },
+  {
+    "id": "people-b2-024",
+    "module": "people",
+    "topicId": "people-7",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Mentalidad",
+    "prompt": "Un equipo ágil identifica en cada retrospectiva los mismos problemas, pero las mejoras acordadas casi nunca se ponen en práctica. ¿Qué dos acciones ayudan más a que el aprendizaje se aplique? Elige dos.",
+    "options": [
+      "Suspender las retrospectivas hasta que el equipo resuelva los problemas pendientes.",
+      "Elegir pocas mejoras, asignarles un responsable e incluirlas como trabajo en el siguiente sprint.",
+      "Revisar al inicio de la siguiente retrospectiva el resultado de las acciones acordadas.",
+      "Que el líder del equipo defina las mejoras y las comunique para ahorrar tiempo."
+    ],
+    "correct": [
+      1,
+      2
+    ],
+    "rationale": "Hacer visibles y concretas pocas mejoras, y revisar su efecto, convierte la retrospectiva en aprendizaje aplicado. Suspender las retrospectivas elimina el espacio de mejora; que el líder imponga las acciones reduce el compromiso y la autoorganización del equipo."
+  },
+  {
+    "id": "people-b2-025",
+    "module": "people",
+    "topicId": "people-7",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Una cadena de supermercados implementa un nuevo sistema de cajas en 40 tiendas, por oleadas. En la primera oleada de cinco tiendas surgieron muchos problemas de capacitación y de logística. ¿Qué debería hacer el director del proyecto antes de la segunda oleada?",
+    "options": [
+      "Documentar las lecciones al cierre del programa para incluirlas en el informe final.",
+      "Continuar con la segunda oleada según lo planificado para no perder el ritmo.",
+      "Reemplazar al coordinador de la primera oleada por alguien con más experiencia.",
+      "Realizar una sesión de lecciones aprendidas con el equipo y las tiendas, y ajustar el plan de las siguientes oleadas."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Las lecciones aprendidas deben capturarse y aplicarse durante el proyecto, en especial cuando el trabajo se repite por oleadas. Esperar al cierre impide aprovecharlas; seguir sin cambios repetiría los mismos problemas; reemplazar al coordinador busca un culpable sin analizar las causas."
+  },
+  {
+    "id": "people-b2-026",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En un proyecto de saneamiento de una municipalidad, el gerente de obras públicas se queja ante el patrocinador de que nunca le informan del avance, aunque figura en la lista de distribución del informe mensual. ¿Qué debería hacer primero el director del proyecto?",
+    "options": [
+      "Conversar con el gerente para entender qué información necesita, con qué frecuencia y por qué medio, y actualizar el plan de comunicaciones.",
+      "Reenviarle todos los informes anteriores para demostrar que sí se le comunicó.",
+      "Pedir al patrocinador que le explique que el plan de comunicaciones ya fue aprobado.",
+      "Incluirlo en todas las reuniones del proyecto para que no vuelva a quejarse."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Que la información se envíe no significa que se comunique bien; hay que entender las necesidades reales del interesado y ajustar el plan. Reenviar los informes busca tener la razón en lugar de resolver; delegar la explicación en el patrocinador evade el problema; invitarlo a todo lo satura sin garantizar que reciba lo que necesita."
+  },
+  {
+    "id": "people-b2-027",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "El equipo de un proyecto de telemedicina tiene 8 integrantes, incluido el director del proyecto. Para la siguiente fase se incorporarán 4 personas más. ¿Cuántos canales de comunicación adicionales se generan?",
+    "options": [
+      "28",
+      "38",
+      "66",
+      "4"
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Los canales se calculan con n(n − 1)/2: con 8 personas hay 8 × 7 / 2 = 28 y con 12 hay 12 × 11 / 2 = 66, así que se agregan 66 − 28 = 38. 28 son los canales iniciales y 66 el total final, no el incremento; 4 confunde personas nuevas con canales."
+  },
+  {
+    "id": "people-b2-028",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un equipo ágil distribuido entre Lima, Ciudad de México y Madrid pierde información entre turnos: las decisiones tomadas en una ciudad no llegan a tiempo a las otras. ¿Qué acción es la más adecuada?",
+    "options": [
+      "Acordar con el equipo un horario de superposición, canales asíncronos definidos y un tablero compartido siempre actualizado.",
+      "Exigir que todos se conecten en el horario de la sede principal.",
+      "Reemplazar las reuniones por un correo semanal del líder con las decisiones tomadas.",
+      "Pedir a cada subequipo que trabaje de forma independiente e integre su trabajo al final de la entrega."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Los equipos virtuales necesitan acuerdos explícitos sobre cuándo coincidir, qué canales usar y radiadores de información visibles para todos. Imponer el horario de una sede afecta el bienestar y la equidad; un correo semanal es demasiado lento y unidireccional; trabajar aislados posterga la integración y multiplica los malentendidos."
+  },
+  {
+    "id": "process-b2-001",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la entrega de un centro de salud, el director del hospital recorre las instalaciones y dice: \"Todo se ve muy bien, pueden retirarse\". El plan exige un acta de aceptación firmada por el cliente. ¿Qué debe hacer el director del proyecto?",
+    "options": [
+      "Liberar al equipo y desmovilizar los equipos, porque la aprobación verbal del cliente es suficiente.",
+      "Enviar el informe final al patrocinador y dar por cerrado el proyecto sin esperar más trámites.",
+      "Solicitar la aceptación formal según el plan, documentada con la firma del cliente o su representante.",
+      "Pedir al equipo de calidad que repita todas las inspecciones antes de pedir cualquier firma."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "El cierre requiere la aceptación formal de los entregables tal como la define el plan; una opinión verbal no protege al proyecto ante reclamos posteriores. Liberar recursos o cerrar sin el acta es prematuro, y repetir todas las inspecciones duplica trabajo ya verificado sin que exista una no conformidad."
+  },
+  {
+    "id": "process-b2-002",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "La junta directiva cancela un proyecto de modernización de una red eléctrica al 60 % de avance porque cambió la regulación del sector. ¿Qué corresponde hacer?",
+    "options": [
+      "Ejecutar el cierre: documentar el estado de entregables y trabajo parcial, registrar lecciones aprendidas, cerrar contratos y liberar recursos.",
+      "Detener el trabajo de inmediato y reasignar al equipo, ya que un proyecto cancelado no requiere cierre formal.",
+      "Terminar los entregables en curso para alcanzar al menos el 80 % antes de cerrar el proyecto.",
+      "Pedir a la junta que revierta la decisión, porque el caso de negocio aprobado sigue vigente."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Un proyecto terminado anticipadamente también se cierra formalmente: se documenta qué se entregó y en qué estado, se cierran contratos, se capturan lecciones y se liberan recursos. Omitir el cierre deja obligaciones abiertas; seguir trabajando contradice la decisión de la junta, y el caso de negocio ya no es válido si cambió la regulación."
+  },
+  {
+    "id": "process-b2-003",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Predictivo",
+    "type": "multi",
+    "category": "Conceptual",
+    "prompt": "Se va a cerrar el contrato con la empresa que construyó el sistema de drenaje de una vía pública. ¿Qué acciones forman parte del cierre del contrato? Elige dos.",
+    "options": [
+      "Renegociar el precio unitario de las partidas para el siguiente proyecto con el mismo proveedor.",
+      "Confirmar que todos los entregables fueron aceptados y que no quedan reclamaciones pendientes.",
+      "Pedir al proveedor que mantenga a su personal en obra hasta el cierre administrativo de la entidad.",
+      "Archivar la documentación de la adquisición, incluidos pagos, cambios y evaluaciones del proveedor."
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "rationale": "Cerrar un contrato implica verificar la aceptación de los entregables, resolver reclamaciones y archivar el expediente completo de la adquisición. Negociar precios de un proyecto futuro no es parte de este cierre, y retener al personal del proveedor genera costos sin justificación una vez aceptado el trabajo."
+  },
+  {
+    "id": "process-b2-004",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un equipo ágil terminará en dos meses una plataforma de reservas que luego administrará el área de soporte de TI, que aún no ha participado. ¿Qué debe hacer el líder del proyecto para la transición?",
+    "options": [
+      "Entregar al área de soporte el código fuente y el backlog completo el último día del proyecto.",
+      "Pedir al equipo que siga atendiendo incidencias de producción de forma indefinida después del cierre.",
+      "Esperar a que el área de soporte solicite capacitación cuando aparezcan los primeros incidentes.",
+      "Incorporar ya al área de soporte en revisiones y pruebas, y acordar con ella criterios de traspaso y documentación operativa."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "La transición a operaciones se planifica con anticipación: involucrar al área receptora, transferir conocimiento y acordar criterios de traspaso reduce el riesgo de una entrega fallida. Un traspaso de último día o reactivo deja al área sin preparación, y mantener al equipo de proyecto indefinidamente impide cerrar y liberar recursos."
+  },
+  {
+    "id": "process-b2-005",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Predictivo",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada actividad de cierre con su propósito principal.",
+    "items": [
+      "Obtener el acta de aceptación del cliente",
+      "Liberar a los integrantes del equipo",
+      "Registrar lecciones aprendidas",
+      "Archivar los documentos del proyecto"
+    ],
+    "options": [
+      "Dejar un registro consultable para auditorías y proyectos futuros.",
+      "Confirmar que los entregables cumplen lo acordado y transferir su propiedad.",
+      "Mejorar los procesos de la organización a partir de la experiencia vivida.",
+      "Permitir que las personas pasen a otras asignaciones sin costos ociosos.",
+      "Ajustar la línea base del cronograma con las fechas reales de término."
+    ],
+    "correct": [
+      1,
+      3,
+      2,
+      0
+    ],
+    "rationale": "La aceptación formal confirma y transfiere los entregables; liberar al equipo evita costos ociosos; las lecciones aprendidas alimentan la mejora organizacional, y el archivo deja evidencia consultable. Ajustar la línea base al final no es una actividad de cierre: la línea base se conserva para comparar lo planificado con lo real."
+  },
+  {
+    "id": "process-b2-006",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Lectura",
+    "prompt": "Observa el gráfico de trabajo completado (burnup) de una app de telemedicina. ¿Qué interpretación es correcta?",
+    "options": [
+      "La velocidad del equipo cae a partir del sprint 3, por eso el trabajo pendiente no disminuye.",
+      "El equipo completa unos 12 puntos por sprint, pero el alcance crece 10 por sprint, así que el pendiente casi no baja.",
+      "Restan 70 puntos y el equipo completa 12 por sprint, por lo que terminará con seguridad en el sprint 12.",
+      "El alcance se mantiene estable y el equipo avanza más rápido de lo previsto desde el sprint 3."
+    ],
+    "correct": [
+      1
+    ],
+    "chart": {
+      "type": "line",
+      "title": "Burnup de la app de telemedicina (puntos de historia)",
+      "labels": [
+        "Sprint 1",
+        "Sprint 2",
+        "Sprint 3",
+        "Sprint 4",
+        "Sprint 5",
+        "Sprint 6"
+      ],
+      "series": [
+        {
+          "name": "Alcance total",
+          "values": [
+            100,
+            100,
+            110,
+            120,
+            130,
+            140
+          ]
+        },
+        {
+          "name": "Completado acumulado",
+          "values": [
+            12,
+            24,
+            35,
+            47,
+            58,
+            70
+          ]
+        }
+      ]
+    },
+    "rationale": "La línea de completado sube de forma estable (11–12 puntos por sprint) y la de alcance crece 10 puntos por sprint desde el sprint 3; el pendiente pasa de 76 a 70 en cuatro sprints. La velocidad no cae y el alcance no es estable; pronosticar el fin dividiendo 70 entre 12 ignora que el alcance sigue creciendo."
+  },
+  {
+    "id": "process-b2-007",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "La ampliación de un colegio tiene un presupuesto (BAC) de S/ 800 000. A la fecha, EV = S/ 320 000 y AC = S/ 400 000. Si se espera que la eficiencia de costos actual continúe, ¿cuál es la variación a la conclusión (VAC)?",
+    "options": [
+      "S/ −200 000",
+      "S/ −80 000",
+      "S/ +200 000",
+      "S/ −160 000"
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "CPI = 320 000 / 400 000 = 0,80; EAC = 800 000 / 0,80 = S/ 1 000 000; VAC = BAC − EAC = −200 000. S/ −80 000 es la CV actual (EV − AC), no el pronóstico al final; +200 000 invierte el signo, y −160 000 resulta de multiplicar BAC por (1 − CPI), que no es la fórmula de EAC."
+  },
+  {
+    "id": "process-b2-008",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El informe semanal de un proyecto de implantación de un ERP muestra todos los indicadores en verde, pero en conversaciones informales varios integrantes comentan que las pruebas de integración están muy atrasadas. ¿Qué debe hacer el director del proyecto?",
+    "options": [
+      "Mantener el informe como está, porque los indicadores oficiales son los que valen ante el comité.",
+      "Cambiar el estado de todo el proyecto a rojo para que el comité intervenga de inmediato.",
+      "Contrastar los indicadores con datos objetivos de las pruebas junto al equipo y corregir el informe si no reflejan la realidad.",
+      "Pedir a los integrantes que formalicen sus quejas por escrito antes de analizar el tema."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La información de estado debe ser veraz y basada en evidencia; si hay señales de que los indicadores ocultan un problema, el director verifica con datos y con el equipo y ajusta el informe. Ignorar las señales perpetúa un estado engañoso, cambiar todo a rojo sin análisis es una reacción prematura, y exigir quejas escritas desalienta la transparencia."
+  },
+  {
+    "id": "process-b2-009",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Predictivo",
+    "type": "multi",
+    "category": "Lectura",
+    "context": "Tablero de control de una línea de transmisión, semana 20: hitos completados 8 de 10 planificados a la fecha; CPI = 1,04; defectos abiertos en soldaduras: 5 (semana 17), 9 (semana 18), 14 (semana 20); riesgos de impacto alto: 2 (sin cambios en el último mes).",
+    "prompt": "¿Qué conclusiones se apoyan en el tablero? Elige dos.",
+    "options": [
+      "El proyecto va atrasado respecto a los hitos planificados a la fecha.",
+      "El proyecto presenta sobrecosto, ya que el CPI supera 1.",
+      "La tendencia de defectos empeora y amerita analizar su causa raíz.",
+      "La exposición a riesgos altos aumentó durante el último mes."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "rationale": "Se completaron 8 de 10 hitos planificados, lo que indica atraso, y los defectos casi se triplicaron en tres semanas, una tendencia que exige análisis de causa. Un CPI de 1,04 indica que el trabajo costó menos de lo que vale (no sobrecosto), y los riesgos altos se mantienen en 2, sin aumento."
+  },
+  {
+    "id": "process-b2-010",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Una red de clínicas debe instalar servidores y cableado con requisitos técnicos y normativos fijos, y además desarrollar una aplicación para médicos cuyas funciones aún no están claras. ¿Qué enfoque de entrega es más adecuado?",
+    "options": [
+      "Predictivo para todo, porque la normativa exige un plan detallado desde el inicio.",
+      "Ágil para todo, porque la parte más incierta determina el enfoque de todo el proyecto.",
+      "Iterativo para la infraestructura y predictivo para la aplicación, para reducir riesgos técnicos.",
+      "Predictivo para la infraestructura y adaptativo para la aplicación, integrados con hitos comunes en un mismo plan."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Cuando componentes del proyecto tienen distinto grado de incertidumbre, un enfoque híbrido aplica el método adecuado a cada uno y los integra con hitos compartidos. Imponer un solo enfoque desaprovecha las ventajas del otro, y la opción iterativo/predictivo invierte la lógica: lo incierto es la aplicación, no la infraestructura."
+  },
+  {
+    "id": "process-b2-011",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Los gerentes comerciales de una cadena de farmacias quieren saber qué funciones de la nueva app de compras estarán disponibles para la campaña de julio. ¿Qué herramienta responde mejor esa pregunta?",
+    "options": [
+      "El plan del sprint actual, con las tareas asignadas a cada desarrollador.",
+      "El plan de lanzamiento, basado en el backlog priorizado y la velocidad observada del equipo.",
+      "La definición de terminado, que indica cuándo una historia está completa.",
+      "El acta de constitución, que describe los objetivos de alto nivel del producto."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El plan de lanzamiento proyecta qué funciones se entregarán en cada versión a partir de la prioridad del backlog y la velocidad real. El plan del sprint cubre solo una iteración, la definición de terminado describe criterios de calidad, y el acta de constitución no detalla funciones por fecha."
+  },
+  {
+    "id": "process-b2-012",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "La PMO exige usar una plantilla con 14 planes subsidiarios en todos los proyectos. Te asignan organizar un congreso médico de seis semanas con un equipo de cuatro personas. ¿Qué debes hacer?",
+    "options": [
+      "Proponer a la PMO una adaptación que conserve los planes que aportan valor, justificando qué se simplifica y por qué.",
+      "Completar los 14 planes con el mismo nivel de detalle, porque es una exigencia de la organización.",
+      "Omitir la plantilla y gestionar el congreso con una lista de tareas, ya que es un proyecto pequeño.",
+      "Pedir más personal para poder cumplir con toda la documentación requerida por la PMO."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La adaptación (tailoring) ajusta procesos y documentos al tamaño y la complejidad del proyecto, y se acuerda con la PMO dentro de su gobernanza. Aplicar todo sin criterio consume esfuerzo sin valor, omitir la plantilla unilateralmente incumple la gobernanza, y aumentar personal para documentar no resuelve el problema de fondo."
+  },
+  {
+    "id": "process-b2-013",
+    "module": "process",
+    "topicId": "process-1",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada situación con el enfoque de desarrollo más adecuado.",
+    "items": [
+      "Puente vehicular con diseño aprobado, normas estrictas y pocos cambios esperados.",
+      "Plataforma educativa cuyos usuarios aún no saben qué necesitan y darán retroalimentación frecuente.",
+      "Planta de envasado con maquinaria definida y un software de trazabilidad que evolucionará con el uso.",
+      "Sistema municipal con alcance claro, cuyo cliente quiere usar cada módulo terminado antes de completar el resto."
+    ],
+    "options": [
+      "Ágil (adaptativo)",
+      "Predictivo",
+      "Incremental",
+      "Híbrido",
+      "Iterativo con prototipos desechables"
+    ],
+    "correct": [
+      1,
+      0,
+      3,
+      2
+    ],
+    "rationale": "Requisitos estables y regulados favorecen el enfoque predictivo; alta incertidumbre y retroalimentación frecuente, el ágil; componentes con distinta incertidumbre, el híbrido; y un alcance claro entregado en partes utilizables, el incremental. Los prototipos desechables sirven para refinar un diseño, no para entregar módulos funcionales por etapas."
+  },
+  {
+    "id": "process-b2-014",
+    "module": "process",
+    "topicId": "process-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "En una obra, la actividad A requiere 3 electricistas en las semanas 1 a 4, y la actividad B, 4 electricistas en las semanas 3 a 6. B tiene 2 semanas de holgura total y solo hay 5 electricistas disponibles. Si B se posterga 2 semanas, ¿cuál es la nueva demanda máxima semanal y qué técnica se aplicó?",
+    "options": [
+      "7 electricistas; nivelación de recursos.",
+      "4 electricistas; nivelación de recursos, porque cambia la fecha de fin.",
+      "4 electricistas; alisamiento de recursos.",
+      "5 electricistas; alisamiento de recursos."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Originalmente las semanas 3 y 4 suman 3 + 4 = 7. Al mover B a las semanas 5 a 8, A (semanas 1–4) y B ya no se superponen y el pico es 4. Como el retraso no excede la holgura, la fecha de fin no cambia: es alisamiento; la nivelación sí puede mover la fecha final, y 7 o 5 no corresponden a la nueva distribución."
+  },
+  {
+    "id": "process-b2-015",
+    "module": "process",
+    "topicId": "process-4",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El gerente funcional había comprometido a una especialista sénior en ciberseguridad para tu proyecto bancario, pero ahora ofrece a un analista junior. ¿Qué debes hacer primero?",
+    "options": [
+      "Aceptar al analista junior para no afectar la relación con el gerente funcional.",
+      "Escalar de inmediato al patrocinador para que obligue a cumplir el compromiso.",
+      "Rechazar al analista y buscar un consultor externo sin consultar a nadie.",
+      "Analizar la brecha de competencias y su impacto, y negociar con el gerente funcional alternativas como dedicación parcial de la sénior o mentoría."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Ante un cambio en la asignación de recursos, el director evalúa el impacto y negocia primero con quien controla el recurso. Aceptar sin análisis puede comprometer la calidad; escalar de inmediato salta la negociación directa, y contratar externamente sin consultar ignora el presupuesto y la gobernanza."
+  },
+  {
+    "id": "process-b2-016",
+    "module": "process",
+    "topicId": "process-4",
+    "approach": "Predictivo",
+    "type": "multi",
+    "category": "Conceptual",
+    "prompt": "Un edificio se construye en pleno centro de la ciudad, con espacio de almacenamiento casi nulo en la obra. ¿Qué acciones ayudan a gestionar los recursos físicos? Elige dos.",
+    "options": [
+      "Programar entregas escalonadas de materiales alineadas con el cronograma de cada frente.",
+      "Comprar y recibir todo el material al inicio para asegurar el precio.",
+      "Reducir el inventario de seguridad a cero en todas las partidas, incluidas las críticas.",
+      "Acordar con los proveedores ventanas de entrega y almacenamiento temporal en sus instalaciones."
+    ],
+    "correct": [
+      0,
+      3
+    ],
+    "rationale": "Con poco espacio, conviene recibir los materiales cuando se necesitan (entregas escalonadas) y apoyarse en acuerdos de logística con los proveedores. Recibir todo al inicio satura la obra y aumenta pérdidas, y eliminar todo inventario de seguridad expone las actividades críticas a paralizaciones."
+  },
+  {
+    "id": "process-b2-017",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Un contrato de costo más honorarios con incentivos para un centro de datos fija costo meta S/ 500 000, honorario meta S/ 50 000 y reparto de ahorros 70/30 (comprador/vendedor). El costo real fue S/ 440 000. ¿Cuánto paga el comprador en total?",
+    "options": [
+      "S/ 532 000",
+      "S/ 508 000",
+      "S/ 490 000",
+      "S/ 550 000"
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El ahorro es 500 000 − 440 000 = 60 000; al vendedor le corresponde el 30 %, es decir 18 000, y su honorario sube a 68 000. Total = 440 000 + 68 000 = S/ 508 000. S/ 532 000 asigna al vendedor el 70 %; S/ 490 000 ignora el incentivo, y S/ 550 000 es el precio meta, no el pago real."
+  },
+  {
+    "id": "process-b2-018",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "Una municipalidad contratará a una empresa para desarrollar su portal de trámites con un equipo ágil; las prioridades cambiarán según la retroalimentación ciudadana. ¿Qué estructura contractual se ajusta mejor?",
+    "options": [
+      "Precio fijo cerrado por todo el alcance definido en la licitación, sin posibilidad de cambios.",
+      "Tiempo y materiales sin tope ni revisión periódica de resultados.",
+      "Precio fijo por iteración o incremento, con backlog repriorizable y cláusulas de salida anticipada.",
+      "Costo más porcentaje del costo, para que el proveedor tenga flexibilidad total."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Pagar por iteración con un backlog que se puede repriorizar permite adaptarse a la retroalimentación y limita el riesgo del comprador, que puede terminar si no recibe valor. El precio fijo cerrado choca con un alcance cambiante; tiempo y materiales sin tope ni control transfiere todo el riesgo al comprador, y costo más porcentaje incentiva elevar costos."
+  },
+  {
+    "id": "process-b2-019",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "En la revisión del sprint, una historia de un sistema de citas cumple todos sus criterios de aceptación, pero no tiene las pruebas automatizadas que exige la definición de terminado del equipo. ¿Cómo debe tratarse?",
+    "options": [
+      "Como no terminada: vuelve al backlog y no se presenta como incremento completo.",
+      "Como terminada, porque el dueño del producto validó los criterios de aceptación.",
+      "Como terminada, con una tarea técnica de pruebas para un sprint posterior.",
+      "Como terminada parcialmente, sumando a la velocidad la mitad de sus puntos."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Una historia está terminada solo si cumple sus criterios de aceptación y la definición de terminado, que fija la calidad mínima de todo incremento. Validar los criterios no basta; postergar las pruebas acumula deuda técnica, y contar puntos parciales distorsiona la velocidad."
+  },
+  {
+    "id": "process-b2-020",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Una auditoría de calidad en la construcción de un hospital detecta que una cuadrilla omite la verificación de presión de las tuberías de gases medicinales para ganar tiempo. No se han encontrado fugas hasta ahora. ¿Qué debe hacer el director del proyecto?",
+    "options": [
+      "Felicitar a la cuadrilla por adelantar el cronograma, ya que no hubo fugas.",
+      "Reemplazar a la cuadrilla y continuar sin revisar los tramos ya instalados.",
+      "Esperar la inspección final para comprobar si las tuberías presentan problemas.",
+      "Restablecer la verificación, revisar los tramos ya instalados y analizar por qué se omitió el paso para corregir el proceso."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "La calidad se gestiona corrigiendo el proceso y su causa, no solo el producto: hay que restituir el control, verificar lo ya instalado y entender por qué se omitió. Que no haya fugas visibles no prueba la conformidad; cambiar de cuadrilla no corrige el proceso ni los tramos instalados, y esperar la inspección final aumenta el costo de falla."
+  },
+  {
+    "id": "process-b2-021",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "Para el montaje de un escenario de festival, las estimaciones son: optimista 8 días, más probable 11 días y pesimista 20 días. Con la estimación PERT (beta), ¿cuál es la duración esperada y su desviación estándar?",
+    "options": [
+      "13 días; desviación estándar de 2 días.",
+      "12 días; desviación estándar de 2 días.",
+      "12 días; desviación estándar de 4 días.",
+      "11 días; desviación estándar de 2 días."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "Duración esperada = (8 + 4 × 11 + 20) / 6 = 72 / 6 = 12 días; desviación estándar = (20 − 8) / 6 = 2 días. 13 días es el promedio simple (triangular); 4 días resulta de dividir el rango entre 3, y 11 días es solo el valor más probable."
+  },
+  {
+    "id": "process-b2-022",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En un programa de una empresa eléctrica, el hito de integración con el sistema de facturación es fijo. El pronóstico del equipo ágil muestra que no alcanzará a completar todas las funciones previstas para esa fecha. ¿Qué debe hacer el director del proyecto?",
+    "options": [
+      "Pedir al equipo horas extra permanentes hasta el hito, sin cambiar el alcance.",
+      "Mover el hito de integración, porque el pronóstico del equipo ágil tiene prioridad.",
+      "Trabajar con el dueño del producto para priorizar lo indispensable para el hito e informar a los interesados el alcance ajustado.",
+      "Dejar que el equipo descubra en el camino si llega, sin alertar todavía a los interesados."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Con fecha fija, la palanca es el alcance: se prioriza lo que la integración necesita y se comunica con transparencia. Las horas extra sostenidas agotan al equipo sin resolver la causa, mover un hito fijo del programa no está en manos del equipo, y ocultar el pronóstico impide que los interesados tomen decisiones a tiempo."
+  },
+  {
+    "id": "process-b2-023",
+    "module": "process",
+    "topicId": "process-3",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Tres meses después de lanzar una función de recordatorios en una app de salud, la telemetría muestra que la usa menos del 2 % de los pacientes. El equipo planea dos sprints más para mejorarla. ¿Qué debe hacer el líder?",
+    "options": [
+      "Explorar con usuarios y con el dueño del producto por qué no se usa, y repriorizar el backlog según el valor que se compruebe.",
+      "Continuar con los dos sprints planificados, porque la función ya estaba en la hoja de ruta.",
+      "Eliminar la función de inmediato y descartar todos los datos obtenidos.",
+      "Lanzar una campaña de publicidad para aumentar el uso antes de revisar el backlog."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La entrega basada en valor usa la evidencia del uso real para decidir dónde invertir: primero se entiende la causa con los usuarios y luego se reprioriza. Seguir el plan sin cuestionarlo ignora los datos; eliminarla sin analizar puede descartar un problema de usabilidad corregible, y promocionarla no aborda por qué no aporta valor."
+  },
+  {
+    "id": "process-b2-024",
+    "module": "process",
+    "topicId": "process-3",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "El dueño del producto de una plataforma logística prioriza tres épicas dividiendo el costo de demora entre la duración (WSJF). A: costo de demora 30, duración 5. B: costo de demora 24, duración 8. C: costo de demora 40, duración 10. ¿En qué orden deben abordarse?",
+    "options": [
+      "C, A, B",
+      "A, B, C",
+      "C, B, A",
+      "A, C, B"
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "WSJF: A = 30 / 5 = 6; C = 40 / 10 = 4; B = 24 / 8 = 3; el orden es A, C, B. C, A, B ordena solo por costo de demora; A, B, C ordena solo por duración más corta, y C, B, A no corresponde a ningún criterio coherente."
+  },
+  {
+    "id": "process-b2-025",
+    "module": "process",
+    "topicId": "process-2",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "context": "Registro del proyecto de una subestación: \"Semana 30 — Control de calidad verificó que el tablero de distribución cumple las especificaciones técnicas. Semana 31 — El representante del cliente revisa el tablero y firma su conformidad.\"",
+    "prompt": "Según el registro, ¿qué proceso ocurrió en la semana 31?",
+    "options": [
+      "Controlar la calidad, porque se comprobó el cumplimiento de las especificaciones.",
+      "Validar el alcance, porque el cliente revisó y aceptó formalmente el entregable verificado.",
+      "Controlar el alcance, porque se comparó el entregable con la línea base del alcance.",
+      "Cerrar el proyecto, porque el cliente firmó su conformidad."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "La semana 31 corresponde a validar el alcance: el cliente revisa un entregable ya verificado y lo acepta formalmente. La verificación técnica de la semana 30 fue control de calidad; controlar el alcance trata de monitorear cambios frente a la línea base, y aceptar un entregable no equivale a cerrar todo el proyecto."
+  },
+  {
+    "id": "business-b2-001",
+    "module": "business",
+    "topicId": "business-6",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un equipo que desarrolla la app móvil de un banco lleva cuatro retrospectivas anotando las mismas mejoras, pero ninguna se aplica y los integrantes empiezan a decir que la reunión 'no sirve'. Como líder de servicio, ¿qué es lo más apropiado?",
+    "options": [
+      "Pasar las retrospectivas a una frecuencia mensual para que haya más tiempo de aplicar las mejoras acumuladas.",
+      "Pedir al dueño del producto que decida cuáles mejoras son prioritarias y las asigne al equipo como tareas obligatorias.",
+      "Facilitar que el equipo elija una o dos mejoras concretas, con responsable y forma de verificar, y las incluya en el trabajo del siguiente sprint.",
+      "Reemplazar la retrospectiva por una encuesta anónima al cierre de cada sprint para reducir el tiempo de reuniones."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La mejora continua exige convertir los hallazgos en acciones pequeñas, con dueño y criterio de verificación, que se hagan visibles en el trabajo planificado. Espaciar las retrospectivas retrasa el ciclo de aprendizaje; imponerlas desde el dueño del producto quita al equipo la autoorganización sobre su propio proceso; y una encuesta recoge opiniones pero tampoco garantiza que algo cambie."
+  },
+  {
+    "id": "business-b2-002",
+    "module": "business",
+    "topicId": "business-6",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la instalación de una línea de envasado, la primera de tres fases terminó con dos semanas de retraso porque los planos del proveedor llegaron sin revisar. Las fases 2 y 3 usan el mismo proveedor. ¿Qué debe hacer el director del proyecto ahora?",
+    "options": [
+      "Registrar la lección en el registro de lecciones aprendidas y ajustar el proceso de revisión de planos antes de iniciar la fase 2.",
+      "Anotar el problema para incluirlo en el informe de lecciones aprendidas que se entregará al cierre del proyecto.",
+      "Solicitar a la PMO que actualice la plantilla corporativa de contratos antes de continuar con la fase 2.",
+      "Aplicar la penalidad contractual al proveedor y mantener el proceso de revisión vigente para las fases siguientes."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "El registro de lecciones aprendidas se usa durante todo el proyecto para que lo aprendido beneficie a las fases que siguen, no solo a proyectos futuros. Esperar al cierre desaprovecha la lección justo cuando más sirve. Actualizar la plantilla corporativa puede ser útil después, pero no corrige el riesgo inmediato; y la penalidad no evita que el problema se repita."
+  },
+  {
+    "id": "business-b2-003",
+    "module": "business",
+    "topicId": "business-6",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Un hospital aplica el ciclo PDCA para reducir el tiempo de admisión de pacientes. Empareja cada etapa del ciclo con la actividad que le corresponde.",
+    "items": [
+      "Planificar",
+      "Hacer",
+      "Verificar",
+      "Actuar"
+    ],
+    "options": [
+      "Comparar los tiempos medidos durante la prueba con la línea base.",
+      "Adoptar el nuevo flujo como estándar en todas las sedes y documentarlo.",
+      "Analizar las causas de la demora y diseñar un nuevo flujo de admisión.",
+      "Contratar más personal de admisión para todas las sedes.",
+      "Probar el nuevo flujo durante dos semanas en una sola sede."
+    ],
+    "correct": [
+      2,
+      4,
+      0,
+      1
+    ],
+    "rationale": "En PDCA primero se analizan causas y se diseña la mejora (Planificar), luego se prueba a pequeña escala (Hacer), se comparan los resultados con la línea base (Verificar) y, si funcionó, se estandariza (Actuar). Contratar personal para todas las sedes es una decisión sin prueba ni verificación previa, por lo que no corresponde a ninguna etapa del ciclo."
+  },
+  {
+    "id": "business-b2-004",
+    "module": "business",
+    "topicId": "business-7",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Una cooperativa de ahorro reemplaza su sistema de créditos. A un mes de la puesta en marcha, los analistas de dos agencias siguen calculando las cuotas en hojas de cálculo y luego las copian al sistema nuevo. ¿Qué debe hacer primero el director del proyecto?",
+    "options": [
+      "Pedir a los gerentes de agencia que prohíban el uso de hojas de cálculo y supervisen el cumplimiento.",
+      "Programar una nueva capacitación general sobre el sistema para todos los analistas de la cooperativa.",
+      "Registrar el uso de hojas de cálculo como un riesgo para la calidad de los datos y monitorearlo.",
+      "Conversar con los analistas de esas agencias para entender por qué no confían en el cálculo del sistema nuevo."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "Antes de actuar sobre la resistencia hay que entender su causa: puede ser falta de conocimiento, desconfianza en los resultados o un caso que el sistema no cubre. Prohibir sin entender suele aumentar la resistencia; una capacitación general puede no atacar la causa real; y el comportamiento ya está ocurriendo, por lo que tratarlo solo como riesgo lo posterga."
+  },
+  {
+    "id": "business-b2-005",
+    "module": "business",
+    "topicId": "business-7",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Conceptual",
+    "prompt": "Una municipalidad implementará un sistema de expedientes digitales que cambiará la forma de trabajar de 300 funcionarios. Antes del despliegue, el director quiere evaluar qué tan preparada está la organización. ¿Qué acciones ayudan a evaluar esa preparación? Elige dos.",
+    "options": [
+      "Identificar qué áreas perciben más pérdida con el cambio y qué tan comprometidos están sus jefes.",
+      "Revisar si el cronograma de despliegue respeta las fechas comprometidas en el acta del proyecto.",
+      "Verificar que el sistema haya superado todas las pruebas de aceptación técnica del proveedor.",
+      "Revisar experiencias de cambios anteriores en la institución y cómo los recibió el personal."
+    ],
+    "correct": [
+      0,
+      3
+    ],
+    "rationale": "La preparación para el cambio depende de las personas y la cultura: quiénes sienten que pierden algo, el apoyo de sus líderes y cómo se vivieron cambios previos. El cumplimiento de fechas y las pruebas técnicas son necesarios para el proyecto, pero miden el estado del entregable, no la disposición de la organización a adoptarlo."
+  },
+  {
+    "id": "business-b2-006",
+    "module": "business",
+    "topicId": "business-7",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Una fábrica de muebles incorporó un tablero digital de producción desarrollado en incrementos. Los supervisores lo usan bien mientras el equipo del proyecto está en planta, pero el uso cae cuando el equipo se retira. ¿Qué es lo más apropiado para sostener la adopción?",
+    "options": [
+      "Extender la presencia del equipo del proyecto en planta hasta que el uso se mantenga estable por varios meses.",
+      "Acordar con operaciones responsables internos del tablero, incorporar su uso a las rutinas diarias y medir la adopción después de la entrega.",
+      "Agregar al backlog nuevas funcionalidades que hagan el tablero más atractivo para los supervisores.",
+      "Informar al patrocinador que el producto se entregó según lo acordado y cerrar el trabajo del equipo."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "El cambio se sostiene cuando la organización lo asume como propio: dueños internos, rutinas que lo refuercen y medición del uso tras la transición. Prolongar la presencia del equipo crea dependencia y no transfiere la responsabilidad; más funcionalidades no resuelven un problema de hábito; y cerrar sin atender la caída ignora que el valor depende de la adopción."
+  },
+  {
+    "id": "business-b2-007",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un proyecto público de agua potable llega al final de la fase de diseño. El patrocinador está de viaje y el residente de obra propone empezar la excavación ya, porque el equipo está disponible. La revisión de fase está programada para dentro de diez días. ¿Qué debe hacer el director del proyecto?",
+    "options": [
+      "Autorizar el inicio de la excavación, ya que el diseño está terminado y retrasarla generaría costos de inactividad.",
+      "Iniciar la excavación solo en un tramo pequeño para aprovechar al equipo sin comprometer todo el presupuesto.",
+      "Esperar la decisión de la revisión de fase y, si la espera genera un impacto relevante, consultar al comité si puede adelantarla.",
+      "Pedir al residente que obtenga la aprobación por correo del jefe de presupuesto para iniciar la construcción."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "La revisión de fase es un punto de control de gobernanza: quien tiene el derecho de decisión debe autorizar el paso a construcción. Iniciar total o parcialmente sin esa decisión excede la autoridad del director, y la aprobación de una persona que no es la designada tampoco reemplaza al órgano que decide. Si la espera cuesta, lo correcto es escalarlo para que se decida antes, no saltarse el control."
+  },
+  {
+    "id": "business-b2-008",
+    "module": "business",
+    "topicId": "business-1",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En un programa de una aseguradora, los equipos ágiles priorizan su trabajo libremente y el comité directivo aprueba el presupuesto por trimestre. Un equipo descubre que integrar un servicio externo costará un 30 % más de lo asignado al trimestre. ¿Qué es lo más apropiado?",
+    "options": [
+      "Escalar el tema al comité directivo con el impacto y las alternativas, porque supera el límite de decisión del equipo.",
+      "Dejar que el equipo reprioritice el backlog y absorba el costo, ya que la priorización es responsabilidad del equipo.",
+      "Postergar la integración al siguiente trimestre sin informar, para no exceder el presupuesto aprobado.",
+      "Pedir a la PMO que reasigne fondos de otro proyecto del portafolio para cubrir la diferencia."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "La gobernanza define qué decide cada nivel: el equipo prioriza dentro del presupuesto asignado, pero un desvío que lo supera debe escalarse a quien tiene ese derecho de decisión, con información para decidir. Absorberlo en el equipo o postergarlo en silencio evade la escalada; y la PMO no suele tener autoridad para mover fondos entre proyectos sin la decisión del comité."
+  },
+  {
+    "id": "business-b2-009",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la construcción de un centro comercial con contrato a precio fijo, el gerente de marketing del cliente llama directamente al maestro de obra para pedir que se amplíe la zona de comidas en 80 m². ¿Qué debe hacer el director del proyecto?",
+    "options": [
+      "Autorizar la ampliación si el maestro de obra confirma que hay material suficiente en el almacén.",
+      "Rechazar el pedido, porque el alcance quedó cerrado cuando se firmó el contrato a precio fijo.",
+      "Ejecutar la ampliación y registrarla después en el registro de cambios para no retrasar la obra.",
+      "Pedir que el cliente presente una solicitud de cambio formal, analizar su impacto y someterla a quien corresponde aprobarla."
+    ],
+    "correct": [
+      3
+    ],
+    "rationale": "En un enfoque predictivo, todo cambio de alcance pasa por el control integrado de cambios: se documenta, se analiza su impacto en costo, plazo y riesgo y lo decide quien tiene autoridad. Autorizarlo por disponibilidad de material o ejecutarlo antes de aprobarlo omite ese análisis; y rechazarlo de plano ignora que un contrato a precio fijo también admite cambios por la vía acordada."
+  },
+  {
+    "id": "business-b2-010",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un proyecto instala equipos médicos en una clínica con plan predictivo y desarrolla el software de turnos con sprints. El director médico pide añadir recordatorios por mensaje de texto al software, sin cambiar el presupuesto ni la fecha de entrega. ¿Cómo debe gestionarse el pedido?",
+    "options": [
+      "Presentarlo al comité de control de cambios, porque cualquier modificación del proyecto requiere aprobación formal.",
+      "Llevarlo al dueño del producto para que lo incorpore al backlog y lo priorice frente al resto del trabajo pendiente.",
+      "Incluirlo en el sprint en curso, ya que no afecta el presupuesto ni la fecha comprometida.",
+      "Registrarlo para una segunda versión, porque el alcance del software se fijó en la planificación inicial."
+    ],
+    "correct": [
+      1
+    ],
+    "rationale": "En la parte ágil, los cambios que no alteran las restricciones aprobadas se gestionan reordenando el backlog con el dueño del producto. El comité de cambios se reserva para lo que afecte la línea base o los umbrales acordados. Meterlo en el sprint en curso rompe el compromiso del equipo, y congelar el alcance del software contradice el enfoque adaptativo elegido para esa parte."
+  },
+  {
+    "id": "business-b2-011",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "A mitad de la construcción de un laboratorio farmacéutico, la autoridad sanitaria publica una norma que exigirá un nivel mayor de filtración de aire en las salas limpias desde el próximo año. La entrega está prevista para dentro de ocho meses. ¿Qué debe hacer primero el director del proyecto?",
+    "options": [
+      "Evaluar con especialistas cómo afecta la norma al diseño, al costo y al plazo, y preparar la solicitud de cambio que corresponda.",
+      "Continuar con el diseño aprobado, ya que la norma entra en vigor después de la fecha de entrega del proyecto.",
+      "Pedir al proveedor de climatización que instale filtros de mayor nivel y negociar el costo adicional después.",
+      "Informar al patrocinador que el proyecto no podrá cumplir la nueva norma con el presupuesto actual."
+    ],
+    "correct": [
+      0
+    ],
+    "rationale": "Ante un cambio del entorno externo, primero se analiza su impacto en el proyecto y luego se gestiona la respuesta por el control de cambios. Ignorarlo porque aún no rige entrega un laboratorio que deberá adecuarse poco después; instalar sin análisis ni aprobación es una acción prematura; y concluir que no se puede cumplir sin evaluar opciones no da al patrocinador información útil para decidir."
+  },
+  {
+    "id": "business-b2-012",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Mentalidad",
+    "prompt": "Un equipo ágil desarrolla una plataforma de reparto para una cadena de supermercados. Un competidor lanza una función de entregas con vehículos eléctricos y el cliente anuncia que publicará metas de reducción de emisiones. ¿Qué acciones son más apropiadas? Elige dos.",
+    "options": [
+      "Revisar con el dueño del producto y los interesados cómo afectan estos cambios al valor esperado y al orden del backlog.",
+      "Copiar la función del competidor en el siguiente sprint para no perder participación de mercado.",
+      "Esperar a que el cliente publique sus metas oficiales antes de discutir cualquier cambio en el producto.",
+      "Plantear un experimento pequeño, como medir las emisiones por ruta, y validar su valor en la próxima revisión."
+    ],
+    "correct": [
+      0,
+      3
+    ],
+    "rationale": "Un cambio en el mercado o en las prioridades ambientales del cliente debe evaluarse según su efecto en el valor y reflejarse en la priorización, y un experimento pequeño permite aprender rápido con poco costo. Copiar al competidor sin evaluar el valor es una reacción prematura, y esperar a las metas oficiales desaprovecha la capacidad de adaptarse que da el enfoque ágil."
+  },
+  {
+    "id": "business-b2-013",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En la reunión diaria, un desarrollador del sistema de facturación electrónica de una distribuidora comenta que lleva dos días sin poder probar porque el entorno de pruebas del ente tributario rechaza las conexiones. Él mismo ya escribió al soporte sin respuesta. ¿Qué debe hacer el líder del equipo?",
+    "options": [
+      "Pedir al desarrollador que siga insistiendo con el soporte y que informe el avance en la próxima reunión diaria.",
+      "Proponer al equipo quitar del sprint la historia afectada y devolverla al backlog hasta que el entorno funcione.",
+      "Hacer visible el impedimento y gestionarlo directamente, buscando un contacto con más alcance en el ente o una alternativa de prueba.",
+      "Registrar el problema como un riesgo de calidad y revisarlo en la próxima retrospectiva del equipo."
+    ],
+    "correct": [
+      2
+    ],
+    "rationale": "Remover impedimentos que el equipo no puede resolver por sí mismo es tarea del líder de servicio, y debe hacerse en cuanto se conocen. Dejar que el desarrollador siga solo prolonga el bloqueo; sacar la historia del sprint es prematuro sin intentar resolverlo; y el bloqueo ya está ocurriendo, así que es un impedimento, no un riesgo para esperar a la retrospectiva."
   }
 ]

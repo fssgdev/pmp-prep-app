@@ -15,6 +15,7 @@
     window.PMP_DATA = {modules, sessions: calendar.sessions, stages: calendar.stages, questions, course: lessons, scenarios, concepts, tips};
     const load = src => new Promise((ok, fail) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => fail(new Error(src)); document.body.append(s); });
     await load('js/study.js');
+    await load('js/mock.js');
     await load('js/app.js');
   } catch (err) {
     main.innerHTML = '<p class="loading">No se pudo cargar el contenido de la app. Recarga la página.<br><small>' +

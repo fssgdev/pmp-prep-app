@@ -54,3 +54,16 @@ mark.kw{background:#fff1b8;color:#5a3d00;padding:1px 4px;border-radius:4px;font-
 @media(max-width:700px){.dash-head h1{font-size:23px}.countdown-pill{width:100%}.next-step{padding:20px;flex-direction:column-reverse;align-items:flex-start}.next-step h2{font-size:19px}.day-ring{width:84px;height:84px;align-self:flex-end;margin-bottom:-60px}.next-step .next-copy{width:100%}.kpi{padding:13px 14px}.kpi-value{font-size:24px}.bars{gap:6px}.tip-text{font-size:14px!important}}
 .next-step .day-ring{width:112px;height:112px}.dash{align-items:start}
 @media(max-width:700px){.next-step .day-ring{width:84px;height:84px}}
+/* Simulacro PMP completo */
+.mock-bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--green);color:#fff;border-radius:14px;padding:10px 16px;margin-bottom:16px}
+.mock-clock{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;font-weight:700;background:var(--lime);color:var(--green);border-radius:999px;padding:4px 12px}
+.mock-big{font-size:48px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--green);margin:4px 0 12px}
+.mock-break{text-align:center}
+.mock-actions{justify-content:space-between}
+.mock-nav{margin-top:16px}.mock-nav summary{cursor:pointer;font-weight:600}
+.mock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px;margin:12px 0}
+.mock-cell{min-height:40px;border:1px solid var(--line);background:#fff;border-radius:8px;font-weight:600;color:var(--ink)}
+.mock-cell.ans{background:#e8f1d6;border-color:#afc989}.mock-cell.flag{box-shadow:inset 0 -4px 0 #e0a35c}.mock-cell.cur{outline:2px solid var(--green);outline-offset:1px}
+.mock-review-row{border-top:1px solid var(--line);padding:10px 0}.mock-review-row summary{display:flex;gap:10px;align-items:baseline;cursor:pointer}
+.mock-review-row .status-dot{background:#afc989}.mock-review-row.wrong .status-dot{background:#c9a38c}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

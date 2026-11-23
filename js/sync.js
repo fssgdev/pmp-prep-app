@@ -35,28 +35,89 @@
     });
   }
 
+  /* Fusión de estados (issue #4): evita que un dispositivo borre lo que registró otro.
+     - Listas con id (intentos, errores, notas, simulacros, preguntas, prácticas): unión por id.
+       Si el mismo id difiere, gana la nota con 'updated' más reciente o, si no, el estado más nuevo.
+     - Borrados: state.deleted {id: fecha} actúa como lápida y se respeta en ambos lados.
+     - Actividades hechas: unión; una actividad desmarcada después ('task:<id>' en deleted) se respeta.
+     - Tarjetas: gana la que tiene más repasos; historial de tarjetas: unión sin duplicar.
+     - Temas, asistencia: por clave; ajustes, cuestionario y simulacro en curso: el estado más nuevo. */
+  const LISTS = ['notes', 'errors', 'mocks', 'attempts', 'questions', 'studySessions'];
+  function merge(local, remote, localNewer) {
+    if (!remote) return local; if (!local) return remote;
+    const [newer, older] = localNewer ? [local, remote] : [remote, local];
+    const out = {...older, ...newer};
+    const deleted = {...(older.deleted || {}), ...(newer.deleted || {})};
+    Object.keys(older.deleted || {}).forEach(k => { if (newer.deleted?.[k] && newer.deleted[k] < older.deleted[k]) deleted[k] = older.deleted[k]; });
+    out.deleted = deleted;
+    for (const k of LISTS) {
+      const map = new Map();
+      for (const item of [...(older[k] || []), ...(newer[k] || [])]) {
+        if (!item || !item.id || deleted[item.id]) continue;
+        const prev = map.get(item.id);
+        if (!prev) { map.set(item.id, item); continue; }
+        if (prev.updated && item.updated) map.set(item.id, item.updated >= prev.updated ? item : prev);
+        else map.set(item.id, item); // 'item' viene del estado más nuevo
+      }
+      out[k] = [...map.values()];
+      if (k === 'attempts' || k === 'mocks') out[k].sort((a, b) => String(a.date).localeCompare(String(b.date)));
+      if (k === 'errors' || k === 'notes') out[k].sort((a, b) => String(b.updated || b.date).localeCompare(String(a.updated || a.date)));
+    }
+    out.tasksDone = {};
+    for (const src of [older.tasksDone || {}, newer.tasksDone || {}]) for (const [id, at] of Object.entries(src)) {
+      const tomb = deleted['task:' + id];
+      if (tomb && tomb > at) continue;
+      if (!out.tasksDone[id] || at < out.tasksDone[id]) out.tasksDone[id] = at;
+    }
+    out.cards = {...(older.cards || {})};
+    for (const [id, c] of Object.entries(newer.cards || {})) {
+      const p = out.cards[id], score = x => (x.reps || 0) + (x.lapses || 0);
+      if (!p || score(c) > score(p) || (score(c) === score(p) && String(c.due) >= String(p.due))) out.cards[id] = c;
+    }
+    const count = log => { const m = new Map(); (log || []).forEach(l => { const k = l.at ? l.id + '@' + l.at : [l.id, l.date, l.grade, l.first].join('|'); m.set(k, [...(m.get(k) || []), l]); }); return m; };
+    const a = count(older.cardLog), b = count(newer.cardLog), log = [];
+    new Set([...a.keys(), ...b.keys()]).forEach(k => { const x = a.get(k) || [], y = b.get(k) || []; log.push(...(y.length >= x.length ? y : x)); });
+    out.cardLog = log.sort((p, q) => String(p.at || p.date).localeCompare(String(q.at || q.date))).slice(-3000);
+    out.topics = {...(older.topics || {}), ...(newer.topics || {})};
+    out.attendance = {...(older.attendance || {}), ...(newer.attendance || {})};
+    return out;
+  }
+
   async function pull() {
     const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', user.id).maybeSingle();
     if (error) throw error;
     if (!data) { await push(); return; }                       // primera vez: sube lo local
-    if (!localUpdated() || data.updated_at > localUpdated()) { // la nube es más reciente
-      if (app().setState(data.state)) {
-        try { localStorage.setItem(app().KEY + '-updated', data.updated_at); } catch {}
-        app().toast('Progreso actualizado desde la nube.');
-      }
-    } else if (localUpdated() > data.updated_at) {
-      await push();
-    }
+    if (localUpdated() === data.updated_at) { setStatus('synced'); return; }
+    const local = app().getState(), merged = merge(local, data.state, localUpdated() > data.updated_at);
+    const changedLocal = JSON.stringify(merged) !== JSON.stringify(local);
+    if (changedLocal && app().setState(merged)) app().toast('Progreso actualizado desde la nube.');
+    if (JSON.stringify(merged) !== JSON.stringify(data.state)) await write(merged);
+    else { try { localStorage.setItem(app().KEY + '-updated', data.updated_at); } catch {} }
     setStatus('synced');
   }
 
+  async function write(st) {
+    const updated_at = new Date().toISOString();
+    const {error} = await client.from('progress').upsert({user_id: user.id, state: st, updated_at});
+    if (error) throw error;
+    try { localStorage.setItem(app().KEY + '-updated', updated_at); } catch {}
+  }
+
+  // Antes de escribir, lee la nube y fusiona: así un guardado no pisa lo que subió otro dispositivo.
   async function push() {
     if (!client || !user) return;
     setStatus('syncing');
-    const updated_at = localUpdated() || new Date().toISOString();
-    const {error} = await client.from('progress').upsert({user_id: user.id, state: app().getState(), updated_at});
-    if (error) { setStatus('error', error.message); return; }
-    setStatus('synced');
+    try {
+      const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', user.id).maybeSingle();
+      if (error) throw error;
+      let st = app().getState();
+      if (data?.state && data.updated_at !== localUpdated()) {
+        const merged = merge(st, data.state, true);
+        if (JSON.stringify(merged) !== JSON.stringify(st) && app().setState(merged)) st = merged;
+      }
+      await write(st);
+      setStatus('synced');
+    } catch (e) { setStatus('error', e.message); }
   }
 
   function schedulePush() {
@@ -105,5 +166,5 @@
     } catch (e) { setStatus('error', e.message); }
   }
 
-  window.PMPSync = {init, schedulePush, panel, label, get enabled() { return enabled; }};
+  window.PMPSync = {init, schedulePush, panel, label, merge, get enabled() { return enabled; }};
 })();
