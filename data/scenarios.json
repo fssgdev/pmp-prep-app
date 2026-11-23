@@ -104,5 +104,50 @@
         }
       ]
     }
+  },
+  {
+    "id": "sc-app-postventa",
+    "title": "Caso App Postventa: burndown del lanzamiento",
+    "context": "Un equipo ágil desarrolla la app de postventa de una inmobiliaria, con sprints de dos semanas. El lanzamiento comprometido con el área comercial es al final del sprint 6. El gráfico muestra el trabajo restante del lanzamiento en puntos de historia: la línea ideal y el valor real al cierre de cada sprint. En el sprint 3, el dueño del producto incorporó 20 puntos nuevos pedidos por el área legal. Al cierre del sprint 4 aún no hay datos de los sprints 5 y 6.",
+    "chart": {
+      "type": "line",
+      "title": "App Postventa: trabajo restante del lanzamiento (puntos)",
+      "yLabel": "Puntos",
+      "labels": [
+        "Inicio",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "series": [
+        {
+          "name": "Restante ideal",
+          "values": [
+            120,
+            100,
+            80,
+            60,
+            40,
+            20,
+            0
+          ]
+        },
+        {
+          "name": "Restante real",
+          "values": [
+            120,
+            102,
+            86,
+            92,
+            76,
+            null,
+            null
+          ]
+        }
+      ]
+    }
   }
 ]
