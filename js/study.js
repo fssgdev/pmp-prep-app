@@ -6,7 +6,7 @@ const EXAM_TENTATIVE = '2027-01-31';
 const REVIEW_DAYS = [1, 3, 7, 14];
 const NEW_CARDS_PER_DAY = 8;
 const MOCK_FORMAT = {total: 180, unscored: 10, minutes: 240, breaks: 2, breakMinutes: 10, weights: {people: .33, process: .41, business: .26}};
-let simTab = 'practica', conceptFilter = 'all', conceptSearch = '', cardQueue = null, cardRevealed = false, agendaSource = 'all';
+let simTab = 'practica', conceptFilter = 'all', conceptSearch = '', cardQueue = null, cardMode = 'due', cardTimer = null, cardRevealed = false, agendaSource = 'all';
 let simFilter = null;
 
 /* ---------- utilidades ---------- */
@@ -102,15 +102,21 @@ function cardPhase(s) { return !s ? 'new' : s.phase ? s.phase : (s.reps > 0 && s
 function newToday() { return state.cardLog.filter(l => l.first && l.date === today()).length; }
 function extraNewToday() { return Number(state.cardExtra?.[today()] || 0); }
 function newAllowance() { return Math.max(0, NEW_CARDS_PER_DAY + extraNewToday() - newToday()); }
-function cardDueNow(s) { if (!s) return false; if (s.due < today()) return true; if (s.due > today()) return false; return !s.dueAt || s.dueAt <= stamp() || cardPhase(s) !== 'review'; }
-function dueCards() { return allCards().filter(c => { const s = cardState(c.id); return s && s.due <= today(); }).sort((a, b) => (cardState(a.id).dueAt || cardState(a.id).due).localeCompare(cardState(b.id).dueAt || cardState(b.id).due)); }
+/* Vencimiento real: los pasos en minutos usan la marca de tiempo dueAt; los repasos en días
+   vencen a la medianoche de Lima (UTC−5, sin horario de verano) de su fecha due. */
+const limaDay = ms => new Intl.DateTimeFormat('en-CA', {timeZone: 'America/Lima', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date(ms));
+function cardDueMs(s) { return s.dueAt ? Date.parse(s.dueAt) : Date.parse(s.due + 'T00:00:00-05:00'); }
+function cardDueNow(s) { return !!s && cardDueMs(s) <= Date.now(); }
+function dueCards() { return allCards().filter(c => cardDueNow(cardState(c.id))).sort((a, b) => cardDueMs(cardState(a.id)) - cardDueMs(cardState(b.id))); }
+/* Tarjetas en aprendizaje que vuelven más tarde (paso de 1 o 10 min aún no cumplido). */
+function learningLater() { return allCards().filter(c => { const s = cardState(c.id); return s && s.dueAt && !cardDueNow(s); }).map(c => ({id: c.id, at: Date.parse(cardState(c.id).dueAt)})).sort((a, b) => a.at - b.at); }
 function buildQueue() {
   ensureStudyState();
   const fresh = allCards().filter(c => !cardState(c.id)).slice(0, newAllowance());
   return [...dueCards(), ...fresh].map(c => c.id);
 }
 function cardsDueCount() { return buildQueue().length; }
-function cardsGradedToday() { return new Set(state.cardLog.filter(l => l.date === today()).map(l => l.id)).size; }
+function cardsGradedToday() { return new Set(state.cardLog.filter(l => l.date === today() && !l.extra).map(l => l.id)).size; }
 function cardGoalDone() { return cardsGradedToday() >= CARD_DAILY_GOAL; }
 function nextIntervals(prev) {
   const ph = cardPhase(prev);
@@ -127,7 +133,7 @@ function schedule(prev, grade) {
   else if (grade === 'hard') { s.ease = Math.max(1.3, (s.ease || 2.5) - .15); if (ph !== 'review') s.phase = ph === 'new' ? 'learning' : ph; }
   else if (grade === 'easy') s.ease = (s.ease || 2.5) + .15;
   if (step.days) { s.interval = step.days; s.phase = 'review'; s.reps = (s.reps || 0) + 1; s.due = plusDays(today(), step.days); delete s.dueAt; }
-  else { s.interval = 0; s.due = today(); s.dueAt = new Date(Date.now() + step.min * 60000).toISOString(); }
+  else { const at = Date.now() + step.min * 60000; s.interval = 0; s.dueAt = new Date(at).toISOString(); s.due = limaDay(at); }
   s.last = {grade, ...step};
   return s;
 }
@@ -135,12 +141,21 @@ const stepText = st => st.min ? st.min + ' min' : st.days === 1 ? '1 día' : st.
 const intervalText = n => n === 0 ? 'hoy' : n === 1 ? '1 día' : n + ' días';
 function gradeCard(grade) {
   ensureStudyState();
-  const id = cardQueue[0], prev = cardState(id), next = schedule(prev, grade), wasDone = cardGoalDone();
+  if (!cardQueue?.length) return;
+  const id = cardQueue[0];
+  if (cardMode === 'extra') {
+    /* Repaso extra voluntario: se registra, pero no cambia la programación ni cuenta como tarjeta nueva. */
+    state.cardLog.push({id, date: today(), grade, first: false, extra: true, at: stamp()});
+    cardQueue.shift(); cardRevealed = false;
+    if (!cardQueue.length) { cardMode = 'due'; cardQueue = null; toast('Repaso extra terminado. La programación de tus tarjetas no cambió.'); }
+    save(); render(); return;
+  }
+  const prev = cardState(id), next = schedule(prev, grade), wasDone = cardGoalDone();
   state.cards[id] = next;
   state.cardLog.push({id, date: today(), grade, first: !prev, at: stamp(), applied: next.last});
   if (state.cardLog.length > 3000) state.cardLog = state.cardLog.slice(-3000);
-  cardQueue.shift();
-  if (next.last.min) cardQueue.splice(Math.min(cardQueue.length, grade === 'again' ? 2 : 5), 0, id);
+  /* La cola se recalcula por vencimiento real: una tarjeta con paso en minutos solo vuelve cuando se cumple su hora. */
+  cardQueue = buildQueue();
   cardRevealed = false;
   if (!wasDone && cardGoalDone()) { state.tasksDone['cards-' + today()] = stamp(); toast('Meta diaria de tarjetas cumplida (4/4). Puedes seguir repasando.'); }
   save(); render();
@@ -180,7 +195,7 @@ function bulletToday(d = today()) {
   if (!lesson) return {missing: true, ws};
   const key = 'L' + lesson.n, pool = bulletPool(lesson.n), size = bulletSize();
   let day = r.days[d];
-  const started = state.quiz?.taskId === bulletId(d) || state.tasksDone[bulletId(d)];
+  const started = state.quiz?.taskId === bulletId(d) || state.tasksDone[bulletId(d)] || day?.quiz;
   if (day && day.lesson !== lesson.n && !started) { r.seen[day.key] = (r.seen[day.key] || []).filter(id => !day.ids.includes(id)); day = null; }
   if (!day) {
     const valid = new Set(pool.map(q => q.id));
@@ -199,13 +214,38 @@ function bulletToday(d = today()) {
 function bulletProgress(d = today()) {
   const id = bulletId(d);
   if (state.tasksDone?.[id]) return bulletSize();
-  return state.quiz?.taskId === id ? (state.quiz.answers || []).length : 0;
+  if (state.quiz?.taskId === id) return (state.quiz.answers || []).length;
+  return (state.routine?.days?.[d]?.quiz?.answers || []).length;
 }
+/* Si se inicia otra práctica con el Bullet Quiz a medias, su avance se guarda en el día
+   (state.routine.days[d].quiz) y se recupera al pulsar «Continuar». Lo llama startQuiz en app.js. */
+function stashBulletQuiz() {
+  const q = state.quiz; if (!q || q.finished || !String(q.taskId || '').startsWith('bullet-')) return;
+  const d = q.taskId.slice(7), r = ensureRoutine(), day = r.days[d]; if (!day) return;
+  day.quiz = JSON.parse(JSON.stringify(q)); day.at = stamp();
+}
+/* Solo cuenta como Bullet Quiz del día un cuestionario completo de bulletSize() preguntas. */
+function quizCompletesTask(q) { return !String(q.taskId || '').startsWith('bullet-') || (q.ids.length >= bulletSize() && q.answers.length >= bulletSize()); }
 function startBullet() {
   const b = bulletToday(); if (b.missing) { go('ruta'); toast('Elige la lección de esta semana para generar el Bullet Quiz.'); return; }
-  const qs = b.ids.map(id => allQuestions().find(q => q.id === id)).filter(Boolean);
+  const qs = b.ids.map(id => allQuestions().find(q => q.id === id)).filter(Boolean), size = bulletSize(), label = `Bullet Quiz · Lección ${b.lesson} (v4.1)`;
   if (state.quiz?.taskId === bulletId() && !state.quiz.finished) { go('practica'); return; }
-  startQuiz(qs, qs.length, `Bullet Quiz · Lección ${b.lesson} (v4.1)`, false, bulletId());
+  if (qs.length < size) {
+    dialog('Faltan preguntas para el Bullet Quiz', `<p class="hint">La lección ${b.lesson} solo tiene ${qs.length} ${qs.length === 1 ? 'pregunta elegible' : 'preguntas elegibles'}; faltan ${size - qs.length} para el Bullet Quiz de ${size}. La meta de hoy sigue en 0/${size}: elige otra lección en la Ruta o practica estas preguntas como práctica libre, que no cuenta para la rutina.</p><div class="actions">${button('Elegir lección en la Ruta', 'bullet-go-ruta', '')}${qs.length ? button(`Practicar las ${qs.length} (no cuenta)`, 'bullet-free', 'white') : ''}</div>`);
+    actions['bullet-free'] = () => { closeDialog(); startQuiz(qs, qs.length, `Práctica libre · Lección ${b.lesson} (no cuenta como Bullet Quiz)`); };
+    actions['bullet-go-ruta'] = () => { closeDialog(); go('ruta'); };
+    return;
+  }
+  const saved = ensureRoutine().days[today()]?.quiz;
+  if (saved && !saved.finished) {
+    const restore = () => { const r = ensureRoutine(); stashBulletQuiz(); state.quiz = r.days[today()].quiz; delete r.days[today()].quiz; r.days[today()].at = stamp(); save(); go('practica'); };
+    if (state.quiz && !state.quiz.finished) {
+      dialog('Tienes otra práctica en curso', `<p class="hint">Tu Bullet Quiz va en ${saved.answers.length}/${size} y se retoma donde lo dejaste. La práctica actual se cerrará; sus respuestas ya registradas se conservan en tu historial.</p><div class="actions">${button('Continuar el Bullet Quiz', 'bullet-restore', '')}${button('Cancelar', 'close-dialog', 'white')}</div>`);
+      actions['bullet-restore'] = () => { closeDialog(); restore(); };
+    } else restore();
+    return;
+  }
+  startQuiz(qs, qs.length, label, false, bulletId());
 }
 function routineRows() {
   const g = Math.min(cardsGradedToday(), CARD_DAILY_GOAL), cDone = cardGoalDone(), b = bulletToday(), bp = bulletProgress(), bDone = Boolean(state.tasksDone?.[bulletId()]), size = bulletSize();
@@ -304,19 +344,29 @@ function renderConcepts() {
 function lessonBadgeFor(topicId) { const t = topicBy(topicId), l = t && D.course?.lessons.find(x => x.eco.includes(t.code)); return l ? badge('Lección ' + l.n + ' · v4.1', 'green') : ''; }
 function renderFlashcards() {
   ensureStudyState();
-  if (!cardQueue) cardQueue = buildQueue();
+  if (!cardQueue) { cardMode = 'due'; cardQueue = buildQueue(); }
+  if (cardMode === 'due') { const ok = new Set(buildQueue()); cardQueue = cardQueue.filter(id => ok.has(id)); if (!cardQueue.length) cardQueue = [...ok]; }
   cardQueue = cardQueue.filter(id => allCards().some(c => c.id === id));
+  clearTimeout(cardTimer);
   const total = allCards().length, learned = Object.keys(state.cards).length, due = dueCards().length, newAvail = Math.min(newAllowance(), allCards().filter(c => !cardState(c.id)).length), g = cardsGradedToday(), goal = cardGoalDone();
   const head = heading('FLASHCARDS · RUTINA DIARIA', 'Repaso espaciado', `Meta diaria: ${CARD_DAILY_GOAL} tarjetas distintas. Puedes seguir repasando todo lo que quieras.`, `<a class="button white" href="#conceptos">${icon('book')} Conceptos</a>`) +
     `<div class="stats flash-stats">${stat('Meta de hoy', `${Math.min(g, CARD_DAILY_GOAL)} <small>/ ${CARD_DAILY_GOAL}</small>`, goal ? 'cumplida' : 'tarjetas distintas', 'check')}${stat('Vencidas', due, 'para repasar hoy', 'clock')}${stat('Nuevas hoy', newAvail, `límite ${NEW_CARDS_PER_DAY} al día${extraNewToday() ? ' + ' + extraNewToday() + ' extra' : ''}`, 'plus')}${stat('Banco', `${learned} <small>/ ${total}</small>`, 'estudiadas / total', 'cards')}</div>` +
-    (goal && cardQueue.length ? `<div class="notice">Meta diaria cumplida (${Math.min(g, CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}). Lo que repases ahora es estudio adicional.</div>` : '');
+    (cardMode === 'extra' ? `<div class="notice">Repaso extra voluntario: tus respuestas se registran, pero no cambian cuándo vuelve cada tarjeta. ${button('Terminar repaso extra', 'cards-extra-stop', 'ghost small')}</div>` : '') +
+    (goal && cardQueue.length && cardMode === 'due' ? `<div class="notice">Meta diaria cumplida (${Math.min(g, CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}). Lo que repases ahora es estudio adicional.</div>` : '');
+  const later = learningLater();
+  if (!cardQueue.length && later.length) {
+    /* Solo quedan tarjetas en aprendizaje que aún no vencen: se muestra cuánto falta y se puede salir. */
+    const wait = later[0].at - Date.now(), mins = Math.max(1, Math.ceil(wait / 60000)), hhmm = new Date(later[0].at).toLocaleTimeString('es-PE', {timeZone: 'America/Lima', hour: '2-digit', minute: '2-digit'});
+    if (wait < 36e5) cardTimer = setTimeout(() => { if (location.hash.startsWith('#flashcards') && !document.querySelector('dialog[open]')) { cardQueue = null; render(); } }, wait + 500);
+    return head + `<section class="card flash-done flash-wait">${icon('clock')}<h2>Próxima tarjeta en ${mins} min</h2><p class="hint">${later.length} ${later.length === 1 ? 'tarjeta en aprendizaje vuelve' : 'tarjetas en aprendizaje vuelven'} a partir de las ${hhmm} (hora de Lima), cuando se cumple el intervalo que elegiste. Puedes salir y volver luego: la espera se conserva al recargar.</p><div class="actions" style="justify-content:center"><a class="button light" href="#inicio">Salir por ahora</a>${button('Repaso extra ahora (no cambia la programación)', 'cards-extra-learning', 'white')}</div></section>`;
+  }
   if (!cardQueue.length) {
     const next = Object.values(state.cards).map(c => c.due).filter(d => d > today()).sort()[0], left = allCards().filter(c => !cardState(c.id)).length;
     return head + `<section class="card flash-done">${icon('check')}<h2>${goal ? 'No quedan tarjetas para hoy' : 'Cola vacía'}</h2><p class="hint">Repasaste ${g} tarjetas distintas hoy. ${next ? 'La próxima tarjeta programada vuelve el ' + date(next, {weekday: 'long', day: 'numeric', month: 'long'}) + '.' : ''} ${left ? `Quedan ${left} tarjetas nuevas en el banco.` : 'Ya estudiaste todas las tarjetas del banco.'}</p><div class="actions" style="justify-content:center">${left ? button('Estudiar 5 nuevas más', 'cards-more', 'light') : ''}${g ? button('Repasar otra vez las de hoy', 'cards-extra', 'white') : ''}</div></section>`;
   }
   const card = allCards().find(c => c.id === cardQueue[0]), prev = cardState(card.id), ph = cardPhase(prev), ivs = nextIntervals(prev);
   const opts = [['again', 'Otra vez', 'danger'], ['hard', 'Difícil', 'white'], ['good', 'Bien', ''], ['easy', 'Fácil', 'lime']];
-  return head + `<section class="card flashcard"><div class="meta">${badge(topicLabel(card.topicId), 'blue')} ${lessonBadgeFor(card.topicId)} ${badge(esc(card.concept))} ${ph === 'new' ? badge('Nueva', 'green') : ph === 'review' ? badge('Repaso') : badge('En aprendizaje', 'orange')}</div><h2 class="flash-front">${esc(card.front)}</h2>${cardRevealed ? `<div class="flash-back">${esc(card.back)}</div><a class="text-link" href="#conceptos/${card.conceptId}">Ver ficha del concepto ${icon('arrow')}</a><div class="grade-row">${opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: vuelve en ${stepText(ivs[gr])}">${n}<small>${stepText(ivs[gr])}</small></button>`).join('')}</div>` : `<div class="actions" style="justify-content:center;margin-top:26px">${button('Mostrar respuesta', 'card-reveal', '')}</div><p class="hint" style="text-align:center;margin-top:10px">Atajos: Espacio para mostrar · 1 a 4 para calificar · ${cardQueue.length} en la cola</p>`}</section>`;
+  return head + `<section class="card flashcard"><div class="meta">${badge(topicLabel(card.topicId), 'blue')} ${lessonBadgeFor(card.topicId)} ${badge(esc(card.concept))} ${ph === 'new' ? badge('Nueva', 'green') : ph === 'review' ? badge('Repaso') : badge('En aprendizaje', 'orange')}</div><h2 class="flash-front">${esc(card.front)}</h2>${cardRevealed ? `<div class="flash-back">${esc(card.back)}</div><a class="text-link" href="#conceptos/${card.conceptId}">Ver ficha del concepto ${icon('arrow')}</a><div class="grade-row">${cardMode === 'extra' ? opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: repaso extra, no cambia la programación">${n}<small>sin cambios</small></button>`).join('') : opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: vuelve en ${stepText(ivs[gr])}">${n}<small>${stepText(ivs[gr])}</small></button>`).join('')}</div>` : `<div class="actions" style="justify-content:center;margin-top:26px">${button('Mostrar respuesta', 'card-reveal', '')}</div><p class="hint" style="text-align:center;margin-top:10px">Atajos: Espacio para mostrar · 1 a 4 para calificar · ${cardQueue.length} en la cola</p>`}</section>`;
 }
 
 /* ---------- agenda ---------- */
@@ -391,9 +441,11 @@ const STUDY_ACTIONS = {
   'concept-filter': el => { conceptFilter = el.dataset.id; render(); },
   'card-reveal': () => { cardRevealed = true; render(); },
   'card-grade': el => gradeCard(el.dataset.id),
-  'cards-more': () => { ensureStudyState(); state.cardExtra = {...(state.cardExtra || {}), [today()]: extraNewToday() + 5}; save(); cardQueue = buildQueue(); cardRevealed = false; render(); },
+  'cards-more': () => { ensureStudyState(); state.cardExtra = {...(state.cardExtra || {}), [today()]: extraNewToday() + 5}; save(); cardMode = 'due'; cardQueue = buildQueue(); cardRevealed = false; render(); },
   'bullet-start': () => startBullet(),
-  'cards-extra': () => { cardQueue = [...new Set(state.cardLog.filter(l => l.date === today()).map(l => l.id))]; cardRevealed = false; render(); },
+  'cards-extra': () => { cardMode = 'extra'; cardQueue = [...new Set(state.cardLog.filter(l => l.date === today()).map(l => l.id))]; cardRevealed = false; render(); },
+  'cards-extra-learning': () => { cardMode = 'extra'; cardQueue = learningLater().map(x => x.id); cardRevealed = false; render(); },
+  'cards-extra-stop': () => { cardMode = 'due'; cardQueue = null; cardRevealed = false; render(); },
   'sim-tab': el => { simTab = el.dataset.id; render(); },
   'sim-topics-all': () => { simFilter.topics = D.modules.flatMap(m => m.topics.map(t => t.id)); render(); },
   'sim-topics-none': () => { simFilter.topics = []; render(); },
@@ -431,4 +483,4 @@ document.addEventListener('keydown', ev => {
   if (ev.key === ' ' && !cardRevealed && cardQueue?.length) { ev.preventDefault(); cardRevealed = true; render(); }
   else if (cardRevealed && ['1', '2', '3', '4'].includes(ev.key)) gradeCard(['again', 'hard', 'good', 'easy'][Number(ev.key) - 1]);
 });
-window.addEventListener('hashchange', () => { if (location.hash.startsWith('#flashcards')) { cardQueue = null; cardRevealed = false; } });
+window.addEventListener('hashchange', () => { if (location.hash.startsWith('#flashcards')) { cardQueue = null; cardMode = 'due'; cardRevealed = false; } else clearTimeout(cardTimer); });
