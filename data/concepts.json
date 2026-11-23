@@ -728,5 +728,156 @@
         "back": "Con indicadores de uso real y comportamiento sostenido en el tiempo, no solo con la puesta en marcha."
       }
     ]
+  },
+  {
+    "id": "alinear-expectativas",
+    "title": "Alinear expectativas con criterios compartidos",
+    "topicId": "people-5",
+    "definition": "Cuando los interesados piden cosas incompatibles, el director [[facilita]] una conversación sobre [[necesidades, restricciones y prioridades]] y acuerda [[criterios de decisión]] (valor, riesgo, plazo) [[antes de comprometer]] una solución. No promete todo ni decide solo por jerarquía u orden de llegada.",
+    "example": "Ventas quiere entregar las áreas comunes antes para la campaña, y Postventa prefiere más tiempo de pruebas. El director reúne a ambos, presenta el impacto de cada opción en el valor y en el riesgo de observaciones, y acuerdan entregar primero el lobby probado y después las terrazas.",
+    "cards": [
+      {
+        "id": "c-ale-1",
+        "front": "Dos interesados piden cosas incompatibles. ¿Qué haces antes de comprometer una solución?",
+        "back": "Facilitar la discusión de necesidades, restricciones y prioridades, y acordar criterios de decisión. No prometer ambas ni decidir por jerarquía."
+      },
+      {
+        "id": "c-ale-2",
+        "front": "¿Una demostración temprana compromete el alcance?",
+        "back": "No. Hay que aclarar qué era exploratorio y gestionar los pedidos nuevos con el mecanismo acordado."
+      }
+    ]
+  },
+  {
+    "id": "radiadores-informacion",
+    "title": "Burndown, burnup y radiadores de información",
+    "topicId": "process-9",
+    "definition": "El [[burndown]] muestra el [[trabajo restante]] en el tiempo y el [[burnup]], el [[trabajo completado]] contra el [[alcance total]], de modo que también revela [[cambios de alcance]]. Un [[radiador de información]] es un tablero [[visible para todos]] que transparenta el estado sin informes extensos.",
+    "example": "En la app de postventa, el burnup muestra que el equipo sigue entregando 20 puntos por sprint, pero la línea de alcance sube de 120 a 150 por nuevos pedidos: el retraso no se debe a baja productividad, sino a un alcance creciente. El tablero en la oficina de obra lo hace visible para el comité.",
+    "cards": [
+      {
+        "id": "c-rad-1",
+        "front": "¿Qué gráfico muestra a la vez el avance y los cambios de alcance?",
+        "back": "El burnup: trabajo completado contra el alcance total."
+      },
+      {
+        "id": "c-rad-2",
+        "front": "¿Qué es un radiador de información?",
+        "back": "Un tablero muy visible (físico o digital) que muestra el estado del trabajo a todos, sin necesidad de informes."
+      }
+    ]
+  },
+  {
+    "id": "estado-con-datos",
+    "title": "Evaluar el estado con datos fiables",
+    "topicId": "process-9",
+    "definition": "Evaluar el estado es comparar resultados con [[líneas base]] o [[métricas acordadas]] usando [[datos validados]]. El gasto o la actividad [[no prueban avance]]: cuentan los entregables [[aceptados]] y las [[tendencias]]. Los reportes automáticos o de IA requieren [[revisión humana]].",
+    "example": "El reporte automático dice 'obra al 80 %', pero solo 3 de 6 pisos tienen sus partidas aceptadas por la supervisión. Antes de informar al comité, el residente concilia los datos y comunica el avance real y su tendencia.",
+    "cards": [
+      {
+        "id": "c-est-1",
+        "front": "El reporte automático y el tablero se contradicen. ¿Qué haces antes de informar?",
+        "back": "Validar los datos y los criterios de terminado, corregir y comunicar un estado sustentado, con aceptación y tendencias."
+      }
+    ]
+  },
+  {
+    "id": "retrospectiva",
+    "title": "Retrospectiva y mejora continua del equipo",
+    "topicId": "business-6",
+    "definition": "La [[retrospectiva]] examina [[cómo trabaja el equipo]] y termina con [[acciones concretas]], con [[responsable]] y una [[métrica]] para verificar el efecto en el siguiente ciclo. Registrar observaciones sin cambiar la práctica [[no es mejora]].",
+    "example": "La retrospectiva del frente de acabados detecta que las inspecciones tardías generan retrabajo. El equipo acuerda inspeccionar cada departamento antes de pintar, asigna al supervisor de calidad y mide las observaciones por departamento en las dos semanas siguientes.",
+    "cards": [
+      {
+        "id": "c-ret-1",
+        "front": "¿Con qué debe terminar una retrospectiva?",
+        "back": "Con acciones concretas de mejora, cada una con responsable y una métrica para verificar su efecto en el siguiente ciclo."
+      },
+      {
+        "id": "c-ret-2",
+        "front": "Revisión del sprint vs. retrospectiva",
+        "back": "Revisión: inspecciona el producto con los interesados. Retrospectiva: inspecciona la forma de trabajar del equipo."
+      }
+    ]
+  },
+  {
+    "id": "scrum-eventos",
+    "title": "Scrum: roles y eventos",
+    "topicId": "agile-2",
+    "definition": "[[Dueño del producto]]: maximiza el valor y [[ordena el backlog]]. [[Scrum master]]: [[facilita]] y elimina impedimentos. [[Desarrolladores]]: construyen el incremento. Eventos: [[planificación]], [[reunión diaria]] (para el equipo, no un informe al jefe), [[revisión]] (producto) y [[retrospectiva]] (proceso), dentro de un [[sprint]] de duración fija.",
+    "example": "En el desarrollo del portal de propietarios, la jefa comercial actúa como dueña del producto y ordena las historias por valor. La analista de calidad facilita los eventos como scrum master, y la reunión diaria de 15 minutos la usa el equipo para coordinarse, no para reportar a gerencia.",
+    "cards": [
+      {
+        "id": "c-scr-1",
+        "front": "¿Quién ordena el backlog del producto en Scrum?",
+        "back": "El dueño del producto, según el valor."
+      },
+      {
+        "id": "c-scr-2",
+        "front": "¿Para quién es la reunión diaria?",
+        "back": "Para el equipo: planifica las siguientes 24 horas. No es un informe al gerente."
+      }
+    ]
+  },
+  {
+    "id": "kanban-wip",
+    "title": "Kanban y límites de trabajo en curso",
+    "topicId": "agile-3",
+    "definition": "Kanban [[visualiza el flujo]] y [[limita el trabajo en curso (WIP)]]. Cuando una columna llega a su límite, el equipo [[termina o desbloquea]] antes de empezar algo nuevo: [[deja de empezar, empieza a terminar]]. Se mide con [[tiempo de ciclo]] y rendimiento.",
+    "example": "El tablero de levantamiento de observaciones de postventa limita la columna 'en reparación' a 6. Cuando se llena, las cuadrillas cierran reparaciones antes de tomar nuevas, y el tiempo de atención baja de 12 a 7 días.",
+    "cards": [
+      {
+        "id": "c-kan-1",
+        "front": "Una columna Kanban llegó a su límite WIP. ¿Qué hace el equipo?",
+        "back": "Colaborar para terminar o desbloquear lo que ya está en curso antes de empezar trabajo nuevo."
+      }
+    ]
+  },
+  {
+    "id": "velocidad",
+    "title": "Velocidad y estimación relativa",
+    "topicId": "agile-5",
+    "definition": "La [[velocidad]] es el trabajo (en puntos) que un equipo completa por iteración. Sirve para [[pronosticar dentro del mismo equipo]], [[no para comparar equipos]] ni como meta de productividad. Los puntos son una [[estimación relativa]] propia de cada equipo.",
+    "example": "El equipo del portal completa unos 20 puntos por sprint; con 120 puntos pendientes, pronostica 6 sprints. Comparar sus 20 puntos con los 35 del equipo de ERP no dice nada, porque cada equipo usa su propia escala.",
+    "cards": [
+      {
+        "id": "c-vel-1",
+        "front": "¿Se puede comparar la productividad de dos equipos por su velocidad?",
+        "back": "No: la velocidad es relativa a cada equipo; sirve para pronosticar dentro del mismo equipo."
+      }
+    ]
+  },
+  {
+    "id": "enfoque-hibrido",
+    "title": "Enfoques predictivo, adaptativo e híbrido",
+    "topicId": "agile-6",
+    "definition": "[[Predictivo]]: alcance [[estable]] y planificado al inicio. [[Adaptativo]]: requisitos [[inciertos]], entregas frecuentes y [[retroalimentación]]. [[Híbrido]]: combina ambos según cada componente, con [[interfaces y puntos de integración]] claros entre ellos.",
+    "example": "La estructura y las instalaciones de un edificio se gestionan de forma predictiva por los permisos y la secuencia constructiva, mientras que la app de domótica se desarrolla por sprints con los futuros propietarios. Se acuerdan hitos de integración, como la fecha en que los equipos deben estar instalados para probar la app.",
+    "cards": [
+      {
+        "id": "c-hib-1",
+        "front": "¿Qué necesita un proyecto híbrido para que sus partes funcionen juntas?",
+        "back": "Dependencias, puntos de integración y criterios de aceptación acordados entre los componentes predictivos y adaptativos."
+      },
+      {
+        "id": "c-hib-2",
+        "front": "¿Cuándo conviene un enfoque adaptativo?",
+        "back": "Cuando los requisitos son inciertos o cambiantes y se puede aprender con entregas frecuentes y retroalimentación."
+      }
+    ]
+  },
+  {
+    "id": "mentalidad-agil",
+    "title": "Mentalidad ágil",
+    "topicId": "agile-1",
+    "definition": "Priorizar [[personas e interacciones]], [[producto funcionando]], [[colaboración con el cliente]] y [[respuesta al cambio]], con ciclos cortos de [[inspección y adaptación]]. El líder [[facilita]] decisiones del equipo en lugar de imponerlas.",
+    "example": "En lugar de entregar el manual completo del propietario al final, el equipo publica cada mes una sección probada con 10 propietarios y ajusta según sus comentarios.",
+    "cards": [
+      {
+        "id": "c-mag-1",
+        "front": "¿Qué ciclo resume la mentalidad ágil?",
+        "back": "Inspección y adaptación frecuentes: entregar, recibir retroalimentación y ajustar."
+      }
+    ]
   }
 ]

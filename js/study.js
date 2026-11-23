@@ -91,41 +91,136 @@ function doTask(id) {
   else dialog(t.title, `<p class="hint">${esc(t.detail)}</p><div class="actions">${button('Marcar como hecho', 'task-toggle', '', `data-id="${t.id}"`)}${button('Cerrar', 'close-dialog', 'white')}</div>`);
 }
 
-/* ---------- flashcards (repetición espaciada) ---------- */
+/* ---------- flashcards (repetición espaciada, issue #5) ----------
+   Aprendizaje / reaprendizaje: Otra vez 1 min · Difícil 10 min · Bien 1 día · Fácil 4 días.
+   Repaso (intervalo I días, facilidad E): Otra vez 10 min (reaprender) · Difícil max(I+1, 1,2·I)
+   · Bien max(Difícil+1, I·E) · Fácil max(Bien+1, I·E·1,3). Orden estricto garantizado. */
+const CARD_DAILY_GOAL = 4;
 function allCards() { return (D.concepts || []).flatMap(c => c.cards.map(k => ({...k, conceptId: c.id, concept: c.title, topicId: c.topicId}))); }
 function cardState(id) { return state.cards[id] || null; }
+function cardPhase(s) { return !s ? 'new' : s.phase ? s.phase : (s.reps > 0 && s.interval >= 1 ? 'review' : 'learning'); }
 function newToday() { return state.cardLog.filter(l => l.first && l.date === today()).length; }
+function extraNewToday() { return Number(state.cardExtra?.[today()] || 0); }
+function newAllowance() { return Math.max(0, NEW_CARDS_PER_DAY + extraNewToday() - newToday()); }
+function cardDueNow(s) { if (!s) return false; if (s.due < today()) return true; if (s.due > today()) return false; return !s.dueAt || s.dueAt <= stamp() || cardPhase(s) !== 'review'; }
+function dueCards() { return allCards().filter(c => { const s = cardState(c.id); return s && s.due <= today(); }).sort((a, b) => (cardState(a.id).dueAt || cardState(a.id).due).localeCompare(cardState(b.id).dueAt || cardState(b.id).due)); }
 function buildQueue() {
   ensureStudyState();
-  const t = today(), cards = allCards();
-  const due = cards.filter(c => cardState(c.id) && cardState(c.id).due <= t).sort((a, b) => cardState(a.id).due.localeCompare(cardState(b.id).due));
-  const fresh = cards.filter(c => !cardState(c.id)).slice(0, Math.max(0, NEW_CARDS_PER_DAY - newToday()));
-  return [...due, ...fresh].map(c => c.id);
+  const fresh = allCards().filter(c => !cardState(c.id)).slice(0, newAllowance());
+  return [...dueCards(), ...fresh].map(c => c.id);
 }
 function cardsDueCount() { return buildQueue().length; }
+function cardsGradedToday() { return new Set(state.cardLog.filter(l => l.date === today()).map(l => l.id)).size; }
+function cardGoalDone() { return cardsGradedToday() >= CARD_DAILY_GOAL; }
+function nextIntervals(prev) {
+  const ph = cardPhase(prev);
+  if (ph !== 'review') return {again: {min: 1}, hard: {min: 10}, good: {days: 1}, easy: {days: ph === 'new' ? 4 : 3}};
+  const I = Math.max(1, prev.interval || 1), E = prev.ease || 2.5;
+  const hard = Math.max(I + 1, Math.round(I * 1.2)), good = Math.max(hard + 1, Math.round(I * E)), easy = Math.max(good + 1, Math.round(I * E * 1.3));
+  return {again: {min: 10}, hard: {days: hard}, good: {days: good}, easy: {days: easy}};
+}
 function schedule(prev, grade) {
+  const ph = cardPhase(prev), step = nextIntervals(prev)[grade];
   const s = prev ? {...prev} : {interval: 0, ease: 2.5, reps: 0, lapses: 0};
-  const isNew = !prev || s.reps === 0;
-  if (grade === 'again') { s.interval = 0; s.ease = Math.max(1.3, s.ease - .2); s.lapses++; }
-  else if (grade === 'hard') { s.interval = isNew ? 1 : Math.max(1, Math.round(s.interval * 1.2)); s.ease = Math.max(1.3, s.ease - .15); }
-  else if (grade === 'good') { s.interval = isNew ? 1 : s.interval <= 1 ? 3 : Math.round(s.interval * s.ease); }
-  else { s.interval = isNew ? 4 : Math.max(4, Math.round(s.interval * s.ease * 1.3)); s.ease += .15; }
-  if (grade !== 'again') s.reps++;
-  s.due = plusDays(today(), s.interval);
+  s.n = (s.n || (s.reps || 0) + (s.lapses || 0)) + 1;
+  if (grade === 'again') { if (ph === 'review') { s.lapses = (s.lapses || 0) + 1; s.ease = Math.max(1.3, (s.ease || 2.5) - .2); } s.phase = ph === 'review' ? 'relearning' : 'learning'; }
+  else if (grade === 'hard') { s.ease = Math.max(1.3, (s.ease || 2.5) - .15); if (ph !== 'review') s.phase = ph === 'new' ? 'learning' : ph; }
+  else if (grade === 'easy') s.ease = (s.ease || 2.5) + .15;
+  if (step.days) { s.interval = step.days; s.phase = 'review'; s.reps = (s.reps || 0) + 1; s.due = plusDays(today(), step.days); delete s.dueAt; }
+  else { s.interval = 0; s.due = today(); s.dueAt = new Date(Date.now() + step.min * 60000).toISOString(); }
+  s.last = {grade, ...step};
   return s;
 }
+const stepText = st => st.min ? st.min + ' min' : st.days === 1 ? '1 día' : st.days + ' días';
 const intervalText = n => n === 0 ? 'hoy' : n === 1 ? '1 día' : n + ' días';
 function gradeCard(grade) {
   ensureStudyState();
-  const id = cardQueue[0], prev = cardState(id), next = schedule(prev, grade);
+  const id = cardQueue[0], prev = cardState(id), next = schedule(prev, grade), wasDone = cardGoalDone();
   state.cards[id] = next;
-  state.cardLog.push({id, date: today(), grade, first: !prev, at: stamp()});
+  state.cardLog.push({id, date: today(), grade, first: !prev, at: stamp(), applied: next.last});
   if (state.cardLog.length > 3000) state.cardLog = state.cardLog.slice(-3000);
   cardQueue.shift();
-  if (grade === 'again') cardQueue.push(id);
+  if (next.last.min) cardQueue.splice(Math.min(cardQueue.length, grade === 'again' ? 2 : 5), 0, id);
   cardRevealed = false;
-  if (!cardQueue.length) { state.tasksDone['cards-' + today()] = stamp(); toast('Tarjetas del día completadas.'); }
+  if (!wasDone && cardGoalDone()) { state.tasksDone['cards-' + today()] = stamp(); toast('Meta diaria de tarjetas cumplida (4/4). Puedes seguir repasando.'); }
   save(); render();
+}
+
+/* ---------- rutina diaria (issue #6): 4 tarjetas + Bullet Quiz de 5 ----------
+   La lección de cada semana sale de data/weekly-plan.json (curso PMI v4.1), no de INGENIUM.
+   Fabrizio puede corregir la lección activa: state.routine.override[inicioSemana] = n. */
+function ensureRoutine() {
+  ensureStudyState();
+  const r = state.routine && typeof state.routine === 'object' && !Array.isArray(state.routine) ? state.routine : {};
+  r.override = r.override && typeof r.override === 'object' ? r.override : {};
+  r.seen = r.seen && typeof r.seen === 'object' ? r.seen : {};
+  r.days = r.days && typeof r.days === 'object' ? r.days : {};
+  state.routine = r; return r;
+}
+function weekStart(d = today()) { const wd = weekday(d); return plusDays(d, wd === 0 ? -6 : 1 - wd); }
+function planWeeks() { return (D.weeklyPlan?.weeks || []).slice().sort((a, b) => a.start.localeCompare(b.start)); }
+function weekEntry(ws = weekStart()) { return planWeeks().find(w => w.start === ws) || null; }
+function activeLesson(ws = weekStart()) {
+  const r = ensureRoutine(), o = r.override[ws];
+  if (o) return {n: Number(o), source: 'manual', status: 'corregida por ti'};
+  const w = weekEntry(ws);
+  return w ? {n: Number(w.lesson), source: 'plan', status: w.status, note: w.note} : null;
+}
+function lessonCfg(n) { return D.weeklyPlan?.lessons?.[String(n)] || {topics: [], questionIds: []}; }
+function bulletPool(n) {
+  const cfg = lessonCfg(n), ids = new Set(cfg.questionIds || []), topics = cfg.topics || [];
+  const base = allQuestions().filter(q => !q.scenarioId);
+  return (ids.size || topics.length) ? base.filter(q => ids.has(q.id) || topics.includes(q.topicId)) : base;
+}
+function bulletSize() { return D.weeklyPlan?.bulletSize || 5; }
+function bulletId(d = today()) { return 'bullet-' + d; }
+function shuffleArr(a) { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function bulletToday(d = today()) {
+  const r = ensureRoutine(), ws = weekStart(d), lesson = activeLesson(ws);
+  if (!lesson) return {missing: true, ws};
+  const key = 'L' + lesson.n, pool = bulletPool(lesson.n), size = bulletSize();
+  let day = r.days[d];
+  const started = state.quiz?.taskId === bulletId(d) || state.tasksDone[bulletId(d)];
+  if (day && day.lesson !== lesson.n && !started) { r.seen[day.key] = (r.seen[day.key] || []).filter(id => !day.ids.includes(id)); day = null; }
+  if (!day) {
+    const valid = new Set(pool.map(q => q.id));
+    let seen = (r.seen[key] || []).filter(id => valid.has(id)), ids;
+    const remaining = shuffleArr(pool.filter(q => !seen.includes(q.id))).map(q => q.id);
+    if (pool.length <= size) { ids = shuffleArr(pool).map(q => q.id); seen = []; }
+    else if (remaining.length >= size) { ids = remaining.slice(0, size); seen = [...seen, ...ids]; }
+    else { const refill = shuffleArr(pool.filter(q => !remaining.includes(q.id))).map(q => q.id).slice(0, size - remaining.length); ids = [...remaining, ...refill]; seen = refill; }
+    r.seen[key] = seen.length >= pool.length ? [] : seen;
+    day = r.days[d] = {lesson: lesson.n, key, week: ws, ids, at: stamp()};
+    const keep = Object.keys(r.days).sort().slice(-120); r.days = Object.fromEntries(keep.map(k => [k, r.days[k]]));
+    save();
+  }
+  return {...day, lessonInfo: lesson, poolSize: pool.length, short: pool.length < size, cycleLeft: pool.length - (r.seen[key] || []).length};
+}
+function bulletProgress(d = today()) {
+  const id = bulletId(d);
+  if (state.tasksDone?.[id]) return bulletSize();
+  return state.quiz?.taskId === id ? (state.quiz.answers || []).length : 0;
+}
+function startBullet() {
+  const b = bulletToday(); if (b.missing) { go('ruta'); toast('Elige la lección de esta semana para generar el Bullet Quiz.'); return; }
+  const qs = b.ids.map(id => allQuestions().find(q => q.id === id)).filter(Boolean);
+  if (state.quiz?.taskId === bulletId() && !state.quiz.finished) { go('practica'); return; }
+  startQuiz(qs, qs.length, `Bullet Quiz · Lección ${b.lesson} (v4.1)`, false, bulletId());
+}
+function routineRows() {
+  const g = Math.min(cardsGradedToday(), CARD_DAILY_GOAL), cDone = cardGoalDone(), b = bulletToday(), bp = bulletProgress(), bDone = Boolean(state.tasksDone?.[bulletId()]), size = bulletSize();
+  const lessonTxt = b.missing ? 'Sin lección asignada para esta semana: elígela en la Ruta.' : `Lección ${b.lesson} · ${esc(lessonCfg(b.lesson).title || '')}${b.lessonInfo.status === 'aprobada' ? '' : ' · ' + esc(b.lessonInfo.status)}`;
+  return `<article class="task-row ${cDone ? 'done' : 'today'}" data-routine="cards"><span class="check-button ${cDone ? 'done' : ''}" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${cDone ? badge('Hecho', 'green') : badge('Rutina diaria', 'orange')} <span class="routine-count">${g}/${CARD_DAILY_GOAL}</span></div><h3>Flashcards ${g}/${CARD_DAILY_GOAL}</h3><p class="hint">${cDone ? 'Meta cumplida. Puedes seguir repasando.' : `Califica ${CARD_DAILY_GOAL} tarjetas distintas (primero las vencidas).`}</p></div><a class="button ${cDone ? 'ghost' : 'light'} small" href="#flashcards">${cDone ? 'Repasar más' : 'Repasar'} ${icon('arrow')}</a></article>
+  <article class="task-row ${bDone ? 'done' : 'today'}" data-routine="bullet"><span class="check-button ${bDone ? 'done' : ''}" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${bDone ? badge('Hecho', 'green') : badge('Rutina diaria', 'orange')} <span class="routine-count">${bp}/${size}</span></div><h3>Bullet Quiz ${bp}/${size}</h3><p class="hint">${lessonTxt}${b.short ? ' · solo hay ' + b.poolSize + ' preguntas para esta lección' : ''}</p></div>${bDone ? '' : button((bp ? 'Continuar' : 'Empezar') + ' ' + icon('arrow'), 'bullet-start', 'light small')}</article>`;
+}
+function routineDoneCount() { return (cardGoalDone() ? 1 : 0) + (state.tasksDone?.[bulletId()] ? 1 : 0); }
+function renderWeeklyPlan() {
+  const ws = weekStart(), cur = activeLesson(ws), weeks = planWeeks();
+  const opts = Object.entries(D.weeklyPlan?.lessons || {}).map(([n, l]) => `<option value="${n}" ${cur && cur.n === Number(n) ? 'selected' : ''}>Lección ${n} · ${esc(l.title)}</option>`).join('');
+  return `<section class="card" id="programacion" style="margin-top:20px"><div class="card-header"><div><h2>Programación semanal · PMI v4.1</h2><p>Decide la lección del Bullet Quiz diario. Es independiente del calendario INGENIUM.</p></div></div>
+  <div class="week-now"><div><span class="eyebrow">ESTA SEMANA · DESDE EL ${date(ws, {day: 'numeric', month: 'short'}).toUpperCase()}</span><p>${cur ? `Lección ${cur.n} · ${esc(lessonCfg(cur.n).title)} ${cur.source === 'manual' ? badge('Corregida por ti', 'blue') : cur.status === 'aprobada' ? badge('Aprobada', 'green') : badge('Por confirmar', 'orange')}` : badge('Sin asignar', 'red') + ' Elige la lección para generar el Bullet Quiz.'}</p></div><label class="field"><span>Corregir la lección activa</span><select id="routine-lesson" aria-label="Lección activa de esta semana"><option value="">${cur && cur.source === 'manual' ? 'Volver a la programación' : 'Elegir lección…'}</option>${opts}</select></label></div>
+  <div class="table-wrap"><table><thead><tr><th scope="col">Semana</th><th scope="col">Lección v4.1</th><th scope="col">Estado</th><th scope="col">Temas</th></tr></thead><tbody>${weeks.map(w => { const o = ensureRoutine().override[w.start], n = o ? Number(o) : w.lesson, l = lessonCfg(n); return `<tr class="${w.start === ws ? 'current-week' : ''}"><td>${date(w.start, {day: 'numeric', month: 'short'})}${w.start === ws ? ' · actual' : ''}</td><td>${n} · ${esc(l.title || '')}${o ? ' (corregida)' : ''}</td><td>${o ? 'corregida por ti' : esc(w.status)}</td><td>${(l.topics || []).length ? l.topics.map(topicLabel).join(', ') : 'mixto (todo el banco)'}</td></tr>`; }).join('')}</tbody></table></div>
+  <p class="hint" style="margin-top:10px">Cada día se eligen ${bulletSize()} preguntas distintas de la lección activa, sin repetir hasta agotar su conjunto. Las semanas «por confirmar» son una propuesta que debe validar el supervisor o Fabrizio.</p></section>`;
 }
 
 /* ---------- vistas ---------- */
@@ -140,10 +235,11 @@ function activity7() {
   const tsk = d => Object.values(state.tasksDone || {}).filter(s => stampDay(s) === d).length;
   return days.map(d => ({d, ans: ans(d), cards: crd(d), tasks: tsk(d)}));
 }
-function nextStep(todayTasks, overdue, qCards, cardsDone) {
+function nextStep(todayTasks, overdue, qCards, cardsDone, bulletDone) {
   const pending = todayTasks.filter(t => taskStatus(t) === 'today');
   if (pending.length) { const t = pending[0]; return {eyebrow: 'TU SIGUIENTE PASO', title: t.title, text: t.detail, action: button({quiz: 'Empezar cuestionario', review: 'Empezar repaso', mixed: 'Empezar práctica', errors: 'Revisar errores', mock: 'Ir a simulacros', manual: 'Ver detalle'}[t.kind] + ' ' + icon('arrow'), 'task-do', 'lime', `data-id="${t.id}"`), meta: 'Vence ' + date(t.due, {weekday: 'long', day: 'numeric', month: 'short'})}; }
-  if (!cardsDone && qCards) return {eyebrow: 'TU SIGUIENTE PASO', title: 'Repasa tus tarjetas del día', text: qCards + ' tarjetas en la cola. Son pocos minutos y fijan los conceptos clave.', action: `<a class="button lime" href="#flashcards">Repasar tarjetas ${icon('arrow')}</a>`, meta: 'Obligatorio diario'};
+  if (!cardsDone && qCards) return {eyebrow: 'RUTINA DIARIA', title: `Flashcards ${Math.min(cardsGradedToday(), CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}`, text: `Califica ${CARD_DAILY_GOAL} tarjetas distintas; primero las vencidas. Son pocos minutos y fijan los conceptos clave.`, action: `<a class="button lime" href="#flashcards">Repasar tarjetas ${icon('arrow')}</a>`, meta: 'Obligatorio diario'};
+  if (!bulletDone) { const b = bulletToday(); return {eyebrow: 'RUTINA DIARIA', title: `Bullet Quiz ${bulletProgress()}/${bulletSize()}`, text: b.missing ? 'Elige la lección de esta semana para generar tus 5 preguntas.' : `5 preguntas de la lección ${b.lesson} (v4.1): ${lessonCfg(b.lesson).title}.`, action: button((bulletProgress() ? 'Continuar' : 'Empezar') + ' Bullet Quiz ' + icon('arrow'), 'bullet-start', 'lime'), meta: 'Obligatorio diario'}; }
   if (overdue.length) { const t = overdue[0]; return {eyebrow: 'PONTE AL DÍA', title: t.title, text: t.detail, action: button('Resolver ahora ' + icon('arrow'), 'task-do', 'lime', `data-id="${t.id}"`), meta: 'Venció el ' + date(t.due, {day: 'numeric', month: 'short'})}; }
   return {eyebrow: 'DÍA AL DÍA', title: 'Todo lo de hoy está hecho', text: 'Si te queda energía, una práctica rápida mantiene el ritmo.', action: button('Práctica rápida de 10 ' + icon('arrow'), 'quick', 'lime', 'data-n="10"'), meta: '¡Buen trabajo!'};
 }
@@ -151,10 +247,10 @@ function renderDashboard() {
   const plan = buildPlan(), t = today();
   const active = plan.filter(x => x.date <= t && x.due >= t);
   const overdue = plan.filter(x => taskStatus(x) === 'overdue');
-  const qCards = cardsDueCount(), cardsDone = Boolean(state.tasksDone?.['cards-' + t]);
-  const total = active.length + 1, done = active.filter(x => state.tasksDone?.[x.id]).length + (cardsDone ? 1 : 0);
+  const qCards = cardsDueCount(), cardsDone = cardGoalDone(), bulletDone = Boolean(state.tasksDone?.[bulletId(t)]);
+  const total = active.length + 2, done = active.filter(x => state.tasksDone?.[x.id]).length + routineDoneCount();
   const recent = state.attempts.filter(a => stampDay(a.date) >= plusDays(t, -6)), acc = accuracy(recent);
-  const step = nextStep(active, overdue, qCards, cardsDone);
+  const step = nextStep(active, overdue, qCards, cardsDone, bulletDone);
   const left = daysBetween(t, examDate());
   const concepts = D.concepts || [], idx = daysBetween('2026-01-01', t);
   const concept = concepts.length ? concepts[((idx % concepts.length) + concepts.length) % concepts.length] : null;
@@ -168,16 +264,16 @@ function renderDashboard() {
   return `<div class="dash-head"><div><div class="eyebrow">PMP MASTER PLAN 2027 · ${date(t, {weekday: 'long', day: 'numeric', month: 'long'})}</div><h1>Tu día de estudio</h1></div><button class="countdown-pill ${examConfirmed() ? 'confirmed' : ''}" data-action="settings" aria-label="Cambiar fecha del examen"><b>${Math.max(0, left)}</b><span>${left === 1 ? 'día' : 'días'} para el examen<small>${date(examDate(), {day: 'numeric', month: 'short', year: 'numeric'})} · ${examConfirmed() ? 'confirmada' : 'tentativa, por confirmar'} ✎</small></span></button></div>
   <div class="dash">
   <section class="next-step d-next"><div class="next-copy"><div class="eyebrow">${step.eyebrow}</div><h2>${esc(step.title)}</h2><p>${esc(step.text || '')}</p><div class="next-actions">${step.action}<span class="next-meta">${esc(step.meta)}</span></div></div>${ring(pct(done, total))}</section>
-  <div class="kpis d-kpis">${kpi('#ruta', 'Hoy', `${done}<small>/${total}</small>`, 'actividades completadas', 'check')}${kpi('#vencidos', 'Vencidos', overdue.length, overdue.length ? 'pendientes de días anteriores' : 'nada pendiente', 'errors', overdue.length ? 'warn' : '')}${kpi('#flashcards', 'Tarjetas', cardsDone ? '✓' : qCards, cardsDone ? 'cola de hoy completada' : 'por repasar hoy', 'cards')}${kpi('#preparacion', 'Aciertos 7 días', acc === null ? '—' : acc + '<small>%</small>', recent.length ? recent.length + ' respuestas' : 'sin respuestas esta semana', 'target')}</div>
-  <section class="card d-today"><div class="card-header"><div><h2>Hoy</h2><p>${active.filter(x => !state.tasksDone?.[x.id]).length + (cardsDone ? 0 : 1)} por hacer</p></div><a class="text-link" href="#ruta">Ruta ${icon('arrow')}</a></div>
-   <article class="task-row ${cardsDone ? 'done' : 'today'}"><span class="check-button ${cardsDone ? 'done' : ''}" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${cardsDone ? badge('Hecho', 'green') : badge('Obligatorio', 'orange')}</div><h3>Tarjetas del día</h3><p class="hint">${cardsDone ? 'Cola completada.' : qCards + ' en la cola.'}</p></div>${cardsDone ? '' : `<a class="button light small" href="#flashcards">Repasar ${icon('arrow')}</a>`}</article>
+  <div class="kpis d-kpis">${kpi('#ruta', 'Hoy', `${done}<small>/${total}</small>`, 'actividades completadas', 'check')}${kpi('#vencidos', 'Vencidos', overdue.length, overdue.length ? 'pendientes de días anteriores' : 'nada pendiente', 'errors', overdue.length ? 'warn' : '')}${kpi('#flashcards', 'Tarjetas hoy', `${Math.min(cardsGradedToday(), CARD_DAILY_GOAL)}<small>/${CARD_DAILY_GOAL}</small>`, cardsDone ? 'meta cumplida' : qCards + ' en la cola', 'cards')}${kpi('#preparacion', 'Aciertos 7 días', acc === null ? '—' : acc + '<small>%</small>', recent.length ? recent.length + ' respuestas' : 'sin respuestas esta semana', 'target')}</div>
+  <section class="card d-today"><div class="card-header"><div><h2>Hoy</h2><p>${active.filter(x => !state.tasksDone?.[x.id]).length + 2 - routineDoneCount()} por hacer</p></div><a class="text-link" href="#ruta">Ruta ${icon('arrow')}</a></div>
+   ${routineRows()}
    ${active.slice(0, 4).map(taskRow).join('')}${active.length > 4 ? `<a class="text-link" href="#ruta">Ver ${active.length - 4} más ${icon('arrow')}</a>` : ''}</section>
   <section class="card d-overdue ${overdue.length ? 'has' : ''}" id="vencidos"><div class="card-header"><div><h2>Vencidos <span class="count-badge">${overdue.length}</span></h2><p>${overdue.length ? 'Los más antiguos primero' : 'Estás al día'}</p></div>${overdue.length ? button('Ya los hice', 'overdue-all', 'ghost small') : ''}</div>${overdue.length ? overdue.slice(0, 3).map(taskRow).join('') + (overdue.length > 3 ? `<details class="see-all"><summary>Ver todos (${overdue.length - 3} más)</summary>${overdue.slice(3).map(taskRow).join('')}</details>` : '') : `<p class="hint">No tienes actividades vencidas. ${icon('check')}</p>`}</section>
   <section class="card d-session">${nextS ? `<div class="eyebrow">PRÓXIMA SESIÓN INGENIUM</div><div class="session-when"><div class="date-box"><b>${Number(nextS.date.slice(8))}</b><span>${date(nextS.date, {month: 'short'})}</span></div><div><h3>${esc(nextS.title)}</h3><p class="hint">${date(nextS.date, {weekday: 'long'})} · ${nextS.time} · Sesión ${nextS.id}</p></div></div><p class="hint" style="margin:10px 0">${esc(nextS.ppt)}${nextS.mapping !== 'confirmada' ? ' · por confirmar' : ''}</p><div class="chips">${nextS.topics.map(id => `<span class="badge">${topicLabel(id)}</span>`).join('')}</div>${nextQuiz ? `<p class="hint" style="margin-top:8px">Cuestionario asociado: disponible desde la sesión, vence ${date(nextQuiz.due, {weekday: 'short', day: 'numeric', month: 'short'})}</p>` : ''}<div class="actions">${nextS.topics.length ? button('Prepararme con 5 preguntas', 'start-topic-set', 'light small', `data-id="${nextS.topics.join(',')}"`) : ''}<a class="button ghost small" href="#agenda">Agenda ${icon('arrow')}</a></div>` : `<div class="eyebrow">INGENIUM</div><p class="hint">Ya no hay sesiones programadas. Concéntrate en simulacros y repaso.</p>`}</section>
   <section class="card d-activity"><div class="card-header"><div><h2>Actividad de los últimos 7 días</h2><p>Respuestas y tarjetas registradas en la app</p></div></div>${anyAct ? `<div class="bars" role="img" aria-label="Actividad de los últimos 7 días; detalle en la tabla">${act.map(a => `<div class="bar-col"><div class="bar-stack" style="height:${Math.round((a.ans + a.cards) / maxA * 100)}%"><span class="b-ans" style="flex:${a.ans}"></span><span class="b-cards" style="flex:${a.cards}"></span></div><span class="bar-num">${a.ans + a.cards || ''}</span><span class="bar-day ${a.d === t ? 'is-today' : ''}">${dayLabel(a.d)}</span></div>`).join('')}</div><div class="chart-legend"><span><i class="lg b-ans"></i>Respuestas</span><span><i class="lg b-cards"></i>Tarjetas</span></div><details class="chart-data"><summary>Ver los datos en una tabla</summary><div class="table-wrap"><table><thead><tr><th scope="col">Día</th><th scope="col">Respuestas</th><th scope="col">Tarjetas</th><th scope="col">Actividades hechas</th></tr></thead><tbody>${act.map(a => `<tr><th scope="row">${date(a.d, {weekday: 'short', day: 'numeric', month: 'short'})}</th><td>${a.ans}</td><td>${a.cards}</td><td>${a.tasks}</td></tr>`).join('')}</tbody></table></div></details>` : `<div class="empty" style="padding:24px">${icon('chart')}<h3>Aún sin actividad esta semana</h3><p>Cuando respondas preguntas o repases tarjetas, verás aquí tu ritmo diario.</p></div>`}</section>
   ${concept ? `<section class="card d-concept concept-day"><div class="eyebrow">CONCEPTO DEL DÍA</div><h2>${esc(concept.title)}</h2><p class="concept-def">${kw(concept.definition)}</p><a class="text-link" href="#conceptos/${concept.id}">Ficha con ejemplo de construcción ${icon('arrow')}</a></section>` : ''}
   ${tip ? `<section class="card d-tip tip-card"><div class="eyebrow">TIP DEL DÍA</div><p class="tip-text">${esc(tip)}</p></section>` : ''}
-  <section class="d-quick"><button class="quick-tile" data-action="quick" data-n="10">${icon('practice')}<b>Rápida de 10</b><span>al azar, todos los temas</span></button><button class="quick-tile" data-action="quick" data-n="20">${icon('practice')}<b>Rápida de 20</b><span>ritmo de examen</span></button><a class="quick-tile" href="#flashcards">${icon('cards')}<b>Flashcards</b><span>${cardsDone ? 'hechas hoy' : qCards + ' pendientes'}</span></a><a class="quick-tile" href="#simulacros">${icon('mock')}<b>A medida</b><span>elige temas y enfoques</span></a></section>
+  <section class="d-quick"><button class="quick-tile" data-action="quick" data-n="10">${icon('practice')}<b>Rápida de 10</b><span>al azar, todos los temas</span></button><button class="quick-tile" data-action="quick" data-n="20">${icon('practice')}<b>Rápida de 20</b><span>ritmo de examen</span></button><a class="quick-tile" href="#flashcards">${icon('cards')}<b>Flashcards</b><span>${cardsDone ? 'meta cumplida' : qCards + ' en la cola'}</span></a><a class="quick-tile" href="#simulacros">${icon('mock')}<b>A medida</b><span>elige temas y enfoques</span></a></section>
   </div>`;
 }
 
@@ -192,6 +288,7 @@ function renderPlan() {
     const n = s.topics.length ? questionsFor(s.topics).length : 0;
     return `<article class="session-card ${s.date <= today() ? 'past' : ''}"><div class="date-box"><b>${Number(s.date.slice(8))}</b><span>${date(s.date, {month: 'short'})}</span></div><div class="content"><div class="meta">${badge('INGENIUM · SESIÓN ' + s.id, 'ingenium')} ${s.mapping === 'confirmada' ? badge('Material confirmado', 'green') : badge('Correspondencia por confirmar', 'orange')}</div><h3>${esc(s.title)}</h3><p class="hint"><strong>PPT:</strong> ${esc(s.ppt)} · <strong>Curso v4.1:</strong> lección ${s.lesson41.join(' y ')}</p><div class="chips">${s.topics.map(id => `<a class="badge" href="#modulos/${id.split('-')[0]}">${topicLabel(id)} · ${esc(topicBy(id)?.title || '')}</a>`).join('')}</div>${quiz ? `<div class="task-inline">${statusBadge(taskStatus(quiz))} <span><strong>${esc(quiz.title)}</strong>${n ? ` · ${Math.min(10, n)} preguntas` : ''} · vence ${date(quiz.due, {weekday: 'short', day: 'numeric', month: 'short'})}</span>${taskStatus(quiz) !== 'done' ? taskAction(quiz) : ''}</div>` : ''}${reviews.length ? `<div class="review-chips">${reviews.map(r => `<button class="review-chip ${taskStatus(r)}" data-action="${taskStatus(r) === 'done' ? 'task-toggle' : 'task-do'}" data-id="${r.id}" title="${esc(r.title)}">${r.id.split('-d')[1] === undefined ? '' : '+' + r.id.split('-d')[1] + 'd'} · ${date(r.date, {day: 'numeric', month: 'short'})}${taskStatus(r) === 'done' ? ' ✓' : ''}</button>`).join('')}</div>` : ''}</div></article>`;
   }).join('')}</div>
+  ${renderWeeklyPlan()}
   <section class="card" style="margin-top:20px"><div class="card-header"><div><h2>Tramo final hasta el examen</h2><p>Práctica mixta, errores, simulacros y cierre ligero</p></div></div>${final.map(taskRow).join('')}</section>
   <details class="card" style="margin-top:20px"><summary><strong>Metodología, etapas y lecciones del curso v4.1</strong></summary><div style="margin-top:18px">${renderRoadmap()}</div></details>`;
 }
@@ -204,20 +301,22 @@ function renderConcepts() {
   <div class="concept-list">${list.map(c => `<article class="concept ${arg === c.id ? 'focus' : ''}" id="concept-${c.id}"><div class="meta">${badge(topicLabel(c.topicId), 'blue')} ${badge(esc(topicBy(c.topicId)?.title || ''))}</div><h2>${esc(c.title)}</h2><p class="concept-def">${kw(c.definition)}</p><div class="concept-example"><span class="eyebrow">APLICADO A CONSTRUCCIÓN</span><p>${esc(c.example)}</p></div><div class="actions">${button('Practicar el tema ' + icon('arrow'), 'start-topic', 'light small', `data-id="${c.topicId}"`)}<span class="hint">${c.cards.length} ${c.cards.length === 1 ? 'tarjeta' : 'tarjetas'}</span></div></article>`).join('') || empty('Sin resultados', 'Prueba otro filtro o término.')}</div>`;
 }
 
+function lessonBadgeFor(topicId) { const t = topicBy(topicId), l = t && D.course?.lessons.find(x => x.eco.includes(t.code)); return l ? badge('Lección ' + l.n + ' · v4.1', 'green') : ''; }
 function renderFlashcards() {
   ensureStudyState();
   if (!cardQueue) cardQueue = buildQueue();
   cardQueue = cardQueue.filter(id => allCards().some(c => c.id === id));
-  const total = allCards().length, learned = Object.keys(state.cards).length, reviewedToday = state.cardLog.filter(l => l.date === today()).length;
-  const head = heading('FLASHCARDS · OBLIGATORIO DIARIO', 'Repaso espaciado', 'Intenta responder antes de ver la respuesta. Tu calificación decide cuándo vuelve la tarjeta.', `<a class="button white" href="#conceptos">${icon('book')} Conceptos</a>`) +
-    `<div class="stats" style="grid-template-columns:repeat(3,1fr)">${stat('En la cola', cardQueue.length, 'vencidas y nuevas de hoy', 'cards')}${stat('Revisadas hoy', reviewedToday, 'incluye repeticiones', 'check')}${stat('Aprendidas', `${learned} <small>/ ${total}</small>`, NEW_CARDS_PER_DAY + ' nuevas por día como máximo', 'book')}</div>`;
+  const total = allCards().length, learned = Object.keys(state.cards).length, due = dueCards().length, newAvail = Math.min(newAllowance(), allCards().filter(c => !cardState(c.id)).length), g = cardsGradedToday(), goal = cardGoalDone();
+  const head = heading('FLASHCARDS · RUTINA DIARIA', 'Repaso espaciado', `Meta diaria: ${CARD_DAILY_GOAL} tarjetas distintas. Puedes seguir repasando todo lo que quieras.`, `<a class="button white" href="#conceptos">${icon('book')} Conceptos</a>`) +
+    `<div class="stats flash-stats">${stat('Meta de hoy', `${Math.min(g, CARD_DAILY_GOAL)} <small>/ ${CARD_DAILY_GOAL}</small>`, goal ? 'cumplida' : 'tarjetas distintas', 'check')}${stat('Vencidas', due, 'para repasar hoy', 'clock')}${stat('Nuevas hoy', newAvail, `límite ${NEW_CARDS_PER_DAY} al día${extraNewToday() ? ' + ' + extraNewToday() + ' extra' : ''}`, 'plus')}${stat('Banco', `${learned} <small>/ ${total}</small>`, 'estudiadas / total', 'cards')}</div>` +
+    (goal && cardQueue.length ? `<div class="notice">Meta diaria cumplida (${Math.min(g, CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}). Lo que repases ahora es estudio adicional.</div>` : '');
   if (!cardQueue.length) {
-    const next = Object.values(state.cards).map(c => c.due).filter(d => d > today()).sort()[0];
-    return head + `<section class="card flash-done">${icon('check')}<h2>Cola de hoy completada</h2><p class="hint">${next ? 'La próxima tarjeta vuelve el ' + date(next, {weekday: 'long', day: 'numeric', month: 'long'}) + '.' : 'Vuelve mañana para nuevas tarjetas.'}</p>${button('Repasar otra vez las de hoy', 'cards-extra', 'light')}</section>`;
+    const next = Object.values(state.cards).map(c => c.due).filter(d => d > today()).sort()[0], left = allCards().filter(c => !cardState(c.id)).length;
+    return head + `<section class="card flash-done">${icon('check')}<h2>${goal ? 'No quedan tarjetas para hoy' : 'Cola vacía'}</h2><p class="hint">Repasaste ${g} tarjetas distintas hoy. ${next ? 'La próxima tarjeta programada vuelve el ' + date(next, {weekday: 'long', day: 'numeric', month: 'long'}) + '.' : ''} ${left ? `Quedan ${left} tarjetas nuevas en el banco.` : 'Ya estudiaste todas las tarjetas del banco.'}</p><div class="actions" style="justify-content:center">${left ? button('Estudiar 5 nuevas más', 'cards-more', 'light') : ''}${g ? button('Repasar otra vez las de hoy', 'cards-extra', 'white') : ''}</div></section>`;
   }
-  const card = allCards().find(c => c.id === cardQueue[0]), prev = cardState(card.id);
+  const card = allCards().find(c => c.id === cardQueue[0]), prev = cardState(card.id), ph = cardPhase(prev), ivs = nextIntervals(prev);
   const opts = [['again', 'Otra vez', 'danger'], ['hard', 'Difícil', 'white'], ['good', 'Bien', ''], ['easy', 'Fácil', 'lime']];
-  return head + `<section class="card flashcard"><div class="meta">${badge(topicLabel(card.topicId), 'blue')} ${badge(esc(card.concept))} ${prev ? badge('Repaso') : badge('Nueva', 'green')}</div><h2 class="flash-front">${esc(card.front)}</h2>${cardRevealed ? `<div class="flash-back">${esc(card.back)}</div><a class="text-link" href="#conceptos/${card.conceptId}">Ver ficha del concepto ${icon('arrow')}</a><div class="grade-row">${opts.map(([g, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${g}">${n}<small>${intervalText(schedule(prev, g).interval)}</small></button>`).join('')}</div>` : `<div class="actions" style="justify-content:center;margin-top:26px">${button('Mostrar respuesta', 'card-reveal', '')}</div><p class="hint" style="text-align:center;margin-top:10px">Atajos: Espacio para mostrar · 1 a 4 para calificar</p>`}</section>`;
+  return head + `<section class="card flashcard"><div class="meta">${badge(topicLabel(card.topicId), 'blue')} ${lessonBadgeFor(card.topicId)} ${badge(esc(card.concept))} ${ph === 'new' ? badge('Nueva', 'green') : ph === 'review' ? badge('Repaso') : badge('En aprendizaje', 'orange')}</div><h2 class="flash-front">${esc(card.front)}</h2>${cardRevealed ? `<div class="flash-back">${esc(card.back)}</div><a class="text-link" href="#conceptos/${card.conceptId}">Ver ficha del concepto ${icon('arrow')}</a><div class="grade-row">${opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: vuelve en ${stepText(ivs[gr])}">${n}<small>${stepText(ivs[gr])}</small></button>`).join('')}</div>` : `<div class="actions" style="justify-content:center;margin-top:26px">${button('Mostrar respuesta', 'card-reveal', '')}</div><p class="hint" style="text-align:center;margin-top:10px">Atajos: Espacio para mostrar · 1 a 4 para calificar · ${cardQueue.length} en la cola</p>`}</section>`;
 }
 
 /* ---------- agenda ---------- */
@@ -237,7 +336,7 @@ function renderAgenda() {
   `<div class="toolbar"><div class="filter-group">${[['all', 'Todo'], ['ingenium', 'INGENIUM'], ['practice', 'Propias'], ['task', 'Vencimientos']].map(([id, n]) => `<button data-action="agenda-source" data-id="${id}" class="${agendaSource === id ? 'active' : ''}">${n}</button>`).join('')}</div><span class="spacer"></span>${button(icon('download') + ' Exportar agenda (.ics)', 'export-agenda', 'white')}</div>
   <div class="agenda-layout"><section class="card"><div class="month-title"><button class="icon-button" data-action="month" data-dir="-1" aria-label="Mes anterior">‹</button><h2>${date(calendarMonth + '-01', {month: 'long', year: 'numeric'})}</h2><button class="icon-button" data-action="month" data-dir="1" aria-label="Mes siguiente">›</button></div><div class="calendar-grid">${['L', 'M', 'M', 'J', 'V', 'S', 'D'].map(n => `<span class="day-label">${n}</span>`).join('')}${'<span></span>'.repeat(first)}${Array.from({length: days}, (_, i) => { const d = calendarMonth + '-' + String(i + 1).padStart(2, '0'), ev = all.filter(s => s.date === d); return `<button class="calendar-day ${ev.length ? 'has-event' : ''} ${d === calendarDay ? 'selected' : ''} ${d === today() ? 'today' : ''} ${d === examDate() ? 'exam-day' : ''}" data-action="calendar-day" data-id="${d}" aria-label="${date(d)}: ${ev.length} eventos" aria-pressed="${d === calendarDay}">${i + 1}<span class="day-dots">${[...new Set(ev.map(s => s.source))].map(x => `<i class="${x}"></i>`).join('')}</span></button>`; }).join('')}</div><div class="calendar-legend"><span>INGENIUM</span><span>Práctica propia</span><span>Vencimiento</span></div>
   <div class="notice"><strong>Calendario de Google o Apple:</strong> «Google» abre el evento ya prellenado y debes pulsar <em>Guardar</em> en Google Calendar. «.ics» descarga un archivo que Apple Calendar (o Google, desde Importar) agrega como <em>copia</em>: si luego cambias algo en la app, vuelve a exportar. «Exportar agenda» incluye las sesiones, los vencimientos y un recordatorio diario de tarjetas a las ${esc(state.settings.reminderTime || '07:30')} (lo cambias en Ajustes). La sincronización automática en ambos sentidos sería una fase aparte que requiere autorizar tu cuenta de Google o Apple.</div></section>
-  <section class="card"><div class="card-header"><div><h2>${calendarDay ? date(calendarDay) : 'Agenda del mes'}</h2><p>${visible.length} eventos</p></div>${calendarDay ? button('Ver mes', 'clear-day', 'ghost') : ''}</div>${visible.length ? visible.map(s => { const [a, b] = eventTimes(s), st = s.source === 'task' ? taskStatus(s) : null; return `<article class="agenda-session"><div class="date-box"><b>${Number(s.date.slice(8))}</b><span>${date(s.date, {month: 'short'})}</span></div><div class="content">${s.source === 'ingenium' ? badge('INGENIUM · SESIÓN ' + s.id, 'ingenium') : s.source === 'practice' ? badge('PRÁCTICA PROPIA', 'practice') : statusBadge(st) + ' ' + badge('VENCIMIENTO')}${s.plus ? ' ' + badge('Certified Plus', 'orange') : ''}<h3>${esc(s.title)}</h3><p class="time">${s.source === 'task' ? 'Fecha límite' : esc(a + '–' + b)} · ${date(s.date, {weekday: 'long'})}</p><div class="actions" style="margin-top:7px"><a class="button ghost" href="${gcalLink(eventTitle(s), s.date, a, b, s.detail || 'PMP Master Plan 2027')}" target="_blank" rel="noopener">Google ↗</a>${button('.ics', 'event-ics', 'ghost', `data-id="${s.key}"`)}${s.source === 'practice' ? button('Editar', 'edit-session', 'ghost', `data-id="${s.id}"`) : ''}${s.source !== 'task' ? button('Apunte', 'session-note', 'ghost', `data-id="${s.key}"`) : ''}${s.source === 'task' && st !== 'done' ? taskAction(s) : ''}</div></div>${s.source !== 'task' ? `<button class="check-button ${state.attendance[s.source === 'ingenium' ? s.id : s.key] ? 'done' : ''}" data-action="attendance" data-id="${s.source === 'ingenium' ? s.id : s.key}" aria-label="Marcar realizada" aria-pressed="${!!state.attendance[s.source === 'ingenium' ? s.id : s.key]}">${icon('check')}</button>` : `<button class="check-button ${st === 'done' ? 'done' : ''}" data-action="task-toggle" data-id="${s.id}" aria-label="Marcar hecho" aria-pressed="${st === 'done'}">${icon('check')}</button>`}</article>`; }).join('') : empty('Sin eventos', 'No hay eventos con este filtro.', 'new-session', 'Planificar práctica')}</section></div>`;
+  <section class="card"><div class="card-header"><div><h2>${calendarDay ? date(calendarDay) : 'Agenda del mes'}</h2><p>${visible.length} eventos</p></div>${calendarDay ? button('Ver mes', 'clear-day', 'ghost') : ''}</div>${(!calendarDay || calendarDay === today()) && today().startsWith(calendarMonth) && ['all', 'task'].includes(agendaSource) ? `<div class="agenda-routine"><div class="eyebrow">HOY · RUTINA DIARIA</div>${routineRows()}</div>` : ''}${visible.length ? visible.map(s => { const [a, b] = eventTimes(s), st = s.source === 'task' ? taskStatus(s) : null; return `<article class="agenda-session"><div class="date-box"><b>${Number(s.date.slice(8))}</b><span>${date(s.date, {month: 'short'})}</span></div><div class="content">${s.source === 'ingenium' ? badge('INGENIUM · SESIÓN ' + s.id, 'ingenium') : s.source === 'practice' ? badge('PRÁCTICA PROPIA', 'practice') : statusBadge(st) + ' ' + badge('VENCIMIENTO')}${s.plus ? ' ' + badge('Certified Plus', 'orange') : ''}<h3>${esc(s.title)}</h3><p class="time">${s.source === 'task' ? 'Fecha límite' : esc(a + '–' + b)} · ${date(s.date, {weekday: 'long'})}</p><div class="actions" style="margin-top:7px"><a class="button ghost" href="${gcalLink(eventTitle(s), s.date, a, b, s.detail || 'PMP Master Plan 2027')}" target="_blank" rel="noopener">Google ↗</a>${button('.ics', 'event-ics', 'ghost', `data-id="${s.key}"`)}${s.source === 'practice' ? button('Editar', 'edit-session', 'ghost', `data-id="${s.id}"`) : ''}${s.source !== 'task' ? button('Apunte', 'session-note', 'ghost', `data-id="${s.key}"`) : ''}${s.source === 'task' && st !== 'done' ? taskAction(s) : ''}</div></div>${s.source !== 'task' ? `<button class="check-button ${state.attendance[s.source === 'ingenium' ? s.id : s.key] ? 'done' : ''}" data-action="attendance" data-id="${s.source === 'ingenium' ? s.id : s.key}" aria-label="Marcar realizada" aria-pressed="${!!state.attendance[s.source === 'ingenium' ? s.id : s.key]}">${icon('check')}</button>` : `<button class="check-button ${st === 'done' ? 'done' : ''}" data-action="task-toggle" data-id="${s.id}" aria-label="Marcar hecho" aria-pressed="${st === 'done'}">${icon('check')}</button>`}</article>`; }).join('') : empty('Sin eventos', 'No hay eventos con este filtro.', 'new-session', 'Planificar práctica')}</section></div>`;
 }
 function icsFor(events, withDaily) {
   const esc2 = s => String(s).replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
@@ -245,7 +344,7 @@ function icsFor(events, withDaily) {
   const now = new Date().toISOString().replace(/[-:]/g, '').replace('.000', '');
   const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PMP Master Plan 2027//ES', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:PMP Master Plan 2027', 'X-WR-TIMEZONE:America/Lima'];
   for (const e of events) { const [a, b] = eventTimes(e); L.push('BEGIN:VEVENT', 'UID:' + e.key + '@pmp-master-plan-2027', 'DTSTAMP:' + now, 'DTSTART:' + z(e.date, a), 'DTEND:' + z(e.date, b), 'SUMMARY:' + esc2(eventTitle(e)), 'DESCRIPTION:' + esc2((e.detail || '') + ' · Hora de Lima.'), 'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc2(eventTitle(e)), 'TRIGGER:' + (e.source === 'task' ? 'PT0M' : '-PT30M'), 'END:VALARM', 'END:VEVENT'); }
-  if (withDaily) { const r = state.settings.reminderTime || '07:30'; const until = z(plusDays(examDate(), -1), '23:59'); L.push('BEGIN:VEVENT', 'UID:flashcards-diarias@pmp-master-plan-2027', 'DTSTAMP:' + now, 'DTSTART:' + z(today(), r), 'DTEND:' + z(today(), plusMinutes(r, 15)), 'RRULE:FREQ=DAILY;UNTIL=' + until, 'SUMMARY:PMP · Repaso diario de tarjetas', 'DESCRIPTION:' + esc2('Abre https://fssgdev.github.io/pmp-prep-app/#flashcards y completa la cola del día.'), 'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Repaso diario de tarjetas', 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT'); }
+  if (withDaily) { const r = state.settings.reminderTime || '07:30'; const until = z(plusDays(examDate(), -1), '23:59'); L.push('BEGIN:VEVENT', 'UID:flashcards-diarias@pmp-master-plan-2027', 'DTSTAMP:' + now, 'DTSTART:' + z(today(), r), 'DTEND:' + z(today(), plusMinutes(r, 15)), 'RRULE:FREQ=DAILY;UNTIL=' + until, 'SUMMARY:PMP · Rutina diaria: 4 tarjetas + Bullet Quiz de 5', 'DESCRIPTION:' + esc2('Abre https://fssgdev.github.io/pmp-prep-app/ y completa Flashcards 4/4 y el Bullet Quiz 5/5.'), 'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Rutina diaria PMP', 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT'); }
   L.push('END:VCALENDAR'); return L.join('\r\n') + '\r\n';
 }
 
@@ -292,6 +391,8 @@ const STUDY_ACTIONS = {
   'concept-filter': el => { conceptFilter = el.dataset.id; render(); },
   'card-reveal': () => { cardRevealed = true; render(); },
   'card-grade': el => gradeCard(el.dataset.id),
+  'cards-more': () => { ensureStudyState(); state.cardExtra = {...(state.cardExtra || {}), [today()]: extraNewToday() + 5}; save(); cardQueue = buildQueue(); cardRevealed = false; render(); },
+  'bullet-start': () => startBullet(),
   'cards-extra': () => { cardQueue = [...new Set(state.cardLog.filter(l => l.date === today()).map(l => l.id))]; cardRevealed = false; render(); },
   'sim-tab': el => { simTab = el.dataset.id; render(); },
   'sim-topics-all': () => { simFilter.topics = D.modules.flatMap(m => m.topics.map(t => t.id)); render(); },
@@ -309,6 +410,12 @@ document.addEventListener('change', ev => {
     else { const set = new Set(simFilter[k]); el.checked ? set.add(el.value) : set.delete(el.value); simFilter[k] = [...set]; }
     const open = document.querySelector('.sim-topics')?.open; render(); if (open) document.querySelector('.sim-topics').open = true;
   }
+});
+document.addEventListener('change', ev => {
+  if (ev.target.id !== 'routine-lesson') return;
+  const r = ensureRoutine(), ws = weekStart(), v = ev.target.value;
+  if (v) r.override[ws] = Number(v); else delete r.override[ws];
+  save(); render(); toast(v ? `Lección ${v} activa esta semana. El Bullet Quiz de hoy se actualiza si aún no lo empezaste.` : 'Volviste a la programación semanal.');
 });
 document.addEventListener('input', ev => {
   if (ev.target.id === 'concept-search') { const pos = ev.target.selectionStart; conceptSearch = ev.target.value; render(); const s = document.getElementById('concept-search'); s.focus(); s.setSelectionRange(pos, pos); }

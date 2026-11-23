@@ -71,13 +71,20 @@
     }
     out.cards = {...(older.cards || {})};
     for (const [id, c] of Object.entries(newer.cards || {})) {
-      const p = out.cards[id], score = x => (x.reps || 0) + (x.lapses || 0);
+      const p = out.cards[id], score = x => x.n || ((x.reps || 0) + (x.lapses || 0));
       if (!p || score(c) > score(p) || (score(c) === score(p) && String(c.due) >= String(p.due))) out.cards[id] = c;
     }
     const count = log => { const m = new Map(); (log || []).forEach(l => { const k = l.at ? l.id + '@' + l.at : [l.id, l.date, l.grade, l.first].join('|'); m.set(k, [...(m.get(k) || []), l]); }); return m; };
     const a = count(older.cardLog), b = count(newer.cardLog), log = [];
     new Set([...a.keys(), ...b.keys()]).forEach(k => { const x = a.get(k) || [], y = b.get(k) || []; log.push(...(y.length >= x.length ? y : x)); });
     out.cardLog = log.sort((p, q) => String(p.at || p.date).localeCompare(String(q.at || q.date))).slice(-3000);
+    // Rutina diaria (issue #6): días por fecha (gana la selección generada más tarde), correcciones de lección por semana, ciclos vistos por unión.
+    const ro = older.routine || {}, rn = newer.routine || {};
+    out.routine = {override: {...(ro.override || {}), ...(rn.override || {})}, days: {...(ro.days || {})}, seen: {}};
+    for (const [d, x] of Object.entries(rn.days || {})) { const p = out.routine.days[d]; if (!p || String(x.at || '') >= String(p.at || '')) out.routine.days[d] = x; }
+    for (const k of new Set([...Object.keys(ro.seen || {}), ...Object.keys(rn.seen || {})])) out.routine.seen[k] = [...new Set([...(ro.seen?.[k] || []), ...(rn.seen?.[k] || [])])];
+    out.cardExtra = {...(older.cardExtra || {})};
+    for (const [d, n] of Object.entries(newer.cardExtra || {})) out.cardExtra[d] = Math.max(n, out.cardExtra[d] || 0);
     out.topics = {...(older.topics || {}), ...(newer.topics || {})};
     out.attendance = {...(older.attendance || {}), ...(newer.attendance || {})};
     return out;

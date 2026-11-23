@@ -60,6 +60,22 @@ const syncNow = async d => { await d.page.evaluate(() => document.querySelector(
   log(a1.notes.includes('nota-A') && b1.notes.includes('nota-A'), 'la nota creada sin conexión en A llega a B');
   log(a1.mocks.includes('mock-B') && b1.mocks.includes('mock-B'), 'el simulacro registrado en B llega a A');
   log(a1.act7 === b1.act7 && a1.due === b1.due, `métricas del panel iguales (actividad 7 días y tarjetas por repasar: ${a1.due})`);
+  // Rutina diaria (issue #6): A corrige la lección de la semana sin conexión; B genera el Bullet Quiz del día.
+  offline.A = true;
+  await A.page.evaluate(() => { ensureRoutine().override[weekStart()] = 4; save(); });
+  const bIds = await B.page.evaluate(() => { const b = bulletToday(); save(); return b.ids; });
+  await A.page.waitForTimeout(2500); await B.page.waitForTimeout(2500);
+  offline.A = false;
+  await syncNow(A); await syncNow(B); await syncNow(A);
+  const rA = await A.page.evaluate(() => state.routine), rB = await B.page.evaluate(() => state.routine);
+  log(rA.override[Object.keys(rA.override)[0]] === 4 && JSON.stringify(rA.override) === JSON.stringify(rB.override), 'la lección corregida en A sin conexión llega a B');
+  log(JSON.stringify(rA.days) === JSON.stringify(rB.days) && JSON.stringify(Object.values(rB.days)[0].ids) === JSON.stringify(bIds), 'la selección del Bullet Quiz del día es la misma en A y B, sin duplicarse');
+  log(JSON.stringify(rA.seen) === JSON.stringify(rB.seen), 'el ciclo de preguntas vistas coincide en ambos');
+  // Con la lección corregida, el quiz de hoy (aún sin empezar) se regenera en un dispositivo y ambos convergen.
+  await A.page.evaluate(() => { bulletToday(); save(); }); await A.page.waitForTimeout(2500);
+  await syncNow(B); await B.page.evaluate(() => { bulletToday(); save(); }); await B.page.waitForTimeout(2500); await syncNow(A);
+  const cA = await A.page.evaluate(() => state.routine.days[today()]), cB = await B.page.evaluate(() => state.routine.days[today()]);
+  log(cA.lesson === 4 && cB.lesson === 4 && JSON.stringify(cA.ids) === JSON.stringify(cB.ids), `tras corregir la lección, ambos muestran el mismo Bullet Quiz de la lección ${cA.lesson}`);
   // Borrado: B elimina la nota; no debe reaparecer al sincronizar A.
   await B.page.evaluate(() => { actions['confirm-delete']({dataset: {id: 'nota-A', type: 'notes'}}); }); await B.page.waitForTimeout(2500);
   await syncNow(A); await A.page.evaluate(() => { save(); }); await A.page.waitForTimeout(2500); await syncNow(B);

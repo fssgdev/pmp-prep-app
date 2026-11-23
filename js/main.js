@@ -8,11 +8,11 @@
     return r.json();
   });
   try {
-    const [modules, calendar, questions, lessons, scenarios, concepts, tips] = await Promise.all([
+    const [modules, calendar, questions, lessons, scenarios, concepts, tips, weeklyPlan] = await Promise.all([
       get('data/modules.json'), get('data/calendar.json'), get('data/questions.json'), get('data/lessons.json'),
-      get('data/scenarios.json'), get('data/concepts.json'), get('data/tips.json')
+      get('data/scenarios.json'), get('data/concepts.json'), get('data/tips.json'), get('data/weekly-plan.json')
     ]);
-    window.PMP_DATA = {modules, sessions: calendar.sessions, stages: calendar.stages, questions, course: lessons, scenarios, concepts, tips};
+    window.PMP_DATA = {modules, sessions: calendar.sessions, stages: calendar.stages, questions, course: lessons, scenarios, concepts, tips, weeklyPlan};
     const load = src => new Promise((ok, fail) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => fail(new Error(src)); document.body.append(s); });
     await load('js/study.js');
     await load('js/mock.js');
