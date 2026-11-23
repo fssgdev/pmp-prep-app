@@ -149,5 +149,59 @@
         }
       ]
     }
+  },
+  {
+    "id": "sc-centro-comercial",
+    "title": "Caso Centro Comercial Norte: curva S del cronograma",
+    "context": "Una constructora ejecuta un centro comercial con enfoque predictivo. La inauguración está fijada por contrato al final de la semana 10, porque los locatarios ya programaron su apertura. El gráfico muestra el avance físico acumulado planificado y el real, en porcentaje del trabajo total, al cierre de cada semana. La fecha de corte es la semana 6. El retraso se concentra en las instalaciones eléctricas, que están en la ruta crítica.",
+    "chart": {
+      "type": "line",
+      "title": "Centro Comercial Norte: avance físico acumulado (%)",
+      "yLabel": "% del trabajo total",
+      "labels": [
+        "Sem 1",
+        "Sem 2",
+        "Sem 3",
+        "Sem 4",
+        "Sem 5",
+        "Sem 6",
+        "Sem 7",
+        "Sem 8",
+        "Sem 9",
+        "Sem 10"
+      ],
+      "series": [
+        {
+          "name": "Planificado",
+          "values": [
+            5,
+            12,
+            22,
+            34,
+            47,
+            60,
+            72,
+            83,
+            93,
+            100
+          ]
+        },
+        {
+          "name": "Real",
+          "values": [
+            5,
+            11,
+            19,
+            29,
+            39,
+            48,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ]
+    }
   }
 ]
