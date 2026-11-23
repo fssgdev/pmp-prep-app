@@ -9,15 +9,15 @@
       "plus": false,
       "ppt": "Lección 1 y 2 (v4.0): Foundation / Laying the Foundation",
       "lesson41": [
-        1,
-        2
+        1
       ],
       "topics": [
         "business-1",
         "agile-1",
         "agile-6"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Sin notas publicadas para esta fecha; el 6/11 y el 11/11 se trabajó la lección 1."
     },
     {
       "id": 2,
@@ -28,15 +28,15 @@
       "plus": false,
       "ppt": "Lección 1 y 2 (v4.0): Foundation / Laying the Foundation",
       "lesson41": [
-        1,
-        2
+        1
       ],
       "topics": [
         "business-1",
         "agile-1",
         "agile-6"
       ],
-      "mapping": "por confirmar"
+      "mapping": "confirmada",
+      "progress": "Notas del instructor del 6/11 en la carpeta de la lección 1 del curso."
     },
     {
       "id": 3,
@@ -47,15 +47,15 @@
       "plus": false,
       "ppt": "Lección 1 y 2 (v4.0): Foundation / Laying the Foundation",
       "lesson41": [
-        1,
-        2
+        1
       ],
       "topics": [
         "business-1",
         "agile-1",
         "agile-6"
       ],
-      "mapping": "por confirmar"
+      "mapping": "confirmada",
+      "progress": "Notas del instructor del 11/11 en la carpeta de la lección 1 del curso."
     },
     {
       "id": 4,
@@ -66,14 +66,15 @@
       "plus": false,
       "ppt": "Lección 3 (v4.0): Defining Scope, Value and Success Criteria",
       "lesson41": [
-        5
+        2
       ],
       "topics": [
-        "process-2",
-        "process-3",
-        "business-2"
+        "business-1",
+        "agile-1",
+        "agile-6"
       ],
-      "mapping": "confirmada"
+      "mapping": "confirmada",
+      "progress": "Notas del instructor del 13/11 en la carpeta de la lección 2 (ciclos de vida predictivo y adaptativo)."
     },
     {
       "id": 5,
@@ -84,14 +85,15 @@
       "plus": false,
       "ppt": "Lección 3 (v4.0): Defining Scope, Value and Success Criteria",
       "lesson41": [
-        5
+        2
       ],
       "topics": [
-        "process-2",
-        "process-3",
-        "business-2"
+        "business-1",
+        "agile-1",
+        "agile-6"
       ],
-      "mapping": "confirmada"
+      "mapping": "confirmada",
+      "progress": "Notas del instructor del 18/11 en la carpeta de la lección 2 (dominios, áreas de enfoque y gobernanza)."
     },
     {
       "id": 6,
@@ -102,15 +104,19 @@
       "plus": false,
       "ppt": "Lección 4 (v4.0): Building the Plan",
       "lesson41": [
-        5,
-        6
+        2,
+        3
       ],
       "topics": [
-        "process-1",
-        "process-4",
-        "process-6"
+        "business-1",
+        "agile-1",
+        "agile-6",
+        "people-1",
+        "people-4",
+        "people-5"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección: cierre de la lección 2 o inicio de la 3; aún no hay notas del 20/11."
     },
     {
       "id": 7,
@@ -121,15 +127,17 @@
       "plus": false,
       "ppt": "Lección 4 (v4.0): Building the Plan",
       "lesson41": [
-        5,
-        6
+        3
       ],
       "topics": [
-        "process-1",
-        "process-4",
-        "process-6"
+        "people-1",
+        "people-4",
+        "people-5",
+        "people-6",
+        "people-8"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 3 v4.1."
     },
     {
       "id": 8,
@@ -140,14 +148,17 @@
       "plus": false,
       "ppt": "Lección 5 (v4.0): Procurement, Quality and Scheduling",
       "lesson41": [
-        6
+        3
       ],
       "topics": [
-        "process-5",
-        "process-7",
-        "process-8"
+        "people-1",
+        "people-4",
+        "people-5",
+        "people-6",
+        "people-8"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 3 v4.1."
     },
     {
       "id": 9,
@@ -158,14 +169,15 @@
       "plus": false,
       "ppt": "Lección 5 (v4.0): Procurement, Quality and Scheduling",
       "lesson41": [
-        6
+        4
       ],
       "topics": [
-        "process-5",
-        "process-7",
-        "process-8"
+        "people-2",
+        "people-3",
+        "people-7"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 4 v4.1."
     },
     {
       "id": 10,
@@ -176,15 +188,15 @@
       "plus": false,
       "ppt": "Lección 6 (v4.0): Communication and Knowledge Transfer",
       "lesson41": [
-        3,
         4
       ],
       "topics": [
-        "people-8",
-        "people-7",
-        "people-4"
+        "people-2",
+        "people-3",
+        "people-7"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 4 v4.1."
     },
     {
       "id": 11,
@@ -195,14 +207,18 @@
       "plus": false,
       "ppt": "Lección 7 (v4.0): Leading and Empowering the Team",
       "lesson41": [
-        4
+        5
       ],
       "topics": [
-        "people-1",
-        "people-2",
-        "people-3"
+        "process-2",
+        "process-3",
+        "process-4",
+        "process-6",
+        "business-2",
+        "business-5"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 5 v4.1."
     },
     {
       "id": 12,
@@ -213,15 +229,18 @@
       "plus": false,
       "ppt": "Lección 8 (v4.0): Managing Risk, Change and Issues",
       "lesson41": [
-        5,
-        7
+        5
       ],
       "topics": [
-        "business-5",
-        "business-3",
-        "business-4"
+        "process-2",
+        "process-3",
+        "process-4",
+        "process-6",
+        "business-2",
+        "business-5"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 5 v4.1."
     },
     {
       "id": 13,
@@ -232,15 +251,18 @@
       "plus": false,
       "ppt": "Lección 8 (v4.0): Managing Risk, Change and Issues",
       "lesson41": [
-        5,
-        7
+        5
       ],
       "topics": [
-        "business-5",
-        "business-3",
-        "business-4"
+        "process-2",
+        "process-3",
+        "process-4",
+        "process-6",
+        "business-2",
+        "business-5"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 5 v4.1."
     },
     {
       "id": 14,
@@ -251,15 +273,16 @@
       "plus": false,
       "ppt": "Lección 9 (v4.0): Monitoring Progress and Maintaining Alignment",
       "lesson41": [
-        7,
-        3
+        6
       ],
       "topics": [
-        "process-9",
-        "people-5",
-        "people-6"
+        "process-1",
+        "process-5",
+        "process-7",
+        "process-8"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 6 v4.1."
     },
     {
       "id": 15,
@@ -270,12 +293,16 @@
       "plus": false,
       "ppt": "Lección 10 (v4.0): Closing the Project Successfully",
       "lesson41": [
-        8
+        6
       ],
       "topics": [
-        "process-10"
+        "process-1",
+        "process-5",
+        "process-7",
+        "process-8"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 6 v4.1."
     },
     {
       "id": 16,
@@ -286,12 +313,15 @@
       "plus": false,
       "ppt": "Lección 10 (v4.0): Closing the Project Successfully",
       "lesson41": [
-        8
+        7
       ],
       "topics": [
-        "process-10"
+        "process-9",
+        "business-3",
+        "business-4"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 7 v4.1."
     },
     {
       "id": 17,
@@ -302,14 +332,19 @@
       "plus": false,
       "ppt": "Lección 11 (v4.0): Driving Organizational Continuous Improvement",
       "lesson41": [
+        7,
         8
       ],
       "topics": [
+        "process-9",
+        "business-3",
+        "business-4",
+        "process-10",
         "business-6",
-        "business-7",
-        "business-8"
+        "business-7"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 7 y 8 v4.1."
     },
     {
       "id": 18,
@@ -323,11 +358,13 @@
         8
       ],
       "topics": [
+        "process-10",
         "business-6",
         "business-7",
         "business-8"
       ],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 8 v4.1."
     },
     {
       "id": 19,
@@ -341,7 +378,8 @@
         9
       ],
       "topics": [],
-      "mapping": "por confirmar"
+      "mapping": "por confirmar",
+      "progress": "Proyección por el ritmo real del curso (unas dos sesiones por lección): lección 9 v4.1."
     }
   ],
   "stages": [
@@ -385,5 +423,6 @@
       "goal": "Consolidar aprendizajes y revisar la preparación para decidir la fecha de examen.",
       "deliverable": "Lista de preparación, errores recurrentes resueltos y revisión de logística. Examen de enero por confirmar."
     }
-  ]
+  ],
+  "progressNote": "Avance real verificado con las notas de sesión que el instructor sube al Drive con la fecha de cada clase (la carpeta de la lección indica qué lección se dictó). El título y el PPT de cada sesión son los del programa INGENIUM; la lección v4.1 y los temas siguen el avance real. Las sesiones futuras son una proyección por confirmar."
 }

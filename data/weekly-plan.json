@@ -105,16 +105,28 @@
   },
   "weeks": [
     {
+      "start": "2026-11-02",
+      "lesson": 1,
+      "status": "confirmada",
+      "note": "Notas del instructor del 6/11 en la carpeta de la lección 1."
+    },
+    {
+      "start": "2026-11-09",
+      "lesson": 1,
+      "status": "confirmada",
+      "note": "Notas del 11/11 en la lección 1; el 13/11 empezó la lección 2."
+    },
+    {
       "start": "2026-11-16",
       "lesson": 2,
-      "status": "por confirmar",
-      "note": "Propuesta: notas del instructor de la lección 2 del 13 nov."
+      "status": "confirmada",
+      "note": "Notas del instructor del 18/11 en la carpeta de la lección 2 (la lección 2 empezó el 13/11)."
     },
     {
       "start": "2026-11-23",
       "lesson": 3,
       "status": "por confirmar",
-      "note": "Propuesta: falta contrastar con la secuencia real del curso (Drive / Fabrizio). Los temas de la lección 3 sí coinciden con lessons.json."
+      "note": "Proyección: la lección 2 se dictó el 13/11 y el 18/11; faltan las notas del 20/11 para confirmar si la lección 3 empieza esta semana."
     },
     {
       "start": "2026-11-30",
