@@ -13,8 +13,8 @@ const KEY = 'pmp-master-plan-2027-v1';
     const page = await ctx.newPage(); const errors = [];
     page.on('pageerror', e => errors.push(e.message));
     await page.route(/supabase-js/, r => r.abort());
-    // 23:52 del lunes 23/11/2026, hora de Lima
-    await page.clock.install({time: new Date('2026-11-23T23:52:00-05:00')});
+    // 23:59:20 del lunes 23/11/2026, hora de Lima
+    await page.clock.install({time: new Date('2026-11-23T23:59:20-05:00')});
     await page.goto(URL + '#inicio'); await page.waitForFunction(() => typeof gradeCard === 'function' && typeof state === 'object' && typeof D === 'object' && D.concepts);
     const reload = async hash => { await page.goto(URL + '#inicio'); await page.waitForFunction(() => typeof gradeCard === 'function' && typeof state === 'object' && typeof D === 'object' && D.concepts); await page.evaluate(h => { location.hash = h; }, hash); await page.waitForTimeout(80); };
 
@@ -30,18 +30,27 @@ const KEY = 'pmp-master-plan-2027-v1';
     });
     await reload('flashcards');
     assert(await page.evaluate(i => cardQueue[0] === i && cardQueue.length === 1, id), 'la tarjeta en aprendizaje vencida aparece');
+    // intervalos pedidos por Fabrizio (#5): nueva o en aprendizaje 1 min / 1 / 2 / 4 días; en repaso, esos valores son mínimos
+    const grid = await page.evaluate(() => {
+      const bad = [];
+      for (const ph of ['new', 'learning', 'relearning']) { const s = ph === 'new' ? null : {phase: ph, interval: 0, ease: 2.5, reps: 1}; const v = nextIntervals(s); if (!(v.again.min === 1 && v.hard.days === 1 && v.good.days === 2 && v.easy.days === 4)) bad.push(ph); }
+      for (let I = 1; I <= 120; I++) for (let E = 1.3; E <= 3.01; E += .05) { const v = nextIntervals({phase: 'review', interval: I, ease: E, reps: 1}); if (!(v.again.min === 1 && v.hard.days >= 1 && v.good.days >= 2 && v.easy.days >= 4 && v.hard.days < v.good.days && v.good.days < v.easy.days && v.hard.days > I - 0)) bad.push(I + '/' + E.toFixed(2)); }
+      return bad;
+    });
+    assert(grid.length === 0, 'intervalos: nuevas y en aprendizaje 1 min · 1 · 2 · 4 días; repaso con mínimos y orden estricto (3 fases + 4 080 combinaciones) ' + grid.slice(0, 5));
     await page.evaluate(() => { cardRevealed = true; render(); });
-    assert((await page.locator('[data-action="card-grade"][data-id="hard"] small').textContent()) === '10 min', 'Difícil anuncia 10 min');
-    await page.locator('[data-action="card-grade"][data-id="hard"]').click();
+    const labels = await page.$$eval('[data-action="card-grade"] small', els => els.map(e => e.textContent).join(' | '));
+    assert(labels === '1 min | 1 día | 2 días | 4 días', 'los botones anuncian ' + labels);
+    await page.locator('[data-action="card-grade"][data-id="again"]').click();
     const st = await page.evaluate(i => state.cards[i], id);
-    assert(st.due === '2026-11-24' && Math.abs(Date.parse(st.dueAt) - Date.parse('2026-11-24T00:02:00-05:00')) < 5000, 'Difícil a las 23:52 vence 00:02 del 24/11 (cruza la medianoche de Lima)');
-    assert(await page.locator('.flash-wait h2').textContent() === 'Próxima tarjeta en 10 min', 'no se repite antes de tiempo: muestra la espera');
+    assert(st.due === '2026-11-24' && Math.abs(Date.parse(st.dueAt) - Date.parse('2026-11-24T00:00:20-05:00')) < 5000, 'Otra vez a las 23:59:20 vence 00:00:20 del 24/11 (cruza la medianoche de Lima)');
+    assert(await page.locator('.flash-wait h2').textContent() === 'Próxima tarjeta en 1 min', 'no se repite antes de tiempo: muestra la espera');
     assert(await page.locator('.flash-wait a[href="#inicio"]').count() === 1, 'se puede salir mientras espera');
     await reload('flashcards');
-    assert(await page.locator('.flash-wait').count() === 1 && await page.evaluate(() => !cardQueue.length), 'tras recargar sigue esperando (no aparece antes de los 10 min)');
-    await page.clock.fastForward('09:00');
+    assert(await page.locator('.flash-wait').count() === 1 && await page.evaluate(() => !cardQueue.length), 'tras recargar sigue esperando');
+    await page.clock.fastForward('00:30');
     await reload('flashcards');
-    assert(await page.locator('.flash-wait h2').textContent() === 'Próxima tarjeta en 1 min', 'a los 9 min (00:01 del día siguiente) aún falta 1 min');
+    assert(await page.evaluate(i => !buildQueue().includes(i), id) && await page.locator('.flash-wait').count() === 1, 'Otra vez: a los 30 s (00:00 del 24/11) todavía no vuelve');
     // repaso extra voluntario desde la espera: no cambia la programación ni la meta
     const goal0 = await page.evaluate(() => cardsGradedToday());
     await page.locator('[data-action="cards-extra-learning"]').click();
@@ -50,27 +59,23 @@ const KEY = 'pmp-master-plan-2027-v1';
     await page.locator('[data-action="card-grade"][data-id="good"]').click();
     const after = await page.evaluate(i => ({s: state.cards[i], log: state.cardLog[state.cardLog.length - 1], g: cardsGradedToday()}), id);
     assert(after.s.dueAt === st.dueAt && after.log.extra === true && after.g === goal0, 'el repaso extra no reprograma la tarjeta ni suma a la meta');
-    await page.clock.runFor(61000);
+    await page.clock.runFor(31000);
     await page.waitForTimeout(100);
-    assert(await page.evaluate(i => cardQueue[0] === i, id), 'al cumplirse los 10 min la pantalla se actualiza sola y la tarjeta vuelve');
+    assert(await page.evaluate(i => cardQueue[0] === i, id), 'al cumplirse el minuto la pantalla se actualiza sola y la tarjeta vuelve');
     assert(await page.evaluate(() => today()) === '2026-11-24', 'el día cambió a 24/11 en Lima');
-    // Otra vez = 1 min
+    // Difícil = 1 día: no vuelve hasta la medianoche de Lima del 25/11
     await page.evaluate(() => { cardRevealed = true; render(); });
-    await page.locator('[data-action="card-grade"][data-id="again"]').click();
-    await page.clock.fastForward('00:30');
+    await page.locator('[data-action="card-grade"][data-id="hard"]').click();
+    assert(await page.evaluate(i => state.cards[i].due === '2026-11-25' && !state.cards[i].dueAt && !buildQueue().includes(i) && state.cardLog[state.cardLog.length - 1].applied.days === 1, id), 'Difícil: aplica 1 día, vence el 25/11 y no se muestra antes');
+    await page.clock.fastForward(24 * 3600 * 1000);
     await reload('flashcards');
-    assert(await page.evaluate(i => !buildQueue().includes(i), id), 'Otra vez: a los 30 s todavía no vuelve');
-    await page.clock.fastForward('00:31');
-    await reload('flashcards');
-    assert(await page.evaluate(i => buildQueue().includes(i), id), 'Otra vez: vuelve pasado 1 min');
-    // Bien = 1 día: no vuelve hasta la medianoche de Lima
-    await page.evaluate(() => { cardQueue = [cardQueue.find(Boolean)]; cardRevealed = true; render(); });
+    assert(await page.evaluate(i => today() === '2026-11-25' && buildQueue().includes(i), id), 'Difícil: vuelve el 25/11 tras la medianoche de Lima');
+    // en repaso, progresión adaptativa (I = 1): 2 < 3 < 4 días, y Bien aplica lo anunciado
+    await page.evaluate(i => { cardQueue = [i]; cardRevealed = true; render(); }, id);
+    const rl = await page.$$eval('[data-action="card-grade"] small', els => els.map(e => e.textContent).join(' | '));
+    assert(rl === '1 min | 2 días | 3 días | 4 días', 'en repaso los botones anuncian ' + rl);
     await page.locator('[data-action="card-grade"][data-id="good"]').click();
-    assert(await page.evaluate(i => state.cards[i].due === '2026-11-25' && !state.cards[i].dueAt && !buildQueue().includes(i), id), 'Bien: vence el 25/11 y no se muestra antes');
-    await page.clock.fastForward('23:58:00');
-    await reload('flashcards');
-    assert(await page.evaluate(i => today() === '2026-11-25' && buildQueue().includes(i), id), 'Bien: vuelve el 25/11 tras la medianoche de Lima');
-
+    assert(await page.evaluate(i => state.cards[i].due === '2026-11-28' && state.cards[i].interval === 3, id), 'Bien en repaso: aplica 3 días (vence el 28/11), igual a lo anunciado');
     /* ---------- Bullet Quiz: lección con menos de 5 preguntas ---------- */
     await page.evaluate(() => { localStorage.removeItem('pmp-master-plan-2027-v1'); });
     await reload('inicio');

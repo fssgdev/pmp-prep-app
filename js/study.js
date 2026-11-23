@@ -92,9 +92,10 @@ function doTask(id) {
 }
 
 /* ---------- flashcards (repetición espaciada, issue #5) ----------
-   Aprendizaje / reaprendizaje: Otra vez 1 min · Difícil 10 min · Bien 1 día · Fácil 4 días.
-   Repaso (intervalo I días, facilidad E): Otra vez 10 min (reaprender) · Difícil max(I+1, 1,2·I)
-   · Bien max(Difícil+1, I·E) · Fácil max(Bien+1, I·E·1,3). Orden estricto garantizado. */
+   Nueva / en aprendizaje (pedido de Fabrizio en #5): Otra vez 1 min · Difícil 1 día · Bien 2 días · Fácil 4 días.
+   Repaso (intervalo I días, facilidad E): Otra vez 1 min (reaprender) · Difícil max(1, I+1, 1,2·I)
+   · Bien max(2, Difícil+1, I·E) · Fácil max(4, Bien+1, I·E·1,3). Los valores base son mínimos y el orden es estricto. */
+const CARD_MIN = {hard: 1, good: 2, easy: 4};
 const CARD_DAILY_GOAL = 4;
 function allCards() { return (D.concepts || []).flatMap(c => c.cards.map(k => ({...k, conceptId: c.id, concept: c.title, topicId: c.topicId}))); }
 function cardState(id) { return state.cards[id] || null; }
@@ -108,7 +109,7 @@ const limaDay = ms => new Intl.DateTimeFormat('en-CA', {timeZone: 'America/Lima'
 function cardDueMs(s) { return s.dueAt ? Date.parse(s.dueAt) : Date.parse(s.due + 'T00:00:00-05:00'); }
 function cardDueNow(s) { return !!s && cardDueMs(s) <= Date.now(); }
 function dueCards() { return allCards().filter(c => cardDueNow(cardState(c.id))).sort((a, b) => cardDueMs(cardState(a.id)) - cardDueMs(cardState(b.id))); }
-/* Tarjetas en aprendizaje que vuelven más tarde (paso de 1 o 10 min aún no cumplido). */
+/* Tarjetas en aprendizaje que vuelven más tarde (paso de 1 min de «Otra vez» aún no cumplido). */
 function learningLater() { return allCards().filter(c => { const s = cardState(c.id); return s && s.dueAt && !cardDueNow(s); }).map(c => ({id: c.id, at: Date.parse(cardState(c.id).dueAt)})).sort((a, b) => a.at - b.at); }
 function buildQueue() {
   ensureStudyState();
@@ -120,10 +121,10 @@ function cardsGradedToday() { return new Set(state.cardLog.filter(l => l.date ==
 function cardGoalDone() { return cardsGradedToday() >= CARD_DAILY_GOAL; }
 function nextIntervals(prev) {
   const ph = cardPhase(prev);
-  if (ph !== 'review') return {again: {min: 1}, hard: {min: 10}, good: {days: 1}, easy: {days: ph === 'new' ? 4 : 3}};
+  if (ph !== 'review') return {again: {min: 1}, hard: {days: CARD_MIN.hard}, good: {days: CARD_MIN.good}, easy: {days: CARD_MIN.easy}};
   const I = Math.max(1, prev.interval || 1), E = prev.ease || 2.5;
-  const hard = Math.max(I + 1, Math.round(I * 1.2)), good = Math.max(hard + 1, Math.round(I * E)), easy = Math.max(good + 1, Math.round(I * E * 1.3));
-  return {again: {min: 10}, hard: {days: hard}, good: {days: good}, easy: {days: easy}};
+  const hard = Math.max(CARD_MIN.hard, I + 1, Math.round(I * 1.2)), good = Math.max(CARD_MIN.good, hard + 1, Math.round(I * E)), easy = Math.max(CARD_MIN.easy, good + 1, Math.round(I * E * 1.3));
+  return {again: {min: 1}, hard: {days: hard}, good: {days: good}, easy: {days: easy}};
 }
 function schedule(prev, grade) {
   const ph = cardPhase(prev), step = nextIntervals(prev)[grade];
