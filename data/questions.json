@@ -1111,7 +1111,8 @@
     "rationale": "La línea base del alcance integra el enunciado del alcance aprobado, la EDT y su diccionario. Los demás conjuntos mezclan documentos útiles pero que no forman esa línea base; cronograma y presupuesto tienen sus propias líneas base."
   },
   {
-    "id": "process-l3-003",
+    "id": "process-l3-003-v2",
+    "replaces": "process-l3-003",
     "module": "process",
     "topicId": "process-2",
     "approach": "Ágil",
@@ -1149,7 +1150,8 @@
     "rationale": "Las encuestas llegan rápido a grupos grandes y dispersos y producen datos cuantitativos. Las entrevistas consumen mucho tiempo, la observación capta un rol concreto y el grupo focal presencial no encaja con la dispersión geográfica."
   },
   {
-    "id": "process-l3-005",
+    "id": "process-l3-005-v2",
+    "replaces": "process-l3-005",
     "module": "process",
     "topicId": "process-2",
     "approach": "Predictivo",
@@ -1188,7 +1190,8 @@
     "rationale": "MoSCoW y el reparto de 100 puntos generan un entendimiento común de la importancia de cada requisito. El diagrama de Gantt representa el cronograma y el valor ganado mide desempeño; ninguno prioriza requisitos."
   },
   {
-    "id": "process-l3-007",
+    "id": "process-l3-007-v2",
+    "replaces": "process-l3-007",
     "module": "process",
     "topicId": "process-3",
     "approach": "Híbrido",
@@ -1207,7 +1210,8 @@
     "rationale": "Cumplir especificaciones no garantiza valor; primero hay que entender la brecha y luego repriorizar. Defender la especificación ignora el problema; registrar un cambio antes de entender la necesidad se adelanta a la solución; revisar el caso de negocio puede llegar después, si la brecha lo justifica."
   },
   {
-    "id": "process-l3-008",
+    "id": "process-l3-008-v2",
+    "replaces": "process-l3-008",
     "module": "process",
     "topicId": "process-3",
     "approach": "Ágil",
@@ -1245,7 +1249,8 @@
     "rationale": "Se acepta un proyecto cuando su VAN es mayor que cero, porque sus beneficios en valor presente superan los costos. Un VAN negativo indica lo contrario, aunque haya flujos positivos en algunos años."
   },
   {
-    "id": "process-l3-010",
+    "id": "process-l3-010-v2",
+    "replaces": "process-l3-010",
     "module": "process",
     "topicId": "process-3",
     "approach": "Híbrido",
@@ -1264,7 +1269,8 @@
     "rationale": "Los beneficios se realizan a menudo después de la entrega, por eso hace falta un sistema con métricas de resultado, responsables y revisiones. El SPI mide desempeño del cronograma; una encuesta al cierre es un solo punto y los criterios de aceptación confirman entregables, no beneficios."
   },
   {
-    "id": "process-l3-011",
+    "id": "process-l3-011-v2",
+    "replaces": "process-l3-011",
     "module": "process",
     "topicId": "process-3",
     "approach": "Ágil",
@@ -1283,7 +1289,8 @@
     "rationale": "Un resultado clave mide el resultado buscado, con cifra y plazo. Lanzar un rediseño o hacer pruebas son actividades (entregables), no resultados; 'mejorar notablemente' no es medible."
   },
   {
-    "id": "business-l3-001",
+    "id": "business-l3-001-v2",
+    "replaces": "business-l3-001",
     "module": "business",
     "topicId": "business-2",
     "approach": "Predictivo",
@@ -1302,7 +1309,8 @@
     "rationale": "El acabado ya incumple la norma: es un problema actual, no un riesgo. Corresponde evaluar el impacto y corregirlo mediante el proceso acordado; el atraso que pueda generar la corrección sí es un riesgo derivado. Monitorearlo como riesgo lo posterga, actuar sin control de cambios omite la autorización y una garantía no corrige el incumplimiento."
   },
   {
-    "id": "business-l3-002",
+    "id": "business-l3-002-v2",
+    "replaces": "business-l3-002",
     "module": "business",
     "topicId": "business-2",
     "approach": "Híbrido",
@@ -1342,7 +1350,8 @@
     "rationale": "La política de calidad recoge los principios básicos de la organización sobre calidad y es una referencia para el cumplimiento. Los otros documentos tienen propósitos distintos."
   },
   {
-    "id": "business-l3-004",
+    "id": "business-l3-004-v2",
+    "replaces": "business-l3-004",
     "module": "business",
     "topicId": "business-2",
     "approach": "Híbrido",
@@ -3971,7 +3980,8 @@
     "rationale": "Con alcance flexible, cambiar un elemento no iniciado por otro de tamaño similar es un ajuste normal del backlog: lo prioriza el dueño del producto. No es un defecto ni requiere renegociar todo el contrato, y el enfoque adaptativo justamente acepta estos cambios."
   },
   {
-    "id": "x7-iss-001",
+    "id": "x7-iss-001-v2",
+    "replaces": "x7-iss-001",
     "module": "business",
     "topicId": "business-4",
     "approach": "Híbrido",
@@ -4239,7 +4249,8 @@
     "rationale": "Prevenir conflictos implica atacar su fuente: los recursos compartidos se programan, los roles difusos se aclaran con una RACI, los debates técnicos se ordenan con criterios previos y los cambios de prioridad se comunican por un canal único. Sancionar no resuelve ninguna causa."
   },
   {
-    "id": "x7-cnf-004",
+    "id": "x7-cnf-004-v2",
+    "replaces": "x7-cnf-004",
     "module": "people",
     "topicId": "people-2",
     "approach": "Ágil",
@@ -4336,7 +4347,8 @@
     "level": "intro"
   },
   {
-    "id": "x7-int-003",
+    "id": "x7-int-003-v2",
+    "replaces": "x7-int-003",
     "module": "process",
     "topicId": "process-1",
     "approach": "Predictivo",

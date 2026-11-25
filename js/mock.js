@@ -12,7 +12,7 @@ let mockTimer = null, mockReviewOpen = null;
 /* Solo ítems de nivel examen: las preguntas level:"intro" son práctica introductoria (issue #7). */
 function mockBank() { return D.questions.filter(q => [...MOCK_DOMAINS, 'agile'].includes(q.module) && q.level !== 'intro'); }
 function mockRun() { return state.mockRun && typeof state.mockRun === 'object' && Array.isArray(state.mockRun.ids) ? state.mockRun : null; }
-function mockQ(id) { return D.questions.find(q => q.id === id); }
+function mockQ(id) { return questionById(id); }
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
 /* Necesidades por dominio sobre las 170 calificadas (56 / 70 / 44). */

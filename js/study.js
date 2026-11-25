@@ -302,7 +302,7 @@ function stashBulletQuiz() {
 function quizCompletesTask(q) { return !String(q.taskId || '').startsWith('bullet-') || (q.ids.length >= bulletSize() && q.answers.length >= bulletSize()); }
 function startBullet() {
   const b = bulletToday(); if (b.missing) { go('ruta'); toast('Elige la lección de esta semana para generar el Bullet Quiz.'); return; }
-  const qs = b.ids.map(id => allQuestions().find(q => q.id === id)).filter(Boolean), size = bulletSize(), label = `Bullet Quiz · Lección ${b.lesson} (v4.1)`;
+  const qs = b.ids.map(questionById).filter(Boolean), size = bulletSize(), label = `Bullet Quiz · Lección ${b.lesson} (v4.1)`;
   if (state.quiz?.taskId === bulletId() && !state.quiz.finished) { go('practica'); return; }
   if (qs.length < size) {
     dialog('Faltan preguntas para el Bullet Quiz', `<p class="hint">La lección ${b.lesson} solo tiene ${qs.length} ${qs.length === 1 ? 'pregunta elegible' : 'preguntas elegibles'}; faltan ${size - qs.length} para el Bullet Quiz de ${size}. La meta de hoy sigue en 0/${size}: elige otra lección en la Ruta o practica estas preguntas como práctica libre, que no cuenta para la rutina.</p><div class="actions">${button('Elegir lección en la Ruta', 'bullet-go-ruta', '')}${qs.length ? button(`Practicar las ${qs.length} (no cuenta)`, 'bullet-free', 'white') : ''}</div>`);

@@ -4,7 +4,7 @@ Tu rol es revisar la app y el contenido, y dejar instrucciones claras para Claud
 
 ## Qué revisar
 - **App publicada:** https://fssgdev.github.io/pmp-prep-app/
-- **Contenido:** `data/questions.json` (banco), `data/modules.json` (temas por tarea ECO julio 2026), `data/lessons.json` (9 lecciones del curso PMI v4.1 y sus tareas ECO), `data/weekly-plan.json` (lección v4.1 de cada semana para la rutina diaria; editable), `data/calendar.json` (sesiones INGENIUM y etapas).
+- **Contenido:** `data/questions.json` (banco; un ID publicado nunca cambia de contenido: la corrección va con ID nuevo y la original se retira en `data/questions-retired.json`, verificado con `node tools/question-ids.mjs --check`), `data/modules.json` (temas por tarea ECO julio 2026), `data/lessons.json` (9 lecciones del curso PMI v4.1 y sus tareas ECO), `data/weekly-plan.json` (lección v4.1 de cada semana para la rutina diaria; editable), `data/calendar.json` (sesiones INGENIUM y etapas).
 - **Conceptos y tarjetas:** `data/concepts.json`; **glosario:** `data/glossary.json` (definiciones propias y ejemplos de obra; también son tarjetas); **tips:** `data/tips.json`.
 - **Frecuencia y calendario:** `data/weekly-plan.json` → `schedule` (L–V rutina, mié/vie clase, sábado cuestionario de 20, domingo descanso, `examDate`); `calendar.ics` es el calendario suscribible que se regenera con `node tools/build-ics.mjs`.
 - **Fallos e historial:** cada intento queda en `state.results` y cada pregunta fallada vuelve en Bullet Quiz, sábado y tarjetas hasta acertarla dos veces (`js/results.js`); los quizzes de Google Forms se importan como PDF (`js/pdfimport.js`): cada pregunta se ubica por su ícono ✓/×, aunque el PDF no tenga texto, y la imagen de cada fallo queda solo en el dispositivo.

@@ -36,7 +36,7 @@ function recordResult(r) {
 }
 /* Al terminar un cuestionario de práctica (incluye Bullet, sábado, sesión). Lo llama app.js. */
 function recordQuizResult(s) {
-  const qs = s.ids.map(id => allQuestions().find(q => q.id === id)).filter(Boolean);
+  const qs = s.ids.map(questionById).filter(Boolean);
   const ok = q => s.answers[s.ids.indexOf(q.id)]?.correct;
   recordResult({kind: kindOf(s.taskId, s.label), label: s.label, taskId: s.taskId || null, total: qs.length, correct: qs.filter(ok).length, dom: domTally(qs, ok), wrong: qs.filter(q => !ok(q)).map(q => q.id), minutes: Math.max(1, Math.round((Date.parse(s.completed) - Date.parse(s.started)) / 60000))});
 }
@@ -61,7 +61,7 @@ function noteSuccess(q) {
 }
 /* Preguntas del banco con fallo abierto y vencido (las más falladas primero). */
 function dueFailureIds(limit, accept = () => true) {
-  const bank = new Map(allQuestions().map(q => [q.id, q]));
+  const bank = new Map([...(D.retired || []), ...allQuestions()].map(q => [q.id, q]));
   return (state.errors || []).filter(e => !e.resolved && e.questionId && bank.has(e.questionId) && (e.due || e.date) <= today() && !bank.get(e.questionId).scenarioId && accept(e.questionId))
     .sort((a, b) => (b.misses || 1) - (a.misses || 1) || String(a.due || a.date).localeCompare(String(b.due || b.date)))
     .slice(0, limit).map(e => e.questionId);
@@ -75,7 +75,7 @@ function weakTopics(n = 3) {
 
 /* ---------- tarjetas de fallos ---------- */
 function failureCards() {
-  const bank = new Map(allQuestions().map(q => [q.id, q]));
+  const bank = new Map([...(D.retired || []), ...allQuestions()].map(q => [q.id, q]));
   return openFailures().map(e => {
     const q = e.questionId && bank.get(e.questionId);
     const answer = q ? itemKey(q) : (e.correctText || 'Revisa la respuesta correcta en tu quiz.');
@@ -83,6 +83,31 @@ function failureCards() {
     const back = q || e.correctText ? `Respuesta correcta: ${answer}` : e.img ? 'La respuesta correcta está marcada en la imagen de tu quiz.' : `Respuesta correcta: ${answer}`;
     return {id: 'err-' + e.id, errorId: e.id, front, back, imgId: e.img ? e.id : null, quiz: e.quiz || '', example: q ? q.rationale : (e.yourText ? `Tu respuesta fue: ${e.yourText}` : ''), exLabel: q ? 'POR QUÉ' : 'EN TU QUIZ', topicId: e.topicId, failCard: true, concept: e.source === 'pdf' ? 'Fallo de quiz importado' : 'Pregunta fallada'};
   });
+}
+/* ---------- IDs de preguntas reemplazadas (issue #7) ----------
+   Si una pregunta publicada cambió de contenido, la versión vigente tiene un ID nuevo y la original sigue en
+   data/questions-retired.json con su ID, replacedBy y retiredAt (fecha del cambio). Cada registro que nombra el ID
+   original pasa al nuevo solo si es posterior al cambio (es lo que realmente viste); los anteriores se quedan con la
+   versión original. Es idempotente: se aplica al cargar, al sincronizar y al importar un respaldo. */
+const uidTime = id => { const m = /^id-([0-9a-z]{8})/.exec(id || ''), t = m ? parseInt(m[1], 36) : NaN; return t > 1.6e12 && t < 2.3e12 ? t : NaN; };
+const recTime = (...xs) => { for (const x of xs) { if (x == null || x === '') continue; const t = typeof x === 'number' ? x : /^\d{4}-\d{2}-\d{2}$/.test(x) ? Date.parse(x + 'T23:59:59-05:00') : Date.parse(x); if (Number.isFinite(t)) return t; } return NaN; };
+function migrateQuestionIds(s) {
+  const moves = new Map((D.retired || []).filter(q => q.replacedBy && q.retiredAt).map(q => [q.id, {to: q.replacedBy, at: Date.parse(q.retiredAt)}]));
+  if (!moves.size || !s) return s;
+  const to = (id, t) => { const m = moves.get(id); return m && !(t < m.at) ? m.to : id; }; // sin fecha conocida: la versión vigente
+  const ids = (list, t) => Array.isArray(list) ? list.map(id => to(id, t)) : list;
+  const keys = (o, t) => o && typeof o === 'object' ? Object.fromEntries(Object.entries(o).map(([k, v]) => [to(k, t), v])) : o;
+  const quiz = q => { if (q && Array.isArray(q.ids)) { const t = recTime(q.started); q.ids = ids(q.ids, t); } return q; };
+  (s.attempts || []).forEach(a => { if (a.questionId) a.questionId = to(a.questionId, recTime(a.date)); });
+  (s.errors || []).forEach(e => { if (e.questionId) e.questionId = to(e.questionId, recTime(uidTime(e.id), e.date)); });
+  (s.results || []).forEach(r => { r.wrong = ids(r.wrong, recTime(r.at, r.date)); });
+  quiz(s.quiz);
+  if (s.mockRun && Array.isArray(s.mockRun.ids)) { const r = s.mockRun, t = recTime(r.started); r.ids = ids(r.ids, t); r.unscored = ids(r.unscored, t); r.answers = keys(r.answers, t); r.flags = keys(r.flags, t); }
+  if (s.routine) {
+    Object.entries(s.routine.days || {}).forEach(([d, day]) => { const t = recTime(day.quiz?.started, d); day.ids = ids(day.ids, t); day.fails = ids(day.fails, t); quiz(day.quiz); });
+    if (Array.isArray(s.routine.seen)) s.routine.seen = [...new Set(s.routine.seen.map(id => moves.get(id)?.to || id))];
+  }
+  return s;
 }
 /* Fallos importados (sin pregunta en el banco): se resuelven cuando su tarjeta llega a un repaso de 7 días o más. */
 function resolveImportedByCards() {
@@ -102,7 +127,7 @@ function renderHistory() {
   const avg = list => list.length ? Math.round(list.reduce((s, r) => s + (r.total ? r.correct / r.total : 0), 0) / list.length * 100) + ' %' : '—';
   const stats = [['bullet', 'Bullet Quiz', 'check'], ['weekly', 'Cuestionarios del sábado', 'calendar'], ['mock', 'Exámenes completos', 'mock'], ['import', 'Quizzes importados', 'download']]
     .map(([k, n, ic]) => stat(n, by(k).length, 'promedio ' + avg(by(k)), ic)).join('');
-  const row = r => `<article class="history-row"><div class="date-box"><b>${Number(r.date.slice(8))}</b><span>${date(r.date, {month: 'short'})}</span></div><div class="content"><div class="meta">${badge(RESULT_KINDS[r.kind] || 'Práctica', r.kind === 'mock' ? 'blue' : r.kind === 'import' ? 'orange' : r.kind === 'bullet' ? 'green' : '')}${r.minutes ? ` <span class="hint">${r.minutes} min</span>` : ''}</div><h3>${esc(r.label || RESULT_KINDS[r.kind])}</h3><p class="hint">${Object.entries(r.dom || {}).filter(([d]) => moduleBy(d)).map(([d, x]) => `${esc(moduleBy(d).name)} ${x.correct}/${x.total}`).join(' · ')}${r.wrong?.length ? ` · ${r.wrong.length} ${r.wrong.length === 1 ? 'fallo' : 'fallos'} enviados a repaso` : ''}</p></div><div class="row-end"><strong class="stat-value">${pct(r.correct, r.total)}<small>%</small></strong><span class="hint">${r.correct}/${r.total}</span>${r.wrong?.some(id => allQuestions().some(q => q.id === id)) ? button('Repasar fallos', 'history-retry', 'ghost small', `data-id="${r.id}"`) : ''}</div></article>`;
+  const row = r => `<article class="history-row"><div class="date-box"><b>${Number(r.date.slice(8))}</b><span>${date(r.date, {month: 'short'})}</span></div><div class="content"><div class="meta">${badge(RESULT_KINDS[r.kind] || 'Práctica', r.kind === 'mock' ? 'blue' : r.kind === 'import' ? 'orange' : r.kind === 'bullet' ? 'green' : '')}${r.minutes ? ` <span class="hint">${r.minutes} min</span>` : ''}</div><h3>${esc(r.label || RESULT_KINDS[r.kind])}</h3><p class="hint">${Object.entries(r.dom || {}).filter(([d]) => moduleBy(d)).map(([d, x]) => `${esc(moduleBy(d).name)} ${x.correct}/${x.total}`).join(' · ')}${r.wrong?.length ? ` · ${r.wrong.length} ${r.wrong.length === 1 ? 'fallo' : 'fallos'} enviados a repaso` : ''}</p></div><div class="row-end"><strong class="stat-value">${pct(r.correct, r.total)}<small>%</small></strong><span class="hint">${r.correct}/${r.total}</span>${r.wrong?.some(id => questionById(id)) ? button('Repasar fallos', 'history-retry', 'ghost small', `data-id="${r.id}"`) : ''}</div></article>`;
   return `<div class="stats">${stats}</div>
   <div class="grid-2"><section class="card"><div class="card-header"><div><h2>Fallos por repasar</h2><p>${open.length} abiertos · ${due.length} vencen hoy o antes</p></div>${button('Repasar los vencidos ' + icon('arrow'), 'failures-now', 'light small', due.some(e => e.questionId) ? '' : 'disabled')}</div>
   <p class="hint">Cada pregunta que fallas en un Bullet Quiz, un cuestionario, un examen o un quiz importado queda aquí sola. Vuelve al día de rutina siguiente: hasta 2 en tu Bullet Quiz, hasta 5 en el cuestionario del sábado y como tarjeta en Flashcards. Se cierra cuando la aciertas dos veces seguidas (o, si viene de un PDF, cuando dominas su tarjeta).</p>
@@ -111,8 +136,8 @@ function renderHistory() {
   <section class="card" style="margin-top:20px"><div class="card-header"><div><h2>Historial automático</h2><p>Se registra solo al terminar cada Bullet Quiz, cuestionario, práctica o examen completo.</p></div></div>${rs.length ? rs.slice(0, 60).map(row).join('') : empty('Aún no hay intentos registrados', 'Cuando termines tu primer Bullet Quiz o cuestionario aparecerá aquí con su puntaje y sus fallos.')}</section>`;
 }
 const RESULT_ACTIONS = {
-  'history-retry': el => { const r = state.results.find(x => x.id === el.dataset.id); const qs = (r?.wrong || []).map(id => allQuestions().find(q => q.id === id)).filter(Boolean); if (qs.length) startQuiz(qs, 'all', 'Repaso de fallos · ' + (r.label || '')); },
-  'failures-now': () => { const ids = dueFailureIds(20); const qs = ids.map(id => allQuestions().find(q => q.id === id)).filter(Boolean); if (qs.length) startQuiz(qs, 'all', 'Repaso de fallos vencidos'); else toast('No tienes fallos vencidos del banco por repasar.'); }
+  'history-retry': el => { const r = state.results.find(x => x.id === el.dataset.id); const qs = (r?.wrong || []).map(questionById).filter(Boolean); if (qs.length) startQuiz(qs, 'all', 'Repaso de fallos · ' + (r.label || '')); },
+  'failures-now': () => { const ids = dueFailureIds(20); const qs = ids.map(questionById).filter(Boolean); if (qs.length) startQuiz(qs, 'all', 'Repaso de fallos vencidos'); else toast('No tienes fallos vencidos del banco por repasar.'); }
 };
 
 Object.assign(STUDY_ACTIONS, RESULT_ACTIONS);
