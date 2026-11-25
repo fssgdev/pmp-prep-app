@@ -33,7 +33,9 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     assert(mix[0] >= 66 && mix[1] <= 70, 'enfoque predictivo ≈ 40 % de las calificadas ' + JSON.stringify(mix));
     // responde la primera con la UI
     const first = page.locator('.options input, .match-list select').first();
-    if (await page.locator('.options input').count()) await page.locator('.options label').first().click(); else await page.locator('.match-list select').first().selectOption('0');
+    if (await page.locator('.options input').count()) await page.locator('.options label').first().click();
+    else if (await page.locator('.quiz-card select, .mock-card select, main select').count()) await page.locator('main select').first().selectOption({index: 1});
+    else await page.locator('.hs-cell, .hs-band').first().click();
     await page.getByRole('button', {name: /Marcar para revisar/}).click();
     await page.getByRole('button', {name: /Siguiente/}).click();
     assert(await page.evaluate(() => state.mockRun.index) === 1, 'avanza a la pregunta 2');

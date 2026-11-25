@@ -3919,7 +3919,8 @@
     "correct": [
       3
     ],
-    "rationale": "En ágil los cambios entran por el backlog y los prioriza el dueño del producto; se protege el objetivo del sprint. Atender por jerarquía rompe el flujo y rechazar sin conversación ignora una necesidad. Cancelar un sprint solo tiene sentido si su objetivo perdió validez."
+    "rationale": "En ágil los cambios entran por el backlog y los prioriza el dueño del producto; se protege el objetivo del sprint. Atender por jerarquía rompe el flujo y rechazar sin conversación ignora una necesidad. Cancelar un sprint solo tiene sentido si su objetivo perdió validez.",
+    "family": "pedido-urgente-sprint"
   },
   {
     "id": "x7-chg-002",
@@ -8139,5 +8140,1369 @@
       "Los defectos indican que el trabajo 'terminado' no cumple la calidad esperada."
     ],
     "rationale": "La planificación debe basarse en la velocidad observada (cerca de 20 puntos), no en un compromiso creciente; la caída de calidad confirma la sobrecarga."
+  },
+  {
+    "id": "v8-cfd-001",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Lectura",
+    "scenarioId": "sc-flujo-posventa",
+    "prompt": "¿Qué muestra principalmente el diagrama de flujo acumulado desde la semana 5?",
+    "options": [
+      "Que el principal problema es la cola de reclamos que aún no se empiezan.",
+      "Que la demanda de reclamos se duplicó y el equipo no da abasto.",
+      "Que el trabajo en curso crece (la franja entre iniciados y terminados se ensancha) mientras los reclamos cerrados por semana bajan.",
+      "Que el equipo termina cada semana más reclamos que antes gracias a trabajar en paralelo."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "La distancia entre ingresados e iniciados se mantiene casi igual (unos 10); lo que crece es el trabajo en curso.",
+      "La línea de ingresados sube a ritmo constante (unos diez por semana): la demanda no cambió.",
+      "Entre iniciados y terminados la distancia pasa de 7 a 27 reclamos y la pendiente de terminados se aplana: hay demasiado trabajo abierto a la vez y el flujo se frena.",
+      "Ocurre lo contrario: se cierran 6, 5, 4 y 3 reclamos por semana."
+    ],
+    "rationale": "En un diagrama de flujo acumulado, el ancho de cada franja es la cantidad de elementos en ese estado. Una franja «en curso» que se ensancha con una línea de terminados que se aplana indica exceso de trabajo en paralelo y un cuello de botella."
+  },
+  {
+    "id": "v8-cfd-002",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "dropdown",
+    "category": "Cálculo",
+    "scenarioId": "sc-flujo-posventa",
+    "prompt": "Con los datos de la semana 8 del diagrama, completa el análisis.",
+    "items": [
+      "El trabajo en curso al cierre de la semana 8 es de ___ reclamos.",
+      "En la semana 8 se cerraron ___ reclamos.",
+      "Si el trabajo en curso se mantiene y el equipo cierra en promedio 4 reclamos por semana, un reclamo que se inicia hoy tardaría unas ___ en cerrarse."
+    ],
+    "choices": [
+      [
+        "27",
+        "11",
+        "44",
+        "71"
+      ],
+      [
+        "3",
+        "4",
+        "44",
+        "27"
+      ],
+      [
+        "7 semanas",
+        "1 semana",
+        "11 semanas",
+        "3 semanas"
+      ]
+    ],
+    "correct": [
+      0,
+      0,
+      0
+    ],
+    "rationale": "Trabajo en curso = iniciados − terminados = 71 − 44 = 27. Cerrados en la semana 8 = 44 − 41 = 3. Por la ley de Little, tiempo de ciclo ≈ trabajo en curso / rendimiento = 27 / 4 ≈ 7 semanas. 11 es la cola sin iniciar (82 − 71) y 44 el acumulado de terminados."
+  },
+  {
+    "id": "v8-cfd-003",
+    "module": "agile",
+    "topicId": "agile-3",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "scenarioId": "sc-flujo-posventa",
+    "prompt": "El gerente de posventa pide contratar dos técnicos más porque «no se avanza». ¿Qué debería proponer primero el líder del equipo?",
+    "options": [
+      "Acordar con el equipo un límite de trabajo en curso y terminar los reclamos abiertos antes de empezar otros, apoyándose entre técnicos en los más trabados.",
+      "Pedir a cada técnico que trabaje horas extra hasta vaciar el tablero.",
+      "Dejar de registrar reclamos nuevos durante dos semanas.",
+      "Contratar a los dos técnicos de inmediato, porque los reclamos se acumulan."
+    ],
+    "correct": [
+      0
+    ],
+    "why": [
+      "Limitar el trabajo en curso y terminar antes de empezar ataca la causa visible en el diagrama y recupera el rendimiento con el mismo equipo.",
+      "Las horas extra no corrigen el exceso de trabajo en paralelo y desgastan al equipo.",
+      "Bloquear el ingreso afecta a los propietarios y no cambia cómo fluye el trabajo.",
+      "Sumar personas a un sistema saturado de trabajo en paralelo suele empeorar la coordinación; primero hay que arreglar el flujo."
+    ],
+    "rationale": "El problema nació cuando se quitó el límite de trabajo en curso. Restablecerlo y enjambrar sobre lo abierto es la respuesta propia de Kanban antes de agregar capacidad."
+  },
+  {
+    "id": "v8-cfd-004",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "hotspot",
+    "category": "Lectura",
+    "chart": {
+      "type": "line",
+      "title": "Diagrama de flujo acumulado · reclamos de posventa",
+      "yLabel": "reclamos acumulados",
+      "labels": [
+        "Sem 1",
+        "Sem 2",
+        "Sem 3",
+        "Sem 4",
+        "Sem 5",
+        "Sem 6",
+        "Sem 7",
+        "Sem 8"
+      ],
+      "series": [
+        {
+          "name": "Ingresados",
+          "values": [
+            12,
+            22,
+            32,
+            42,
+            52,
+            62,
+            72,
+            82
+          ]
+        },
+        {
+          "name": "Iniciados",
+          "values": [
+            8,
+            16,
+            24,
+            33,
+            42,
+            52,
+            62,
+            71
+          ]
+        },
+        {
+          "name": "Terminados",
+          "values": [
+            5,
+            12,
+            19,
+            26,
+            32,
+            37,
+            41,
+            44
+          ]
+        }
+      ]
+    },
+    "hotspot": {
+      "kind": "chart"
+    },
+    "prompt": "El equipo de posventa trabaja con Kanban y el gráfico muestra su flujo acumulado. Haz clic en la semana en la que el número de reclamos cerrados por semana empieza a bajar de forma sostenida.",
+    "correct": [
+      4
+    ],
+    "rationale": "Los cierres semanales son 5, 7, 7, 7 y luego 6, 5, 4, 3: la caída sostenida empieza en la semana 5, la misma en que se dejó de limitar el trabajo en curso. En las semanas 2 a 4 el ritmo era estable."
+  },
+  {
+    "id": "v8-rex-001",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Cálculo",
+    "scenarioId": "sc-riesgos-externos",
+    "prompt": "Con el registro de riesgos del caso, completa los cálculos (S/ miles).",
+    "items": [
+      "El EMV de R1 es ___.",
+      "El EMV neto del registro (amenazas y oportunidad) es ___.",
+      "Si la reserva de contingencia se calcula solo con las amenazas, debería ser de ___."
+    ],
+    "choices": [
+      [
+        "−120",
+        "−300",
+        "−40",
+        "+120"
+      ],
+      [
+        "−140",
+        "−200",
+        "−170",
+        "+140"
+      ],
+      [
+        "170",
+        "140",
+        "200",
+        "110"
+      ]
+    ],
+    "correct": [
+      0,
+      0,
+      0
+    ],
+    "rationale": "EMV R1 = 0,40 × (−300) = −120. EMV neto = −120 − 40 + 30 − 10 = −140. Considerando solo amenazas: 120 + 40 + 10 = 170. −300 es el impacto sin ponderar y −200 omite la oportunidad y el paro."
+  },
+  {
+    "id": "v8-rex-002",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "scenarioId": "sc-riesgos-externos",
+    "prompt": "La exposición superó el umbral acordado en los meses 4 y 5. ¿Qué debería hacer primero el director del proyecto?",
+    "options": [
+      "Detener la estructura de los últimos pisos hasta que la municipalidad decida.",
+      "Trasladar el riesgo al contratista de estructuras mediante una adenda.",
+      "Esperar a que la ordenanza se apruebe para no gastar esfuerzo en un escenario que quizá no ocurra.",
+      "Evaluar con el equipo de diseño y el área legal el impacto de la posible ordenanza en el alcance, el cronograma y el caso de negocio, e informar al patrocinador con opciones de respuesta."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Paralizar sin análisis genera costos y atrasos que quizá no se justifiquen.",
+      "Un riesgo regulatorio de la ordenanza no es del contratista; transferirlo no es viable ni corresponde como primer paso.",
+      "Un cambio regulatorio externo con exposición sobre el umbral exige analizarlo ya; esperar reduce las opciones de respuesta.",
+      "Analizar el impacto en alcance, plazo y caso de negocio y escalar con opciones al patrocinador es la respuesta proporcional a un cambio del entorno que supera el umbral."
+    ],
+    "rationale": "Ante un cambio del entorno externo (regulatorio) que eleva la exposición sobre el umbral, el director evalúa el impacto integral y escala al patrocinador con alternativas antes de decidir."
+  },
+  {
+    "id": "v8-rex-003",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Predictivo",
+    "type": "hotspot",
+    "category": "Lectura",
+    "chart": {
+      "type": "line",
+      "title": "Exposición al riesgo del proyecto (S/ miles)",
+      "yLabel": "S/ miles",
+      "labels": [
+        "Mes 1",
+        "Mes 2",
+        "Mes 3",
+        "Mes 4",
+        "Mes 5",
+        "Mes 6"
+      ],
+      "series": [
+        {
+          "name": "Exposición (suma de EMV de amenazas)",
+          "values": [
+            180,
+            165,
+            150,
+            210,
+            240,
+            200
+          ]
+        },
+        {
+          "name": "Umbral acordado",
+          "values": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ]
+        }
+      ]
+    },
+    "hotspot": {
+      "kind": "chart"
+    },
+    "prompt": "El gráfico muestra la exposición al riesgo mensual de una obra frente al umbral que fijó el patrocinador. Haz clic en el mes de mayor exposición.",
+    "correct": [
+      4
+    ],
+    "rationale": "La exposición llega a S/ 240 mil en el mes 5, el valor más alto y el que más supera el umbral de 200. En el mes 4 ya lo superaba (210), pero con menos margen."
+  },
+  {
+    "id": "v8-pert-001",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Cálculo",
+    "prompt": "Para el montaje de la fachada, el equipo estima 8 días en el mejor caso, 11 días lo más probable y 20 días en el peor caso. Completa la estimación beta (PERT).",
+    "items": [
+      "La duración esperada es de ___ días.",
+      "La desviación estándar es de ___ días."
+    ],
+    "choices": [
+      [
+        "12",
+        "13",
+        "11",
+        "19,5"
+      ],
+      [
+        "2",
+        "4",
+        "3",
+        "1,5"
+      ]
+    ],
+    "correct": [
+      0,
+      0
+    ],
+    "family": "pert-beta",
+    "rationale": "Beta: (O + 4M + P) / 6 = (8 + 44 + 20) / 6 = 12. Desviación estándar = (P − O) / 6 = 12 / 6 = 2. 13 es el promedio simple de los tres valores; 11 es solo el más probable."
+  },
+  {
+    "id": "v8-fin-001",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "El equipo que desarrolla el portal de propietarios tiene un presupuesto de S/ 240 mil y cuesta S/ 20 mil por sprint. Tras 6 sprints ha completado el 45 % de los puntos del backlog comprometido, a un ritmo estable. ¿Qué indican los datos?",
+    "options": [
+      "El presupuesto alcanza con holgura: quedan S/ 120 mil para 6 sprints más.",
+      "A ese ritmo harían falta unos 13 sprints en total (unos S/ 267 mil), así que conviene revisar con el dueño del producto qué parte del backlog entra en el presupuesto.",
+      "El equipo debe aumentar su velocidad un 10 % para cumplir.",
+      "Hay que pedir de inmediato S/ 27 mil adicionales al patrocinador."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "Gastados 120 de 240 quedan 120, pero solo se ha completado 45 %: con 6 sprints más se llegaría a 90 %, no al 100 %.",
+      "6 sprints → 45 %, así que el 100 % requiere 6 / 0,45 ≈ 13,3 sprints ≈ S/ 267 mil. En ágil, la decisión natural es priorizar el valor que cabe en el presupuesto con el dueño del producto.",
+      "Exigir más velocidad no es una medida de gestión realista y suele afectar la calidad.",
+      "Pedir más fondos puede ser una opción, pero primero se evalúa ajustar el alcance por valor."
+    ],
+    "rationale": "La proyección por ritmo real muestra un sobrecosto de unos S/ 27 mil si se mantiene todo el alcance; en un enfoque ágil el alcance es la variable a ajustar por valor, con el dueño del producto."
+  },
+  {
+    "id": "v8-adq-001",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "table": {
+      "title": "Evaluación ponderada de proveedores de carpintería (escala 1–10)",
+      "head": [
+        "Criterio (peso)",
+        "Proveedor A",
+        "Proveedor B",
+        "Proveedor C"
+      ],
+      "rows": [
+        [
+          "Precio (40 %)",
+          "8",
+          "6",
+          "9"
+        ],
+        [
+          "Experiencia (30 %)",
+          "6",
+          "9",
+          "5"
+        ],
+        [
+          "Plazo de entrega (30 %)",
+          "7",
+          "8",
+          "5"
+        ]
+      ]
+    },
+    "prompt": "Según la matriz de evaluación ponderada, ¿qué proveedor debería ser seleccionado?",
+    "options": [
+      "Proveedor C, con 7,5 puntos.",
+      "Proveedor A, con 7,1 puntos.",
+      "Proveedor B, con 7,5 puntos.",
+      "Proveedor C, porque tiene el mejor precio."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "C suma 0,4×9 + 0,3×5 + 0,3×5 = 6,6, no 7,5.",
+      "A obtiene 0,4×8 + 0,3×6 + 0,3×7 = 7,1: menos que B.",
+      "B obtiene 0,4×6 + 0,3×9 + 0,3×8 = 7,5, el puntaje ponderado más alto.",
+      "El precio pesa 40 %, pero C es débil en experiencia y plazo: queda en 6,6."
+    ],
+    "rationale": "La matriz ponderada multiplica cada puntaje por el peso del criterio y suma. B gana (7,5) aunque no tenga el mejor precio, porque es fuerte en experiencia y plazo."
+  },
+  {
+    "id": "v8-cro-001",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "hotspot",
+    "category": "Lectura",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Holgura total de las actividades en curso (días laborables)",
+      "cols": [
+        "Holgura total"
+      ],
+      "rows": [
+        {
+          "label": "Excavación de cisterna",
+          "cells": [
+            "6"
+          ]
+        },
+        {
+          "label": "Muros de contención",
+          "cells": [
+            "0"
+          ]
+        },
+        {
+          "label": "Cerco perimétrico",
+          "cells": [
+            "3"
+          ]
+        },
+        {
+          "label": "Instalaciones provisionales",
+          "cells": [
+            "4"
+          ]
+        }
+      ]
+    },
+    "prompt": "El residente necesita llevar una cuadrilla a otro frente durante una semana (5 días laborables) sin afectar la fecha de entrega. Haz clic en la actividad de la que puede retirarla.",
+    "correct": [
+      0
+    ],
+    "rationale": "Solo la cisterna tiene una holgura total (6 días) mayor que la ausencia de 5 días. Los muros son críticos (0) y el cerco (3) y las instalaciones (4) consumirían toda su holgura y retrasarían la entrega."
+  },
+  {
+    "id": "v8-mon-001",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Lectura",
+    "prompt": "Empareja cada señal del tablero del proyecto con su interpretación más adecuada.",
+    "items": [
+      "SPI = 0,85 en la obra",
+      "CPI = 1,10 en la obra",
+      "Velocidad estable del equipo digital, pero el backlog crece cada sprint",
+      "Burnup con la línea de alcance total subiendo"
+    ],
+    "options": [
+      "Se avanzó menos de lo planificado a la fecha.",
+      "El trabajo hecho costó menos de lo que vale.",
+      "La fecha estimada de liberación se aleja aunque el equipo rinda igual.",
+      "Se está agregando alcance durante la ejecución.",
+      "El equipo está bajando su productividad."
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "rationale": "SPI < 1 indica atraso; CPI > 1, eficiencia de costos. Con velocidad estable y backlog creciente, la fecha se aleja por el alcance, no por la productividad. En un burnup, la línea superior es el alcance total: si sube, se agrega trabajo. La opción sobre productividad no corresponde a ninguna señal."
+  },
+  {
+    "id": "v8-imp-001",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Lectura",
+    "table": {
+      "title": "Tablero de impedimentos del equipo del app de propietarios",
+      "head": [
+        "Impedimento",
+        "Abierto hace",
+        "Depende de",
+        "Estado"
+      ],
+      "rows": [
+        [
+          "Falta acceso al servidor de pruebas",
+          "9 días",
+          "Área de TI corporativa",
+          "Sin respuesta"
+        ],
+        [
+          "Dudas sobre el diseño de la pantalla de pagos",
+          "1 día",
+          "Equipo",
+          "En conversación"
+        ],
+        [
+          "La pasarela de pagos exige un contrato firmado",
+          "12 días",
+          "Gerencia legal",
+          "Sin respuesta"
+        ],
+        [
+          "Un desarrollador estará de vacaciones",
+          "3 días",
+          "Equipo",
+          "Plan acordado"
+        ]
+      ]
+    },
+    "prompt": "Como Scrum Master, ¿qué dos impedimentos deberías escalar con prioridad? (Elige dos.)",
+    "options": [
+      "Falta acceso al servidor de pruebas.",
+      "Dudas sobre el diseño de la pantalla de pagos.",
+      "La pasarela de pagos exige un contrato firmado.",
+      "Un desarrollador estará de vacaciones."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "why": [
+      "Depende de otra área, lleva 9 días sin respuesta y bloquea las pruebas: el equipo no puede resolverlo solo.",
+      "Es reciente y el propio equipo lo está resolviendo; escalarlo quitaría autonomía.",
+      "Depende de la gerencia legal, lleva 12 días y bloquea una funcionalidad clave: requiere escalamiento.",
+      "Ya tiene un plan acordado dentro del equipo."
+    ],
+    "rationale": "Se escalan los impedimentos fuera del control del equipo, envejecidos y que bloquean el trabajo. Los que el equipo puede resolver o ya tienen plan se dejan a su autogestión."
+  },
+  {
+    "id": "v8-evm-001",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Cálculo",
+    "prompt": "Una obra tiene BAC = S/ 2 000 mil. A la fecha: PV = 900, EV = 800 y AC = 1 000 (miles de S/). Se espera que la eficiencia de costos actual continúe. Completa el pronóstico.",
+    "items": [
+      "La EAC es de ___.",
+      "La ETC es de ___.",
+      "La VAC es de ___."
+    ],
+    "choices": [
+      [
+        "S/ 2 500 mil",
+        "S/ 2 200 mil",
+        "S/ 1 600 mil",
+        "S/ 2 250 mil"
+      ],
+      [
+        "S/ 1 500 mil",
+        "S/ 1 200 mil",
+        "S/ 1 000 mil",
+        "S/ 2 500 mil"
+      ],
+      [
+        "−S/ 500 mil",
+        "+S/ 500 mil",
+        "−S/ 200 mil",
+        "−S/ 100 mil"
+      ]
+    ],
+    "correct": [
+      0,
+      0,
+      0
+    ],
+    "family": "evm-eac-etc-vac",
+    "rationale": "CPI = 800 / 1 000 = 0,80. EAC = BAC / CPI = 2 000 / 0,80 = 2 500. ETC = EAC − AC = 1 500. VAC = BAC − EAC = −500. S/ 2 200 mil sería AC + (BAC − EV), que supone que la desviación no se repetirá."
+  },
+  {
+    "id": "v8-val-001",
+    "module": "process",
+    "topicId": "process-3",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Cálculo",
+    "table": {
+      "title": "Candidatas para la próxima liberación del portal",
+      "head": [
+        "Funcionalidad",
+        "Costo del retraso (puntos de valor)",
+        "Duración estimada (sprints)"
+      ],
+      "rows": [
+        [
+          "X · Reserva de áreas comunes",
+          "20",
+          "4"
+        ],
+        [
+          "Y · Pagos en línea",
+          "30",
+          "10"
+        ],
+        [
+          "Z · Avisos de mantenimiento",
+          "12",
+          "2"
+        ]
+      ]
+    },
+    "prompt": "El equipo prioriza con «el trabajo más corto ponderado primero» (costo del retraso ÷ duración). ¿En qué orden deberían abordarse?",
+    "options": [
+      "X, Z, Y",
+      "Z, Y, X",
+      "Y, X, Z",
+      "Z, X, Y"
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "X (5) queda antes que Z (6) por error: Z tiene el cociente más alto.",
+      "Y tiene el cociente más bajo (3) y debe ir al final.",
+      "Ordena solo por costo del retraso, sin considerar la duración.",
+      "Z = 12/2 = 6, X = 20/4 = 5, Y = 30/10 = 3: de mayor a menor cociente."
+    ],
+    "rationale": "El trabajo más corto ponderado primero entrega antes lo que más valor genera por unidad de tiempo: Z (6), X (5) y Y (3)."
+  },
+  {
+    "id": "v8-inc-001",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El proveedor de control de accesos quebró. Su equipo debía instalarse en la obra (componente predictivo) y conectarse con el app de propietarios (componente ágil). Ambos equipos están detenidos. ¿Qué debería hacer primero el director del proyecto?",
+    "options": [
+      "Pedir al equipo ágil que siga con otras historias y esperar a que el proveedor se recupere.",
+      "Registrar el incidente con un responsable, evaluar su impacto en ambos componentes y acordar una solución provisional mientras se busca un reemplazo.",
+      "Aplicar la penalidad del contrato al proveedor.",
+      "Rediseñar el sistema de accesos con otro fabricante sin consultar al patrocinador."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "Reorganizar el backlog ayuda, pero no gestiona el incidente que también detiene la obra.",
+      "Un incidente que bloquea dos frentes necesita dueño, análisis de impacto integrado y una respuesta inmediata mientras se resuelve de fondo.",
+      "La penalidad no destraba el trabajo y quizá sea incobrable.",
+      "Cambiar de fabricante afecta alcance y costo: requiere evaluar y aprobar el cambio."
+    ],
+    "rationale": "Ante un incidente que afecta ambos componentes de un proyecto híbrido, se registra, se asigna, se evalúa su impacto integrado y se aplica una solución provisional mientras se busca la definitiva."
+  },
+  {
+    "id": "v8-inc-002",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Por tercera vez en el mes, la obra se detiene medio día porque el camión de concreto llega sin el certificado que exige la supervisión. El residente ya habló con el despachador del proveedor sin resultados. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Aceptar las paralizaciones como parte normal de la obra.",
+      "Pedir a la supervisión que deje pasar el concreto sin certificado para no perder tiempo.",
+      "Analizar la causa raíz con el proveedor y, como supera la autoridad del residente, escalarlo a la gerencia del proveedor con un plazo para corregirlo, registrándolo en el registro de incidentes.",
+      "Cambiar de proveedor de concreto ese mismo día."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "Un incidente repetitivo con costo creciente no debe normalizarse.",
+      "Saltarse un control de calidad crea un riesgo mayor que la demora.",
+      "Es un incidente recurrente que no se resolvió en el nivel operativo: corresponde analizar la causa, escalar al nivel con autoridad y darle seguimiento formal.",
+      "Cambiar de proveedor de inmediato tiene costos y riesgos; es una opción posterior si la escalada no funciona."
+    ],
+    "rationale": "Los incidentes recurrentes se tratan por su causa raíz y se escalan cuando superan la autoridad de quien los atiende, con registro y seguimiento."
+  },
+  {
+    "id": "v8-imp-002",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Conceptual",
+    "prompt": "¿Qué dos acciones corresponden al Scrum Master frente a los impedimentos del equipo? (Elige dos.)",
+    "options": [
+      "Hacer visibles los impedimentos y ayudar a removerlos, incluso gestionando con otras áreas.",
+      "Resolver personalmente todos los problemas técnicos para que el equipo no pierda tiempo.",
+      "Asignar tareas a cada desarrollador para evitar bloqueos.",
+      "Fomentar que el equipo resuelva lo que está a su alcance y escalar lo que no."
+    ],
+    "correct": [
+      0,
+      3
+    ],
+    "why": [
+      "Visibilizar y ayudar a quitar bloqueos, sobre todo los organizacionales, es una responsabilidad central del Scrum Master.",
+      "Resolverlo todo personalmente le quita autonomía al equipo y no escala.",
+      "Los desarrolladores se organizan solos; asignar tareas no es su rol.",
+      "Equilibrar autogestión y escalamiento fortalece al equipo y destraba lo que está fuera de su control."
+    ],
+    "rationale": "El Scrum Master es un líder de servicio: hace visibles los impedimentos, ayuda a removerlos y desarrolla la capacidad del equipo para resolver los propios."
+  },
+  {
+    "id": "v8-inc-003",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "table": {
+      "title": "Registro de incidentes (extracto)",
+      "head": [
+        "ID",
+        "Incidente",
+        "Afecta",
+        "Responsable",
+        "Fecha objetivo",
+        "Estado"
+      ],
+      "rows": [
+        [
+          "I-07",
+          "Filtración en el sótano 2",
+          "Acabados del sótano (holgura 8 días)",
+          "Residente",
+          "30/11",
+          "En curso"
+        ],
+        [
+          "I-08",
+          "Grúa torre sin certificado de operación",
+          "Estructura (ruta crítica)",
+          "Jefe de equipos",
+          "20/11",
+          "Vencido"
+        ],
+        [
+          "I-09",
+          "Diferencias de metrado con el subcontratista",
+          "Valorización de noviembre",
+          "Ing. de costos",
+          "05/12",
+          "En curso"
+        ],
+        [
+          "I-10",
+          "Reclamo de un vecino por polvo",
+          "Relación con vecinos",
+          "Relacionista",
+          "28/11",
+          "Abierto"
+        ]
+      ]
+    },
+    "prompt": "Hoy es 24/11. ¿Qué incidente debería atender primero el director del proyecto?",
+    "options": [
+      "I-09, porque afecta el pago al subcontratista.",
+      "I-10, porque los vecinos pueden quejarse a la municipalidad.",
+      "I-07, porque una filtración puede dañar los acabados.",
+      "I-08, porque está vencido y detiene una actividad de la ruta crítica."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Tiene plazo hasta el 05/12 y no detiene la obra.",
+      "Merece atención, pero su impacto inmediato es menor y está dentro de plazo.",
+      "Es importante, pero está en curso, dentro de plazo y en una actividad con holgura.",
+      "Está vencido desde el 20/11, tiene responsable sin avance visible y bloquea la ruta crítica: cada día cuesta plazo de entrega."
+    ],
+    "rationale": "Se prioriza el incidente vencido que afecta la ruta crítica; los demás tienen plazo vigente o menor impacto en los objetivos."
+  },
+  {
+    "id": "v8-ext-001",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "A mitad de la estructura se publica una actualización de la norma sismorresistente que entra en vigencia en seis meses. Los pisos que se construirán después de esa fecha podrían requerir otro refuerzo. ¿Qué debería hacer primero el director del proyecto?",
+    "options": [
+      "Seguir con los planos aprobados, porque la licencia se obtuvo con la norma anterior.",
+      "Pedir al proyectista estructural que evalúe qué exige la nueva norma para este edificio y, con ese análisis, gestionar un cambio si corresponde.",
+      "Reforzar de inmediato todos los pisos pendientes por precaución.",
+      "Esperar a la siguiente revisión de fase para tratar el tema."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "La licencia previa puede no cubrir lo que se construya tras la vigencia; asumirlo sin análisis es riesgoso.",
+      "Primero se analiza el impacto técnico y regulatorio con el especialista; luego, si hay cambios, se tramitan por control integrado de cambios.",
+      "Reforzar todo sin análisis puede ser innecesario y costoso; tampoco pasa por el control de cambios.",
+      "Postergar reduce el tiempo para reaccionar antes de la entrada en vigencia."
+    ],
+    "rationale": "Ante un cambio normativo externo, se evalúa su impacto con quien tiene el conocimiento técnico y se canaliza la respuesta mediante el control de cambios."
+  },
+  {
+    "id": "v8-ext-002",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Los ascensores importados se pagan en dólares en tres armadas durante el próximo año, y el tipo de cambio se ha vuelto muy volátil. ¿Qué respuesta es la más adecuada?",
+    "options": [
+      "Trasladar todo el riesgo a los compradores subiendo los precios de venta.",
+      "Asumir la variación como parte del costo; no se puede controlar el tipo de cambio.",
+      "Registrar el riesgo cambiario y evaluar con finanzas una respuesta, como fijar el precio en moneda local, comprar dólares con anticipación o pactar un ajuste por índice en el contrato.",
+      "Cancelar los ascensores importados y comprar equipos nacionales sin evaluar sus especificaciones."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "Subir precios afecta las ventas y el caso de negocio; no es una respuesta al riesgo del proyecto.",
+      "Aunque no se controle el tipo de cambio, sí se puede responder a su efecto sobre el proyecto.",
+      "Un factor económico externo se gestiona como riesgo, con dueño y una respuesta concreta acordada con quien tiene la competencia financiera.",
+      "Cambiar de equipos sin evaluar puede incumplir requisitos de calidad y del cliente."
+    ],
+    "rationale": "Los cambios del entorno económico se identifican, se registran y se responden con estrategias concretas (por ejemplo, transferir o mitigar mediante contratos o coberturas)."
+  },
+  {
+    "id": "v8-ext-003",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "Un competidor lanzó un app que permite a los compradores seguir el avance de su departamento con fotos semanales, y el área comercial reporta que los clientes lo piden. ¿Qué debería hacer el dueño del producto del portal?",
+    "options": [
+      "Evaluar el valor de esa funcionalidad con datos de los clientes y, si lo justifica, incorporarla y priorizarla en el backlog.",
+      "Ordenar al equipo que la desarrolle de inmediato, interrumpiendo el sprint.",
+      "Copiar todas las funcionalidades del competidor para no quedarse atrás.",
+      "Ignorarlo, porque no estaba en la visión original del producto."
+    ],
+    "correct": [
+      0
+    ],
+    "why": [
+      "El backlog se adapta a los cambios del entorno: se evalúa el valor y se prioriza según la evidencia.",
+      "Interrumpir el sprint sin una urgencia real rompe el foco del equipo; puede entrar en el siguiente.",
+      "Copiar sin evaluar no asegura valor y puede desviar el producto de su propósito.",
+      "Los cambios del mercado son información valiosa; ignorarlos puede reducir el valor del producto."
+    ],
+    "rationale": "En ágil, los cambios del entorno externo se incorporan al backlog cuando aportan valor, con priorización basada en evidencia."
+  },
+  {
+    "id": "v8-ext-004",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Predictivo",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada cambio del entorno con su categoría PESTLE.",
+    "items": [
+      "La municipalidad cambia su gestión y revisa las licencias en trámite",
+      "Sube la tasa de interés de los créditos hipotecarios",
+      "Crece la demanda de departamentos pequeños por familias más chicas",
+      "Se publica una nueva norma de accesibilidad para edificaciones",
+      "Se restringe el uso de agua en obra por la sequía"
+    ],
+    "options": [
+      "Política",
+      "Económica",
+      "Social",
+      "Tecnológica",
+      "Legal",
+      "Ambiental"
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      4,
+      5
+    ],
+    "rationale": "Un cambio de gestión municipal es político; la tasa de interés, económico; la composición de las familias, social; una norma obligatoria, legal; la restricción por sequía, ambiental. La categoría tecnológica no corresponde a ninguno."
+  },
+  {
+    "id": "v8-ext-005",
+    "module": "business",
+    "topicId": "business-8",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Mentalidad",
+    "prompt": "Entra en vigencia una ley de protección de datos que afecta cómo el app de propietarios guarda la información de los residentes. ¿Qué dos acciones son las más adecuadas? (Elige dos.)",
+    "options": [
+      "Esperar a una auditoría para ver si el app incumple.",
+      "Revisar con el área legal qué cambios exige y ajustar la definición de terminado para incluir el cumplimiento.",
+      "Dejar de guardar datos de los residentes y eliminar las funciones que los usan.",
+      "Agregar al backlog los requisitos de la ley con alta prioridad, según su fecha de vigencia."
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "why": [
+      "Esperar una auditoría expone a sanciones y a retrabajo mayor.",
+      "Entender la norma con el experto y llevar el cumplimiento a la definición de terminado asegura que todo lo nuevo lo respete.",
+      "Eliminar funciones sin análisis destruye valor; la ley regula cómo tratar los datos, no prohíbe usarlos.",
+      "Un requisito legal con fecha se incorpora y prioriza en el backlog para cumplir a tiempo."
+    ],
+    "rationale": "Un cambio legal externo se traduce en requisitos priorizados y en criterios de calidad (definición de terminado), con apoyo del área competente."
+  },
+  {
+    "id": "v8-adq-002",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "La inmobiliaria contratará a una empresa para desarrollar el app de propietarios. El alcance detallado aún no se conoce y se espera aprender de los usuarios en cada entrega. ¿Qué tipo de contrato es el más adecuado?",
+    "options": [
+      "Precio fijo cerrado por todo el app, con especificación completa desde el inicio.",
+      "Tiempo y materiales con un tope por periodo y entregas frecuentes priorizadas por el dueño del producto, con opción de terminar si el valor no justifica seguir.",
+      "Costo más honorario por cumplimiento, evaluado al final del proyecto.",
+      "Un contrato a suma alzada por cada pantalla del app."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "Fijar alcance y precio con requisitos inciertos genera cambios constantes y conflictos.",
+      "Permite adaptar el alcance a lo que se aprende, limita el riesgo de costo con un tope y prioriza por valor en cada entrega.",
+      "La evaluación solo al final no aprovecha el aprendizaje incremental ni limita el riesgo.",
+      "Pagar por pantalla incentiva cantidad, no valor, y fragmenta el producto."
+    ],
+    "rationale": "Con alcance emergente, los contratos ágiles combinan flexibilidad de alcance con límites de costo y entregas frecuentes que permiten decidir con información."
+  },
+  {
+    "id": "v8-adq-003",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El contrato del proveedor del app permite cambiar historias de igual tamaño sin costo adicional, siempre que no cambie el presupuesto por sprint. El área comercial quiere cambiar dos historias del próximo sprint por otras dos equivalentes. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Pedir al proveedor una cotización por las nuevas historias.",
+      "Tramitar una adenda formal del contrato antes de cualquier cambio.",
+      "Dejar que el dueño del producto haga el intercambio en el backlog según lo pactado y registrarlo, sin trámite contractual adicional.",
+      "Rechazar el cambio porque el sprint ya está planificado."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "Las historias equivalentes no tienen costo adicional según el contrato.",
+      "El contrato ya prevé este tipo de cambio; una adenda añade burocracia innecesaria.",
+      "El intercambio de historias equivalentes está permitido por el contrato y se gestiona en el backlog con trazabilidad.",
+      "El cambio es para el próximo sprint, no para el actual: no rompe el compromiso vigente."
+    ],
+    "rationale": "En contratos ágiles se pactan reglas para cambiar alcance sin renegociar; el director aplica esas reglas y mantiene la trazabilidad."
+  },
+  {
+    "id": "v8-fin-002",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Híbrido",
+    "type": "dropdown",
+    "category": "Cálculo",
+    "prompt": "Un proyecto híbrido incluye la obra (presupuesto de S/ 5 000 mil) y un equipo ágil de 3 personas para el app, con un costo de S/ 12 mil por persona al mes durante 6 meses. La reserva de contingencia se fija en 10 % del presupuesto de la obra. Completa el presupuesto (S/ miles).",
+    "items": [
+      "El costo del equipo ágil es de ___.",
+      "La línea base de costos con la contingencia es de ___."
+    ],
+    "choices": [
+      [
+        "216",
+        "72",
+        "36",
+        "432"
+      ],
+      [
+        "5 716",
+        "5 216",
+        "5 500",
+        "6 216"
+      ]
+    ],
+    "correct": [
+      0,
+      0
+    ],
+    "rationale": "3 × 12 × 6 = 216. Línea base = 5 000 + 216 + 500 (10 % de 5 000) = 5 716. La reserva de gestión, si existiera, se sumaría para obtener el presupuesto total, no la línea base."
+  },
+  {
+    "id": "v8-fin-003",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Conceptual",
+    "prompt": "La gerencia financiará el portal digital por trimestres. ¿Qué enfoque de financiamiento es coherente con un desarrollo ágil?",
+    "options": [
+      "Liberar fondos por trimestre según el valor entregado y las prioridades actualizadas, ajustando el alcance a la capacidad financiada.",
+      "Pagar solo al final, cuando el portal esté completo.",
+      "Asignar el presupuesto por tarea técnica completada.",
+      "Aprobar todo el presupuesto de una vez según una estimación detallada inicial."
+    ],
+    "correct": [
+      0
+    ],
+    "why": [
+      "El financiamiento incremental permite decidir con evidencia de valor y adaptar el alcance a los fondos.",
+      "Pagar al final elimina la posibilidad de corregir rumbo con información.",
+      "Financiar tareas técnicas no se vincula con el valor entregado.",
+      "Una estimación detallada inicial es poco confiable con alcance emergente."
+    ],
+    "rationale": "En ágil, el financiamiento suele ser incremental y basado en valor, con el alcance como variable de ajuste."
+  },
+  {
+    "id": "v8-cro-002",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Cálculo",
+    "prompt": "El backlog de la versión 1 del portal suma 180 puntos. En los últimos cuatro sprints de dos semanas, el equipo completó 28, 32, 30 y 30 puntos. ¿Cuál es el pronóstico más razonable para terminar la versión 1?",
+    "options": [
+      "Unas 6 semanas.",
+      "Unas 9 semanas.",
+      "Unas 15 semanas.",
+      "Unas 12 semanas."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Confunde sprints con semanas: son 6 sprints, no 6 semanas.",
+      "No corresponde a la velocidad observada.",
+      "Usaría una velocidad de 24 puntos, menor que la observada.",
+      "Velocidad media = 30 puntos; 180 / 30 = 6 sprints de dos semanas = 12 semanas."
+    ],
+    "rationale": "El pronóstico ágil usa la velocidad empírica: 180 puntos / 30 puntos por sprint = 6 sprints = 12 semanas.",
+    "family": "pronostico-velocidad"
+  },
+  {
+    "id": "v8-cro-003",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "La entrega de la obra tiene un hito contractual fijo. El app de propietarios, que se desarrolla en sprints, debe estar operativo ese mismo día. ¿Cómo debería integrarse en el cronograma maestro?",
+    "options": [
+      "Programar cada historia del app como actividad con fechas fijas en el cronograma de la obra.",
+      "Representar las liberaciones del app como hitos alineados con el cronograma maestro, con un margen antes del hito de entrega, y actualizar el pronóstico con la velocidad real.",
+      "Dejar el app fuera del cronograma, porque el equipo ágil se organiza solo.",
+      "Exigir al equipo ágil que trabaje en cascada para coordinar mejor."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "Detallar historias con fechas fijas elimina la flexibilidad del enfoque ágil.",
+      "Integrar las liberaciones como hitos con margen y pronóstico empírico permite coordinar sin perder adaptabilidad.",
+      "Sin integración, nadie verá a tiempo si el app pone en riesgo el hito.",
+      "Cambiar el enfoque del equipo no es necesario para coordinar."
+    ],
+    "rationale": "En proyectos híbridos, los componentes ágiles se integran al cronograma maestro mediante hitos de liberación y pronósticos basados en velocidad, con márgenes ante hitos fijos."
+  },
+  {
+    "id": "v8-cro-004",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Ágil",
+    "type": "hotspot",
+    "category": "Lectura",
+    "hotspot": {
+      "kind": "chart"
+    },
+    "chart": {
+      "type": "line",
+      "title": "Burnup del portal de ventas (puntos)",
+      "yLabel": "puntos",
+      "labels": [
+        "Sprint 1",
+        "Sprint 2",
+        "Sprint 3",
+        "Sprint 4",
+        "Sprint 5",
+        "Sprint 6",
+        "Sprint 7",
+        "Sprint 8"
+      ],
+      "series": [
+        {
+          "name": "Completado",
+          "values": [
+            20,
+            42,
+            60,
+            82,
+            100,
+            118,
+            140,
+            160
+          ]
+        },
+        {
+          "name": "Alcance total",
+          "values": [
+            200,
+            200,
+            200,
+            240,
+            240,
+            240,
+            260,
+            260
+          ]
+        }
+      ]
+    },
+    "prompt": "Haz clic en el sprint en el que se agregó alcance por primera vez.",
+    "correct": [
+      3
+    ],
+    "rationale": "La línea de alcance total pasa de 200 a 240 en el sprint 4: ahí se agregó alcance por primera vez. En el sprint 7 vuelve a subir (260), pero ya no es la primera vez."
+  },
+  {
+    "id": "v8-cie-001",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El dueño del producto aceptó el último incremento del app de propietarios, que pasará a ser operado por el área de posventa. ¿Qué debería hacer a continuación el equipo?",
+    "options": [
+      "Esperar a que posventa reporte problemas para cerrar.",
+      "Disolver el equipo de inmediato, porque el trabajo terminó.",
+      "Transferir el producto a posventa con la documentación y el acompañamiento acordados, hacer una retrospectiva final y liberar recursos y contratos.",
+      "Seguir agregando funcionalidades hasta agotar el presupuesto."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "El cierre es proactivo; no se espera a que surjan problemas.",
+      "Disolver sin transferir pone en riesgo la operación y pierde conocimiento.",
+      "El cierre incluye la transición a operaciones, el aprendizaje del equipo y la liberación formal de recursos y contratos.",
+      "Si el objetivo se cumplió, seguir agregando funciones no se justifica por el presupuesto restante."
+    ],
+    "rationale": "En un cierre ágil se asegura la transición del producto, se capturan las lecciones y se liberan recursos y contratos."
+  },
+  {
+    "id": "v8-cie-002",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Conceptual",
+    "prompt": "En el cierre de un proyecto híbrido (obra predictiva y app ágil), ¿qué dos actividades son necesarias? (Elige dos.)",
+    "options": [
+      "Obtener la aceptación formal de los entregables de la obra y del producto digital, y cerrar los contratos de ambos frentes.",
+      "Mantener al equipo ágil asignado por si surgen nuevas ideas.",
+      "Registrar las lecciones aprendidas de la integración entre los dos enfoques en el repositorio de la organización.",
+      "Destruir la documentación de los sprints porque ya no se necesita."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "why": [
+      "El cierre exige aceptación formal y cierre de contratos en ambos componentes.",
+      "Retener recursos sin un objetivo no corresponde al cierre.",
+      "Las lecciones sobre cómo funcionó la integración híbrida son valiosas para futuros proyectos.",
+      "La documentación se archiva según las políticas; no se destruye."
+    ],
+    "rationale": "El cierre híbrido combina la aceptación formal y el cierre de contratos de ambos frentes con la captura de lecciones aprendidas."
+  },
+  {
+    "id": "v8-agi-001",
+    "module": "agile",
+    "topicId": "agile-1",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "El equipo del portal espera desde hace una semana la aprobación del área legal para publicar los términos de uso, y su moral está bajando. ¿Qué haría un líder de servicio?",
+    "options": [
+      "Ordenar al equipo que espere sin hacer otra cosa.",
+      "Reportar al equipo como responsable del atraso.",
+      "Pedir al equipo que publique sin la aprobación para no perder más tiempo.",
+      "Gestionar directamente con el área legal para destrabar la aprobación y mantener informado al equipo."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Esperar sin redirigir el trabajo desperdicia capacidad.",
+      "El bloqueo depende de otra área; culpar al equipo es injusto y desmotiva.",
+      "Publicar sin aprobación legal crea un riesgo de cumplimiento.",
+      "El líder de servicio quita impedimentos fuera del alcance del equipo y lo mantiene informado."
+    ],
+    "rationale": "El liderazgo de servicio se centra en remover impedimentos y apoyar al equipo para que fluya el trabajo."
+  },
+  {
+    "id": "v8-agi-002",
+    "module": "agile",
+    "topicId": "agile-2",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "A mitad del sprint, el gerente comercial pide agregar una funcionalidad «urgente» que no está relacionada con el objetivo del sprint. ¿Qué debería ocurrir?",
+    "options": [
+      "Los desarrolladores la agregan de inmediato para atender al gerente.",
+      "El dueño del producto evalúa su valor y, salvo que el objetivo del sprint pierda sentido, la incorpora al backlog del producto para un próximo sprint.",
+      "El Scrum Master rechaza cualquier pedido mientras dure el sprint.",
+      "Se alarga el sprint para incluirla."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "Agregar trabajo ajeno al objetivo pone en riesgo el compromiso del sprint.",
+      "El dueño del producto gestiona el backlog y prioriza; el sprint protege su objetivo, salvo que este quede obsoleto.",
+      "El Scrum Master no decide sobre el valor de los pedidos.",
+      "La duración del sprint es fija."
+    ],
+    "rationale": "Durante el sprint se protege su objetivo; los pedidos nuevos se priorizan en el backlog del producto bajo la responsabilidad del dueño del producto.",
+    "family": "pedido-urgente-sprint"
+  },
+  {
+    "id": "v8-agi-003",
+    "module": "agile",
+    "topicId": "agile-4",
+    "approach": "Ágil",
+    "type": "hotspot",
+    "category": "Lectura",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Matriz de valor y esfuerzo de las ideas para el portal",
+      "cols": [
+        "Esfuerzo bajo",
+        "Esfuerzo alto"
+      ],
+      "rows": [
+        {
+          "label": "Valor alto",
+          "cells": [
+            "Avisos de mantenimiento",
+            "Pagos en línea"
+          ]
+        },
+        {
+          "label": "Valor bajo",
+          "cells": [
+            "Cambiar colores del menú",
+            "Chat con inteligencia artificial"
+          ]
+        }
+      ]
+    },
+    "prompt": "El dueño del producto quiere empezar por una «victoria rápida». Haz clic en la idea que debería abordarse primero.",
+    "correct": [
+      0
+    ],
+    "rationale": "Una victoria rápida combina valor alto y esfuerzo bajo: «Avisos de mantenimiento». Los pagos en línea tienen alto valor pero mucho esfuerzo; las otras dos aportan poco valor."
+  },
+  {
+    "id": "v8-agi-004",
+    "module": "agile",
+    "topicId": "agile-5",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Lectura",
+    "prompt": "En los últimos tres sprints, la velocidad del equipo subió de 25 a 38 puntos. ¿Qué dos señales indicarían que ese aumento no es sostenible? (Elige dos.)",
+    "options": [
+      "Varios miembros trabajaron fines de semana para cerrar el sprint.",
+      "La satisfacción de los usuarios en la demostración se mantuvo alta.",
+      "Los defectos que llegan a producción se duplicaron.",
+      "El equipo terminó las historias cumpliendo la definición de terminado."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "why": [
+      "Trabajar fines de semana muestra un ritmo que no se puede mantener.",
+      "La satisfacción alta es una señal positiva.",
+      "Más velocidad con más defectos sugiere que se sacrificó calidad para ir más rápido.",
+      "Cumplir la definición de terminado es una señal sana."
+    ],
+    "rationale": "Un ritmo sostenible mantiene la calidad y no depende de horas extra; las métricas se interpretan en conjunto, no solo la velocidad."
+  },
+  {
+    "id": "v8-agi-005",
+    "module": "agile",
+    "topicId": "agile-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "En un edificio de oficinas, la estructura tiene planos aprobados y pocas incertidumbres, mientras que el diseño interior de los pisos del inquilino ancla cambiará según sus pruebas con prototipos. ¿Qué enfoque conviene?",
+    "options": [
+      "Predictivo para la estructura e iterativo para el diseño interior, coordinados mediante hitos comunes.",
+      "Todo ágil, para adaptarse a cualquier cambio.",
+      "Postergar el diseño interior hasta terminar la estructura.",
+      "Todo predictivo, para mantener un solo método."
+    ],
+    "correct": [
+      0
+    ],
+    "why": [
+      "Adaptar el enfoque a la incertidumbre de cada componente, con hitos de coordinación, es la esencia del enfoque híbrido.",
+      "La estructura no se beneficia de iterar: requiere un diseño estable.",
+      "Postergar retrasa la entrega y pierde el aprendizaje temprano con el inquilino.",
+      "Forzar lo predictivo en el interior generaría cambios constantes."
+    ],
+    "rationale": "Se adapta el enfoque a cada componente según su incertidumbre y se coordinan con hitos comunes."
+  },
+  {
+    "id": "v8-agi-006",
+    "module": "agile",
+    "topicId": "agile-3",
+    "approach": "Ágil",
+    "type": "match",
+    "category": "Conceptual",
+    "prompt": "Empareja cada práctica de Kanban con su propósito.",
+    "items": [
+      "Límite de trabajo en curso",
+      "Sistema de arrastre (pull)",
+      "Políticas explícitas",
+      "Medir el tiempo de ciclo"
+    ],
+    "options": [
+      "Evitar empezar más de lo que se puede terminar.",
+      "Tomar trabajo nuevo solo cuando hay capacidad libre.",
+      "Que todos sepan cuándo un elemento pasa de una columna a otra.",
+      "Saber cuánto tarda un elemento desde que se inicia hasta que se termina.",
+      "Asignar el trabajo según la jerarquía del equipo."
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "rationale": "Kanban limita el trabajo en curso, se basa en arrastrar trabajo cuando hay capacidad, hace explícitas sus reglas y mide el flujo. Asignar por jerarquía va en contra del sistema de arrastre."
+  },
+  {
+    "id": "v8-cie-003",
+    "module": "process",
+    "topicId": "process-10",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Mentalidad",
+    "prompt": "La obra está terminada y los propietarios reciben sus departamentos, pero el subcontratista de instalaciones aún no entrega los planos de replanteo ni las garantías. ¿Qué debería hacer el director del proyecto antes de cerrar?",
+    "options": [
+      "Retener todo el pago final del subcontratista sin informarle por qué.",
+      "Elaborar los planos de replanteo con el equipo propio.",
+      "Cerrar el proyecto y pedir los documentos más adelante.",
+      "Exigir la entrega de los planos y las garantías según el contrato antes de su liquidación y del cierre administrativo."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Retener pagos debe hacerse según el contrato y con comunicación clara.",
+      "Hacer el trabajo del subcontratista genera costos y no resuelve el incumplimiento.",
+      "Cerrar sin los entregables contractuales deja vacíos para la operación y la posventa.",
+      "El cierre de adquisiciones exige verificar que el proveedor cumplió todos los entregables, incluidos los documentales."
+    ],
+    "rationale": "Antes del cierre se verifica el cumplimiento completo de los contratos, incluidos documentos y garantías, y luego se liquidan."
   }
 ]

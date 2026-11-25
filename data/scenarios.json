@@ -250,5 +250,154 @@
       ],
       "note": "Fuente: tablero del proyecto. Los defectos subieron después de que el equipo redujo las pruebas automatizadas para alcanzar la velocidad planificada."
     }
+  },
+  {
+    "id": "sc-flujo-posventa",
+    "title": "Caso Posventa: flujo de reclamos",
+    "context": "El equipo de posventa de una inmobiliaria (cuatro técnicos) atiende los reclamos de los propietarios con un tablero Kanban, sin iteraciones fijas. Cada semana ingresan unos diez reclamos. Desde la semana 5, para «avanzar más», cada técnico empezó a abrir varios reclamos a la vez sin un límite de trabajo en curso. El gráfico muestra el flujo acumulado de las últimas ocho semanas.",
+    "chart": {
+      "type": "line",
+      "title": "Diagrama de flujo acumulado · reclamos de posventa",
+      "yLabel": "reclamos acumulados",
+      "labels": [
+        "Sem 1",
+        "Sem 2",
+        "Sem 3",
+        "Sem 4",
+        "Sem 5",
+        "Sem 6",
+        "Sem 7",
+        "Sem 8"
+      ],
+      "series": [
+        {
+          "name": "Ingresados",
+          "values": [
+            12,
+            22,
+            32,
+            42,
+            52,
+            62,
+            72,
+            82
+          ]
+        },
+        {
+          "name": "Iniciados",
+          "values": [
+            8,
+            16,
+            24,
+            33,
+            42,
+            52,
+            62,
+            71
+          ]
+        },
+        {
+          "name": "Terminados",
+          "values": [
+            5,
+            12,
+            19,
+            26,
+            32,
+            37,
+            41,
+            44
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "sc-riesgos-externos",
+    "title": "Caso Torre Sur: riesgos del entorno",
+    "context": "Una torre de vivienda de 18 pisos está en la etapa de estructura. En el mes 4 la municipalidad publicó un proyecto de ordenanza que podría limitar la altura de las edificaciones en la avenida, y el tipo de cambio subió por la incertidumbre política. El director del proyecto actualizó el registro de riesgos con valores monetarios esperados (EMV = probabilidad × impacto).",
+    "chart": {
+      "type": "line",
+      "title": "Exposición al riesgo del proyecto (S/ miles)",
+      "yLabel": "S/ miles",
+      "labels": [
+        "Mes 1",
+        "Mes 2",
+        "Mes 3",
+        "Mes 4",
+        "Mes 5",
+        "Mes 6"
+      ],
+      "series": [
+        {
+          "name": "Exposición (suma de EMV de amenazas)",
+          "values": [
+            180,
+            165,
+            150,
+            210,
+            240,
+            200
+          ]
+        },
+        {
+          "name": "Umbral acordado",
+          "values": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ]
+        }
+      ]
+    },
+    "table": {
+      "title": "Registro de riesgos (extracto, S/ miles)",
+      "head": [
+        "ID",
+        "Riesgo u oportunidad",
+        "Origen",
+        "Probabilidad",
+        "Impacto",
+        "Dueño"
+      ],
+      "rows": [
+        [
+          "R1",
+          "La ordenanza limita la altura y obliga a rediseñar los últimos pisos",
+          "Externo · regulatorio",
+          "40 %",
+          "−300",
+          "Gerente de proyecto"
+        ],
+        [
+          "R2",
+          "Alza del tipo de cambio encarece los ascensores importados",
+          "Externo · económico",
+          "50 %",
+          "−80",
+          "Jefe de compras"
+        ],
+        [
+          "O1",
+          "Se aprueba un bono para vivienda sostenible que acelera ventas",
+          "Externo · político",
+          "30 %",
+          "+100",
+          "Gerente comercial"
+        ],
+        [
+          "R3",
+          "Paro de transportistas retrasa el concreto",
+          "Externo · social",
+          "20 %",
+          "−50",
+          "Residente"
+        ]
+      ],
+      "note": "Las amenazas restan y las oportunidades suman al calcular el EMV neto."
+    }
   }
 ]
