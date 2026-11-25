@@ -100,5 +100,37 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
   }
+  // ---------- #7: fallos en versiones retiradas ----------
+  console.log('\n== #7 retiradas');
+  {
+    const {ctx, page, errors, boot} = await fresh('2026-11-26T09:00:00-05:00');
+    await boot('inicio');
+    const old = await page.evaluate(() => D.retired.find(q => q.id === 'process-l3-003'));
+    // fallo propio en la versión original (anterior al cambio) que vence hoy, y un reintento nuevo de esa versión
+    await page.evaluate(() => {
+      state.errors.unshift({id: 'id-' + Date.parse('2026-11-17T09:35:00-05:00').toString(36) + 'abcdef', questionId: 'process-l3-003', prompt: 'x', category: 'Conceptual', date: '2026-11-17', due: today(), resolved: false, misses: 2, module: 'process', topicId: 'process-3', updated: stamp()});
+      state.errors.unshift({id: 'id-' + Date.parse('2026-11-17T09:40:00-05:00').toString(36) + 'dup001', questionId: 'process-l3-003', prompt: 'x', category: 'Conceptual', date: '2026-11-17', due: today(), resolved: false, module: 'process', topicId: 'process-3', updated: stamp()});
+      state.quiz = null; startQuiz([questionById('process-l3-003')], 1, 'Repaso de error');
+      state.quiz.selected = [(questionById('process-l3-003').correct[0] + 1) % 4]; checkAnswer(); save();
+    });
+    let r = await page.evaluate(() => state.attempts.at(-1).questionId);
+    assert(r === 'process-l3-003', 'un reintento nuevo de la versión retirada se guarda con su ID original');
+    await boot('inicio');
+    r = await page.evaluate(() => { migrateQuestionIds(state); migrateQuestionIds(state); const imported = migrateQuestionIds(JSON.parse(JSON.stringify(state))); const merged = migrateQuestionIds(PMPSync.merge(state, JSON.parse(JSON.stringify(state)), true)); return [state.attempts.at(-1).questionId, imported.attempts.at(-1).questionId, merged.attempts.at(-1).questionId, state.errors.filter(e => e.questionId === 'process-l3-003').length]; });
+    assert(r.slice(0, 3).every(x => x === 'process-l3-003') && r[3] === 2, 'tras recargar, migrar dos veces, importar o sincronizar, el reintento y sus fallos siguen en la versión original');
+    const sel = await page.evaluate(() => {
+      delete ensureRoutine().days[today()]; const ret = new Set(D.retired.map(q => q.id)), b = bulletToday(), w = weeklySet(weeklyTopics('2026-11-28')), cards = failureCards().map(c => c.id), due = dueFailureIds(5);
+      return {due, bulletFail: b.fails.includes('process-l3-003'), weekly: w.filter(q => q.id === 'process-l3-003').length, weeklyOther: w.filter(q => ret.has(q.id) && q.id !== 'process-l3-003').length,
+        cards: state.errors.filter(e => e.questionId === 'process-l3-003').every(e => cards.includes('err-' + e.id)), ordinary: allQuestions().filter(q => ret.has(q.id)).length + mockBank().filter(q => ret.has(q.id)).length};
+    });
+    assert(sel.due.filter(id => id === 'process-l3-003').length === 1, 'el fallo retirado vencido se recupera una sola vez aunque haya dos registros');
+    assert(sel.bulletFail && sel.weekly === 1 && sel.cards, 'la versión retirada que fallaste vuelve en el Bullet Quiz, el cuestionario del sábado y como tarjeta');
+    assert(sel.weeklyOther === 0 && sel.ordinary === 0, 'ninguna otra retirada entra a selecciones ordinarias, práctica ni simulacros');
+    const res = await page.evaluate(() => { const q = questionById('process-l3-003'); noteSuccess(q); noteSuccess(q); return state.errors.filter(e => e.questionId === 'process-l3-003').map(e => e.resolved); });
+    assert(res.includes(true), 'acertar dos veces la versión retirada resuelve el fallo de esa misma versión');
+    assert(await page.evaluate(() => state.attempts.filter(a => a.questionId === 'process-l3-003-v2').length) === 0, 'los intentos previos no se mezclan con la versión vigente');
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
   await browser.close();
 })().catch(e => { console.error(e.message); process.exit(1); });

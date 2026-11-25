@@ -104,7 +104,8 @@ function weeklySet(topics) {
   const chosen = [], used = new Set(), fams = new Set();
   const add = q => { if (chosen.length >= WEEKLY_SIZE || used.has(q.id) || (q.family && fams.has(q.family))) return false; chosen.push(q); used.add(q.id); if (q.family) fams.add(q.family); return true; };
   /* Primero, hasta 5 preguntas falladas que toca repasar; luego refuerzo de los temas con más fallos. */
-  if (typeof dueFailureIds === 'function') dueFailureIds(5).forEach(id => { const q = base.find(x => x.id === id); if (q) add(q); });
+  /* Recuperación de fallos: resuelve también versiones retiradas que se respondieron mal (solo aquí, no en la selección ordinaria). */
+  if (typeof dueFailureIds === 'function') dueFailureIds(5).forEach(id => { const q = base.find(x => x.id === id) || questionById(id); if (q) add(q); });
   if (typeof weakTopics === 'function') weakTopics(3).forEach(t => { const q = shuffleArr(base.filter(x => x.topicId === t && !x.scenarioId && !used.has(x.id)))[0]; if (q) add(q); });
   const scen = shuffleArr([...new Set(pool.filter(q => q.scenarioId).map(q => q.scenarioId))])[0];
   if (scen) pool.filter(q => q.scenarioId === scen).forEach(add);

@@ -64,7 +64,7 @@ function dueFailureIds(limit, accept = () => true) {
   const bank = new Map([...(D.retired || []), ...allQuestions()].map(q => [q.id, q]));
   return (state.errors || []).filter(e => !e.resolved && e.questionId && bank.has(e.questionId) && (e.due || e.date) <= today() && !bank.get(e.questionId).scenarioId && accept(e.questionId))
     .sort((a, b) => (b.misses || 1) - (a.misses || 1) || String(a.due || a.date).localeCompare(String(b.due || b.date)))
-    .slice(0, limit).map(e => e.questionId);
+    .map(e => e.questionId).filter((id, i, a) => a.indexOf(id) === i).slice(0, limit);
 }
 function openFailures() { return (state.errors || []).filter(e => !e.resolved); }
 /* Temas con más fallos abiertos (incluye los importados del PDF), para reforzarlos. */
@@ -92,9 +92,12 @@ function failureCards() {
 const uidTime = id => { const m = /^id-([0-9a-z]{8})/.exec(id || ''), t = m ? parseInt(m[1], 36) : NaN; return t > 1.6e12 && t < 2.3e12 ? t : NaN; };
 const recTime = (...xs) => { for (const x of xs) { if (x == null || x === '') continue; const t = typeof x === 'number' ? x : /^\d{4}-\d{2}-\d{2}$/.test(x) ? Date.parse(x + 'T23:59:59-05:00') : Date.parse(x); if (Number.isFinite(t)) return t; } return NaN; };
 function migrateQuestionIds(s) {
-  const moves = new Map((D.retired || []).filter(q => q.replacedBy && q.retiredAt).map(q => [q.id, {to: q.replacedBy, at: Date.parse(q.retiredAt)}]));
+  /* Solo se reasigna un registro hecho entre retiredAt (cambio de contenido) y splitAt (la app empezó a usar el ID nuevo):
+     en ese intervalo el ID original mostraba el contenido nuevo. Antes de retiredAt o desde splitAt, el ID original es la
+     versión original (por ejemplo, el reintento de un fallo propio): no se toca. Sin fecha conocida, la versión vigente. */
+  const moves = new Map((D.retired || []).filter(q => q.replacedBy && q.retiredAt).map(q => [q.id, {to: q.replacedBy, at: Date.parse(q.retiredAt), split: Date.parse(q.splitAt || q.retiredAt)}]));
   if (!moves.size || !s) return s;
-  const to = (id, t) => { const m = moves.get(id); return m && !(t < m.at) ? m.to : id; }; // sin fecha conocida: la versión vigente
+  const to = (id, t) => { const m = moves.get(id); if (!m) return id; if (!Number.isFinite(t)) return m.to; return t >= m.at && t < m.split ? m.to : id; };
   const ids = (list, t) => Array.isArray(list) ? list.map(id => to(id, t)) : list;
   const keys = (o, t) => o && typeof o === 'object' ? Object.fromEntries(Object.entries(o).map(([k, v]) => [to(k, t), v])) : o;
   const quiz = q => { if (q && Array.isArray(q.ids)) { const t = recTime(q.started); q.ids = ids(q.ids, t); } return q; };
@@ -105,7 +108,9 @@ function migrateQuestionIds(s) {
   if (s.mockRun && Array.isArray(s.mockRun.ids)) { const r = s.mockRun, t = recTime(r.started); r.ids = ids(r.ids, t); r.unscored = ids(r.unscored, t); r.answers = keys(r.answers, t); r.flags = keys(r.flags, t); }
   if (s.routine) {
     Object.entries(s.routine.days || {}).forEach(([d, day]) => { const t = recTime(day.quiz?.started, d); day.ids = ids(day.ids, t); day.fails = ids(day.fails, t); quiz(day.quiz); });
-    if (Array.isArray(s.routine.seen)) s.routine.seen = [...new Set(s.routine.seen.map(id => moves.get(id)?.to || id))];
+    const seenMap = list => [...new Set(list.map(id => moves.get(id)?.to || id))];
+    if (Array.isArray(s.routine.seen)) s.routine.seen = seenMap(s.routine.seen);
+    else if (s.routine.seen && typeof s.routine.seen === 'object') Object.keys(s.routine.seen).forEach(k => { if (Array.isArray(s.routine.seen[k])) s.routine.seen[k] = seenMap(s.routine.seen[k]); });
   }
   return s;
 }
