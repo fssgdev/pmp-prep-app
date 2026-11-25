@@ -65,6 +65,14 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
       await page.setInputFiles('#gloss-pdf', process.argv[2]); await page.waitForFunction(() => officialGlossary(), null, {timeout: 60000});
       const g = await page.evaluate(() => ({n: officialGlossary().terms.length, m: D.glossary.filter(x => officialFor(x.term)).length}));
       assert(g.n > 600 && g.m > 130, `glosario oficial: ${g.n} términos, ${g.m} enlazados a las definiciones simplificadas`);
+      const cov = await page.evaluate(() => {
+        const words = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9ñ ]/g, ' ').split(/\s+/).filter(Boolean);
+        const grams = new Set(); officialGlossary().terms.forEach(o => { const w = words(o.def); for (let i = 0; i + 7 <= w.length; i++) grams.add(w.slice(i, i + 7).join(' ')); });
+        const copied = D.glossary.filter(x => ['def', 'ex'].some(k => { const w = words(x[k] || ''); for (let i = 0; i + 7 <= w.length; i++) if (grams.has(w.slice(i, i + 7).join(' '))) return true; return false; })).map(x => x.term);
+        return {uncovered: officialUncovered().map(t => t.term), copied};
+      });
+      assert(cov.uncovered.length === 0, 'cada término del glosario oficial tiene su versión simplificada (por nombre, «official» o alias) ' + cov.uncovered.slice(0, 5).join(', '));
+      assert(cov.copied.length === 0, 'ninguna definición ni ejemplo propio repite 7 palabras seguidas del texto de PMI ' + cov.copied.slice(0, 5).join(', '));
     }
     assert(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 1, 'sin desplazamiento horizontal');
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));

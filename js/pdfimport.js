@@ -277,13 +277,17 @@ function renderOfficialBox() {
   return `<section class="card official-box"><div class="card-header"><div><h2>Definiciones oficiales (texto de PMI)</h2><p>${g ? `${g.terms.length} términos cargados en este dispositivo el ${date(stampDay(g.at))}` : 'Aún no cargadas en este dispositivo'}</p></div>${g ? badge('Cargado', 'green') : badge('Opcional', 'orange')}</div>
   <p class="hint">Sube el PDF «Glossary_for_PMP_2026_ES_v4.1» de la carpeta 0 del Drive. El texto oficial se guarda solo en este navegador (no en el sitio público ni en la nube): aparece junto a cada definición simplificada y en el reverso de sus tarjetas. Hazlo una vez en cada dispositivo.</p>
   <div class="actions"><label class="button light file-button">${pdfBusy ? 'Leyendo el PDF…' : g ? 'Volver a cargar el PDF' : 'Cargar el PDF del glosario'}<input type="file" id="gloss-pdf" accept="application/pdf" ${pdfBusy ? 'disabled' : ''}></label>
-  ${g ? `<label class="checkline"><input type="checkbox" id="gloss-all-cards" ${state.settings.glossaryAllCards ? 'checked' : ''}> Crear también tarjetas con los ${Math.max(0, g.terms.length - (D.glossary || []).filter(x => officialFor(x.term)).length)} términos oficiales que no tienen versión simplificada</label>${button('Quitar de este dispositivo', 'gloss-official-remove', 'ghost small')}` : ''}</div></section>`;
+  ${g ? `${officialUncovered().length ? `<label class="checkline"><input type="checkbox" id="gloss-all-cards" ${state.settings.glossaryAllCards ? 'checked' : ''}> Crear también tarjetas con los ${officialUncovered().length} términos oficiales que no tienen versión simplificada</label>` : '<span class="hint">Todos los términos oficiales tienen su versión simplificada.</span>'}${button('Quitar de este dispositivo', 'gloss-official-remove', 'ghost small')}` : ''}</div></section>`;
 }
 /* Tarjetas extra con los términos oficiales sin versión simplificada (opcional). */
+function officialUncovered() {
+  const g = officialGlossary(); if (!g) return [];
+  const mine = new Set((D.glossary || []).flatMap(x => [normTerm(x.term), x.official ? normTerm(x.official) : '', ...(x.aka || []).map(normTerm)]));
+  return g.terms.filter(t => !mine.has(normTerm(t.term)));
+}
 function officialOnlyCards() {
-  const g = officialGlossary(); if (!g || !state.settings?.glossaryAllCards) return [];
-  const mine = new Set((D.glossary || []).flatMap(x => [normTerm(x.term), x.official ? normTerm(x.official) : '']));
-  return g.terms.filter(t => !mine.has(normTerm(t.term))).map(t => ({id: 'go-' + normTerm(t.term).replace(/ /g, '-').slice(0, 48), front: t.term, back: t.def, gloss: true, official: true, lesson: 9, concept: 'Glosario oficial'}));
+  if (!officialGlossary() || !state.settings?.glossaryAllCards) return [];
+  return officialUncovered().map(t => ({id: 'go-' + normTerm(t.term).replace(/ /g, '-').slice(0, 48), front: t.term, back: t.def, gloss: true, official: true, lesson: 9, concept: 'Glosario oficial'}));
 }
 
 /* ---------- imágenes de las preguntas importadas (IndexedDB, solo en este dispositivo; no se sincronizan) ---------- */
