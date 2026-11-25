@@ -79,7 +79,7 @@ const KEY = 'pmp-master-plan-2027-v1';
     /* ---------- Bullet Quiz: lección con menos de 5 preguntas ---------- */
     await page.evaluate(() => { localStorage.removeItem('pmp-master-plan-2027-v1'); });
     await reload('inicio');
-    await page.evaluate(() => { D.weeklyPlan.lessons['99'] = {title: 'Prueba corta', topics: ['agile-1'], status: 'por confirmar'}; ensureRoutine().override[weekStart()] = 99; save(); render(); });
+    await page.evaluate(() => { D.weeklyPlan.lessons['99'] = {title: 'Prueba corta', topics: [], questionIds: ['q27', 'x7-agl-001', 'z7-agl-001'], status: 'por confirmar'}; ensureRoutine().override[weekStart()] = 99; save(); render(); });
     const short = await page.evaluate(() => bulletToday());
     assert(short.ids.length < 5 && short.short, 'lección corta: ' + short.ids.length + ' preguntas elegibles');
     await page.locator('[data-routine="bullet"] [data-action="bullet-start"]').click();
