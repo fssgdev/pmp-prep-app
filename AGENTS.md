@@ -17,7 +17,7 @@ Fabrizio autorizó (25/11) que GPT suba las láminas al repositorio; la app las 
 2. Agrega una entrada en `data/slides.json` → `slides`: `{"session": 7, "version": 1, "file": "slides/clase-07-v1.pdf", "title": "Lámina clase 7 · Lección 3", "status": "provisional" | "final", "createdAt": "2026-11-27T17:55:00-05:00", "author": "GPT", "note": "opcional", "sources": ["avance declarado", "notas del profesor 25/11"]}`. Para corregir, publica una versión nueva (`version` + 1, archivo nuevo) sin borrar la anterior.
 3. Verifica con `node tools/check-slides.mjs` (y que el JSON sea válido) y haz commit en la rama principal; GitHub Pages lo publica en ~1 minuto.
 4. **El repositorio es público:** la lámina debe ser una síntesis original. No incluyas texto, imágenes ni capturas del PPT, del PMBOK ni de las notas del profesor, ni el texto de los apuntes personales de Fabrizio, nombres de terceros o enlaces privados. Marca `provisional` lo que no esté confirmado.
-5. El contexto de cada clase (avance declarado, estado de las notas del profesor, apuntes y brechas) lo exporta Fabrizio desde la app y lo deja en su carpeta privada del Drive o te lo comparte.
+5. El contexto de cada clase está en la carpeta privada del Drive de Fabrizio «PMP App · Contexto y láminas», en la subcarpeta `AAAA-MM-DD_clase-N` (Claude la crea cada día de clase): sus apuntes de OneNote en PDF y, si lo exporta, el contexto de la app (avance declarado, estado de las notas del profesor y brechas). Léela con tu conector de Google Drive; si no tienes acceso, pídeselo a Fabrizio.
 
 ## Cómo pedir cambios
 Crea un issue con la plantilla **"Tarea para Claude"** (etiqueta `para-claude`). Si no puedes crearlo, entrega el texto a Fabrizio para que lo pegue.

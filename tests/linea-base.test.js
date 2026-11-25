@@ -192,8 +192,10 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     // Apuntes de OneNote por sesión (solo en el dispositivo)
     await page.evaluate(() => { location.hash = 'notas'; render(); });
     const nf = await page.evaluate(async () => { ensureClassLog().push({id: 'cl-s7', session: 7, date: '2026-11-25', lessons: [3], updated: stamp()}); await addNoteFile(new File(['%PDF-1.4 apunte'], 'Clase7.pdf', {type: 'application/pdf'}), null, 7); const before = state.noteFiles.length; await addNoteFile(new File(['x'], 'Seccion.one'), null, 7); return [before, state.noteFiles.length, state.noteFiles[0].label, filesMem.has(state.noteFiles[0].key)]; });
-    assert(nf[0] === 1 && nf[1] === 1 && nf[2] === '2026-11-25_L3' && nf[3], 'apunte PDF de la clase 7 guardado como 2026-11-25_L3 y un .one se rechaza con explicación');
-    assert(await page.locator('.session-folder', {hasText: '2026-11-25 · Clase 7'}).locator('.note-file').count() === 1, 'Mis notas muestra el apunte dentro de la carpeta de su fecha de clase');
+    assert(nf[0] === 1 && nf[1] === 1 && nf[2] === '2026-11-25_L3' && nf[3], 'un apunte local anterior se conserva (2026-11-25_L3) y un .one se rechaza con explicación');
+    const folder = page.locator('.session-folder', {hasText: '2026-11-25_clase-7'});
+    assert(await folder.locator('.note-file').count() === 1 && /drive\.google\.com\/drive\/search\?q=2026-11-25_clase-7$/.test(await folder.locator('a', {hasText: 'Abrir en Drive'}).getAttribute('href')), 'Mis notas muestra la carpeta 2026-11-25_clase-7 con su enlace al Drive (búsqueda por nombre, sin IDs privados)');
+    assert(await page.locator('[data-action="note-file-add"]').count() === 0, 'Mis notas ya no sube archivos: funciona como visor');
     // Paquete de contexto: con avance, notas del profesor, apunte y discrepancia; y sin nada
     const pk = await page.evaluate(() => { Object.assign(classLogFor(7), {lastTopic: 'Diapositiva 40'}); const s7 = D.sessions.find(s => s.id === 7); s7.mapping = 'confirmada'; s7.lesson41 = [2, 3]; const a = contextPackage(7); s7.mapping = 'por confirmar'; const b = contextPackage(8); return [a, b]; });
     assert(/lección v4.1 3/.test(pk[0]) && /confirmadas, lección 2 y 3/.test(pk[0]) && /Clase7\.pdf/.test(pk[0]) && /Discrepancia/.test(pk[0]), 'el paquete de contexto reúne avance, notas del profesor, apuntes y la discrepancia');

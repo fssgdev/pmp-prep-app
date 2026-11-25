@@ -126,17 +126,23 @@ function addSlideVersion(sid, version) {
 /* ---------- apuntes de OneNote por sesión (Mis notas) ---------- */
 function ensureNoteFiles() { if (!Array.isArray(state.noteFiles)) state.noteFiles = []; return state.noteFiles; }
 const NOTE_ACCEPT = '.pdf,.docx,.doc,.png,.jpg,.jpeg,.txt,.md,.html,.htm,.mht';
-/* Una carpeta por fecha de clase: apuntes, lámina de repaso y exportación del contexto para GPT. */
+/* Mis notas como visor (decisión de Fabrizio, 25/11): los apuntes se suben a su carpeta privada del Drive
+   «PMP App · Contexto y láminas», en la subcarpeta AAAA-MM-DD_clase-N (la crea la revisión diaria de Claude los días de clase).
+   La app no lista el Drive (necesitaría iniciar sesión con Google): cada carpeta abre la búsqueda de su subcarpeta en el Drive
+   de quien la abre, sin IDs ni enlaces privados en el repositorio. */
+const DRIVE_ROOT_NAME = 'PMP App · Contexto y láminas';
+const driveFolderName = s => `${s.date}_clase-${s.id}`;
+const driveSearch = q => 'https://drive.google.com/drive/search?q=' + encodeURIComponent(q);
 function renderNoteFiles() {
   const files = ensureNoteFiles().filter(f => !f.removed);
   const ss = [...D.sessions].filter(s => s.date <= today() && (s.date >= BASELINE_START || files.some(f => f.session === s.id) || classLogFor(s.id))).sort((a, b) => b.date.localeCompare(a.date));
-  const fileRow = f => `<article class="item-card note-file"><div class="row"><div><div class="meta">${badge('L' + f.lesson, 'green')} ${f.read ? badge('Leído', 'green') : badge('Sin leer', 'orange')}</div><h3>${esc(f.name)}</h3><p class="hint">${esc(f.label)} · ${Math.max(1, Math.round((f.size || 0) / 1024))} KB${filesMem.has(f.key) ? '' : ' · el archivo está en otro dispositivo'}</p></div></div><div class="actions">${filesMem.has(f.key) ? button('Abrir', 'note-file-open', 'light small', `data-id="${f.id}"`) : ''}${button(f.read ? 'Marcar sin leer' : 'Marcar leído', 'note-file-read', 'ghost small', `data-id="${f.id}"`)}${filesMem.has(f.key) ? button('Reemplazar', 'note-file-replace', 'ghost small', `data-id="${f.id}"`) : ''}${button('Eliminar', 'note-file-del', 'ghost small', `data-id="${f.id}"`)}</div></article>`;
+  const fileRow = f => `<article class="item-card note-file"><div class="row"><div><div class="meta">${badge('L' + f.lesson, 'green')} ${badge('Guardado en este dispositivo')}</div><h3>${esc(f.name)}</h3><p class="hint">${esc(f.label)}${filesMem.has(f.key) ? '' : ' · el archivo está en otro dispositivo'}</p></div></div><div class="actions">${filesMem.has(f.key) ? button('Abrir', 'note-file-open', 'light small', `data-id="${f.id}"`) : ''}${button('Quitar', 'note-file-del', 'ghost small', `data-id="${f.id}"`)}</div></article>`;
   const folder = (s, i) => { const fs = files.filter(f => f.session === s.id), r = classLogFor(s.id), st = slideStatus(s.id);
-    return `<details class="session-folder" ${i === 0 ? 'open' : ''}><summary><span class="folder-name">📁 ${s.date} · Clase ${s.id}</span><span class="folder-meta">${r ? 'L' + r.lessons.join('+') : 'avance sin registrar'} · ${fs.length} ${fs.length === 1 ? 'apunte' : 'apuntes'} · lámina ${SLIDE_LABEL[st].toLowerCase()}</span></summary>
-      <div class="folder-body">${fs.length ? fs.map(fileRow).join('') : '<p class="hint">Sin apuntes en esta clase.</p>'}
-      <div class="actions">${button('Cargar apunte', 'note-file-add', 'light small', `data-id="${s.id}"`)}${st !== 'pendiente' ? button('Ver lámina', 'slide-folder', 'ghost small', `data-id="${s.id}"`) : ''}${button('Exportar contexto para GPT', 'context-export', 'ghost small', `data-id="${s.id}"`)}</div></div></details>`; };
-  return `<section class="card note-files"><div class="card-header"><div><h2>Apuntes por clase</h2><p>Una carpeta por fecha de sesión: tus apuntes de OneNote, la lámina de repaso y el contexto para GPT.</p></div></div>
-  <p class="hint">Exporta la página de OneNote como <strong>PDF</strong> (o .docx) y cárgala en la carpeta de su clase. Los archivos .one/.onepkg no se pueden leer en el navegador: expórtalos a PDF primero. Por ahora el archivo queda <strong>solo en este dispositivo</strong>: en los otros verás la ficha, y GPT no puede leerlo desde la app.</p>
+    return `<details class="session-folder" ${i === 0 ? 'open' : ''}><summary><span class="folder-name">📁 ${driveFolderName(s)}</span><span class="folder-meta">${r ? 'Lección ' + r.lessons.join(' y ') + (r.lastTopic ? ' · hasta: ' + esc(r.lastTopic) : '') : 'avance sin registrar'} · lámina ${SLIDE_LABEL[st].toLowerCase()}</span></summary>
+      <div class="folder-body">${fs.map(fileRow).join('')}
+      <div class="actions"><a class="button light small" href="${driveSearch(driveFolderName(s))}" target="_blank" rel="noopener">Abrir en Drive ${icon('arrow')}</a>${st !== 'pendiente' ? button('Ver lámina', 'slide-folder', 'ghost small', `data-id="${s.id}"`) : ''}${button('Exportar contexto para GPT', 'context-export', 'ghost small', `data-id="${s.id}"`)}</div></div></details>`; };
+  return `<section class="card note-files"><div class="card-header"><div><h2>Apuntes por clase</h2><p>Tus apuntes viven en tu Drive; aquí los encuentras por fecha de clase, junto con su lámina y el contexto para GPT.</p></div><a class="button white small" href="${driveSearch(DRIVE_ROOT_NAME)}" target="_blank" rel="noopener">Carpeta del Drive ${icon('arrow')}</a></div>
+  <p class="hint">Sube tus apuntes de OneNote (en PDF) y el contexto exportado a la subcarpeta de cada clase en tu carpeta privada «${DRIVE_ROOT_NAME}». Así GPT y Claude pueden leerlos y los ves en todos tus dispositivos. «Abrir en Drive» busca esa subcarpeta en tu Drive (inicia sesión con tu cuenta de Google si te lo pide).</p>
   <div class="stack">${ss.length ? ss.map(folder).join('') : '<p class="hint">Las carpetas aparecen desde la clase del 25 de noviembre.</p>'}</div></section>`;
 }
 async function addNoteFile(file, existing, sessionId) {
