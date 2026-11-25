@@ -93,6 +93,10 @@ function finishMock(reason) {
   r.result = res;
   // Respuestas al historial de intentos (sirve para métricas por dominio).
   r.ids.forEach(id => { const q = mockQ(id), sel = r.answers[id]; if (!sel) return; state.attempts.push({id: uid(), questionId: q.id, topicId: q.topicId, module: q.module, approach: q.approach, selected: [...sel], correct: answeredOk(q, sel), date: r.completed, mock: true}); });
+  // Historial automático y fallos a repaso (las no puntuadas no cuentan).
+  const scored = r.ids.filter(id => !r.unscored.includes(id)).map(mockQ);
+  scored.forEach(q => { if (answeredOk(q, r.answers[q.id])) noteSuccess(q); else noteFailure(q, 'examen'); });
+  recordResult({kind: 'mock', label: 'Examen completo (180)', taskId: null, total: res.total, correct: res.correct, dom: res.dom, wrong: scored.filter(q => !answeredOk(q, r.answers[q.id])).map(q => q.id), minutes: Math.max(1, Math.round(r.usedMs / 60000))});
   state.mocks.push({id: uid(), name: 'Simulacro completo en la app', date: today(), correct: res.correct, total: res.total, minutes: Math.max(1, Math.round(r.usedMs / 60000)), realistic: true, source: 'app', domains: res.dom, notes: `${MOCK_FORMAT.unscored} preguntas no puntuadas excluidas del resultado.`});
   ensureStudyState(); const t = buildPlan().find(x => x.kind === 'mock' && !state.tasksDone[x.id] && x.due >= today()); if (t) state.tasksDone[t.id] = stamp();
   save(); mockReviewOpen = null; render(); window.scrollTo({top: 0, behavior: 'instant'});

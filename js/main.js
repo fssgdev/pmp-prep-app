@@ -16,6 +16,8 @@
     const load = src => new Promise((ok, fail) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => fail(new Error(src)); document.body.append(s); });
     await load('js/study.js');
     await load('js/items.js');
+    await load('js/results.js');
+    await load('js/pdfimport.js');
     await load('js/mock.js');
     await load('js/app.js');
   } catch (err) {

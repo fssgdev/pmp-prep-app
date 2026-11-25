@@ -3,6 +3,27 @@
   "timezone": "America/Lima",
   "weekStartsOn": "lunes",
   "bulletSize": 5,
+  "schedule": {
+    "note": "Frecuencia acordada con Fabrizio (24/11). Días: 0 = domingo … 6 = sábado.",
+    "routineDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "classDays": [
+      3,
+      5
+    ],
+    "quizDay": 6,
+    "restDays": [
+      0
+    ],
+    "routineTime": "07:30",
+    "quizTime": "10:00",
+    "examDate": "2027-01-31"
+  },
   "lessons": {
     "1": {
       "title": "Introducción",

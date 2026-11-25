@@ -42,7 +42,7 @@
      - Actividades hechas: unión; una actividad desmarcada después ('task:<id>' en deleted) se respeta.
      - Tarjetas: gana la que tiene más repasos; historial de tarjetas: unión sin duplicar.
      - Temas, asistencia: por clave; ajustes, cuestionario y simulacro en curso: el estado más nuevo. */
-  const LISTS = ['notes', 'errors', 'mocks', 'attempts', 'questions', 'studySessions'];
+  const LISTS = ['notes', 'errors', 'mocks', 'attempts', 'questions', 'studySessions', 'results'];
   function merge(local, remote, localNewer) {
     if (!remote) return local; if (!local) return remote;
     const [newer, older] = localNewer ? [local, remote] : [remote, local];
@@ -60,7 +60,7 @@
         else map.set(item.id, item); // 'item' viene del estado más nuevo
       }
       out[k] = [...map.values()];
-      if (k === 'attempts' || k === 'mocks') out[k].sort((a, b) => String(a.date).localeCompare(String(b.date)));
+      if (k === 'attempts' || k === 'mocks' || k === 'results') out[k].sort((a, b) => String(a.date).localeCompare(String(b.date)));
       if (k === 'errors' || k === 'notes') out[k].sort((a, b) => String(b.updated || b.date).localeCompare(String(a.updated || a.date)));
     }
     out.tasksDone = {};

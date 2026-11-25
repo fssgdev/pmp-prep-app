@@ -25,18 +25,28 @@ const questionsFor = topics => allQuestions().filter(q => topics.includes(q.topi
 const topicLabel = id => { const t = topicBy(id); return t ? (t.code.startsWith('A') ? t.code : 'ECO ' + t.code) : id; };
 
 /* ---------- plan con vencimientos ---------- */
+/* ---------- frecuencia semanal (data/weekly-plan.json → schedule) ----------
+   Por defecto: lunes a viernes rutina (4 tarjetas + Bullet Quiz), miércoles y viernes clase INGENIUM,
+   sábado cuestionario de 20 y domingo descanso. 0 = domingo … 6 = sábado. */
+function sched() { return {routineDays: [1, 2, 3, 4, 5], quizDay: 6, restDays: [0], classDays: [3, 5], routineTime: '07:30', quizTime: '10:00', ...(D.weeklyPlan?.schedule || {})}; }
+const isRestDay = (d = today()) => sched().restDays.includes(weekday(d));
+const isRoutineDay = (d = today()) => sched().routineDays.includes(weekday(d));
+/* Mueve una fecha que cae en descanso (o en el sábado del cuestionario, si se pide) al lunes siguiente. */
+function workDay(d, avoidQuizDay = false) { let x = d; while (isRestDay(x) || (avoidQuizDay && weekday(x) === sched().quizDay)) x = plusDays(x, 1); return x; }
+function quizDayOnOrBefore(d) { let x = d; while (weekday(x) !== sched().quizDay) x = plusDays(x, -1); return x; }
 function buildPlan() {
   ensureStudyState();
   const exam = examDate(), tasks = [], seen = new Set();
   const ss = [...D.sessions].sort((a, b) => a.date.localeCompare(b.date));
+  const notRest = d => { let x = d; while (isRestDay(x)) x = plusDays(x, -1); return x; };
   ss.forEach((s, i) => {
     const next = ss[i + 1];
-    const due = next ? plusDays(next.date, -1) : plusDays(exam, -7);
+    const due = notRest(next ? plusDays(next.date, -1) : plusDays(exam, -7));
     if (s.topics.length) {
       tasks.push({id: 'quiz-s' + s.id, kind: 'quiz', session: s.id, date: s.date, due, topics: s.topics,
         title: `Cuestionario de la sesión ${s.id}`, detail: s.title});
       REVIEW_DAYS.forEach(d => {
-        const day = plusDays(s.date, d), key = day + '|' + s.topics.join(',');
+        const day = workDay(plusDays(s.date, d), true), key = day + '|' + s.topics.join(',');
         if (day >= plusDays(exam, -1) || seen.has(key)) return;
         seen.add(key);
         tasks.push({id: `rev-s${s.id}-d${d}`, kind: 'review', session: s.id, date: day, due: day, topics: s.topics,
@@ -47,36 +57,33 @@ function buildPlan() {
         title: `Sesión ${s.id}: preparar la aplicación PMP`, detail: 'Revisa requisitos, horas de formación y experiencia para tu solicitud.'});
     }
   });
-  // Examen completo al terminar las lecciones: primer sábado después de la última sesión.
+  // Exámenes completos en el día del cuestionario (sábado): al terminar las lecciones y a −14 y −7 días del examen.
   const lastS = ss[ss.length - 1]?.date || '2027-01-06';
-  let exam0 = plusDays(lastS, 1); while (weekday(exam0) !== 6) exam0 = plusDays(exam0, 1);
-  // Simulacro semanal de 20 preguntas (sábados) con las lecciones vistas hasta esa semana.
-  const mock1 = plusDays(exam, -14), mock2 = plusDays(exam, -7);
-  for (let d = WEEKLY_START; d < plusDays(exam, -1); d = plusDays(d, 7)) {
+  let exam0 = plusDays(lastS, 1); while (weekday(exam0) !== sched().quizDay) exam0 = plusDays(exam0, 1);
+  const mock1 = quizDayOnOrBefore(plusDays(exam, -14)), mock2 = quizDayOnOrBefore(plusDays(exam, -7));
+  // Cuestionario semanal de 20 preguntas con las lecciones vistas hasta esa semana.
+  let first = WEEKLY_START; while (weekday(first) !== sched().quizDay) first = plusDays(first, 1);
+  for (let d = first; d < plusDays(exam, -1); d = plusDays(d, 7)) {
     if ([exam0, mock1, mock2].includes(d)) continue;
     const topics = weeklyTopics(d), n = weeklyCount(d);
-    tasks.push({id: 'week20-' + d, kind: 'weekly', date: d, due: plusDays(d, 1), topics, n,
-      title: 'Simulacro semanal de 20 preguntas', detail: `Lecciones v4.1 vistas hasta esta semana: ${coveredLessons(d).join(', ') || '—'}. ~40 % predictivo y ~60 % ágil o híbrido, con gráficos, tablas, listas desplegables y «señale y haga clic».`});
+    tasks.push({id: 'week20-' + d, kind: 'weekly', date: d, due: workDay(plusDays(d, 1)), topics, n,
+      title: 'Cuestionario semanal de 20 preguntas', detail: `Lecciones v4.1 vistas hasta esta semana: ${coveredLessons(d).join(', ') || '—'}, más tus preguntas falladas que toca repasar. ~40 % predictivo y ~60 % ágil o híbrido, con gráficos, tablas, listas desplegables y «señale y haga clic».`});
   }
-  if (exam0 < plusDays(exam, -14)) {
-    tasks.push({id: 'mock-0', kind: 'mock', date: exam0, due: plusDays(exam0, 1), title: 'Examen completo de fin de curso', detail: '180 preguntas en 240 minutos al terminar las lecciones: tu diagnóstico de partida para el tramo final.'});
-    tasks.push({id: 'mockrev-0', kind: 'errors', date: plusDays(exam0, 1), due: plusDays(exam0, 2), title: 'Revisión del examen de fin de curso', detail: 'Identifica los dominios y tareas más débiles y priorízalos en el tramo final.'});
+  const fullMock = (id, d, title, detail, revTitle, revDetail) => {
+    tasks.push({id: 'mock-' + id, kind: 'mock', date: d, due: workDay(plusDays(d, 1)), title, detail});
+    const r = workDay(plusDays(d, 1));
+    tasks.push({id: 'mockrev-' + id, kind: 'errors', date: r, due: r, title: revTitle, detail: revDetail});
+  };
+  if (exam0 < mock1) fullMock(0, exam0, 'Examen completo de fin de curso', '180 preguntas en 240 minutos al terminar las lecciones: tu diagnóstico de partida para el tramo final.', 'Revisión del examen de fin de curso', 'Identifica los dominios y tareas más débiles y priorízalos en el tramo final.');
+  if (mock1 >= today() || mock1 >= '2027-01-07') fullMock(1, mock1, 'Simulacro completo 1', '180 preguntas en 240 minutos, en condiciones de examen.', 'Revisión del simulacro 1', 'Analiza los errores por dominio y ajusta tu plan.');
+  fullMock(2, mock2, 'Simulacro completo 2', '180 preguntas en 240 minutos, en condiciones de examen.', 'Revisión del simulacro 2', 'Cierra brechas puntuales; no inicies temas nuevos.');
+  // Tramo final (sin clases): práctica mixta de 20 en los días que antes eran de clase.
+  for (let d = plusDays(lastS, 1); d < plusDays(exam, -1); d = plusDays(d, 1)) {
+    if (sched().classDays.includes(weekday(d)) && !tasks.some(t => t.date === d && t.kind === 'errors'))
+      tasks.push({id: 'mix-' + d, kind: 'mixed', date: d, due: d, title: 'Práctica mixta de 20 preguntas', detail: 'Los tres dominios y todos los enfoques, en el horario que antes era de clase.'});
   }
-  // Tramo final: desde el 7 de enero hasta el examen.
-  const start = '2027-01-07';
-  for (let d = start; d < plusDays(exam, -1); d = plusDays(d, 1)) {
-    const wd = weekday(d);
-    if (d === mock1 || d === mock2 || d === exam0 || d === plusDays(exam0, 1)) continue;
-    if (wd === 0) tasks.push({id: 'err-' + d, kind: 'errors', date: d, due: d, title: 'Revisión semanal de errores', detail: 'Repasa y cierra los errores abiertos.'});
-    else if ([1, 3, 5].includes(wd)) tasks.push({id: 'mix-' + d, kind: 'mixed', date: d, due: d, title: 'Práctica mixta de 20 preguntas', detail: 'Los tres dominios y todos los enfoques.'});
-  }
-  if (mock1 >= today() || mock1 >= start) {
-    tasks.push({id: 'mock-1', kind: 'mock', date: mock1, due: mock1, title: 'Simulacro completo 1', detail: '180 preguntas en 240 minutos, en condiciones de examen.'});
-    tasks.push({id: 'mockrev-1', kind: 'errors', date: plusDays(mock1, 1), due: plusDays(mock1, 1), title: 'Revisión del simulacro 1', detail: 'Analiza los errores por dominio y ajusta tu plan.'});
-  }
-  tasks.push({id: 'mock-2', kind: 'mock', date: mock2, due: mock2, title: 'Simulacro completo 2', detail: '180 preguntas en 240 minutos, en condiciones de examen.'});
-  tasks.push({id: 'mockrev-2', kind: 'errors', date: plusDays(mock2, 1), due: plusDays(mock2, 1), title: 'Revisión del simulacro 2', detail: 'Cierra brechas puntuales; no inicies temas nuevos.'});
-  tasks.push({id: 'light-close', kind: 'manual', date: plusDays(exam, -1), due: plusDays(exam, -1), title: 'Cierre ligero antes del examen', detail: 'Repasa conceptos clave y tarjetas, revisa la logística y descansa.'});
+  const close = notRest(plusDays(exam, -1));
+  tasks.push({id: 'light-close', kind: 'manual', date: close, due: close, title: 'Cierre ligero antes del examen', detail: 'Repasa conceptos clave y tarjetas, revisa la logística y descansa.'});
   return tasks.sort((a, b) => a.due.localeCompare(b.due) || a.date.localeCompare(b.date));
 }
 /* ---------- simulacro semanal de 20 (lecciones vistas hasta la semana) ---------- */
@@ -94,6 +101,9 @@ function weeklySet(topics) {
   let pool = base.filter(inT); if (pool.length < WEEKLY_SIZE) pool = [...pool, ...shuffleArr(base.filter(q => !inT(q)))];
   const chosen = [], used = new Set(), fams = new Set();
   const add = q => { if (chosen.length >= WEEKLY_SIZE || used.has(q.id) || (q.family && fams.has(q.family))) return false; chosen.push(q); used.add(q.id); if (q.family) fams.add(q.family); return true; };
+  /* Primero, hasta 5 preguntas falladas que toca repasar; luego refuerzo de los temas con más fallos. */
+  if (typeof dueFailureIds === 'function') dueFailureIds(5).forEach(id => { const q = base.find(x => x.id === id); if (q) add(q); });
+  if (typeof weakTopics === 'function') weakTopics(3).forEach(t => { const q = shuffleArr(base.filter(x => x.topicId === t && !x.scenarioId && !used.has(x.id)))[0]; if (q) add(q); });
   const scen = shuffleArr([...new Set(pool.filter(q => q.scenarioId).map(q => q.scenarioId))])[0];
   if (scen) pool.filter(q => q.scenarioId === scen).forEach(add);
   const singles = shuffleArr(pool.filter(q => !q.scenarioId));
@@ -145,7 +155,8 @@ function allCards() {
     const gloss = (D.glossary || []).map(g => ({id: g.id, front: g.term, en: g.en, back: g.def, example: g.ex, topicId: g.topicId, lesson: g.lesson, gloss: true, concept: 'Glosario'}));
     allCards.cache = [...concept, ...gloss];
   }
-  return allCards.cache;
+  const extra = typeof officialOnlyCards === 'function' ? officialOnlyCards() : [];
+  return typeof failureCards === 'function' ? [...failureCards(), ...allCards.cache, ...extra] : allCards.cache;
 }
 /* Lección v4.1 de una tarjeta (la del glosario o la de su tarea ECO). */
 function cardLesson(c) { if (c.lesson) return c.lesson; const t = topicBy(c.topicId), l = t && D.course?.lessons.find(x => x.eco.includes(t.code)); return l ? l.n : 9; }
@@ -169,7 +180,9 @@ function dueCards() { return allCards().filter(c => cardDueNow(cardState(c.id)))
 function learningLater() { return allCards().filter(c => { const s = cardState(c.id); return s && s.dueAt && !cardDueNow(s); }).map(c => ({id: c.id, at: Date.parse(cardState(c.id).dueAt)})).sort((a, b) => a.at - b.at); }
 function buildQueue() {
   ensureStudyState();
-  const fresh = freshCards().slice(0, newAllowance());
+  /* Las tarjetas de preguntas falladas entran siempre (no consumen el cupo de nuevas). */
+  const fails = allCards().filter(c => c.failCard && !cardState(c.id));
+  const fresh = [...fails, ...freshCards().filter(c => !c.failCard).slice(0, newAllowance())];
   return [...dueCards(), ...fresh].map(c => c.id);
 }
 function cardsDueCount() { return buildQueue().length; }
@@ -209,6 +222,7 @@ function gradeCard(grade) {
   }
   const prev = cardState(id), next = schedule(prev, grade), wasDone = cardGoalDone();
   state.cards[id] = next;
+  if (id.startsWith('err-') && typeof resolveImportedByCards === 'function') resolveImportedByCards();
   state.cardLog.push({id, date: today(), grade, first: !prev, at: stamp(), applied: next.last});
   if (state.cardLog.length > 3000) state.cardLog = state.cardLog.slice(-3000);
   /* La cola se recalcula por vencimiento real: una tarjeta con paso en minutos solo vuelve cuando se cumple su hora. */
@@ -255,6 +269,9 @@ function bulletToday(d = today()) {
   const started = state.quiz?.taskId === bulletId(d) || state.tasksDone[bulletId(d)] || day?.quiz;
   if (day && day.lesson !== lesson.n && !started) { r.seen[day.key] = (r.seen[day.key] || []).filter(id => !day.ids.includes(id)); day = null; }
   if (!day) {
+    /* Hasta 2 preguntas falladas que toca repasar (no cuentan en el ciclo de la lección). */
+    const fails = typeof dueFailureIds === 'function' && d === today() ? dueFailureIds(2) : [];
+    const size = bulletSize() - fails.length;
     const valid = new Set(pool.map(q => q.id));
     let seen = (r.seen[key] || []).filter(id => valid.has(id)), ids;
     const remaining = shuffleArr(pool.filter(q => !seen.includes(q.id))).map(q => q.id);
@@ -262,7 +279,7 @@ function bulletToday(d = today()) {
     else if (remaining.length >= size) { ids = remaining.slice(0, size); seen = [...seen, ...ids]; }
     else { const refill = shuffleArr(pool.filter(q => !remaining.includes(q.id))).map(q => q.id).slice(0, size - remaining.length); ids = [...remaining, ...refill]; seen = refill; }
     r.seen[key] = seen.length >= pool.length ? [] : seen;
-    day = r.days[d] = {lesson: lesson.n, key, week: ws, ids, at: stamp()};
+    day = r.days[d] = {lesson: lesson.n, key, week: ws, ids: (all => [...all, ...shuffleArr(pool.map(q => q.id).filter(id => !all.includes(id)))].slice(0, bulletSize()))([...fails, ...ids.filter(id => !fails.includes(id))]), fails, at: stamp()};
     const keep = Object.keys(r.days).sort().slice(-120); r.days = Object.fromEntries(keep.map(k => [k, r.days[k]]));
     save();
   }
@@ -305,12 +322,14 @@ function startBullet() {
   startQuiz(qs, qs.length, label, false, bulletId());
 }
 function routineRows() {
+  if (!isRoutineDay()) return isRestDay() ? `<article class="task-row done" data-routine="rest"><span class="check-button done" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${badge('Descanso', 'green')}</div><h3>Domingo de descanso</h3><p class="hint">Sin rutina hoy. Las tarjetas y el Bullet Quiz vuelven el lunes; si quieres repasar, puedes hacerlo de forma voluntaria.</p></div><a class="button ghost small" href="#flashcards">Repaso voluntario ${icon('arrow')}</a></article>` : `<article class="task-row" data-routine="quizday"><span class="check-button" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${badge('Sábado', 'orange')}</div><h3>Hoy toca el cuestionario de 20 preguntas</h3><p class="hint">La rutina de tarjetas y Bullet Quiz es de lunes a viernes.</p></div></article>`;
   const g = Math.min(cardsGradedToday(), CARD_DAILY_GOAL), cDone = cardGoalDone(), b = bulletToday(), bp = bulletProgress(), bDone = Boolean(state.tasksDone?.[bulletId()]), size = bulletSize();
   const lessonTxt = b.missing ? 'Sin lección asignada para esta semana: elígela en la Ruta.' : `Lección ${b.lesson} · ${esc(lessonCfg(b.lesson).title || '')}${['aprobada', 'confirmada'].includes(b.lessonInfo.status) ? '' : ' · ' + esc(b.lessonInfo.status)}`;
   return `<article class="task-row ${cDone ? 'done' : 'today'}" data-routine="cards"><span class="check-button ${cDone ? 'done' : ''}" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${cDone ? badge('Hecho', 'green') : badge('Rutina diaria', 'orange')} <span class="routine-count">${g}/${CARD_DAILY_GOAL}</span></div><h3>Flashcards ${g}/${CARD_DAILY_GOAL}</h3><p class="hint">${cDone ? 'Meta cumplida. Puedes seguir repasando.' : `Califica ${CARD_DAILY_GOAL} tarjetas distintas (primero las vencidas).`}</p></div><a class="button ${cDone ? 'ghost' : 'light'} small" href="#flashcards">${cDone ? 'Repasar más' : 'Repasar'} ${icon('arrow')}</a></article>
   <article class="task-row ${bDone ? 'done' : 'today'}" data-routine="bullet"><span class="check-button ${bDone ? 'done' : ''}" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${bDone ? badge('Hecho', 'green') : badge('Rutina diaria', 'orange')} <span class="routine-count">${bp}/${size}</span></div><h3>Bullet Quiz ${bp}/${size}</h3><p class="hint">${lessonTxt}${b.short ? ' · solo hay ' + b.poolSize + ' preguntas para esta lección' : ''}</p></div>${bDone ? '' : button((bp ? 'Continuar' : 'Empezar') + ' ' + icon('arrow'), 'bullet-start', 'light small')}</article>`;
 }
-function routineDoneCount() { return (cardGoalDone() ? 1 : 0) + (state.tasksDone?.[bulletId()] ? 1 : 0); }
+function routineDoneCount() { return isRoutineDay() ? (cardGoalDone() ? 1 : 0) + (state.tasksDone?.[bulletId()] ? 1 : 0) : 0; }
+function routineCount() { return isRoutineDay() ? 2 : 0; }
 function renderWeeklyPlan() {
   const ws = weekStart(), cur = activeLesson(ws), weeks = planWeeks();
   const opts = Object.entries(D.weeklyPlan?.lessons || {}).map(([n, l]) => `<option value="${n}" ${cur && cur.n === Number(n) ? 'selected' : ''}>Lección ${n} · ${esc(l.title)}</option>`).join('');
@@ -335,17 +354,20 @@ function activity7() {
 function nextStep(todayTasks, overdue, qCards, cardsDone, bulletDone) {
   const pending = todayTasks.filter(t => taskStatus(t) === 'today');
   if (pending.length) { const t = pending[0]; return {eyebrow: 'TU SIGUIENTE PASO', title: t.title, text: t.detail, action: button({quiz: 'Empezar cuestionario', review: 'Empezar repaso', mixed: 'Empezar práctica', errors: 'Revisar errores', mock: 'Ir a simulacros', manual: 'Ver detalle'}[t.kind] + ' ' + icon('arrow'), 'task-do', 'lime', `data-id="${t.id}"`), meta: 'Vence ' + date(t.due, {weekday: 'long', day: 'numeric', month: 'short'})}; }
-  if (!cardsDone && qCards) return {eyebrow: 'RUTINA DIARIA', title: `Flashcards ${Math.min(cardsGradedToday(), CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}`, text: `Califica ${CARD_DAILY_GOAL} tarjetas distintas; primero las vencidas. Son pocos minutos y fijan los conceptos clave.`, action: `<a class="button lime" href="#flashcards">Repasar tarjetas ${icon('arrow')}</a>`, meta: 'Obligatorio diario'};
-  if (!bulletDone) { const b = bulletToday(); return {eyebrow: 'RUTINA DIARIA', title: `Bullet Quiz ${bulletProgress()}/${bulletSize()}`, text: b.missing ? 'Elige la lección de esta semana para generar tus 5 preguntas.' : `5 preguntas de la lección ${b.lesson} (v4.1): ${lessonCfg(b.lesson).title}.`, action: button((bulletProgress() ? 'Continuar' : 'Empezar') + ' Bullet Quiz ' + icon('arrow'), 'bullet-start', 'lime'), meta: 'Obligatorio diario'}; }
+  const rd = isRoutineDay();
+  if (rd && !cardsDone && qCards) return {eyebrow: 'RUTINA DIARIA', title: `Flashcards ${Math.min(cardsGradedToday(), CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}`, text: `Califica ${CARD_DAILY_GOAL} tarjetas distintas; primero las vencidas. Son pocos minutos y fijan los conceptos clave.`, action: `<a class="button lime" href="#flashcards">Repasar tarjetas ${icon('arrow')}</a>`, meta: 'Obligatorio diario'};
+  if (rd && !bulletDone) { const b = bulletToday(); return {eyebrow: 'RUTINA DIARIA', title: `Bullet Quiz ${bulletProgress()}/${bulletSize()}`, text: b.missing ? 'Elige la lección de esta semana para generar tus 5 preguntas.' : `5 preguntas de la lección ${b.lesson} (v4.1): ${lessonCfg(b.lesson).title}.`, action: button((bulletProgress() ? 'Continuar' : 'Empezar') + ' Bullet Quiz ' + icon('arrow'), 'bullet-start', 'lime'), meta: 'Obligatorio diario'}; }
   if (overdue.length) { const t = overdue[0]; return {eyebrow: 'PONTE AL DÍA', title: t.title, text: t.detail, action: button('Resolver ahora ' + icon('arrow'), 'task-do', 'lime', `data-id="${t.id}"`), meta: 'Venció el ' + date(t.due, {day: 'numeric', month: 'short'})}; }
+  if (isRestDay()) return {eyebrow: 'DOMINGO', title: 'Hoy es tu día de descanso', text: 'Descansar también es parte del plan. Mañana vuelven las tarjetas y el Bullet Quiz.', action: `<a class="button lime" href="#agenda">Ver la semana ${icon('arrow')}</a>`, meta: 'Lunes a viernes: rutina · sábado: cuestionario de 20'};
   return {eyebrow: 'DÍA AL DÍA', title: 'Todo lo de hoy está hecho', text: 'Si te queda energía, una práctica rápida mantiene el ritmo.', action: button('Práctica rápida de 10 ' + icon('arrow'), 'quick', 'lime', 'data-n="10"'), meta: '¡Buen trabajo!'};
 }
 function renderDashboard() {
   const plan = buildPlan(), t = today();
-  const active = plan.filter(x => x.date <= t && x.due >= t);
-  const overdue = plan.filter(x => taskStatus(x) === 'overdue');
+  /* Domingo de descanso: no se muestran tareas para hoy (lo pendiente vuelve el lunes). */
+  const active = isRestDay(t) ? [] : plan.filter(x => x.date <= t && x.due >= t);
+  const overdue = isRestDay(t) ? [] : plan.filter(x => taskStatus(x) === 'overdue');
   const qCards = cardsDueCount(), cardsDone = cardGoalDone(), bulletDone = Boolean(state.tasksDone?.[bulletId(t)]);
-  const total = active.length + 2, done = active.filter(x => state.tasksDone?.[x.id]).length + routineDoneCount();
+  const total = active.length + routineCount(), done = active.filter(x => state.tasksDone?.[x.id]).length + routineDoneCount();
   const recent = state.attempts.filter(a => stampDay(a.date) >= plusDays(t, -6)), acc = accuracy(recent);
   const step = nextStep(active, overdue, qCards, cardsDone, bulletDone);
   const left = daysBetween(t, examDate());
@@ -362,7 +384,7 @@ function renderDashboard() {
   <div class="dash">
   <section class="next-step d-next"><div class="next-copy"><div class="eyebrow">${step.eyebrow}</div><h2>${esc(step.title)}</h2><p>${esc(step.text || '')}</p><div class="next-actions">${step.action}<span class="next-meta">${esc(step.meta)}</span></div></div>${ring(pct(done, total))}</section>
   <div class="kpis d-kpis">${kpi('#ruta', 'Hoy', `${done}<small>/${total}</small>`, 'actividades completadas', 'check')}${kpi('#vencidos', 'Vencidos', overdue.length, overdue.length ? 'pendientes de días anteriores' : 'nada pendiente', 'errors', overdue.length ? 'warn' : '')}${kpi('#flashcards', 'Tarjetas hoy', `${Math.min(cardsGradedToday(), CARD_DAILY_GOAL)}<small>/${CARD_DAILY_GOAL}</small>`, cardsDone ? 'meta cumplida' : qCards + ' en la cola', 'cards')}${kpi('#preparacion', 'Aciertos 7 días', acc === null ? '—' : acc + '<small>%</small>', recent.length ? recent.length + ' respuestas' : 'sin respuestas esta semana', 'target')}</div>
-  <section class="card d-today"><div class="card-header"><div><h2>Hoy</h2><p>${active.filter(x => !state.tasksDone?.[x.id]).length + 2 - routineDoneCount()} por hacer</p></div><a class="text-link" href="#ruta">Ruta ${icon('arrow')}</a></div>
+  <section class="card d-today"><div class="card-header"><div><h2>Hoy</h2><p>${active.filter(x => !state.tasksDone?.[x.id]).length + routineCount() - routineDoneCount()} por hacer</p></div><a class="text-link" href="#ruta">Ruta ${icon('arrow')}</a></div>
    ${routineRows()}
    ${active.slice(0, 4).map(taskRow).join('')}${active.length > 4 ? `<a class="text-link" href="#ruta">Ver ${active.length - 4} más ${icon('arrow')}</a>` : ''}</section>
   <section class="card d-overdue ${overdue.length ? 'has' : ''}" id="vencidos"><div class="card-header"><div><h2>Vencidos <span class="count-badge">${overdue.length}</span></h2><p>${overdue.length ? 'Los más antiguos primero' : 'Estás al día'}</p></div>${overdue.length ? button('Ya los hice', 'overdue-all', 'ghost small') : ''}</div>${overdue.length ? overdue.slice(0, 3).map(taskRow).join('') + (overdue.length > 3 ? `<details class="see-all"><summary>Ver todos (${overdue.length - 3} más)</summary>${overdue.slice(3).map(taskRow).join('')}</details>` : '') : `<p class="hint">No tienes actividades vencidas. ${icon('check')}</p>`}</section>
@@ -379,7 +401,7 @@ function renderPlan() {
   const final = plan.filter(t => !t.session);
   const done = plan.filter(t => state.tasksDone?.[t.id]).length;
   return heading('RUTA DE APRENDIZAJE', 'Sesión por sesión hasta el examen', `Cada cuestionario vence el día anterior a la siguiente sesión. Examen: ${date(examDate())} ${examConfirmed() ? '(confirmado)' : '(tentativo)'}.`, button('Cambiar fecha del examen', 'settings', 'white')) +
-  `<section class="card freq"><div class="freq-grid"><div><b>1 · 3 · 7 · 14</b><span>días después de cada sesión: repasos cortos de sus temas</span></div><div><b>L · M · V</b><span>práctica mixta de 20 preguntas desde el 7 de enero</span></div><div><b>Domingos</b><span>revisión semanal de errores desde el 7 de enero</span></div><div><b>Sábados</b><span>simulacro de 20 preguntas con las lecciones vistas (40 % predictivo, 60 % ágil o híbrido)</span></div><div><b>Fin de curso · −14 · −7</b><span>exámenes completos de 180 preguntas y su revisión</span></div><div><b>Diario</b><span>tarjetas de repaso espaciado (obligatorio)</span></div></div><p class="hint" style="margin-top:12px">${done} de ${plan.length} actividades hechas. Si cambias la fecha del examen, los repasos y simulacros futuros se recalculan; lo completado se conserva.</p></section>` +
+  `<section class="card freq"><div class="freq-grid"><div><b>Lunes a viernes</b><span>rutina diaria: 4 tarjetas y Bullet Quiz de 5, con tus fallos que toca repasar</span></div><div><b>Miércoles y viernes</b><span>clase INGENIUM (algunas sesiones son en lunes según el programa) y su cuestionario</span></div><div><b>Sábado</b><span>cuestionario de 20 preguntas con las lecciones vistas; exámenes completos de 180 al terminar el curso y a −14 y −7 días</span></div><div><b>Domingo</b><span>descanso: sin tareas; los repasos que caerían en domingo pasan al lunes</span></div><div><b>1 · 3 · 7 · 14</b><span>repasos cortos de cada sesión, en días de semana</span></div><div><b>Fallos</b><span>cada pregunta fallada vuelve en el Bullet Quiz, el cuestionario del sábado y las tarjetas hasta que la aciertes dos veces</span></div></div><p class="hint" style="margin-top:12px">${done} de ${plan.length} actividades hechas. Si cambias la fecha del examen, los repasos y simulacros futuros se recalculan; lo completado se conserva.</p></section>` +
   `<div class="notice" style="margin-top:20px">El título y el PPT de cada sesión son los del programa INGENIUM. La lección v4.1 y los temas siguen el avance real de la clase, verificado con las notas que el instructor sube al Drive con la fecha de cada sesión; las sesiones futuras son una proyección por confirmar.</div><div class="stack" style="margin-top:14px">${ss.map(s => {
     const own = plan.filter(t => t.session === s.id), quiz = own.find(t => t.kind !== 'review'), reviews = own.filter(t => t.kind === 'review');
     const n = s.topics.length ? questionsFor(s.topics).length : 0;
@@ -393,12 +415,15 @@ function renderPlan() {
 let glossLesson = 'all';
 function renderGlossary() {
   const q = conceptSearch.toLocaleLowerCase('es'), letter = t => plain(t)[0].toUpperCase();
-  const list = (D.glossary || []).filter(g => (glossLesson === 'all' || String(g.lesson) === glossLesson) && plain(g.term + ' ' + (g.en || '') + ' ' + g.def + ' ' + g.ex).toLocaleLowerCase('es').includes(q));
+  const og = typeof officialGlossary === 'function' ? officialGlossary() : null, mineN = new Set((D.glossary || []).flatMap(g => [normTerm(g.term), g.official ? normTerm(g.official) : '']));
+  const onlyOfficial = og ? og.terms.filter(t => !mineN.has(normTerm(t.term))).map(t => ({term: t.term, def: '', official: t.def, lesson: 0})) : [];
+  const list = [...(D.glossary || []), ...(glossLesson === 'all' ? onlyOfficial : [])].filter(g => (glossLesson === 'all' || String(g.lesson) === glossLesson) && plain(g.term + ' ' + (g.en || '') + ' ' + g.def + ' ' + (g.ex || '') + ' ' + (g.official || '')).toLocaleLowerCase('es').includes(q));
   const letters = [...new Set(list.map(g => letter(g.term)))];
-  return `<div class="toolbar"><div class="filter-group">${[['all', 'Todas'], ...[1, 2, 3, 4, 5, 6, 7, 8].map(n => [String(n), 'L' + n])].map(([id, n]) => `<button data-action="gloss-lesson" data-id="${id}" class="${glossLesson === id ? 'active' : ''}">${n}</button>`).join('')}</div><input type="search" id="concept-search" placeholder="Buscar término…" aria-label="Buscar término del glosario" value="${esc(conceptSearch)}"><span class="hint">${list.length} términos</span></div>
+  return `<div class="toolbar"><div class="filter-group">${[['all', 'Todas'], ...[1, 2, 3, 4, 5, 6, 7, 8].map(n => [String(n), 'L' + n])].map(([id, n]) => `<button data-action="gloss-lesson" data-id="${id}" class="${glossLesson === id ? 'active' : ''}">${n}</button>`).join('')}</div><input type="search" id="concept-search" placeholder="Buscar término…" aria-label="Buscar término del glosario" value="${esc(conceptSearch)}"><span class="hint">${list.length} términos${onlyOfficial.length && glossLesson === 'all' ? ` (${onlyOfficial.length} solo con texto oficial)` : ''}</span></div>
   <p class="hint" style="margin:-4px 0 14px">Términos del glosario del curso PMP v4.1, explicados con palabras simples y un ejemplo de obra. Cada término también es una tarjeta en Flashcards. Al estudiar en inglés, el término original va entre paréntesis.</p>
   <nav class="gloss-letters" aria-label="Índice alfabético">${letters.map(l => `<a href="#conceptos/glosario" data-action="gloss-jump" data-id="${l}">${l}</a>`).join('')}</nav>
-  <div class="gloss-list">${letters.map(l => `<h3 class="gloss-letter" id="gloss-${l}">${l}</h3>${list.filter(g => letter(g.term) === l).map(g => `<article class="gloss-item"><div class="gloss-head"><h4>${esc(g.term)}</h4>${g.en ? `<span class="gloss-en">${esc(g.en)}</span>` : ''}<span class="gloss-badges">${badge('L' + g.lesson, 'green')}${g.topicId ? ' ' + badge(topicLabel(g.topicId), 'blue') : ''}</span></div><p>${esc(g.def)}</p><div class="concept-example"><span class="eyebrow">EN OBRA</span><p>${esc(g.ex)}</p></div></article>`).join('')}`).join('') || empty('Sin resultados', 'Prueba otra lección o término.')}</div>`;
+  ${typeof renderOfficialBox === 'function' ? renderOfficialBox() : ''}
+  <div class="gloss-list">${letters.map(l => `<h3 class="gloss-letter" id="gloss-${l}">${l}</h3>${list.filter(g => letter(g.term) === l).map(g => `<article class="gloss-item"><div class="gloss-head"><h4>${esc(g.term)}</h4>${g.en ? `<span class="gloss-en">${esc(g.en)}</span>` : ''}<span class="gloss-badges">${g.lesson ? badge('L' + g.lesson, 'green') : badge('Solo texto oficial', 'orange')}${g.topicId ? ' ' + badge(topicLabel(g.topicId), 'blue') : ''}</span></div>${g.def ? `<p>${esc(g.def)}</p>` : ''}${g.ex ? `<div class="concept-example"><span class="eyebrow">EN OBRA</span><p>${esc(g.ex)}</p></div>` : ''}${(() => { const o = g.official || (og && officialFor(g.term)?.def); return o ? (g.def ? `<details class="official-def"><summary>Definición oficial (PMI)</summary><p>${esc(o)}</p></details>` : `<p class="official-text">${esc(o)}</p>`) : ''; })()}</article>`).join('')}`).join('') || empty('Sin resultados', 'Prueba otra lección o término.')}</div>`;
 }
 function renderConcepts() {
   const [, arg] = (location.hash.slice(1) || '').split('/');
@@ -435,7 +460,7 @@ function renderFlashcards() {
   }
   const card = allCards().find(c => c.id === cardQueue[0]), prev = cardState(card.id), ph = cardPhase(prev), ivs = nextIntervals(prev);
   const opts = [['again', 'Otra vez', 'danger'], ['hard', 'Difícil', 'white'], ['good', 'Bien', ''], ['easy', 'Fácil', 'lime']];
-  return head + `<section class="card flashcard"><div class="meta">${card.topicId ? badge(topicLabel(card.topicId), 'blue') : ''} ${badge('Lección ' + cardLesson(card) + ' · v4.1', 'green')} ${badge(esc(card.concept), card.gloss ? 'orange' : '')} ${ph === 'new' ? badge('Nueva', 'green') : ph === 'review' ? badge('Repaso') : badge('En aprendizaje', 'orange')}</div><h2 class="flash-front">${card.gloss ? '¿Qué es «' + esc(card.front) + '»?' : esc(card.front)}${card.en ? `<small class="flash-en">${esc(card.en)}</small>` : ''}</h2>${cardRevealed ? `<div class="flash-back">${esc(card.back)}</div>${card.example ? `<div class="concept-example flash-ex"><span class="eyebrow">EN OBRA</span><p>${esc(card.example)}</p></div>` : ''}<a class="text-link" href="#conceptos/${card.gloss ? 'glosario' : card.conceptId}">${card.gloss ? 'Ver en el glosario' : 'Ver ficha del concepto'} ${icon('arrow')}</a><div class="grade-row">${cardMode === 'extra' ? opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: repaso extra, no cambia la programación">${n}<small>sin cambios</small></button>`).join('') : opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: vuelve en ${stepText(ivs[gr])}">${n}<small>${stepText(ivs[gr])}</small></button>`).join('')}</div>` : `<div class="actions" style="justify-content:center;margin-top:26px">${button('Mostrar respuesta', 'card-reveal', '')}</div><p class="hint" style="text-align:center;margin-top:10px">Atajos: Espacio para mostrar · 1 a 4 para calificar · ${cardQueue.length} en la cola</p>`}</section>`;
+  return head + `<section class="card flashcard"><div class="meta">${card.topicId ? badge(topicLabel(card.topicId), 'blue') : ''} ${badge('Lección ' + cardLesson(card) + ' · v4.1', 'green')} ${badge(esc(card.concept), card.gloss ? 'orange' : card.failCard ? 'red' : '')} ${ph === 'new' ? badge('Nueva', 'green') : ph === 'review' ? badge('Repaso') : badge('En aprendizaje', 'orange')}</div><h2 class="flash-front ${card.failCard ? 'flash-fail' : ''}">${card.gloss ? '¿Qué es «' + esc(card.front) + '»?' : esc(card.front)}${card.en ? `<small class="flash-en">${esc(card.en)}</small>` : ''}</h2>${cardRevealed ? `<div class="flash-back">${esc(card.back)}</div>${card.gloss && !card.official && typeof officialFor === 'function' && officialFor(card.front) ? `<details class="official-def"><summary>Definición oficial (PMI)</summary><p>${esc(officialFor(card.front).def)}</p></details>` : ''}${card.example ? `<div class="concept-example flash-ex"><span class="eyebrow">${card.exLabel || 'EN OBRA'}</span><p>${esc(card.example)}</p></div>` : ''}${card.failCard ? `<a class="text-link" href="#errores">Ver en el registro de errores ${icon('arrow')}</a>` : `<a class="text-link" href="#conceptos/${card.gloss ? 'glosario' : card.conceptId}">${card.gloss ? 'Ver en el glosario' : 'Ver ficha del concepto'} ${icon('arrow')}</a>`}<div class="grade-row">${cardMode === 'extra' ? opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: repaso extra, no cambia la programación">${n}<small>sin cambios</small></button>`).join('') : opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: vuelve en ${stepText(ivs[gr])}">${n}<small>${stepText(ivs[gr])}</small></button>`).join('')}</div>` : `<div class="actions" style="justify-content:center;margin-top:26px">${button('Mostrar respuesta', 'card-reveal', '')}</div><p class="hint" style="text-align:center;margin-top:10px">Atajos: Espacio para mostrar · 1 a 4 para calificar · ${cardQueue.length} en la cola</p>`}</section>`;
 }
 
 /* ---------- agenda ---------- */
@@ -454,8 +479,17 @@ function renderAgenda() {
   return heading('AGENDA', 'Sesiones, práctica y vencimientos', 'INGENIUM, tus sesiones propias y las fechas límite de la ruta, en hora de Lima.', button(icon('plus') + ' Planificar práctica', 'new-session')) +
   `<div class="toolbar"><div class="filter-group">${[['all', 'Todo'], ['ingenium', 'INGENIUM'], ['practice', 'Propias'], ['task', 'Vencimientos']].map(([id, n]) => `<button data-action="agenda-source" data-id="${id}" class="${agendaSource === id ? 'active' : ''}">${n}</button>`).join('')}</div><span class="spacer"></span>${button(icon('download') + ' Exportar agenda (.ics)', 'export-agenda', 'white')}</div>
   <div class="agenda-layout"><section class="card"><div class="month-title"><button class="icon-button" data-action="month" data-dir="-1" aria-label="Mes anterior">‹</button><h2>${date(calendarMonth + '-01', {month: 'long', year: 'numeric'})}</h2><button class="icon-button" data-action="month" data-dir="1" aria-label="Mes siguiente">›</button></div><div class="calendar-grid">${['L', 'M', 'M', 'J', 'V', 'S', 'D'].map(n => `<span class="day-label">${n}</span>`).join('')}${'<span></span>'.repeat(first)}${Array.from({length: days}, (_, i) => { const d = calendarMonth + '-' + String(i + 1).padStart(2, '0'), ev = all.filter(s => s.date === d); return `<button class="calendar-day ${ev.length ? 'has-event' : ''} ${d === calendarDay ? 'selected' : ''} ${d === today() ? 'today' : ''} ${d === examDate() ? 'exam-day' : ''}" data-action="calendar-day" data-id="${d}" aria-label="${date(d)}: ${ev.length} eventos" aria-pressed="${d === calendarDay}">${i + 1}<span class="day-dots">${[...new Set(ev.map(s => s.source))].map(x => `<i class="${x}"></i>`).join('')}</span></button>`; }).join('')}</div><div class="calendar-legend"><span>INGENIUM</span><span>Práctica propia</span><span>Vencimiento</span></div>
-  <div class="notice"><strong>Calendario de Google o Apple:</strong> «Google» abre el evento ya prellenado y debes pulsar <em>Guardar</em> en Google Calendar. «.ics» descarga un archivo que Apple Calendar (o Google, desde Importar) agrega como <em>copia</em>: si luego cambias algo en la app, vuelve a exportar. «Exportar agenda» incluye las sesiones, los vencimientos y un recordatorio diario de tarjetas a las ${esc(state.settings.reminderTime || '07:30')} (lo cambias en Ajustes). La sincronización automática en ambos sentidos sería una fase aparte que requiere autorizar tu cuenta de Google o Apple.</div></section>
+  ${renderCalendarSubscribe()}</section>
   <section class="card"><div class="card-header"><div><h2>${calendarDay ? date(calendarDay) : 'Agenda del mes'}</h2><p>${visible.length} eventos</p></div>${calendarDay ? button('Ver mes', 'clear-day', 'ghost') : ''}</div>${(!calendarDay || calendarDay === today()) && today().startsWith(calendarMonth) && ['all', 'task'].includes(agendaSource) ? `<div class="agenda-routine"><div class="eyebrow">HOY · RUTINA DIARIA</div>${routineRows()}</div>` : ''}${visible.length ? visible.map(s => { const [a, b] = eventTimes(s), st = s.source === 'task' ? taskStatus(s) : null; return `<article class="agenda-session"><div class="date-box"><b>${Number(s.date.slice(8))}</b><span>${date(s.date, {month: 'short'})}</span></div><div class="content">${s.source === 'ingenium' ? badge('INGENIUM · SESIÓN ' + s.id, 'ingenium') : s.source === 'practice' ? badge('PRÁCTICA PROPIA', 'practice') : statusBadge(st) + ' ' + badge('VENCIMIENTO')}${s.plus ? ' ' + badge('Certified Plus', 'orange') : ''}<h3>${esc(s.title)}</h3><p class="time">${s.source === 'task' ? 'Fecha límite' : esc(a + '–' + b)} · ${date(s.date, {weekday: 'long'})}</p><div class="actions" style="margin-top:7px"><a class="button ghost" href="${gcalLink(eventTitle(s), s.date, a, b, s.detail || 'PMP Master Plan 2027')}" target="_blank" rel="noopener">Google ↗</a>${button('.ics', 'event-ics', 'ghost', `data-id="${s.key}"`)}${s.source === 'practice' ? button('Editar', 'edit-session', 'ghost', `data-id="${s.id}"`) : ''}${s.source !== 'task' ? button('Apunte', 'session-note', 'ghost', `data-id="${s.key}"`) : ''}${s.source === 'task' && st !== 'done' ? taskAction(s) : ''}</div></div>${s.source !== 'task' ? `<button class="check-button ${state.attendance[s.source === 'ingenium' ? s.id : s.key] ? 'done' : ''}" data-action="attendance" data-id="${s.source === 'ingenium' ? s.id : s.key}" aria-label="Marcar realizada" aria-pressed="${!!state.attendance[s.source === 'ingenium' ? s.id : s.key]}">${icon('check')}</button>` : `<button class="check-button ${st === 'done' ? 'done' : ''}" data-action="task-toggle" data-id="${s.id}" aria-label="Marcar hecho" aria-pressed="${st === 'done'}">${icon('check')}</button>`}</article>`; }).join('') : empty('Sin eventos', 'No hay eventos con este filtro.', 'new-session', 'Planificar práctica')}</section></div>`;
+}
+/* Calendario suscribible (calendar.ics del sitio, generado con tools/build-ics.mjs): se actualiza solo. */
+const ICS_URL = 'https://fssgdev.github.io/pmp-prep-app/calendar.ics';
+function renderCalendarSubscribe() {
+  return `<div class="subscribe-box"><div class="eyebrow">SINCRONIZAR CON GOOGLE O APPLE</div><h3>Suscríbete una vez y se actualiza solo</h3>
+  <p class="hint">Incluye las clases INGENIUM con su lección, la rutina de lunes a viernes (7:30), el cuestionario del sábado (10:00), los exámenes completos y el día del examen. No necesitas darme acceso a tu cuenta: tu calendario lee esta dirección cada pocas horas.</p>
+  <div class="subscribe-url"><input readonly value="${ICS_URL}" aria-label="Dirección del calendario" onclick="this.select()">${button('Copiar', 'ics-copy', 'light small')}</div>
+  <div class="actions"><a class="button small" href="${ICS_URL.replace('https://', 'webcal://')}">${icon('calendar')} Suscribirme (iPhone / Mac)</a><a class="button white small" href="https://calendar.google.com/calendar/u/0/r/settings/addbyurl" target="_blank" rel="noopener">Abrir Google Calendar</a></div>
+  <details class="subscribe-help"><summary>Paso a paso</summary><p><strong>Google Calendar (en la computadora):</strong> abre «Abrir Google Calendar», pega la dirección en «URL del calendario» y pulsa «Añadir calendario». Aparece como «PMP Master Plan 2027» también en el celular. Google lo refresca cada varias horas.</p><p><strong>iPhone:</strong> toca «Suscribirme (iPhone / Mac)» y luego «Suscribirse». O bien: Ajustes → Calendario → Cuentas → Añadir cuenta → Otra → Añadir calendario suscrito, y pega la dirección.</p><p>Los botones «Google» y «.ics» de cada evento siguen sirviendo para agregar algo puntual como copia.</p></details></div>`;
 }
 function icsFor(events, withDaily) {
   const esc2 = s => String(s).replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
@@ -463,7 +497,7 @@ function icsFor(events, withDaily) {
   const now = new Date().toISOString().replace(/[-:]/g, '').replace('.000', '');
   const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PMP Master Plan 2027//ES', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:PMP Master Plan 2027', 'X-WR-TIMEZONE:America/Lima'];
   for (const e of events) { const [a, b] = eventTimes(e); L.push('BEGIN:VEVENT', 'UID:' + e.key + '@pmp-master-plan-2027', 'DTSTAMP:' + now, 'DTSTART:' + z(e.date, a), 'DTEND:' + z(e.date, b), 'SUMMARY:' + esc2(eventTitle(e)), 'DESCRIPTION:' + esc2((e.detail || '') + ' · Hora de Lima.'), 'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc2(eventTitle(e)), 'TRIGGER:' + (e.source === 'task' ? 'PT0M' : '-PT30M'), 'END:VALARM', 'END:VEVENT'); }
-  if (withDaily) { const r = state.settings.reminderTime || '07:30'; const until = z(plusDays(examDate(), -1), '23:59'); L.push('BEGIN:VEVENT', 'UID:flashcards-diarias@pmp-master-plan-2027', 'DTSTAMP:' + now, 'DTSTART:' + z(today(), r), 'DTEND:' + z(today(), plusMinutes(r, 15)), 'RRULE:FREQ=DAILY;UNTIL=' + until, 'SUMMARY:PMP · Rutina diaria: 4 tarjetas + Bullet Quiz de 5', 'DESCRIPTION:' + esc2('Abre https://fssgdev.github.io/pmp-prep-app/ y completa Flashcards 4/4 y el Bullet Quiz 5/5.'), 'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Rutina diaria PMP', 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT'); }
+  if (withDaily) { const r = state.settings.reminderTime || '07:30'; const until = z(plusDays(examDate(), -1), '23:59'); L.push('BEGIN:VEVENT', 'UID:flashcards-diarias@pmp-master-plan-2027', 'DTSTAMP:' + now, 'DTSTART:' + z(today(), r), 'DTEND:' + z(today(), plusMinutes(r, 15)), 'RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;UNTIL=' + until, 'SUMMARY:PMP · Rutina diaria: 4 tarjetas + Bullet Quiz de 5', 'DESCRIPTION:' + esc2('Abre https://fssgdev.github.io/pmp-prep-app/ y completa Flashcards 4/4 y el Bullet Quiz 5/5.'), 'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Rutina diaria PMP', 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT'); }
   L.push('END:VCALENDAR'); return L.join('\r\n') + '\r\n';
 }
 
@@ -481,7 +515,7 @@ function renderSimulacros() {
   if (!simFilter) simFilter = defaultSimFilter();
   const run = typeof mockRun === 'function' ? mockRun() : null;
   if (run && run.phase !== 'done') return renderMockRun();
-  const tabs = [['practica', 'Práctica a medida'], ['completo', 'Simulacro PMP completo'], ['externos', 'Simulacros externos']];
+  const tabs = [['practica', 'Práctica a medida'], ['completo', 'Simulacro PMP completo'], ['externos', 'Registro y fallos']];
   let body = '';
   if (simTab === 'practica') {
     const n = simMatches().length, want = simFilter.count === 'all' ? n : Number(simFilter.count);
@@ -494,7 +528,7 @@ function renderSimulacros() {
     const a = mockAvailability();
     body = `<div class="grid-2"><section class="card"><div class="eyebrow">FORMATO DEL EXAMEN</div><h2>Simulacro PMP completo</h2><div class="help-copy"><p><strong>${MOCK_FORMAT.total} preguntas únicas</strong> en <strong>${MOCK_FORMAT.minutes} minutos</strong>, con <strong>dos pausas de ${MOCK_FORMAT.breakMinutes} minutos</strong>. Al empezar cada pausa se cierra el bloque anterior y ya no podrás volver a él. La revisión y el desglose por dominio se muestran al final.</p><p>${MOCK_FORMAT.unscored} preguntas no puntúan; las ${MOCK_FORMAT.total - MOCK_FORMAT.unscored} calificadas siguen la distribución oficial: Personas 33 %, Procesos 41 % y Entorno de negocio 26 %. Incluirá escenarios, emparejamiento y gráficos.</p><p>Desde el 31 de agosto de 2026, el primer descanso llega después de la sección de estudio de caso. En la app, las preguntas de escenario se presentan al inicio del bloque 1.</p><p><a href="https://www.pmi.org/certifications/project-management-pmp" target="_blank" rel="noopener">Referencia oficial PMI ↗</a></p></div>${a.ready ? button('Comenzar simulacro completo', 'mock-full', '') : `<button class="button" disabled>Aún no disponible</button><p class="hint" style="margin-top:10px">No se rellena con repeticiones ni se presenta una versión parcial como simulacro completo. Mientras tanto, usa la práctica a medida o un simulacro externo.</p>`}</section>
     <section class="card"><div class="card-header"><div><h2>Disponibilidad del banco</h2><p>${a.unique} preguntas únicas de ${MOCK_FORMAT.total} · faltan ${Math.max(a.missingTotal, MOCK_FORMAT.total - a.unique)}</p></div>${badge(a.ready ? 'Listo' : 'En construcción', a.ready ? 'green' : 'orange')}</div>${a.rows.map(r => `<div class="metric-line"><span>${esc(r.name)}<br><small>${Math.round(r.w * 100)} % · necesita ${r.need}</small></span>${progress(pct(Math.min(r.have, r.need), r.need))}<strong>${Math.min(r.have, r.need)}/${r.need}</strong></div>`).join('')}<p class="hint">Las calificadas salen de People, Process y Business Environment. Las ${MOCK_FORMAT.unscored} no puntuadas se toman del resto del banco (incluidas las ${D.questions.filter(q => q.module === 'agile').length} de AGILE/HYBRID). Cada intento sortea preguntas sin repetir ninguna.</p></section></div>`;
-  } else body = renderMocks();
+  } else body = renderHistory() + `<div style="margin-top:24px">${renderMocks()}</div>`;
   return heading('SIMULACROS', 'Practica como en el examen', 'Prácticas a medida de 10 o 20 preguntas y el simulacro completo de 180.') +
     `<div class="toolbar"><div class="filter-group">${tabs.map(([id, n]) => `<button data-action="sim-tab" data-id="${id}" class="${simTab === id ? 'active' : ''}">${n}</button>`).join('')}</div></div>${body}`;
 }
@@ -512,6 +546,7 @@ const STUDY_ACTIONS = {
   'gloss-jump': el => { document.getElementById('gloss-' + el.dataset.id)?.scrollIntoView({behavior: 'smooth', block: 'start'}); },
   'card-reveal': () => { cardRevealed = true; render(); },
   'card-grade': el => gradeCard(el.dataset.id),
+  'ics-copy': () => { navigator.clipboard?.writeText(ICS_URL).then(() => toast('Dirección copiada.'), () => toast(ICS_URL)); },
   'cards-more': () => { ensureStudyState(); state.cardExtra = {...(state.cardExtra || {}), [today()]: extraNewToday() + 5}; save(); cardMode = 'due'; cardQueue = buildQueue(); cardRevealed = false; render(); },
   'bullet-start': () => startBullet(),
   'cards-extra': () => { cardMode = 'extra'; cardQueue = [...new Set(state.cardLog.filter(l => l.date === today()).map(l => l.id))]; cardRevealed = false; render(); },

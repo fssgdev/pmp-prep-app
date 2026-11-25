@@ -71,7 +71,8 @@
       "def": "Adelanto: la sucesora empieza antes de que termine la predecesora. Retraso: espera obligatoria entre ambas.",
       "ex": "Esperar 7 días de curado antes de cargar la losa es un retraso; empezar el tarrajeo del piso 1 mientras se termina el 2 es un adelanto.",
       "lesson": 6,
-      "topicId": "process-8"
+      "topicId": "process-8",
+      "official": "Adelanto"
     },
     {
       "id": "g-alcance-del-producto",
@@ -250,7 +251,8 @@
       "def": "Entregar más de lo pedido por iniciativa del equipo, sin que el cliente lo solicite.",
       "ex": "El equipo instala un enchape más caro 'para que se vea mejor' sin que el cliente lo haya pedido.",
       "lesson": 5,
-      "topicId": "process-2"
+      "topicId": "process-2",
+      "official": "Chapado en oro/Deslizamiento del alcance"
     },
     {
       "id": "g-ciclo-de-vida-del-proyecto",
@@ -376,7 +378,8 @@
       "def": "Desacuerdo entre personas o grupos por intereses, ideas o recursos; bien manejado puede mejorar las decisiones.",
       "ex": "Producción quiere vaciar hoy y calidad exige antes la liberación del acero.",
       "lesson": 4,
-      "topicId": "people-2"
+      "topicId": "people-2",
+      "official": "Conflictos"
     },
     {
       "id": "g-conocimiento-explicito",
@@ -592,7 +595,8 @@
       "def": "Documento que describe en detalle cada elemento de la EDT: qué incluye, responsable y criterios.",
       "ex": "Para 'tarrajeo de muros' indica el espesor, el ensayo de adherencia y quién lo libera.",
       "lesson": 5,
-      "topicId": "process-2"
+      "topicId": "process-2",
+      "official": "Diccionario de la EDT/WBS"
     },
     {
       "id": "g-director-del-proyecto",
@@ -832,7 +836,8 @@
       "def": "Marco de reglas, roles y decisiones que dirige y supervisa el proyecto: quién decide qué y cómo.",
       "ex": "El comité que aprueba cambios mayores a S/ 50 mil y revisa el avance cada mes forma parte de la gobernanza.",
       "lesson": 2,
-      "topicId": "business-1"
+      "topicId": "business-1",
+      "official": "Gobernanza del proyecto"
     },
     {
       "id": "g-grado",
@@ -1075,7 +1080,8 @@
       "def": "Tabla que compara el nivel actual de compromiso de cada interesado con el nivel deseado.",
       "ex": "La junta de propietarios está 'reticente' y se necesita 'partidaria': hay una brecha que gestionar.",
       "lesson": 3,
-      "topicId": "people-4"
+      "topicId": "people-4",
+      "official": "Matriz de evaluación del involucramiento de los interesados"
     },
     {
       "id": "g-matriz-de-probabilidad-e-impacto",
@@ -1182,7 +1188,8 @@
       "def": "Persona o grupo que aporta los recursos y el respaldo del proyecto, y responde por su éxito ante la organización.",
       "ex": "El gerente general que aprueba el presupuesto del edificio y destraba decisiones es el patrocinador.",
       "lesson": 2,
-      "topicId": "business-1"
+      "topicId": "business-1",
+      "official": "Patrocinador del proyecto"
     },
     {
       "id": "g-periodo-de-recuperacion",
@@ -1272,7 +1279,8 @@
       "def": "Técnica que clasifica requisitos en debe tener, debería tener, podría tener y no tendrá ahora.",
       "ex": "Debe tener: reservas. Debería: pagos. Podría: chat vecinal. No ahora: domótica.",
       "lesson": 5,
-      "topicId": "process-3"
+      "topicId": "process-3",
+      "official": "Análisis Moscow"
     },
     {
       "id": "g-producto-minimo-viable-mvp",
@@ -1559,7 +1567,8 @@
       "def": "Respuesta que traslada a un tercero el impacto de una amenaza y la responsabilidad de gestionarla.",
       "ex": "Contratar un seguro todo riesgo de construcción.",
       "lesson": 5,
-      "topicId": "business-5"
+      "topicId": "business-5",
+      "official": "Transferir el riesgo"
     },
     {
       "id": "g-transicion-traspaso",

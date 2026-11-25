@@ -86,3 +86,10 @@ tr.current-week td{background:#f2f7e8;font-weight:600;color:var(--ink)}
 .flash-en{display:block;margin-top:6px;font-size:13px;font-weight:500;color:#75817b;font-style:italic}.flash-ex{margin-top:14px;text-align:left}
 @media(max-width:700px){.concept-tabs{grid-template-columns:1fr}.gloss-badges{margin-left:0}}
 .dropdown-row p{min-width:0;overflow-wrap:anywhere}.dropdown-row select{max-width:100%;text-overflow:ellipsis}
+/* Historial automático, fallos e importación de PDF */
+.history-row{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.history-row:last-child{border-bottom:0}.history-row .content{flex:1;min-width:0}.history-row h3{font-size:12px;margin:5px 0 3px}.history-row .row-end{flex-direction:column;align-items:flex-end;gap:2px}.history-row .stat-value{font-size:20px}
+.file-button{position:relative;overflow:hidden;cursor:pointer}.file-button input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.pdf-blocks{display:grid;gap:8px;margin-top:12px;max-height:420px;overflow:auto}.pdf-block{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:12px;background:white;cursor:pointer}.pdf-block.wrong{border-color:#e7b3a8;background:#fdf4f1}.pdf-block small{color:#7b8f6d}.pdf-block .pdf-why{color:#a96150}
+.official-box{margin:0 0 16px}.official-def{margin-top:10px;font-size:12px}.official-def summary{cursor:pointer;color:#5d7448;font-weight:600}.official-def p{margin-top:6px;color:#4f5d55;line-height:1.7}.official-text{color:#4f5d55}.flash-fail{font-size:16px;line-height:1.6}
+@media(max-width:700px){.history-row{align-items:flex-start}.history-row .row-end{min-width:70px}}
+.subscribe-box{margin-top:16px;padding:16px;border:1px solid #d9e4c8;border-radius:12px;background:#f6f9f0}.subscribe-box h3{margin-bottom:6px}.subscribe-url{display:flex;gap:8px;margin:10px 0 0}.subscribe-url input{font-size:12px}.subscribe-help{margin-top:12px;font-size:12px}.subscribe-help summary{cursor:pointer;color:#5d7448;font-weight:600}.subscribe-help p{margin-top:8px;color:#5f6e66;line-height:1.7}
