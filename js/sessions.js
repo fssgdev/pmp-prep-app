@@ -126,24 +126,28 @@ function addSlideVersion(sid, version) {
 /* ---------- apuntes de OneNote por sesión (Mis notas) ---------- */
 function ensureNoteFiles() { if (!Array.isArray(state.noteFiles)) state.noteFiles = []; return state.noteFiles; }
 const NOTE_ACCEPT = '.pdf,.docx,.doc,.png,.jpg,.jpeg,.txt,.md,.html,.htm,.mht';
+/* Una carpeta por fecha de clase: apuntes, lámina de repaso y exportación del contexto para GPT. */
 function renderNoteFiles() {
-  const files = ensureNoteFiles().filter(f => !f.removed).sort((a, b) => String(b.date).localeCompare(String(a.date)));
-  const past = [...D.sessions].filter(s => s.date <= today()).sort((a, b) => b.date.localeCompare(a.date));
-  const defLesson = declaredLessonAsOf(today())?.n || (typeof activeLesson === 'function' ? activeLesson(weekStart())?.n : 1) || 1;
-  return `<section class="card note-files"><div class="card-header"><div><h2>Apuntes por sesión (OneNote)</h2><p>Opcionales. Ayudan a preparar la lámina de repaso de la clase.</p></div></div>
-  <p class="hint">Exporta la página de OneNote como <strong>PDF</strong> (o .docx) y cárgala aquí indicando la sesión. Los archivos .one/.onepkg no se pueden leer en el navegador: expórtalos a PDF primero. El archivo queda <strong>solo en este dispositivo</strong>; en tus otros dispositivos verás la ficha, pero no el archivo. Ni Claude ni GPT pueden leerlo desde la app: si quieres que GPT lo use, súbelo también a tu carpeta privada del Drive.</p>
-  <div class="form-grid">${field('Sesión', 'nf-session', `<select id="nf-session">${past.map(s => `<option value="${s.id}">Clase ${s.id} · ${date(s.date, {day: 'numeric', month: 'short'})}${classLogFor(s.id) ? ' · L' + classLogFor(s.id).lessons.join('+') : ''}</option>`).join('')}</select>`)}${field('Lección v4.1', 'nf-lesson', `<select id="nf-lesson">${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<option value="${n}" ${n === defLesson ? 'selected' : ''}>Lección ${n}</option>`).join('')}</select>`)}</div>
-  <div class="actions">${button('Cargar apunte', 'note-file-add', 'light')}</div>
-  ${files.length ? `<div class="stack">${files.map(f => `<article class="item-card note-file"><div class="row"><div><div class="meta">${badge('Clase ' + f.session, 'ingenium')} ${badge('L' + f.lesson, 'green')} ${f.read ? badge('Leído', 'green') : badge('Sin leer', 'orange')}</div><h3>${esc(f.label)}</h3><p class="hint">${esc(f.name)} · ${Math.max(1, Math.round((f.size || 0) / 1024))} KB${filesMem.has(f.key) ? '' : ' · el archivo está en otro dispositivo'}</p></div></div><div class="actions">${filesMem.has(f.key) ? button('Abrir', 'note-file-open', 'light small', `data-id="${f.id}"`) : ''}${button(f.read ? 'Marcar sin leer' : 'Marcar leído', 'note-file-read', 'ghost small', `data-id="${f.id}"`)}${filesMem.has(f.key) ? button('Reemplazar', 'note-file-replace', 'ghost small', `data-id="${f.id}"`) : ''}${button('Eliminar', 'note-file-del', 'ghost small', `data-id="${f.id}"`)}</div></article>`).join('')}</div>` : '<p class="hint">Aún no cargaste apuntes.</p>'}</section>`;
+  const files = ensureNoteFiles().filter(f => !f.removed);
+  const ss = [...D.sessions].filter(s => s.date <= today() && (s.date >= BASELINE_START || files.some(f => f.session === s.id) || classLogFor(s.id))).sort((a, b) => b.date.localeCompare(a.date));
+  const fileRow = f => `<article class="item-card note-file"><div class="row"><div><div class="meta">${badge('L' + f.lesson, 'green')} ${f.read ? badge('Leído', 'green') : badge('Sin leer', 'orange')}</div><h3>${esc(f.name)}</h3><p class="hint">${esc(f.label)} · ${Math.max(1, Math.round((f.size || 0) / 1024))} KB${filesMem.has(f.key) ? '' : ' · el archivo está en otro dispositivo'}</p></div></div><div class="actions">${filesMem.has(f.key) ? button('Abrir', 'note-file-open', 'light small', `data-id="${f.id}"`) : ''}${button(f.read ? 'Marcar sin leer' : 'Marcar leído', 'note-file-read', 'ghost small', `data-id="${f.id}"`)}${filesMem.has(f.key) ? button('Reemplazar', 'note-file-replace', 'ghost small', `data-id="${f.id}"`) : ''}${button('Eliminar', 'note-file-del', 'ghost small', `data-id="${f.id}"`)}</div></article>`;
+  const folder = (s, i) => { const fs = files.filter(f => f.session === s.id), r = classLogFor(s.id), st = slideStatus(s.id);
+    return `<details class="session-folder" ${i === 0 ? 'open' : ''}><summary><span class="folder-name">📁 ${s.date} · Clase ${s.id}</span><span class="folder-meta">${r ? 'L' + r.lessons.join('+') : 'avance sin registrar'} · ${fs.length} ${fs.length === 1 ? 'apunte' : 'apuntes'} · lámina ${SLIDE_LABEL[st].toLowerCase()}</span></summary>
+      <div class="folder-body">${fs.length ? fs.map(fileRow).join('') : '<p class="hint">Sin apuntes en esta clase.</p>'}
+      <div class="actions">${button('Cargar apunte', 'note-file-add', 'light small', `data-id="${s.id}"`)}${st !== 'pendiente' ? button('Ver lámina', 'slide-folder', 'ghost small', `data-id="${s.id}"`) : ''}${button('Exportar contexto para GPT', 'context-export', 'ghost small', `data-id="${s.id}"`)}</div></div></details>`; };
+  return `<section class="card note-files"><div class="card-header"><div><h2>Apuntes por clase</h2><p>Una carpeta por fecha de sesión: tus apuntes de OneNote, la lámina de repaso y el contexto para GPT.</p></div></div>
+  <p class="hint">Exporta la página de OneNote como <strong>PDF</strong> (o .docx) y cárgala en la carpeta de su clase. Los archivos .one/.onepkg no se pueden leer en el navegador: expórtalos a PDF primero. Por ahora el archivo queda <strong>solo en este dispositivo</strong>: en los otros verás la ficha, y GPT no puede leerlo desde la app.</p>
+  <div class="stack">${ss.length ? ss.map(folder).join('') : '<p class="hint">Las carpetas aparecen desde la clase del 25 de noviembre.</p>'}</div></section>`;
 }
-async function addNoteFile(file, existing) {
+async function addNoteFile(file, existing, sessionId) {
   if (!file) return;
   if (/\.(one|onepkg|onetoc2)$/i.test(file.name)) { toast('Los archivos de OneNote (.one) no se pueden leer en el navegador: exporta la página a PDF y cárgala.'); return; }
   if (file.size > 25e6) { toast('El archivo supera 25 MB.'); return; }
   const now = stamp();
   if (existing) { await filePut(existing.key, file); Object.assign(existing, {name: file.name, size: file.size, type: file.type, read: false, updated: now}); }
   else {
-    const sid = Number(document.getElementById('nf-session')?.value), lesson = Number(document.getElementById('nf-lesson')?.value), s = sessionById(sid), id = uid(), key = 'note-' + id;
+    const sid = Number(sessionId), s = sessionById(sid), lesson = classLogFor(sid)?.lessons?.slice(-1)[0] || declaredLessonAsOf(s?.date || today())?.n || s?.lesson41?.slice(-1)[0] || 1, id = uid(), key = 'note-' + id;
+    if (!s) { toast('Elige la carpeta de una clase.'); return; }
     await filePut(key, file);
     ensureNoteFiles().push({id, key, session: sid, date: s?.date || today(), lesson, label: `${s?.date || today()}_L${lesson}`, name: file.name, size: file.size, type: file.type, read: false, local: true, created: now, updated: now});
   }
@@ -170,7 +174,8 @@ const SESSION_ACTIONS = {
   'slide-save-link': el => { const link = (document.getElementById('slide-link')?.value || '').trim(); if (!/^https:\/\/\S+$/.test(link)) { toast('Pega un enlace que empiece con https://'); return; } addSlideVersion(el.dataset.id, {link, name: 'Enlace', note: (document.getElementById('slide-note')?.value || '').trim()}); },
   'slide-reviewed': el => { let x = slideFor(el.dataset.id); if (!x) { x = {id: 'sl-s' + el.dataset.id, session: Number(el.dataset.id), versions: [], created: stamp()}; ensureSlides().push(x); } x.reviewedAt = stamp(); x.updated = stamp(); const t = el.dataset.task || 'slide-s' + el.dataset.id; markTask(t, true); closeDialog(); render(); toast('Lámina revisada.'); },
   'context-export': el => { const txt = contextPackage(el.dataset.id), s = sessionById(el.dataset.id); try { navigator.clipboard?.writeText(txt); } catch (e) { /* sin portapapeles */ } const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], {type: 'text/markdown'})); a.download = `contexto-clase-${s.id}-${s.date}.md`; a.click(); toast('Contexto descargado y copiado: guárdalo en tu carpeta privada del Drive o pégalo en GPT.'); },
-  'note-file-add': async () => addNoteFile(await pickFile(NOTE_ACCEPT)),
+  'note-file-add': async el => addNoteFile(await pickFile(NOTE_ACCEPT), null, el.dataset.id),
+  'slide-folder': el => { const t = buildPlan().find(x => x.kind === 'slide' && x.session === Number(el.dataset.id)); slideDialog(el.dataset.id, t?.id); },
   'note-file-open': el => { const f = ensureNoteFiles().find(x => x.id === el.dataset.id); if (f) { openLocalFile(f.key, f.name); if (!f.read) { f.read = true; f.updated = stamp(); save(); render(); } } },
   'note-file-read': el => { const f = ensureNoteFiles().find(x => x.id === el.dataset.id); if (f) { f.read = !f.read; f.updated = stamp(); save(); render(); } },
   'note-file-replace': async el => { const f = ensureNoteFiles().find(x => x.id === el.dataset.id); if (f) addNoteFile(await pickFile(NOTE_ACCEPT), f); },
