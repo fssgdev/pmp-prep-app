@@ -222,6 +222,22 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     await ctx.close();
   }
   {
+    // Lámina publicada por GPT en el repositorio (data/slides.json + slides/): aparece sola en la tarea de las 18:00
+    require('child_process').execSync('node tools/check-slides.mjs', {cwd: path.join(__dirname, '..'), stdio: 'pipe'});
+    const {ctx, page, errors, boot} = await fresh('2026-11-27T18:10:00-05:00');
+    await boot('inicio');
+    const r = await page.evaluate(() => { const before = slideStatus(7); D.slidesRepo = [{session: 7, version: 1, file: 'slides/clase-07-v1.pdf', title: 'Lámina clase 7', status: 'provisional', createdAt: '2026-11-27T17:55:00-05:00', author: 'GPT'}]; return [before, slideStatus(7), slideVersions(7)[0].link]; });
+    assert(r[0] === 'pendiente' && r[1] === 'disponible' && /\/slides\/clase-07-v1\.pdf$/.test(r[2]), 'la lámina publicada por GPT en slides/ queda disponible sola, sin cargarla a mano');
+    await page.evaluate(() => doTask('slide-s7'));
+    assert(/publicada por GPT/.test(await page.locator('#modal').innerText()) && await page.locator('#modal a', {hasText: 'Abrir lámina'}).count() === 1, 'la tarea muestra la versión publicada y el enlace para abrirla');
+    await page.getByRole('button', {name: 'Marcar como revisada'}).click();
+    const r2 = await page.evaluate(() => { const a = [slideStatus(7), !!state.tasksDone['slide-s7']]; D.slidesRepo.push({session: 7, version: 2, file: 'slides/clase-07-v2.pdf', status: 'final', createdAt: '2026-11-27T21:00:00-05:00'}); state.slides[0].reviewedAt = '2026-11-28T00:10:00.000Z'; return [...a, slideStatus(7)]; });
+    assert(r2[0] === 'revisada' && r2[1], 'al marcarla como revisada, la tarea queda hecha');
+    assert(r2[2] === 'disponible', 'si GPT publica una versión nueva después de la revisión, vuelve a mostrarse como disponible');
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
+  {
     // 18:00 del día de clase: Inicio propone abrir la lámina
     const {ctx, page, errors, boot} = await fresh('2026-12-02T18:05:00-05:00');
     await boot('inicio');

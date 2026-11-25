@@ -100,15 +100,18 @@ const pickFile = accept => new Promise(ok => { const i = document.createElement(
 /* ---------- láminas de repaso (las redacta GPT; la app las recibe, las muestra y registra la revisión) ---------- */
 function ensureSlides() { if (!Array.isArray(state.slides)) state.slides = []; return state.slides; }
 const slideFor = sid => ensureSlides().find(x => x.session === Number(sid) && !x.removed) || null;
-function slideStatus(sid) { const x = slideFor(sid); if (!x || !x.versions?.length) return 'pendiente'; return x.reviewedAt ? 'revisada' : 'disponible'; }
+/* Versiones publicadas por GPT en el repositorio (data/slides.json + slides/) más las cargadas a mano en la app. */
+function repoSlideVersions(sid) { return (D.slidesRepo || []).filter(e => Number(e.session) === Number(sid) && /^slides\/[\w.-]+\.(pdf|html|png|jpg|md)$/i.test(e.file || '')).map(e => ({link: new URL(e.file, location.href).href, name: e.title || e.file.split('/').pop(), at: e.createdAt || '', note: [e.status === 'provisional' ? 'provisional' : '', e.note || ''].filter(Boolean).join(' · '), source: e.author || 'GPT', repo: true, version: e.version})); }
+function slideVersions(sid) { return [...repoSlideVersions(sid), ...(slideFor(sid)?.versions || [])].sort((a, b) => (Date.parse(a.at) || 0) - (Date.parse(b.at) || 0)); }
+function slideStatus(sid) { const v = slideVersions(sid), x = slideFor(sid); if (!v.length) return 'pendiente'; const last = v[v.length - 1]; return x?.reviewedAt && Date.parse(x.reviewedAt) >= (Date.parse(last.at) || 0) ? 'revisada' : 'disponible'; }
 const SLIDE_LABEL = {pendiente: 'Pendiente de generación', disponible: 'Disponible', revisada: 'Revisada'};
 function slideDialog(sid, taskId) {
   const s = sessionById(sid); if (!s) return;
-  const x = slideFor(sid), v = x?.versions?.[x.versions.length - 1], st = slideStatus(sid);
+  const x = slideFor(sid), vs = slideVersions(sid), v = vs[vs.length - 1], st = slideStatus(sid);
   const open = v ? (v.link ? `<a class="button" href="${esc(v.link)}" target="_blank" rel="noopener">Abrir lámina ${icon('arrow')}</a>` : (filesMem.has(v.key) ? button('Abrir lámina ' + icon('arrow'), 'slide-open', '', `data-id="${s.id}"`) : '<span class="hint">El PDF de esta lámina se cargó en otro dispositivo.</span>')) : '';
   dialog(`Lámina de repaso · clase ${s.id} (${date(s.date, {day: 'numeric', month: 'short'})})`, `<p>${badge(SLIDE_LABEL[st], st === 'revisada' ? 'green' : st === 'disponible' ? 'blue' : 'orange')} ${classLogFor(s.id) ? `Avance declarado: lección ${classLogFor(s.id).lessons.join(' y ')}` : 'Sin avance declarado para esta clase'}</p>
-    <p class="hint">GPT redacta la lámina a partir de tu avance, las notas del profesor, el PPT v4.1 y tus apuntes, si los hay. Cárgala aquí como PDF o pega el enlace privado donde la dejó (por ejemplo, tu Drive). Las versiones anteriores se conservan.</p>
-    ${v ? `<p class="hint">Versión ${x.versions.length} · ${esc(v.name || v.link || '')} · cargada el ${date(stampDay(v.at), {day: 'numeric', month: 'short'})}${v.note ? ' · ' + esc(v.note) : ''}</p>` : ''}
+    <p class="hint">GPT redacta la lámina a partir de tu avance, las notas del profesor, el PPT v4.1 y tus apuntes, y la publica directamente en la app: aparece aquí sola. Si te la entrega por otro medio, puedes cargar el PDF o pegar su enlace. Las versiones anteriores se conservan.</p>
+    ${v ? `<p class="hint">Versión ${vs.length} · ${esc(v.name || v.link || '')}${v.repo ? ' · publicada por GPT en la app' : ''}${v.at ? ' · ' + date(stampDay(v.at), {day: 'numeric', month: 'short'}) : ''}${v.note ? ' · ' + esc(v.note) : ''}</p>` : ''}
     <div class="actions">${open}${v && st !== 'revisada' ? button('Marcar como revisada', 'slide-reviewed', 'lime', `data-id="${s.id}" data-task="${esc(taskId || '')}"`) : ''}</div>
     <div class="form-grid" style="margin-top:12px">${field('Enlace de la lámina (opcional)', 'slide-link', '<input id="slide-link" type="url" placeholder="https://drive.google.com/…" maxlength="500">', true)}${field('Nota de la versión (opcional)', 'slide-note', '<input id="slide-note" maxlength="200" placeholder="Ej.: provisional, falta confirmar notas del profesor">', true)}</div>
     <div class="actions">${button('Cargar PDF de la lámina', 'slide-upload', 'light', `data-id="${s.id}"`)}${button('Guardar enlace', 'slide-save-link', 'light', `data-id="${s.id}"`)}${button('Exportar contexto para GPT', 'context-export', 'ghost', `data-id="${s.id}"`)}${button('Cerrar', 'close-dialog', 'white')}</div>`);
@@ -162,10 +165,10 @@ function contextPackage(sid) {
 }
 
 const SESSION_ACTIONS = {
-  'slide-open': el => { const x = slideFor(el.dataset.id), v = x?.versions?.[x.versions.length - 1]; if (v) openLocalFile(v.key, v.name); },
+  'slide-open': el => { const vs = slideVersions(el.dataset.id), v = vs[vs.length - 1]; if (v?.key) openLocalFile(v.key, v.name); },
   'slide-upload': async el => { const f = await pickFile('application/pdf,.pdf'); if (!f) return; if (f.size > 30e6) { toast('El PDF supera 30 MB.'); return; } const sid = el.dataset.id, key = `slide-s${sid}-${Date.now()}`; await filePut(key, f); addSlideVersion(sid, {key, name: f.name, size: f.size, local: true, note: (document.getElementById('slide-note')?.value || '').trim()}); },
   'slide-save-link': el => { const link = (document.getElementById('slide-link')?.value || '').trim(); if (!/^https:\/\/\S+$/.test(link)) { toast('Pega un enlace que empiece con https://'); return; } addSlideVersion(el.dataset.id, {link, name: 'Enlace', note: (document.getElementById('slide-note')?.value || '').trim()}); },
-  'slide-reviewed': el => { const x = slideFor(el.dataset.id); if (!x) return; x.reviewedAt = stamp(); x.updated = stamp(); const t = el.dataset.task || 'slide-s' + el.dataset.id; markTask(t, true); closeDialog(); render(); toast('Lámina revisada.'); },
+  'slide-reviewed': el => { let x = slideFor(el.dataset.id); if (!x) { x = {id: 'sl-s' + el.dataset.id, session: Number(el.dataset.id), versions: [], created: stamp()}; ensureSlides().push(x); } x.reviewedAt = stamp(); x.updated = stamp(); const t = el.dataset.task || 'slide-s' + el.dataset.id; markTask(t, true); closeDialog(); render(); toast('Lámina revisada.'); },
   'context-export': el => { const txt = contextPackage(el.dataset.id), s = sessionById(el.dataset.id); try { navigator.clipboard?.writeText(txt); } catch (e) { /* sin portapapeles */ } const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], {type: 'text/markdown'})); a.download = `contexto-clase-${s.id}-${s.date}.md`; a.click(); toast('Contexto descargado y copiado: guárdalo en tu carpeta privada del Drive o pégalo en GPT.'); },
   'note-file-add': async () => addNoteFile(await pickFile(NOTE_ACCEPT)),
   'note-file-open': el => { const f = ensureNoteFiles().find(x => x.id === el.dataset.id); if (f) { openLocalFile(f.key, f.name); if (!f.read) { f.read = true; f.updated = stamp(); save(); render(); } } },

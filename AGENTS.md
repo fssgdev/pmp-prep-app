@@ -11,6 +11,14 @@ Tu rol es revisar la app y el contenido, y dejar instrucciones claras para Claud
 - **Tipos de pregunta:** única, múltiple, emparejamiento, lista desplegable (`dropdown`), «señale y haga clic» (`hotspot`), escenarios con gráficos o tablas (`table`); explicación por opción opcional (`why`).
 - **Código:** `js/study.js` (plan, flashcards, conceptos, agenda, simulacros), `js/mock.js` (simulacro completo), `js/sync.js` (sincronización), `js/app.js` (vistas base y cuestionario), `assets/styles.css`.
 
+## Publicar una lámina de repaso (lo hace GPT directamente)
+Fabrizio autorizó (25/11) que GPT suba las láminas al repositorio; la app las muestra sola en la tarea «Repasar láminas de la sesión anterior» (18:00 del día de la clase siguiente).
+1. Guarda el archivo en `slides/` con el nombre `clase-NN-vK.<ext>` (por ejemplo, `slides/clase-07-v1.pdf`). Formatos: `.pdf` (preferido), `.html` autónomo, `.png`, `.jpg` o `.md`. Máximo 15 MB.
+2. Agrega una entrada en `data/slides.json` → `slides`: `{"session": 7, "version": 1, "file": "slides/clase-07-v1.pdf", "title": "Lámina clase 7 · Lección 3", "status": "provisional" | "final", "createdAt": "2026-11-27T17:55:00-05:00", "author": "GPT", "note": "opcional", "sources": ["avance declarado", "notas del profesor 25/11"]}`. Para corregir, publica una versión nueva (`version` + 1, archivo nuevo) sin borrar la anterior.
+3. Verifica con `node tools/check-slides.mjs` (y que el JSON sea válido) y haz commit en la rama principal; GitHub Pages lo publica en ~1 minuto.
+4. **El repositorio es público:** la lámina debe ser una síntesis original. No incluyas texto, imágenes ni capturas del PPT, del PMBOK ni de las notas del profesor, ni el texto de los apuntes personales de Fabrizio, nombres de terceros o enlaces privados. Marca `provisional` lo que no esté confirmado.
+5. El contexto de cada clase (avance declarado, estado de las notas del profesor, apuntes y brechas) lo exporta Fabrizio desde la app y lo deja en su carpeta privada del Drive o te lo comparte.
+
 ## Cómo pedir cambios
 Crea un issue con la plantilla **"Tarea para Claude"** (etiqueta `para-claude`). Si no puedes crearlo, entrega el texto a Fabrizio para que lo pegue.
 
