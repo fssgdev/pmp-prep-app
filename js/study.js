@@ -170,7 +170,8 @@ function freshCards() {
 }
 function cardState(id) { return state.cards[id] || null; }
 function cardPhase(s) { return !s ? 'new' : s.phase ? s.phase : (s.reps > 0 && s.interval >= 1 ? 'review' : 'learning'); }
-function newToday() { return state.cardLog.filter(l => l.first && l.date === today()).length; }
+/* Tarjetas nuevas del día: las de fallos (err-) no consumen el cupo de nuevas ordinarias (#5). */
+function newToday() { return state.cardLog.filter(l => l.first && l.date === today() && !l.extra && !String(l.id).startsWith('err-')).length; }
 function extraNewToday() { return Number(state.cardExtra?.[today()] || 0); }
 function newAllowance() { return Math.max(0, NEW_CARDS_PER_DAY + extraNewToday() - newToday()); }
 /* Vencimiento real: los pasos en minutos usan la marca de tiempo dueAt; los repasos en días
@@ -186,10 +187,13 @@ function buildQueue() {
   /* Las tarjetas de preguntas falladas entran siempre (no consumen el cupo de nuevas). */
   const fails = allCards().filter(c => c.failCard && !cardState(c.id));
   const fresh = [...fails, ...freshCards().filter(c => !c.failCard).slice(0, newAllowance())];
-  return [...dueCards(), ...fresh].map(c => c.id);
+  /* Yapa (#5): una tarjeta calificada «Otra vez» vuelve al final de las del día, cuando vence su minuto. */
+  const due = dueCards(), retry = due.filter(c => cardState(c.id)?.dueAt), rest = due.filter(c => !cardState(c.id)?.dueAt);
+  return [...rest, ...fresh, ...retry].map(c => c.id);
 }
 function cardsDueCount() { return buildQueue().length; }
-function cardsGradedToday() { return new Set(state.cardLog.filter(l => l.date === today() && !l.extra).map(l => l.id)).size; }
+/* Meta diaria (#5): 4 tarjetas distintas aprendidas hoy, es decir, calificadas Difícil, Bien o Fácil. «Otra vez» no suma. */
+function cardsGradedToday() { return new Set(state.cardLog.filter(l => l.date === today() && !l.extra && l.grade !== 'again').map(l => l.id)).size; }
 function cardGoalDone() { return cardsGradedToday() >= CARD_DAILY_GOAL; }
 function nextIntervals(prev) {
   const ph = cardPhase(prev);
@@ -329,7 +333,7 @@ function routineRows() {
   if (!isRoutineDay()) return isRestDay() ? `<article class="task-row done" data-routine="rest"><span class="check-button done" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${badge('Descanso', 'green')}</div><h3>Domingo de descanso</h3><p class="hint">Sin rutina hoy. Las tarjetas y el Bullet Quiz vuelven el lunes; si quieres repasar, puedes hacerlo de forma voluntaria.</p></div><a class="button ghost small" href="#flashcards">Repaso voluntario ${icon('arrow')}</a></article>` : `<article class="task-row" data-routine="quizday"><span class="check-button" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${badge('Sábado', 'orange')}</div><h3>Hoy toca el cuestionario de 20 preguntas</h3><p class="hint">La rutina de tarjetas y Bullet Quiz es de lunes a viernes.</p></div></article>`;
   const g = Math.min(cardsGradedToday(), CARD_DAILY_GOAL), cDone = cardGoalDone(), b = bulletToday(), bp = bulletProgress(), bDone = Boolean(state.tasksDone?.[bulletId()]), size = bulletSize();
   const lessonTxt = b.missing ? 'Sin lección asignada para esta semana: elígela en la Ruta.' : `Lección ${b.lesson} · ${esc(lessonCfg(b.lesson).title || '')}${['aprobada', 'confirmada'].includes(b.lessonInfo.status) ? '' : ' · ' + esc(b.lessonInfo.status)}`;
-  return `<article class="task-row ${cDone ? 'done' : 'today'}" data-routine="cards"><span class="check-button ${cDone ? 'done' : ''}" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${cDone ? badge('Hecho', 'green') : badge('Rutina diaria', 'orange')} <span class="routine-count">${g}/${CARD_DAILY_GOAL}</span></div><h3>Flashcards ${g}/${CARD_DAILY_GOAL}</h3><p class="hint">${cDone ? 'Meta cumplida. Puedes seguir repasando.' : `Califica ${CARD_DAILY_GOAL} tarjetas distintas (primero las vencidas).`}</p></div><a class="button ${cDone ? 'ghost' : 'light'} small" href="#flashcards">${cDone ? 'Repasar más' : 'Repasar'} ${icon('arrow')}</a></article>
+  return `<article class="task-row ${cDone ? 'done' : 'today'}" data-routine="cards"><span class="check-button ${cDone ? 'done' : ''}" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${cDone ? badge('Hecho', 'green') : badge('Rutina diaria', 'orange')} <span class="routine-count">${g}/${CARD_DAILY_GOAL}</span></div><h3>Flashcards ${g}/${CARD_DAILY_GOAL}</h3><p class="hint">${cDone ? 'Meta cumplida. Puedes seguir repasando.' : `Aprende ${CARD_DAILY_GOAL} tarjetas distintas («Otra vez» no suma) (primero las vencidas).`}</p></div><a class="button ${cDone ? 'ghost' : 'light'} small" href="#flashcards">${cDone ? 'Repasar más' : 'Repasar'} ${icon('arrow')}</a></article>
   <article class="task-row ${bDone ? 'done' : 'today'}" data-routine="bullet"><span class="check-button ${bDone ? 'done' : ''}" aria-hidden="true">${icon('check')}</span><div class="content"><div class="meta">${bDone ? badge('Hecho', 'green') : badge('Rutina diaria', 'orange')} <span class="routine-count">${bp}/${size}</span></div><h3>Bullet Quiz ${bp}/${size}</h3><p class="hint">${lessonTxt}${b.short ? ' · solo hay ' + b.poolSize + ' preguntas para esta lección' : ''}</p></div>${bDone ? '' : button((bp ? 'Continuar' : 'Empezar') + ' ' + icon('arrow'), 'bullet-start', 'light small')}</article>`;
 }
 function routineDoneCount() { return isRoutineDay() ? (cardGoalDone() ? 1 : 0) + (state.tasksDone?.[bulletId()] ? 1 : 0) : 0; }
@@ -359,7 +363,7 @@ function nextStep(todayTasks, overdue, qCards, cardsDone, bulletDone) {
   const pending = todayTasks.filter(t => taskStatus(t) === 'today' && t.kind !== 'classlog'), logToday = todayTasks.find(t => t.kind === 'classlog' && taskStatus(t) === 'today');
   if (pending.length) { const t = pending[0]; return {eyebrow: 'TU SIGUIENTE PASO', title: t.title, text: t.detail, action: button({quiz: 'Empezar cuestionario', review: 'Empezar repaso', mixed: 'Empezar práctica', errors: 'Revisar errores', mock: 'Ir a simulacros', manual: 'Ver detalle'}[t.kind] + ' ' + icon('arrow'), 'task-do', 'lime', `data-id="${t.id}"`), meta: 'Vence ' + date(t.due, {weekday: 'long', day: 'numeric', month: 'short'})}; }
   const rd = isRoutineDay();
-  if (rd && !cardsDone && qCards) return {eyebrow: 'RUTINA DIARIA', title: `Flashcards ${Math.min(cardsGradedToday(), CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}`, text: `Califica ${CARD_DAILY_GOAL} tarjetas distintas; primero las vencidas. Son pocos minutos y fijan los conceptos clave.`, action: `<a class="button lime" href="#flashcards">Repasar tarjetas ${icon('arrow')}</a>`, meta: 'Obligatorio diario'};
+  if (rd && !cardsDone && qCards) return {eyebrow: 'RUTINA DIARIA', title: `Flashcards ${Math.min(cardsGradedToday(), CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}`, text: `Aprende ${CARD_DAILY_GOAL} tarjetas distintas (Difícil, Bien o Fácil); «Otra vez» no suma y la tarjeta vuelve al final como yapa. Son pocos minutos y fijan los conceptos clave.`, action: `<a class="button lime" href="#flashcards">Repasar tarjetas ${icon('arrow')}</a>`, meta: 'Obligatorio diario'};
   if (rd && !bulletDone) { const b = bulletToday(); return {eyebrow: 'RUTINA DIARIA', title: `Bullet Quiz ${bulletProgress()}/${bulletSize()}`, text: b.missing ? 'Elige la lección de esta semana para generar tus 5 preguntas.' : `5 preguntas de la lección ${b.lesson} (v4.1): ${lessonCfg(b.lesson).title}.`, action: button((bulletProgress() ? 'Continuar' : 'Empezar') + ' Bullet Quiz ' + icon('arrow'), 'bullet-start', 'lime'), meta: 'Obligatorio diario'}; }
   if (logToday) return {eyebrow: 'DÍA DE CLASE', title: logToday.title, text: logToday.detail, action: button('Registrar avance ' + icon('arrow'), 'task-do', 'lime', `data-id="${logToday.id}"`), meta: 'Al terminar la clase'};
   if (overdue.length) { const t = overdue[0]; return {eyebrow: 'PONTE AL DÍA', title: t.title, text: t.detail, action: button('Resolver ahora ' + icon('arrow'), 'task-do', 'lime', `data-id="${t.id}"`), meta: 'Venció el ' + date(t.due, {day: 'numeric', month: 'short'})}; }
@@ -448,7 +452,7 @@ function renderFlashcards() {
   cardQueue = cardQueue.filter(id => allCards().some(c => c.id === id));
   clearTimeout(cardTimer);
   const total = allCards().length, learned = Object.keys(state.cards).length, due = dueCards().length, newAvail = Math.min(newAllowance(), allCards().filter(c => !cardState(c.id)).length), g = cardsGradedToday(), goal = cardGoalDone();
-  const head = heading('FLASHCARDS · RUTINA DIARIA', 'Repaso espaciado', `Meta diaria: ${CARD_DAILY_GOAL} tarjetas distintas. Puedes seguir repasando todo lo que quieras.`, `<a class="button white" href="#conceptos">${icon('book')} Conceptos</a>`) +
+  const head = heading('FLASHCARDS · RUTINA DIARIA', 'Repaso espaciado', `Meta diaria: ${CARD_DAILY_GOAL} tarjetas distintas aprendidas («Otra vez» no suma: vuelve al final como yapa). Puedes seguir repasando todo lo que quieras.`, `<a class="button white" href="#conceptos">${icon('book')} Conceptos</a>`) +
     `<div class="stats flash-stats">${stat('Meta de hoy', `${Math.min(g, CARD_DAILY_GOAL)} <small>/ ${CARD_DAILY_GOAL}</small>`, goal ? 'cumplida' : 'tarjetas distintas', 'check')}${stat('Vencidas', due, 'para repasar hoy', 'clock')}${stat('Nuevas hoy', newAvail, `límite ${NEW_CARDS_PER_DAY} al día${extraNewToday() ? ' + ' + extraNewToday() + ' extra' : ''}`, 'plus')}${stat('Banco', `${learned} <small>/ ${total}</small>`, 'estudiadas / total', 'cards')}</div>` +
     (cardMode === 'extra' ? `<div class="notice">Repaso extra voluntario: tus respuestas se registran, pero no cambian cuándo vuelve cada tarjeta. ${button('Terminar repaso extra', 'cards-extra-stop', 'ghost small')}</div>` : '') +
     (goal && cardQueue.length && cardMode === 'due' ? `<div class="notice">Meta diaria cumplida (${Math.min(g, CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}). Lo que repases ahora es estudio adicional.</div>` : '');
