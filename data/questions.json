@@ -1377,7 +1377,8 @@
     "correct": [
       1
     ],
-    "rationale": "SPI = EV / PV = 180 / 200 = 0,90: se ganó menos trabajo del planificado (atraso). CPI = EV / AC = 180 / 150 = 1,20: el trabajo hecho costó menos de lo que vale. Invertir los cocientes da 1,11 y 0,83; dividir AC entre PV (150 / 200 = 0,75) compara gasto con plan sin considerar el trabajo ganado. Regla: ambos índices llevan EV en el numerador; mayor que 1 es favorable."
+    "rationale": "SPI = EV / PV = 180 / 200 = 0,90: se ganó menos trabajo del planificado (atraso). CPI = EV / AC = 180 / 150 = 1,20: el trabajo hecho costó menos de lo que vale. Invertir los cocientes da 1,11 y 0,83; dividir AC entre PV (150 / 200 = 0,75) compara gasto con plan sin considerar el trabajo ganado. Regla: ambos índices llevan EV en el numerador; mayor que 1 es favorable.",
+    "family": "evm-indices-cpi-spi"
   },
   {
     "id": "process-l4-evm-002",
@@ -6823,5 +6824,1308 @@
       2
     ],
     "rationale": "Un backlog sano es breve en su parte detallada y se depura con regularidad para mantener el foco en el valor. Acumular todo o estimarlo en detalle desperdicia esfuerzo, y el orden por antigüedad no refleja el valor."
+  },
+  {
+    "id": "w7-sc-001",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Lectura",
+    "scenarioId": "sc-edificio-verde",
+    "prompt": "Según el informe de la semana 20, ¿qué situación requiere más atención del director del proyecto?",
+    "options": [
+      "El SPI de la obra, porque está apenas por debajo de la meta.",
+      "La calidad de la plataforma: los defectos que llegan a producción se triplicaron tras reducir las pruebas para alcanzar la velocidad, y la satisfacción de los usuarios piloto está lejos de la meta.",
+      "El CPI de la obra, porque está por encima de 1,00.",
+      "El inquilino ancla, porque su satisfacción puede cambiar."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "El SPI de 0,94 está cerca de la meta y no muestra una tendencia crítica por sí solo; merece seguimiento, pero no es lo más grave del informe.",
+      "Los defectos en producción pasaron de 2 a 7 y la causa es una decisión que sacrifica calidad por velocidad; junto con la baja satisfacción, amenaza el valor del componente que verán los inquilinos.",
+      "Un CPI mayor que 1 indica eficiencia de costos; no es un problema.",
+      "El inquilino ancla está satisfecho; no hay evidencia que justifique priorizarlo."
+    ],
+    "rationale": "El informe muestra un deterioro de calidad con causa conocida (menos pruebas) y efecto visible en los usuarios, lo que amenaza el valor del hito fijo. El SPI y el CPI están dentro de rangos manejables."
+  },
+  {
+    "id": "w7-sc-002",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "scenarioId": "sc-edificio-verde",
+    "prompt": "El dueño del producto propone mantener la reducción de pruebas automatizadas hasta el hito, porque 'la velocidad es lo que el patrocinador mira'. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Aceptar la propuesta, porque la decisión es del dueño del producto.",
+      "Pedir al patrocinador que cambie la meta de velocidad.",
+      "Facilitar con el dueño del producto y el equipo un acuerdo para restablecer las pruebas en la definición de terminado y ajustar el alcance del hito según la velocidad real, mostrando al patrocinador el impacto en el valor.",
+      "Agregar un equipo de pruebas externo que revise todo al final del último sprint."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "El dueño del producto decide el orden del backlog, pero la calidad acordada en la definición de terminado no se negocia para inflar la velocidad.",
+      "Cambiar la meta trata el síntoma y no corrige la causa de los defectos.",
+      "Restablece la calidad como parte de lo terminado y hace transparente el ajuste de alcance que exige la velocidad real, que es la decisión correcta ante un hito fijo.",
+      "Probar al final concentra el riesgo y llega tarde para corregir defectos acumulados."
+    ],
+    "rationale": "La calidad se integra en cada incremento; con un hito fijo, lo que se ajusta es el alcance, de forma transparente, no las pruebas."
+  },
+  {
+    "id": "w7-sc-003",
+    "module": "process",
+    "topicId": "process-9",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Mentalidad",
+    "scenarioId": "sc-edificio-verde",
+    "prompt": "El patrocinador pide un informe más útil para decidir. ¿Qué DOS mejoras al informe integrado son las más adecuadas? Selecciona DOS.",
+    "options": [
+      "Mostrar la tendencia de cada indicador (últimas semanas o sprints) y no solo el valor actual.",
+      "Reemplazar todos los indicadores por un único porcentaje de avance del proyecto.",
+      "Relacionar los riesgos y las desviaciones con el hito fijo e indicar qué decisiones se necesitan del patrocinador.",
+      "Eliminar la encuesta de usuarios porque es subjetiva."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "why": [
+      "Las tendencias permiten anticipar problemas, como el aumento de defectos.",
+      "Un solo porcentaje mezcla componentes distintos y oculta los problemas de calidad.",
+      "Conectar las desviaciones con el hito y con las decisiones pendientes hace el informe accionable.",
+      "La percepción de los usuarios es un indicador de valor; eliminarla quita información clave."
+    ],
+    "rationale": "Un buen informe muestra tendencias, se enfoca en lo que afecta a los objetivos y pide decisiones concretas."
+  },
+  {
+    "id": "w7-hs-001",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "hotspot",
+    "category": "Lectura",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Matriz de probabilidad e impacto del proyecto",
+      "cols": [
+        "Impacto bajo",
+        "Impacto medio",
+        "Impacto alto"
+      ],
+      "rows": [
+        {
+          "label": "Probabilidad alta",
+          "cells": [
+            "R5",
+            "",
+            "R2"
+          ]
+        },
+        {
+          "label": "Probabilidad media",
+          "cells": [
+            "",
+            "R1",
+            "R4"
+          ]
+        },
+        {
+          "label": "Probabilidad baja",
+          "cells": [
+            "R6",
+            "R3",
+            ""
+          ]
+        }
+      ]
+    },
+    "prompt": "El plan de gestión de riesgos indica que primero se atienden los riesgos con mayor combinación de probabilidad e impacto. Haz clic en la celda del riesgo que debe recibir una respuesta primero.",
+    "correct": [
+      2
+    ],
+    "rationale": "R2 combina probabilidad alta e impacto alto, la zona de mayor exposición. R4 (media, alto) y R5 (alta, bajo) siguen en prioridad, pero no los superan."
+  },
+  {
+    "id": "w7-hs-002",
+    "module": "people",
+    "topicId": "people-4",
+    "approach": "Predictivo",
+    "type": "hotspot",
+    "category": "Conceptual",
+    "family": "cuadricula-poder-interes",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Cuadrícula de poder e interés",
+      "cols": [
+        "Interés bajo",
+        "Interés alto"
+      ],
+      "rows": [
+        {
+          "label": "Poder alto",
+          "cells": [
+            "",
+            ""
+          ]
+        },
+        {
+          "label": "Poder bajo",
+          "cells": [
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    "prompt": "El gerente regional del banco que financia el proyecto puede detener los desembolsos, pero no le interesa el detalle técnico de la obra. Haz clic en el cuadrante donde lo ubicarías.",
+    "correct": [
+      0
+    ],
+    "rationale": "Mucho poder y poco interés: se le mantiene satisfecho, con información breve y oportuna sobre lo que le importa. Ubicarlo en interés alto llevaría a saturarlo de detalles."
+  },
+  {
+    "id": "w7-hs-003",
+    "module": "agile",
+    "topicId": "agile-3",
+    "approach": "Ágil",
+    "type": "hotspot",
+    "category": "Lectura",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Tablero Kanban del equipo de postventa (tarjetas por columna)",
+      "cols": [
+        "Por hacer",
+        "Diagnóstico (WIP 2)",
+        "Reparación (WIP 3)",
+        "Verificación (WIP 2)",
+        "Cerrado"
+      ],
+      "rows": [
+        {
+          "label": "Tarjetas hoy",
+          "cells": [
+            "7",
+            "2",
+            "3",
+            "5",
+            "12"
+          ]
+        }
+      ]
+    },
+    "prompt": "Haz clic en la columna donde está el cuello de botella que el equipo debe atender antes de empezar trabajo nuevo.",
+    "correct": [
+      3
+    ],
+    "rationale": "Verificación tiene 5 tarjetas con un límite de 2: el flujo se atasca ahí. Las demás columnas en curso respetan su límite, y 'Por hacer' y 'Cerrado' no tienen límite."
+  },
+  {
+    "id": "w7-hs-004",
+    "module": "people",
+    "topicId": "people-5",
+    "approach": "Predictivo",
+    "type": "hotspot",
+    "category": "Lectura",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Matriz de evaluación del involucramiento (C = actual, D = deseado)",
+      "cols": [
+        "Desconoce",
+        "Reticente",
+        "Neutral",
+        "Partidario",
+        "Líder"
+      ],
+      "rows": [
+        {
+          "label": "Patrocinador",
+          "cells": [
+            "",
+            "",
+            "",
+            "C",
+            "D"
+          ]
+        },
+        {
+          "label": "Gerente de operaciones",
+          "cells": [
+            "",
+            "C",
+            "",
+            "D",
+            ""
+          ]
+        },
+        {
+          "label": "Junta de propietarios",
+          "cells": [
+            "C",
+            "",
+            "",
+            "D",
+            ""
+          ]
+        },
+        {
+          "label": "Municipalidad",
+          "cells": [
+            "",
+            "",
+            "C D",
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    "prompt": "Haz clic en la casilla del nivel ACTUAL del interesado con la mayor brecha respecto a su nivel deseado.",
+    "correct": [
+      10
+    ],
+    "rationale": "La junta de propietarios está en 'Desconoce' y se necesita en 'Partidario': tres niveles de brecha, la mayor. El gerente de operaciones tiene dos, el patrocinador uno y la municipalidad ninguna."
+  },
+  {
+    "id": "w7-hs-005",
+    "module": "process",
+    "topicId": "process-4",
+    "approach": "Predictivo",
+    "type": "hotspot",
+    "category": "Lectura",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Matriz RACI (R = responsable, A = rinde cuentas, C = consultado, I = informado)",
+      "cols": [
+        "Residente",
+        "Supervisora QA/QC",
+        "Ing. de costos",
+        "Gerente de proyecto"
+      ],
+      "rows": [
+        {
+          "label": "Aprobar diseño de encofrado",
+          "cells": [
+            "C",
+            "C",
+            "I",
+            "A"
+          ]
+        },
+        {
+          "label": "Elaborar metrados",
+          "cells": [
+            "C",
+            "I",
+            "A/R",
+            "I"
+          ]
+        },
+        {
+          "label": "Liberar encofrado",
+          "cells": [
+            "A/R",
+            "A",
+            "I",
+            "I"
+          ]
+        },
+        {
+          "label": "Comprar acero",
+          "cells": [
+            "R",
+            "I",
+            "C",
+            "A"
+          ]
+        }
+      ]
+    },
+    "prompt": "La matriz tiene un error que genera conflictos sobre quién decide. Haz clic en las 2 celdas que lo causan.",
+    "correct": [
+      8,
+      9
+    ],
+    "rationale": "En 'Liberar encofrado' hay dos personas con A. Cada actividad debe tener un único responsable de rendir cuentas; con dos, nadie tiene la decisión final clara."
+  },
+  {
+    "id": "w7-hs-006",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "hotspot",
+    "category": "Lectura",
+    "chart": {
+      "type": "line",
+      "title": "Gráfico de control: espesor de tarrajeo por lote (mm)",
+      "yLabel": "mm",
+      "labels": [
+        "Lote 1",
+        "Lote 2",
+        "Lote 3",
+        "Lote 4",
+        "Lote 5",
+        "Lote 6",
+        "Lote 7",
+        "Lote 8",
+        "Lote 9",
+        "Lote 10"
+      ],
+      "series": [
+        {
+          "name": "Espesor medido",
+          "values": [
+            21.2,
+            20.8,
+            21.5,
+            20.9,
+            21.1,
+            23.6,
+            21,
+            20.7,
+            21.3,
+            21
+          ]
+        },
+        {
+          "name": "Media",
+          "values": [
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21
+          ]
+        },
+        {
+          "name": "Límite superior de control",
+          "values": [
+            23,
+            23,
+            23,
+            23,
+            23,
+            23,
+            23,
+            23,
+            23,
+            23
+          ]
+        },
+        {
+          "name": "Límite inferior de control",
+          "values": [
+            19,
+            19,
+            19,
+            19,
+            19,
+            19,
+            19,
+            19,
+            19,
+            19
+          ]
+        }
+      ]
+    },
+    "hotspot": {
+      "kind": "chart"
+    },
+    "prompt": "Haz clic en el lote que indica una causa especial que conviene investigar.",
+    "correct": [
+      5
+    ],
+    "rationale": "El lote 6 (23,6 mm) supera el límite superior de control: es una señal de causa especial. Los demás lotes varían de forma aleatoria alrededor de la media."
+  },
+  {
+    "id": "w7-hs-007",
+    "module": "agile",
+    "topicId": "agile-5",
+    "approach": "Ágil",
+    "type": "hotspot",
+    "category": "Lectura",
+    "chart": {
+      "type": "line",
+      "title": "Burndown del sprint (horas de trabajo restante)",
+      "yLabel": "Horas",
+      "labels": [
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7",
+        "D8",
+        "D9",
+        "D10"
+      ],
+      "series": [
+        {
+          "name": "Ideal",
+          "values": [
+            40,
+            36,
+            32,
+            28,
+            24,
+            20,
+            16,
+            12,
+            8,
+            4
+          ]
+        },
+        {
+          "name": "Real",
+          "values": [
+            40,
+            36,
+            32,
+            30,
+            30,
+            30,
+            34,
+            28,
+            22,
+            16
+          ]
+        }
+      ]
+    },
+    "hotspot": {
+      "kind": "chart"
+    },
+    "prompt": "Haz clic en el día en que se agregó trabajo al sprint.",
+    "correct": [
+      6
+    ],
+    "rationale": "El día 7 el trabajo restante sube de 30 a 34 horas: solo puede subir si se agrega trabajo. Los días 4 a 6 muestran un estancamiento (posible impedimento), no un aumento."
+  },
+  {
+    "id": "w7-hs-008",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "hotspot",
+    "category": "Lectura",
+    "chart": {
+      "type": "line",
+      "title": "Valor ganado y costo real acumulados (miles de S/)",
+      "yLabel": "Miles de S/",
+      "labels": [
+        "Mes 1",
+        "Mes 2",
+        "Mes 3",
+        "Mes 4",
+        "Mes 5",
+        "Mes 6"
+      ],
+      "series": [
+        {
+          "name": "Valor ganado (EV)",
+          "values": [
+            50,
+            110,
+            180,
+            260,
+            340,
+            420
+          ]
+        },
+        {
+          "name": "Costo real (AC)",
+          "values": [
+            48,
+            105,
+            185,
+            270,
+            360,
+            450
+          ]
+        }
+      ]
+    },
+    "hotspot": {
+      "kind": "chart"
+    },
+    "prompt": "Haz clic en el primer mes en que el proyecto pasa a tener un CPI menor que 1.",
+    "correct": [
+      2
+    ],
+    "rationale": "En el mes 3 el costo real (185) supera por primera vez al valor ganado (180), así que CPI = EV / AC < 1. En los meses 1 y 2 el AC era menor que el EV."
+  },
+  {
+    "id": "w7-dd-001",
+    "module": "process",
+    "topicId": "process-6",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Cálculo",
+    "prompt": "Un proyecto tiene BAC = S/ 800 mil. A la fecha de corte, PV = 400, EV = 360 y AC = 450 (miles de S/). Completa el análisis.",
+    "items": [
+      "El CPI es ___.",
+      "El SPI es ___.",
+      "Si la eficiencia de costos actual se mantiene, la EAC es ___."
+    ],
+    "choices": [
+      [
+        "0,80",
+        "0,90",
+        "1,25",
+        "1,11"
+      ],
+      [
+        "1,11",
+        "0,90",
+        "0,80",
+        "1,25"
+      ],
+      [
+        "S/ 890 mil",
+        "S/ 1 000 mil",
+        "S/ 720 mil",
+        "S/ 1 125 mil"
+      ]
+    ],
+    "correct": [
+      0,
+      1,
+      1
+    ],
+    "rationale": "CPI = EV / AC = 360 / 450 = 0,80. SPI = EV / PV = 360 / 400 = 0,90. EAC = BAC / CPI = 800 / 0,80 = 1 000. S/ 890 mil sería AC + (BAC − EV), válida solo si la desviación fuera atípica; 1,25 y 1,11 son los cocientes invertidos.",
+    "family": "evm-indices-cpi-spi"
+  },
+  {
+    "id": "w7-dd-002",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Conceptual",
+    "prompt": "Completa cada recomendación de tipo de contrato.",
+    "items": [
+      "El alcance está totalmente definido y el comprador quiere que el vendedor asuma el riesgo de sobrecostos: conviene un contrato ___.",
+      "El alcance es muy incierto y hay que empezar ya; el comprador acepta asumir la mayor parte del riesgo de costos: conviene un contrato ___.",
+      "Se necesitan horas de un especialista para un trabajo pequeño de duración incierta: suele usarse un contrato ___."
+    ],
+    "choices": [
+      [
+        "de precio fijo cerrado",
+        "de costo más honorarios fijos",
+        "de tiempo y materiales"
+      ],
+      [
+        "de precio fijo con incentivos",
+        "de costo más honorarios fijos",
+        "de precio fijo con ajuste económico"
+      ],
+      [
+        "de costo más honorarios con incentivos",
+        "de precio fijo cerrado",
+        "de tiempo y materiales"
+      ]
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "rationale": "Precio fijo cerrado traslada el riesgo de costos al vendedor cuando el alcance es claro; costo más honorarios fijos deja el riesgo en el comprador cuando el alcance es incierto; tiempo y materiales sirve para trabajos pequeños o de apoyo con duración incierta."
+  },
+  {
+    "id": "w7-dd-003",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Conceptual",
+    "prompt": "Completa la estrategia de respuesta que representa cada acción.",
+    "items": [
+      "Contratar una póliza de responsabilidad civil por daños a terceros es ___ la amenaza.",
+      "Homologar un segundo proveedor de acero para reducir el impacto si el principal falla es ___ la amenaza.",
+      "Asignar a la cuadrilla más experimentada para asegurar el bono por entrega anticipada es ___ la oportunidad."
+    ],
+    "choices": [
+      [
+        "evitar",
+        "transferir",
+        "mitigar",
+        "aceptar"
+      ],
+      [
+        "evitar",
+        "mitigar",
+        "transferir",
+        "escalar"
+      ],
+      [
+        "compartir",
+        "mejorar",
+        "explotar",
+        "aceptar"
+      ]
+    ],
+    "correct": [
+      1,
+      1,
+      2
+    ],
+    "rationale": "La póliza traslada el impacto financiero a un tercero (transferir); el segundo proveedor reduce el impacto (mitigar); asegurar que la oportunidad ocurra con el mejor recurso es explotarla."
+  },
+  {
+    "id": "w7-dd-004",
+    "module": "agile",
+    "topicId": "agile-2",
+    "approach": "Ágil",
+    "type": "dropdown",
+    "category": "Conceptual",
+    "level": "intro",
+    "prompt": "Completa cada enunciado sobre los eventos de Scrum.",
+    "items": [
+      "El equipo muestra el incremento a los interesados y recoge su retroalimentación en ___.",
+      "El equipo analiza cómo trabajó y acuerda mejoras de su proceso en ___.",
+      "El equipo coordina el trabajo de las próximas 24 horas en ___."
+    ],
+    "choices": [
+      [
+        "la revisión del sprint",
+        "la retrospectiva",
+        "la reunión diaria",
+        "el refinamiento"
+      ],
+      [
+        "la revisión del sprint",
+        "la retrospectiva",
+        "la planificación del sprint",
+        "la reunión diaria"
+      ],
+      [
+        "el refinamiento",
+        "la retrospectiva",
+        "la reunión diaria",
+        "la revisión del sprint"
+      ]
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "rationale": "La revisión inspecciona el producto con los interesados, la retrospectiva mejora el proceso y la reunión diaria sincroniza al equipo."
+  },
+  {
+    "id": "w7-dd-005",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Cálculo",
+    "prompt": "El equipo de coordinación de una obra tiene 6 integrantes y se sumarán 3 especialistas de instalaciones. Completa el análisis de comunicación.",
+    "items": [
+      "Hoy el equipo tiene ___ canales de comunicación.",
+      "Con los 3 especialistas, el total pasa a ___ canales.",
+      "Es decir, se agregan ___ canales."
+    ],
+    "choices": [
+      [
+        "15",
+        "30",
+        "12",
+        "36"
+      ],
+      [
+        "21",
+        "36",
+        "45",
+        "27"
+      ],
+      [
+        "3",
+        "21",
+        "9",
+        "18"
+      ]
+    ],
+    "correct": [
+      0,
+      1,
+      1
+    ],
+    "rationale": "Canales = n (n − 1) / 2. Con 6 personas: 6 × 5 / 2 = 15. Con 9: 9 × 8 / 2 = 36. Se agregan 36 − 15 = 21. Usar n × (n − 1) sin dividir entre 2 da el doble (30)."
+  },
+  {
+    "id": "w7-dd-006",
+    "module": "process",
+    "topicId": "process-7",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Conceptual",
+    "prompt": "Clasifica cada gasto dentro del costo de la calidad.",
+    "items": [
+      "Capacitar a los soldadores en el nuevo procedimiento es un costo de ___.",
+      "Reparar en obra una soldadura que el inspector rechazó antes de la entrega es un costo de ___.",
+      "Atender el reclamo del cliente por filtraciones después de la entrega es un costo de ___."
+    ],
+    "choices": [
+      [
+        "prevención",
+        "evaluación",
+        "falla interna",
+        "falla externa"
+      ],
+      [
+        "prevención",
+        "evaluación",
+        "falla interna",
+        "falla externa"
+      ],
+      [
+        "prevención",
+        "evaluación",
+        "falla interna",
+        "falla externa"
+      ]
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "rationale": "Capacitar evita defectos (prevención); corregir antes de la entrega es falla interna; corregir después de la entrega, con el cliente afectado, es falla externa. La evaluación correspondería a inspecciones y ensayos."
+  },
+  {
+    "id": "w7-dd-007",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Mentalidad",
+    "prompt": "El cliente pide cambiar el revestimiento de la fachada. Completa la secuencia del control de cambios.",
+    "items": [
+      "Primero, el director ___.",
+      "Luego, la decisión la toma ___.",
+      "Si se aprueba, se actualizan ___ y se comunica la decisión."
+    ],
+    "choices": [
+      [
+        "implementa el cambio para no retrasar la obra",
+        "analiza el impacto en alcance, costo, cronograma, calidad y riesgos",
+        "comunica al cliente que el cambio fue aceptado"
+      ],
+      [
+        "el miembro del equipo que recibió la solicitud",
+        "el proveedor del revestimiento",
+        "el comité de control de cambios u otra autoridad definida en el plan"
+      ],
+      [
+        "solo las actas de reunión",
+        "el plan, las líneas base y los documentos afectados",
+        "los contratos de todos los proveedores"
+      ]
+    ],
+    "correct": [
+      1,
+      2,
+      1
+    ],
+    "rationale": "El control de cambios integrado empieza por el análisis de impacto, la decisión la toma quien tiene autoridad según el plan y, si se aprueba, se actualizan el plan, las líneas base y los documentos, y se comunica."
+  },
+  {
+    "id": "w7-dd-008",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "dropdown",
+    "category": "Cálculo",
+    "prompt": "Red de actividades en días: A (3) precede a B (5) y a C (4); B y C preceden a D (2). Completa el análisis.",
+    "items": [
+      "La ruta crítica es ___.",
+      "La holgura total de C es ___.",
+      "Si B se retrasa 2 días, el proyecto dura ___."
+    ],
+    "choices": [
+      [
+        "A-B-D",
+        "A-C-D",
+        "A-B-C-D"
+      ],
+      [
+        "0 días",
+        "1 día",
+        "2 días",
+        "4 días"
+      ],
+      [
+        "10 días",
+        "11 días",
+        "12 días",
+        "14 días"
+      ]
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "rationale": "A-B-D dura 10 días y A-C-D 9, así que la ruta crítica es A-B-D y C tiene 1 día de holgura. B es crítica: un retraso de 2 días lleva el proyecto a 12.",
+    "family": "red-holgura-total"
+  },
+  {
+    "id": "w7-tb-001",
+    "module": "business",
+    "topicId": "business-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "table": {
+      "title": "Registro de riesgos (extracto)",
+      "head": [
+        "ID",
+        "Riesgo",
+        "Probabilidad",
+        "Impacto",
+        "Dueño",
+        "Respuesta",
+        "Estado"
+      ],
+      "rows": [
+        [
+          "R1",
+          "Lluvias atípicas en la excavación",
+          "Media",
+          "Alto",
+          "Residente",
+          "Bombeo y cronograma alternativo",
+          "Abierto"
+        ],
+        [
+          "R2",
+          "Alza del precio del acero",
+          "Alta",
+          "Medio",
+          "Ing. de costos",
+          "Compra anticipada del 60 %",
+          "En respuesta"
+        ],
+        [
+          "R3",
+          "Demora de la conformidad municipal",
+          "Alta",
+          "Alto",
+          "—",
+          "—",
+          "Abierto"
+        ],
+        [
+          "R4",
+          "Rotación de la supervisora",
+          "Baja",
+          "Medio",
+          "Gerente",
+          "Plan de sucesión",
+          "Abierto"
+        ]
+      ]
+    },
+    "prompt": "Al revisar el registro de riesgos, ¿qué debería hacer primero el director del proyecto?",
+    "options": [
+      "Cerrar R4 porque su probabilidad es baja.",
+      "Asignar un dueño a R3 y acordar con él una respuesta, porque tiene la mayor exposición y nadie lo está gestionando.",
+      "Revisar si la compra anticipada de R2 debería aumentar al 100 %.",
+      "Esperar a la próxima reunión mensual para revisar el registro con todo el equipo."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "Una probabilidad baja no justifica cerrar un riesgo vigente; R4 ya tiene respuesta.",
+      "R3 combina probabilidad e impacto altos y no tiene dueño ni respuesta: es la brecha más grave del registro.",
+      "Ajustar R2 puede ser útil, pero ese riesgo ya tiene dueño y respuesta en curso.",
+      "Esperar deja sin gestionar el riesgo más expuesto."
+    ],
+    "rationale": "Un riesgo de alta exposición sin dueño ni respuesta es la prioridad: sin responsable, nadie actuará a tiempo."
+  },
+  {
+    "id": "w7-tb-002",
+    "module": "business",
+    "topicId": "business-4",
+    "approach": "Híbrido",
+    "type": "multi",
+    "category": "Lectura",
+    "table": {
+      "title": "Registro de incidentes",
+      "head": [
+        "ID",
+        "Incidente",
+        "Responsable",
+        "Fecha objetivo",
+        "Estado",
+        "Días abierto"
+      ],
+      "rows": [
+        [
+          "I-12",
+          "Ascensor dañado en el izaje",
+          "Residente",
+          "15/12",
+          "En curso",
+          "4"
+        ],
+        [
+          "I-15",
+          "Licencia de obra observada",
+          "—",
+          "—",
+          "Abierto",
+          "19"
+        ],
+        [
+          "I-16",
+          "API de pagos rechaza transacciones de prueba",
+          "Líder técnica",
+          "Vencida (02/12)",
+          "Bloqueado",
+          "12"
+        ],
+        [
+          "I-17",
+          "Falta de EPP en una cuadrilla",
+          "Prevencionista",
+          "Hoy",
+          "Cerrado",
+          "1"
+        ]
+      ]
+    },
+    "prompt": "¿Qué DOS incidentes requieren intervención inmediata del director del proyecto? Selecciona DOS.",
+    "options": [
+      "I-12",
+      "I-15",
+      "I-16",
+      "I-17"
+    ],
+    "correct": [
+      1,
+      2
+    ],
+    "why": [
+      "I-12 tiene responsable, fecha objetivo y está en curso: se le da seguimiento normal.",
+      "I-15 lleva 19 días sin responsable ni fecha: nadie lo está gestionando.",
+      "I-16 está bloqueado y con la fecha objetivo vencida: necesita apoyo o escalamiento para destrabarlo.",
+      "I-17 ya está cerrado."
+    ],
+    "rationale": "Los incidentes sin dueño o bloqueados con la fecha vencida son los que el director debe atender; los que avanzan con responsable solo requieren seguimiento."
+  },
+  {
+    "id": "w7-tb-003",
+    "module": "business",
+    "topicId": "business-3",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "table": {
+      "title": "Registro de cambios",
+      "head": [
+        "ID",
+        "Cambio",
+        "Solicitado por",
+        "Impacto estimado",
+        "Decisión del CCB",
+        "Ejecutado"
+      ],
+      "rows": [
+        [
+          "CR-05",
+          "Ampliar el estacionamiento del sótano",
+          "Cliente",
+          "+S/ 120 mil, +3 semanas",
+          "Aprobado",
+          "Sí"
+        ],
+        [
+          "CR-06",
+          "Cambiar la marca de griferías",
+          "Arquitecta",
+          "Sin costo",
+          "Aprobado",
+          "Sí"
+        ],
+        [
+          "CR-07",
+          "Agregar un nivel de depósitos",
+          "Gerencia comercial",
+          "+S/ 300 mil, +6 semanas",
+          "Pendiente",
+          "En ejecución"
+        ],
+        [
+          "CR-08",
+          "Cambiar el color de la fachada",
+          "Cliente",
+          "Sin impacto",
+          "Rechazado",
+          "No"
+        ]
+      ]
+    },
+    "prompt": "Según el registro de cambios, ¿qué problema debe atender primero el director del proyecto?",
+    "options": [
+      "CR-08, porque el cliente puede molestarse por el rechazo.",
+      "CR-06, porque un cambio sin costo no debería pasar por el comité.",
+      "CR-05, porque su impacto en el plazo es alto.",
+      "CR-07, porque se está ejecutando un cambio de alto impacto que el comité aún no aprueba."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Comunicar bien el rechazo es necesario, pero el cambio no se ejecutó y la decisión ya está tomada.",
+      "Que un cambio no tenga costo no lo exime del proceso acordado; además ya fue aprobado.",
+      "CR-05 se aprobó con su impacto conocido: el proceso funcionó.",
+      "Ejecutar un cambio no aprobado salta la gobernanza y compromete costo y plazo: hay que detenerlo y regularizarlo."
+    ],
+    "rationale": "Solo se implementan cambios aprobados. CR-07 se ejecuta sin decisión del comité y con impacto alto: es la falla de control más grave."
+  },
+  {
+    "id": "w7-tb-004",
+    "module": "process",
+    "topicId": "process-5",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Cálculo",
+    "table": {
+      "title": "Evaluación de ofertas de carpintería metálica (puntaje de 1 a 10)",
+      "head": [
+        "Criterio (peso)",
+        "Proveedor A",
+        "Proveedor B",
+        "Proveedor C"
+      ],
+      "rows": [
+        [
+          "Precio (40 %)",
+          "8",
+          "6",
+          "9"
+        ],
+        [
+          "Experiencia (30 %)",
+          "6",
+          "9",
+          "5"
+        ],
+        [
+          "Plazo de entrega (30 %)",
+          "7",
+          "8",
+          "6"
+        ]
+      ]
+    },
+    "prompt": "Con los criterios ponderados acordados, ¿qué proveedor debería seleccionarse?",
+    "options": [
+      "Proveedor A, con 7,1 puntos.",
+      "Proveedor C, porque ofrece el mejor precio.",
+      "Proveedor B, con 7,5 puntos.",
+      "Proveedor C, con 6,9 puntos."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "A obtiene 0,4×8 + 0,3×6 + 0,3×7 = 7,1, menos que B.",
+      "Elegir solo por precio ignora los criterios ponderados que se acordaron.",
+      "B obtiene 0,4×6 + 0,3×9 + 0,3×8 = 2,4 + 2,7 + 2,4 = 7,5, el mayor puntaje.",
+      "C obtiene 0,4×9 + 0,3×5 + 0,3×6 = 6,9, el menor."
+    ],
+    "rationale": "Puntaje ponderado: A 7,1; B 7,5; C 6,9. Se selecciona B según los criterios definidos de antemano."
+  },
+  {
+    "id": "w7-tb-005",
+    "module": "process",
+    "topicId": "process-8",
+    "approach": "Predictivo",
+    "type": "single",
+    "category": "Lectura",
+    "table": {
+      "title": "Estado de actividades a la fecha de corte",
+      "head": [
+        "Actividad",
+        "Holgura total (días)",
+        "Retraso actual (días)"
+      ],
+      "rows": [
+        [
+          "Excavación",
+          "0",
+          "0"
+        ],
+        [
+          "Muros pantalla",
+          "3",
+          "2"
+        ],
+        [
+          "Instalaciones sanitarias",
+          "1",
+          "3"
+        ],
+        [
+          "Acabados de áreas comunes",
+          "5",
+          "4"
+        ]
+      ]
+    },
+    "prompt": "Si todo lo demás avanza según lo planificado, ¿qué retraso afecta la fecha de fin del proyecto y en cuánto?",
+    "options": [
+      "Acabados de áreas comunes, en 4 días.",
+      "Muros pantalla, en 2 días.",
+      "Ninguno, porque todas las actividades tienen holgura.",
+      "Instalaciones sanitarias, en 2 días."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Los acabados tienen 5 días de holgura y se retrasaron 4: no mueven el fin.",
+      "Los muros pantalla tienen 3 días de holgura y se retrasaron 2: no mueven el fin.",
+      "Tener holgura no basta: importa si el retraso la supera.",
+      "Las instalaciones sanitarias tienen 1 día de holgura y se retrasaron 3: el fin se mueve 3 − 1 = 2 días."
+    ],
+    "rationale": "Un retraso solo afecta la fecha de fin cuando supera la holgura total. Solo las instalaciones sanitarias la superan, por 2 días."
+  },
+  {
+    "id": "w7-tb-006",
+    "module": "people",
+    "topicId": "people-8",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Lectura",
+    "table": {
+      "title": "Matriz de comunicaciones (extracto)",
+      "head": [
+        "Interesado",
+        "Información",
+        "Frecuencia",
+        "Canal"
+      ],
+      "rows": [
+        [
+          "Patrocinador",
+          "Estado ejecutivo y decisiones pendientes",
+          "Quincenal",
+          "Reunión de 30 min + tablero"
+        ],
+        [
+          "Equipo de obra",
+          "Programación de la semana",
+          "Semanal",
+          "Reunión de coordinación en obra"
+        ],
+        [
+          "Municipalidad",
+          "Avance detallado de todas las partidas",
+          "Diaria",
+          "Grupo de chat del equipo"
+        ],
+        [
+          "Usuarios piloto de la app",
+          "Novedades de cada incremento",
+          "Cada sprint",
+          "Demostración y encuesta"
+        ]
+      ]
+    },
+    "prompt": "¿Qué fila de la matriz de comunicaciones conviene corregir primero?",
+    "options": [
+      "Patrocinador: la frecuencia quincenal es demasiado baja.",
+      "Usuarios piloto: deberían recibir solo un informe al final del proyecto.",
+      "Municipalidad: recibe información que no necesita, con una frecuencia y un canal inadecuados para una entidad que fiscaliza.",
+      "Equipo de obra: la programación debería enviarse solo por correo."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "Un resumen ejecutivo quincenal con un tablero disponible es razonable para decidir.",
+      "Los usuarios piloto aportan retroalimentación en cada incremento; un informe final llegaría tarde.",
+      "La municipalidad necesita información formal sobre permisos e hitos que la afectan, por canales oficiales; el detalle diario por chat no responde a sus necesidades y expone información interna.",
+      "La reunión en obra permite aclarar dudas; el correo solo empobrecería la coordinación."
+    ],
+    "rationale": "La comunicación se adapta a cada interesado: contenido, frecuencia y canal según su rol. La fila de la municipalidad no lo hace."
+  },
+  {
+    "id": "w7-tb-007",
+    "module": "agile",
+    "topicId": "agile-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Lectura",
+    "table": {
+      "title": "Métricas de los últimos sprints",
+      "head": [
+        "Sprint",
+        "Puntos comprometidos",
+        "Puntos terminados",
+        "Historias con defectos en la revisión"
+      ],
+      "rows": [
+        [
+          "S5",
+          "30",
+          "22",
+          "1"
+        ],
+        [
+          "S6",
+          "32",
+          "21",
+          "2"
+        ],
+        [
+          "S7",
+          "34",
+          "20",
+          "4"
+        ],
+        [
+          "S8",
+          "36",
+          "19",
+          "5"
+        ]
+      ]
+    },
+    "prompt": "¿Qué interpretación de las métricas es la más adecuada?",
+    "options": [
+      "El equipo está mejorando, porque compromete más puntos cada sprint.",
+      "El equipo se compromete por encima de su capacidad real, que además baja, y la calidad empeora: conviene planificar según la velocidad observada y analizar la causa en la retrospectiva.",
+      "Hay que pedir al equipo horas extra para cumplir lo comprometido.",
+      "Los defectos no son relevantes si las historias se terminan."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "Comprometer más no es mejorar: lo terminado cae de 22 a 19.",
+      "La brecha entre lo comprometido y lo terminado crece y los defectos suben: sobrecompromiso con efecto en la calidad. Se planifica con la velocidad real y se busca la causa.",
+      "Las horas extra no atacan la causa y empeoran el ritmo sostenible.",
+      "Los defectos indican que el trabajo 'terminado' no cumple la calidad esperada."
+    ],
+    "rationale": "La planificación debe basarse en la velocidad observada (cerca de 20 puntos), no en un compromiso creciente; la caída de calidad confirma la sobrecarga."
   }
 ]

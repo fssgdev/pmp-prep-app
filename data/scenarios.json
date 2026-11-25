@@ -203,5 +203,52 @@
         }
       ]
     }
+  },
+  {
+    "id": "sc-edificio-verde",
+    "title": "Caso Edificio Verde: informe de estado integrado",
+    "context": "Una inmobiliaria construye un edificio de oficinas con certificación de sostenibilidad. La estructura y las instalaciones se gestionan de forma predictiva; la plataforma digital para los inquilinos (reservas, consumo de energía y accesos) se desarrolla en sprints de dos semanas. Al cierre de la semana 20, el informe de estado integrado que recibe el patrocinador muestra los indicadores de la tabla. El hito de entrega a los inquilinos (obra y plataforma) es fijo por contrato.",
+    "table": {
+      "title": "Informe de estado integrado · semana 20",
+      "head": [
+        "Indicador",
+        "Obra (predictivo)",
+        "Plataforma (ágil)",
+        "Meta"
+      ],
+      "rows": [
+        [
+          "Avance",
+          "SPI 0,94",
+          "Velocidad media 21 pts (plan 24)",
+          "SPI ≥ 0,95 / 24 pts"
+        ],
+        [
+          "Costo",
+          "CPI 1,03",
+          "Gasto según presupuesto por sprint",
+          "CPI ≥ 1,00"
+        ],
+        [
+          "Calidad",
+          "2 no conformidades abiertas",
+          "Defectos que llegan a producción: 7 (antes 2)",
+          "≤ 3 / ≤ 2"
+        ],
+        [
+          "Riesgos",
+          "Retraso en paneles fotovoltaicos (alto)",
+          "Integración con medidores (medio)",
+          "—"
+        ],
+        [
+          "Interesados",
+          "Inquilino ancla satisfecho",
+          "Encuesta de usuarios piloto: 3,1/5",
+          "≥ 4/5"
+        ]
+      ],
+      "note": "Fuente: tablero del proyecto. Los defectos subieron después de que el equipo redujo las pruebas automatizadas para alcanzar la velocidad planificada."
+    }
   }
 ]

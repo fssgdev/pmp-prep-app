@@ -28,6 +28,9 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     // issue #7: 200 simulacros generados sin preguntas introductorias ni dos de la misma familia
     const integ = await page.evaluate(() => { let bad = 0; for (let k = 0; k < 200; k++) { const r = buildMock(); if (!r) { bad++; continue; } const qs = r.ids.map(mockQ), fam = qs.filter(q => q.family).map(q => q.family); if (qs.some(q => q.level === 'intro') || new Set(fam).size !== fam.length || new Set(r.ids).size !== 180) bad++; } return bad; });
     assert(integ === 0, 'simulacros sin introductorias ni reformulaciones (200 generados, fallos: ' + integ + ')');
+    // ECO julio 2026: ~40 % predictivo en las 170 calificadas
+    const mix = await page.evaluate(() => { const v = []; for (let k = 0; k < 50; k++) { const r = buildMock(); v.push(r.ids.filter(id => !r.unscored.includes(id)).map(mockQ).filter(q => q.approach === 'Predictivo').length); } return [Math.min(...v), Math.max(...v)]; });
+    assert(mix[0] >= 66 && mix[1] <= 70, 'enfoque predictivo ≈ 40 % de las calificadas ' + JSON.stringify(mix));
     // responde la primera con la UI
     const first = page.locator('.options input, .match-list select').first();
     if (await page.locator('.options input').count()) await page.locator('.options label').first().click(); else await page.locator('.match-list select').first().selectOption('0');

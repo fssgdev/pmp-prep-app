@@ -47,11 +47,26 @@ function buildPlan() {
         title: `Sesión ${s.id}: preparar la aplicación PMP`, detail: 'Revisa requisitos, horas de formación y experiencia para tu solicitud.'});
     }
   });
+  // Examen completo al terminar las lecciones: primer sábado después de la última sesión.
+  const lastS = ss[ss.length - 1]?.date || '2027-01-06';
+  let exam0 = plusDays(lastS, 1); while (weekday(exam0) !== 6) exam0 = plusDays(exam0, 1);
+  // Simulacro semanal de 20 preguntas (sábados) con las lecciones vistas hasta esa semana.
+  const mock1 = plusDays(exam, -14), mock2 = plusDays(exam, -7);
+  for (let d = WEEKLY_START; d < plusDays(exam, -1); d = plusDays(d, 7)) {
+    if ([exam0, mock1, mock2].includes(d)) continue;
+    const topics = weeklyTopics(d), n = weeklyCount(d);
+    tasks.push({id: 'week20-' + d, kind: 'weekly', date: d, due: plusDays(d, 1), topics, n,
+      title: 'Simulacro semanal de 20 preguntas', detail: `Lecciones v4.1 vistas hasta esta semana: ${coveredLessons(d).join(', ') || '—'}. ~40 % predictivo y ~60 % ágil o híbrido, con gráficos, tablas, listas desplegables y «señale y haga clic».`});
+  }
+  if (exam0 < plusDays(exam, -14)) {
+    tasks.push({id: 'mock-0', kind: 'mock', date: exam0, due: plusDays(exam0, 1), title: 'Examen completo de fin de curso', detail: '180 preguntas en 240 minutos al terminar las lecciones: tu diagnóstico de partida para el tramo final.'});
+    tasks.push({id: 'mockrev-0', kind: 'errors', date: plusDays(exam0, 1), due: plusDays(exam0, 2), title: 'Revisión del examen de fin de curso', detail: 'Identifica los dominios y tareas más débiles y priorízalos en el tramo final.'});
+  }
   // Tramo final: desde el 7 de enero hasta el examen.
-  const start = '2027-01-07', mock1 = plusDays(exam, -14), mock2 = plusDays(exam, -7);
+  const start = '2027-01-07';
   for (let d = start; d < plusDays(exam, -1); d = plusDays(d, 1)) {
     const wd = weekday(d);
-    if (d === mock1 || d === mock2) continue;
+    if (d === mock1 || d === mock2 || d === exam0 || d === plusDays(exam0, 1)) continue;
     if (wd === 0) tasks.push({id: 'err-' + d, kind: 'errors', date: d, due: d, title: 'Revisión semanal de errores', detail: 'Repasa y cierra los errores abiertos.'});
     else if ([1, 3, 5].includes(wd)) tasks.push({id: 'mix-' + d, kind: 'mixed', date: d, due: d, title: 'Práctica mixta de 20 preguntas', detail: 'Los tres dominios y todos los enfoques.'});
   }
@@ -63,6 +78,31 @@ function buildPlan() {
   tasks.push({id: 'mockrev-2', kind: 'errors', date: plusDays(mock2, 1), due: plusDays(mock2, 1), title: 'Revisión del simulacro 2', detail: 'Cierra brechas puntuales; no inicies temas nuevos.'});
   tasks.push({id: 'light-close', kind: 'manual', date: plusDays(exam, -1), due: plusDays(exam, -1), title: 'Cierre ligero antes del examen', detail: 'Repasa conceptos clave y tarjetas, revisa la logística y descansa.'});
   return tasks.sort((a, b) => a.due.localeCompare(b.due) || a.date.localeCompare(b.date));
+}
+/* ---------- simulacro semanal de 20 (lecciones vistas hasta la semana) ---------- */
+const WEEKLY_START = '2026-11-28', WEEKLY_SIZE = 20;
+function coveredLessons(d) {
+  const ws = weekStart(d), set = new Set();
+  planWeeks().filter(w => w.start <= ws).forEach(w => { const a = activeLesson(w.start); if (a) set.add(a.n); });
+  return [...set].sort((a, b) => a - b);
+}
+function weeklyTopics(d) { return [...new Set(coveredLessons(d).flatMap(n => lessonCfg(n).topics || []))]; }
+function weeklyCount() { return WEEKLY_SIZE; }
+/* 20 preguntas de nivel examen: ~40 % predictivo, como máximo un escenario completo, variedad de formatos. */
+function weeklySet(topics) {
+  const base = allQuestions().filter(q => q.level !== 'intro' && q.module !== undefined), inT = q => !topics.length || topics.includes(q.topicId);
+  let pool = base.filter(inT); if (pool.length < WEEKLY_SIZE) pool = [...pool, ...shuffleArr(base.filter(q => !inT(q)))];
+  const chosen = [], used = new Set(), fams = new Set();
+  const add = q => { if (chosen.length >= WEEKLY_SIZE || used.has(q.id) || (q.family && fams.has(q.family))) return false; chosen.push(q); used.add(q.id); if (q.family) fams.add(q.family); return true; };
+  const scen = shuffleArr([...new Set(pool.filter(q => q.scenarioId).map(q => q.scenarioId))])[0];
+  if (scen) pool.filter(q => q.scenarioId === scen).forEach(add);
+  const singles = shuffleArr(pool.filter(q => !q.scenarioId));
+  for (const t of ['dropdown', 'hotspot', 'match', 'multi']) { const q = singles.find(q => q.type === t && !used.has(q.id)); if (q) add(q); }
+  const predNeed = Math.round(WEEKLY_SIZE * 0.4);
+  for (const q of singles.filter(q => q.approach === 'Predictivo')) { if (chosen.filter(x => x.approach === 'Predictivo').length >= predNeed) break; add(q); }
+  for (const q of singles.filter(q => q.approach !== 'Predictivo')) add(q);
+  for (const q of singles) add(q);
+  return chosen;
 }
 function taskStatus(t) {
   if (state.tasksDone?.[t.id]) return 'done';
@@ -86,6 +126,7 @@ function doTask(id) {
   if (t.kind === 'quiz') startQuiz(questionsFor(t.topics), 10, t.title, false, t.id);
   else if (t.kind === 'review') startQuiz(questionsFor(t.topics), 5, t.title, false, t.id);
   else if (t.kind === 'mixed') startQuiz(allQuestions(), 20, t.title, false, t.id);
+  else if (t.kind === 'weekly') { const qs = weeklySet(weeklyTopics(t.date)); startQuiz(qs, 'all', t.title + ' · ' + date(t.date, {day: 'numeric', month: 'short'}), false, t.id); }
   else if (t.kind === 'errors') go('errores');
   else if (t.kind === 'mock') { simTab = 'completo'; go('simulacros'); }
   else dialog(t.title, `<p class="hint">${esc(t.detail)}</p><div class="actions">${button('Marcar como hecho', 'task-toggle', '', `data-id="${t.id}"`)}${button('Cerrar', 'close-dialog', 'white')}</div>`);
@@ -97,7 +138,22 @@ function doTask(id) {
    · Bien max(2, Difícil+1, I·E) · Fácil max(4, Bien+1, I·E·1,3). Los valores base son mínimos y el orden es estricto. */
 const CARD_MIN = {hard: 1, good: 2, easy: 4};
 const CARD_DAILY_GOAL = 4;
-function allCards() { return (D.concepts || []).flatMap(c => c.cards.map(k => ({...k, conceptId: c.id, concept: c.title, topicId: c.topicId}))); }
+function allCards() {
+  if (!allCards.cache) {
+    const concept = (D.concepts || []).flatMap(c => c.cards.map(k => ({...k, conceptId: c.id, concept: c.title, topicId: c.topicId})));
+    /* Tarjetas del glosario (términos del Glossary v4.1, definición propia simplificada + ejemplo de obra). */
+    const gloss = (D.glossary || []).map(g => ({id: g.id, front: g.term, en: g.en, back: g.def, example: g.ex, topicId: g.topicId, lesson: g.lesson, gloss: true, concept: 'Glosario'}));
+    allCards.cache = [...concept, ...gloss];
+  }
+  return allCards.cache;
+}
+/* Lección v4.1 de una tarjeta (la del glosario o la de su tarea ECO). */
+function cardLesson(c) { if (c.lesson) return c.lesson; const t = topicBy(c.topicId), l = t && D.course?.lessons.find(x => x.eco.includes(t.code)); return l ? l.n : 9; }
+/* Orden de las tarjetas nuevas: primero las de lecciones ya vistas o en curso, luego el resto por lección. */
+function freshCards() {
+  const seen = typeof coveredLessons === 'function' ? Math.max(0, ...coveredLessons(today())) : 9;
+  return allCards().filter(c => !cardState(c.id)).map((c, i) => ({c, i, l: cardLesson(c)})).sort((a, b) => ((a.l <= seen) === (b.l <= seen) ? 0 : a.l <= seen ? -1 : 1) || a.l - b.l || a.i - b.i).map(x => x.c);
+}
 function cardState(id) { return state.cards[id] || null; }
 function cardPhase(s) { return !s ? 'new' : s.phase ? s.phase : (s.reps > 0 && s.interval >= 1 ? 'review' : 'learning'); }
 function newToday() { return state.cardLog.filter(l => l.first && l.date === today()).length; }
@@ -113,7 +169,7 @@ function dueCards() { return allCards().filter(c => cardDueNow(cardState(c.id)))
 function learningLater() { return allCards().filter(c => { const s = cardState(c.id); return s && s.dueAt && !cardDueNow(s); }).map(c => ({id: c.id, at: Date.parse(cardState(c.id).dueAt)})).sort((a, b) => a.at - b.at); }
 function buildQueue() {
   ensureStudyState();
-  const fresh = allCards().filter(c => !cardState(c.id)).slice(0, newAllowance());
+  const fresh = freshCards().slice(0, newAllowance());
   return [...dueCards(), ...fresh].map(c => c.id);
 }
 function cardsDueCount() { return buildQueue().length; }
@@ -323,7 +379,7 @@ function renderPlan() {
   const final = plan.filter(t => !t.session);
   const done = plan.filter(t => state.tasksDone?.[t.id]).length;
   return heading('RUTA DE APRENDIZAJE', 'Sesión por sesión hasta el examen', `Cada cuestionario vence el día anterior a la siguiente sesión. Examen: ${date(examDate())} ${examConfirmed() ? '(confirmado)' : '(tentativo)'}.`, button('Cambiar fecha del examen', 'settings', 'white')) +
-  `<section class="card freq"><div class="freq-grid"><div><b>1 · 3 · 7 · 14</b><span>días después de cada sesión: repasos cortos de sus temas</span></div><div><b>L · M · V</b><span>práctica mixta de 20 preguntas desde el 7 de enero</span></div><div><b>Domingos</b><span>revisión semanal de errores desde el 7 de enero</span></div><div><b>−14 y −7</b><span>días antes del examen: simulacros completos y su revisión</span></div><div><b>Diario</b><span>tarjetas de repaso espaciado (obligatorio)</span></div></div><p class="hint" style="margin-top:12px">${done} de ${plan.length} actividades hechas. Si cambias la fecha del examen, los repasos y simulacros futuros se recalculan; lo completado se conserva.</p></section>` +
+  `<section class="card freq"><div class="freq-grid"><div><b>1 · 3 · 7 · 14</b><span>días después de cada sesión: repasos cortos de sus temas</span></div><div><b>L · M · V</b><span>práctica mixta de 20 preguntas desde el 7 de enero</span></div><div><b>Domingos</b><span>revisión semanal de errores desde el 7 de enero</span></div><div><b>Sábados</b><span>simulacro de 20 preguntas con las lecciones vistas (40 % predictivo, 60 % ágil o híbrido)</span></div><div><b>Fin de curso · −14 · −7</b><span>exámenes completos de 180 preguntas y su revisión</span></div><div><b>Diario</b><span>tarjetas de repaso espaciado (obligatorio)</span></div></div><p class="hint" style="margin-top:12px">${done} de ${plan.length} actividades hechas. Si cambias la fecha del examen, los repasos y simulacros futuros se recalculan; lo completado se conserva.</p></section>` +
   `<div class="notice" style="margin-top:20px">El título y el PPT de cada sesión son los del programa INGENIUM. La lección v4.1 y los temas siguen el avance real de la clase, verificado con las notas que el instructor sube al Drive con la fecha de cada sesión; las sesiones futuras son una proyección por confirmar.</div><div class="stack" style="margin-top:14px">${ss.map(s => {
     const own = plan.filter(t => t.session === s.id), quiz = own.find(t => t.kind !== 'review'), reviews = own.filter(t => t.kind === 'review');
     const n = s.topics.length ? questionsFor(s.topics).length : 0;
@@ -334,10 +390,22 @@ function renderPlan() {
   <details class="card" style="margin-top:20px"><summary><strong>Metodología, etapas y lecciones del curso v4.1</strong></summary><div style="margin-top:18px">${renderRoadmap()}</div></details>`;
 }
 
+let glossLesson = 'all';
+function renderGlossary() {
+  const q = conceptSearch.toLocaleLowerCase('es'), letter = t => plain(t)[0].toUpperCase();
+  const list = (D.glossary || []).filter(g => (glossLesson === 'all' || String(g.lesson) === glossLesson) && plain(g.term + ' ' + (g.en || '') + ' ' + g.def + ' ' + g.ex).toLocaleLowerCase('es').includes(q));
+  const letters = [...new Set(list.map(g => letter(g.term)))];
+  return `<div class="toolbar"><div class="filter-group">${[['all', 'Todas'], ...[1, 2, 3, 4, 5, 6, 7, 8].map(n => [String(n), 'L' + n])].map(([id, n]) => `<button data-action="gloss-lesson" data-id="${id}" class="${glossLesson === id ? 'active' : ''}">${n}</button>`).join('')}</div><input type="search" id="concept-search" placeholder="Buscar término…" aria-label="Buscar término del glosario" value="${esc(conceptSearch)}"><span class="hint">${list.length} términos</span></div>
+  <p class="hint" style="margin:-4px 0 14px">Términos del glosario del curso PMP v4.1, explicados con palabras simples y un ejemplo de obra. Cada término también es una tarjeta en Flashcards. Al estudiar en inglés, el término original va entre paréntesis.</p>
+  <nav class="gloss-letters" aria-label="Índice alfabético">${letters.map(l => `<a href="#conceptos/glosario" data-action="gloss-jump" data-id="${l}">${l}</a>`).join('')}</nav>
+  <div class="gloss-list">${letters.map(l => `<h3 class="gloss-letter" id="gloss-${l}">${l}</h3>${list.filter(g => letter(g.term) === l).map(g => `<article class="gloss-item"><div class="gloss-head"><h4>${esc(g.term)}</h4>${g.en ? `<span class="gloss-en">${esc(g.en)}</span>` : ''}<span class="gloss-badges">${badge('L' + g.lesson, 'green')}${g.topicId ? ' ' + badge(topicLabel(g.topicId), 'blue') : ''}</span></div><p>${esc(g.def)}</p><div class="concept-example"><span class="eyebrow">EN OBRA</span><p>${esc(g.ex)}</p></div></article>`).join('')}`).join('') || empty('Sin resultados', 'Prueba otra lección o término.')}</div>`;
+}
 function renderConcepts() {
   const [, arg] = (location.hash.slice(1) || '').split('/');
+  const tabs = `<div class="module-tabs concept-tabs"><a class="module-tab ${arg !== 'glosario' ? 'active' : ''}" href="#conceptos"><b>Conceptos clave</b><small>${(D.concepts || []).length} fichas con ejemplo</small></a><a class="module-tab ${arg === 'glosario' ? 'active' : ''}" href="#conceptos/glosario"><b>Glosario y marco teórico</b><small>${(D.glossary || []).length} términos del curso v4.1</small></a></div>`;
+  if (arg === 'glosario') return heading('MARCO TEÓRICO', 'Glosario PMP', 'Cada término con una definición simple y un ejemplo aplicado a construcción.', `<a class="button light" href="#flashcards">${icon('cards')} Repasar tarjetas</a>`) + tabs + renderGlossary();
   const list = (D.concepts || []).filter(c => (conceptFilter === 'all' || c.topicId.startsWith(conceptFilter)) && (plain(c.title + ' ' + c.definition + ' ' + c.example).toLocaleLowerCase('es').includes(conceptSearch.toLocaleLowerCase('es'))));
-  return heading('CONCEPTOS CLAVE', 'Lo que el examen da por sabido', 'Definición breve, palabras clave resaltadas y un ejemplo aplicado a construcción.', `<a class="button light" href="#flashcards">${icon('cards')} Repasar tarjetas</a>`) +
+  return heading('CONCEPTOS CLAVE', 'Lo que el examen da por sabido', 'Definición breve, palabras clave resaltadas y un ejemplo aplicado a construcción.', `<a class="button light" href="#flashcards">${icon('cards')} Repasar tarjetas</a>`) + tabs +
   `<div class="toolbar"><div class="filter-group">${[['all', 'Todos'], ['people', 'People'], ['process', 'Process'], ['business', 'Business'], ['agile', 'Ágil']].map(([id, n]) => `<button data-action="concept-filter" data-id="${id}" class="${conceptFilter === id ? 'active' : ''}">${n}</button>`).join('')}</div><input type="search" id="concept-search" placeholder="Buscar concepto…" aria-label="Buscar concepto" value="${esc(conceptSearch)}"><span class="hint">${list.length} conceptos</span></div>
   <div class="concept-list">${list.map(c => `<article class="concept ${arg === c.id ? 'focus' : ''}" id="concept-${c.id}"><div class="meta">${badge(topicLabel(c.topicId), 'blue')} ${badge(esc(topicBy(c.topicId)?.title || ''))}</div><h2>${esc(c.title)}</h2><p class="concept-def">${kw(c.definition)}</p><div class="concept-example"><span class="eyebrow">APLICADO A CONSTRUCCIÓN</span><p>${esc(c.example)}</p></div><div class="actions">${button('Practicar el tema ' + icon('arrow'), 'start-topic', 'light small', `data-id="${c.topicId}"`)}<span class="hint">${c.cards.length} ${c.cards.length === 1 ? 'tarjeta' : 'tarjetas'}</span></div></article>`).join('') || empty('Sin resultados', 'Prueba otro filtro o término.')}</div>`;
 }
@@ -367,7 +435,7 @@ function renderFlashcards() {
   }
   const card = allCards().find(c => c.id === cardQueue[0]), prev = cardState(card.id), ph = cardPhase(prev), ivs = nextIntervals(prev);
   const opts = [['again', 'Otra vez', 'danger'], ['hard', 'Difícil', 'white'], ['good', 'Bien', ''], ['easy', 'Fácil', 'lime']];
-  return head + `<section class="card flashcard"><div class="meta">${badge(topicLabel(card.topicId), 'blue')} ${lessonBadgeFor(card.topicId)} ${badge(esc(card.concept))} ${ph === 'new' ? badge('Nueva', 'green') : ph === 'review' ? badge('Repaso') : badge('En aprendizaje', 'orange')}</div><h2 class="flash-front">${esc(card.front)}</h2>${cardRevealed ? `<div class="flash-back">${esc(card.back)}</div><a class="text-link" href="#conceptos/${card.conceptId}">Ver ficha del concepto ${icon('arrow')}</a><div class="grade-row">${cardMode === 'extra' ? opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: repaso extra, no cambia la programación">${n}<small>sin cambios</small></button>`).join('') : opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: vuelve en ${stepText(ivs[gr])}">${n}<small>${stepText(ivs[gr])}</small></button>`).join('')}</div>` : `<div class="actions" style="justify-content:center;margin-top:26px">${button('Mostrar respuesta', 'card-reveal', '')}</div><p class="hint" style="text-align:center;margin-top:10px">Atajos: Espacio para mostrar · 1 a 4 para calificar · ${cardQueue.length} en la cola</p>`}</section>`;
+  return head + `<section class="card flashcard"><div class="meta">${card.topicId ? badge(topicLabel(card.topicId), 'blue') : ''} ${badge('Lección ' + cardLesson(card) + ' · v4.1', 'green')} ${badge(esc(card.concept), card.gloss ? 'orange' : '')} ${ph === 'new' ? badge('Nueva', 'green') : ph === 'review' ? badge('Repaso') : badge('En aprendizaje', 'orange')}</div><h2 class="flash-front">${card.gloss ? '¿Qué es «' + esc(card.front) + '»?' : esc(card.front)}${card.en ? `<small class="flash-en">${esc(card.en)}</small>` : ''}</h2>${cardRevealed ? `<div class="flash-back">${esc(card.back)}</div>${card.example ? `<div class="concept-example flash-ex"><span class="eyebrow">EN OBRA</span><p>${esc(card.example)}</p></div>` : ''}<a class="text-link" href="#conceptos/${card.gloss ? 'glosario' : card.conceptId}">${card.gloss ? 'Ver en el glosario' : 'Ver ficha del concepto'} ${icon('arrow')}</a><div class="grade-row">${cardMode === 'extra' ? opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: repaso extra, no cambia la programación">${n}<small>sin cambios</small></button>`).join('') : opts.map(([gr, n, k]) => `<button class="button ${k}" data-action="card-grade" data-id="${gr}" aria-label="${n}: vuelve en ${stepText(ivs[gr])}">${n}<small>${stepText(ivs[gr])}</small></button>`).join('')}</div>` : `<div class="actions" style="justify-content:center;margin-top:26px">${button('Mostrar respuesta', 'card-reveal', '')}</div><p class="hint" style="text-align:center;margin-top:10px">Atajos: Espacio para mostrar · 1 a 4 para calificar · ${cardQueue.length} en la cola</p>`}</section>`;
 }
 
 /* ---------- agenda ---------- */
@@ -440,6 +508,8 @@ const STUDY_ACTIONS = {
   'start-topic-set': el => { const ids = el.dataset.id.split(','); startQuiz(questionsFor(ids), 5, 'Preparación para la próxima sesión'); },
   'quick': el => startQuiz(allQuestions(), el.dataset.n, `Práctica rápida de ${el.dataset.n}`),
   'concept-filter': el => { conceptFilter = el.dataset.id; render(); },
+  'gloss-lesson': el => { glossLesson = el.dataset.id; render(); },
+  'gloss-jump': el => { document.getElementById('gloss-' + el.dataset.id)?.scrollIntoView({behavior: 'smooth', block: 'start'}); },
   'card-reveal': () => { cardRevealed = true; render(); },
   'card-grade': el => gradeCard(el.dataset.id),
   'cards-more': () => { ensureStudyState(); state.cardExtra = {...(state.cardExtra || {}), [today()]: extraNewToday() + 5}; save(); cardMode = 'due'; cardQueue = buildQueue(); cardRevealed = false; render(); },

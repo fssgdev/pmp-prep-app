@@ -6,6 +6,7 @@
 
 const MOCK_BLOCK = 60;            // 3 bloques de 60 preguntas
 const MOCK_DOMAINS = ['people', 'process', 'business'];
+const MOCK_PREDICTIVE = 0.4;
 let mockTimer = null, mockReviewOpen = null;
 
 /* Solo ítems de nivel examen: las preguntas level:"intro" son práctica introductoria (issue #7). */
@@ -29,8 +30,12 @@ function buildMock() {
   /* Una sola pregunta por familia (reformulaciones del mismo caso, campo opcional "family"). */
   const take = q => { if (used.has(q.id) || (q.family && fams.has(q.family))) return false; used.add(q.id); if (q.family) fams.add(q.family); return true; };
   for (const d of MOCK_DOMAINS) {
+    /* ECO julio 2026: ~40 % predictivo y ~60 % ágil o híbrido, dentro de cada dominio. */
     let n = 0;
-    for (const q of shuffle(bank.filter(q => q.module === d))) { if (n >= need[d]) break; if (take(q)) { scored.push(q.id); n++; } }
+    const pool = shuffle(bank.filter(q => q.module === d)), pred = pool.filter(q => q.approach === 'Predictivo'), other = pool.filter(q => q.approach !== 'Predictivo');
+    const predNeed = Math.round(need[d] * MOCK_PREDICTIVE);
+    for (const q of pred) { if (n >= predNeed) break; if (take(q)) { scored.push(q.id); n++; } }
+    for (const q of [...other, ...pred]) { if (n >= need[d]) break; if (take(q)) { scored.push(q.id); n++; } }
     if (n < need[d]) return null;
   }
   const unscored = [];
@@ -66,9 +71,7 @@ function ensureTimer() { if (!mockTimer && mockRun() && mockRun().phase !== 'don
 const blockRange = b => [b * MOCK_BLOCK, Math.min((b + 1) * MOCK_BLOCK, MOCK_FORMAT.total)];
 function blockStats(r, b) { const [a, z] = blockRange(b), ids = r.ids.slice(a, z); return {total: ids.length, answered: ids.filter(id => r.answers[id]).length, flagged: ids.filter(id => r.flags[id]).length}; }
 function answeredOk(q, sel) {
-  if (!sel) return false;
-  if (q.type === 'match') return q.correct.every((c, i) => sel[i] === c);
-  return q.correct.length === sel.length && q.correct.every(i => sel.includes(i));
+  return itemOk(q, sel);
 }
 
 /* ---------- resultados ---------- */
@@ -107,14 +110,14 @@ function renderMockRun() {
   }
   if (r.phase === 'blockreview') return renderBlockReview(r);
   const [a, z] = blockRange(r.block), id = r.ids[r.index], q = mockQ(id), sel = r.answers[id] || [], L = i => String.fromCharCode(65 + i), sc = scenarioBy(q.scenarioId);
-  const body = q.type === 'match'
+  const body = (q.type === 'dropdown' || q.type === 'hotspot') ? itemBody(q, sel, null, 'mock') : q.type === 'match'
     ? `<p class="hint">Elige la opción que corresponde a cada elemento. Una opción puede quedar sin usar.</p><div class="match-list">${q.items.map((it, i) => `<div class="match-row"><label for="mm-${i}"><span class="option-label">${i + 1}</span> ${esc(it)}</label><select id="mm-${i}" data-mock-match="${i}"><option value="-1">Elige una opción…</option>${q.options.map((o, j) => `<option value="${j}" ${sel[i] === j ? 'selected' : ''}>${L(j)}. ${esc(o)}</option>`).join('')}</select></div>`).join('')}</div>`
     : `<p class="hint">${q.type === 'multi' ? `Selecciona ${q.correct.length} respuestas.` : 'Selecciona una respuesta.'}</p><div class="options">${q.options.map((o, i) => `<label class="option ${sel.includes(i) ? 'selected' : ''}"><input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="mock-choice" value="${i}" ${sel.includes(i) ? 'checked' : ''}><span class="option-label">${L(i)}</span><span>${esc(o)}</span></label>`).join('')}</div>`;
-  const context = sc ? `<details class="scenario" open><summary>${icon('book')} ${esc(sc.title)}</summary><div class="quiz-context">${esc(sc.context)}</div>${chartBlock(sc.chart)}</details>` : q.context ? `<div class="quiz-context" style="margin-top:20px">${esc(q.context)}</div>` : '';
+  const context = sc ? `<details class="scenario" open><summary>${icon('book')} ${esc(sc.title)}</summary><div class="quiz-context">${esc(sc.context)}</div>${chartBlock(sc.chart)}${artifactBlock(sc.table)}</details>` : q.context ? `<div class="quiz-context" style="margin-top:20px">${esc(q.context)}</div>` : '';
   const grid = r.ids.slice(a, z).map((x, k) => `<button class="mock-cell ${r.answers[x] ? 'ans' : ''} ${r.flags[x] ? 'flag' : ''} ${a + k === r.index ? 'cur' : ''}" data-action="mock-goto" data-id="${a + k}" aria-label="Pregunta ${a + k + 1}${r.answers[x] ? ', respondida' : ', sin responder'}${r.flags[x] ? ', marcada' : ''}">${a + k + 1}</button>`).join('');
   const st = blockStats(r, r.block), last = r.index === z - 1;
   return `<div class="mock-bar"><div><strong>Bloque ${r.block + 1} de 3</strong> · Pregunta ${r.index + 1} de ${MOCK_FORMAT.total}</div><div class="mock-clock" role="timer" aria-label="Tiempo restante">${icon('clock')}<span id="mock-clock">${clock(mockLeft(r))}</span></div></div>
-  <div class="quiz-layout"><section class="card quiz-card"><div class="quiz-top"><span>${badge(typeLabel(q))}</span>${button(r.flags[id] ? '★ Marcada para revisar' : '☆ Marcar para revisar', 'mock-flag', 'ghost small', `aria-pressed="${Boolean(r.flags[id])}"`)}</div>${progress(pct(r.index + 1, MOCK_FORMAT.total))}${context}${!sc && q.chart ? chartBlock(q.chart) : ''}<h2>${esc(q.prompt)}</h2>${body}
+  <div class="quiz-layout"><section class="card quiz-card"><div class="quiz-top"><span>${badge(typeLabel(q))}</span>${button(r.flags[id] ? '★ Marcada para revisar' : '☆ Marcar para revisar', 'mock-flag', 'ghost small', `aria-pressed="${Boolean(r.flags[id])}"`)}</div>${progress(pct(r.index + 1, MOCK_FORMAT.total))}${context}${!sc && q.chart && q.type !== 'hotspot' ? chartBlock(q.chart) : ''}${!sc ? artifactBlock(q.table) : ''}<h2>${esc(q.prompt)}</h2>${body}
   <div class="quiz-actions mock-actions">${button('← Anterior', 'mock-prev', 'white', r.index === a ? 'disabled' : '')}${last ? button('Revisar el bloque ' + icon('arrow'), 'mock-block-review', '') : button('Siguiente ' + icon('arrow'), 'mock-next', '')}</div></section>
   <details class="card mock-nav"><summary>Navegador del bloque · ${st.answered}/${st.total} respondidas · ${st.flagged} marcadas</summary><div class="mock-grid">${grid}</div><p class="hint">Puedes volver a cualquier pregunta de este bloque. Al iniciar la pausa, el bloque se cierra.</p><div class="actions">${button('Revisar y cerrar el bloque', 'mock-block-review', 'light small')}${button('Abandonar el simulacro', 'mock-abandon', 'white small')}</div></details></div>`;
 }
@@ -130,14 +133,14 @@ function renderMockDone(r, embedded = false) {
   const res = r.result || mockResults(r), L = i => String.fromCharCode(65 + i), filter = mockReviewOpen || 'wrong';
   const rows = r.ids.map((id, n) => ({id, n, q: mockQ(id), sel: r.answers[id], unscored: r.unscored.includes(id)})).map(x => ({...x, ok: answeredOk(x.q, x.sel)}))
     .filter(x => filter === 'all' || (filter === 'wrong' ? !x.ok && !x.unscored : filter === 'flag' ? r.flags[x.id] : filter === x.q.module));
-  const key = q => q.type === 'match' ? q.items.map((_, i) => `${i + 1} → ${L(q.correct[i])}`).join(' · ') : q.correct.map(L).join(', ');
-  const yours = (q, s) => !s ? 'Sin responder' : q.type === 'match' ? s.map((v, i) => `${i + 1} → ${v >= 0 ? L(v) : '—'}`).join(' · ') : s.map(L).join(', ');
+  const key = q => itemKey(q);
+  const yours = (q, s) => itemYours(q, s);
   const head = `Último simulacro: terminado el ${date(stampDay(r.completed))}${r.reason === 'tiempo' ? ' por fin del tiempo' : ''} · ${Math.max(1, Math.round(r.usedMs / 60000))} min de examen.`;
   return (embedded ? `<p class="hint">${head}</p>` : heading('SIMULACRO PMP COMPLETO', 'Resultado y revisión', head)) +
   `<div class="grid-2"><section class="card"><div class="eyebrow">PREGUNTAS CALIFICADAS</div><div class="result-score">${pct(res.correct, res.total)} %<small>${res.correct} de ${res.total} aciertos · ${MOCK_FORMAT.unscored} preguntas no puntuadas excluidas</small></div><p class="hint">Es una medición propia con el banco de la app, no una predicción del resultado oficial de PMI.</p><div class="actions">${button('Nuevo simulacro', 'mock-new', 'light')}<a class="button white" href="#preparacion">Mi preparación ${icon('arrow')}</a></div></section>
   <section class="card"><h2>Desglose por dominio</h2>${MOCK_DOMAINS.map(d => { const x = res.dom[d]; return `<div class="metric-line"><span>${esc(moduleBy(d).name)}<br><small>${x.correct} de ${x.total}</small></span>${progress(pct(x.correct, x.total))}<strong>${pct(x.correct, x.total)} %</strong></div>`; }).join('')}<table class="sr-only"><caption>Aciertos por dominio</caption><tr><th>Dominio</th><th>Aciertos</th><th>Total</th></tr>${MOCK_DOMAINS.map(d => `<tr><td>${esc(moduleBy(d).name)}</td><td>${res.dom[d].correct}</td><td>${res.dom[d].total}</td></tr>`).join('')}</table></section></div>
   <section class="card"><div class="card-header"><h2>Revisión final</h2><div class="filter-group">${[['wrong', 'Incorrectas'], ['flag', 'Marcadas'], ['people', 'People'], ['process', 'Process'], ['business', 'Business'], ['all', 'Todas']].map(([k, n]) => `<button data-action="mock-review" data-id="${k}" class="${filter === k ? 'active' : ''}">${n}</button>`).join('')}</div></div>
-  <p class="hint">${rows.length} preguntas en esta vista.</p>${rows.map(x => `<details class="mock-review-row ${x.ok ? '' : 'wrong'}"><summary><span class="status-dot"></span> ${x.n + 1}. ${esc(x.q.prompt)} ${x.unscored ? badge('No puntuada', 'orange') : ''}</summary>${x.q.type === 'match' ? `<ol>${x.q.items.map(it => `<li>${esc(it)}</li>`).join('')}</ol>` : ''}<ol type="A">${x.q.options.map(o => `<li>${esc(o)}</li>`).join('')}</ol><p><strong>Tu respuesta:</strong> ${yours(x.q, x.sel)} · <strong>Correcta:</strong> ${key(x.q)}</p><p class="hint">${esc(x.q.rationale)}</p><p class="hint">${badge(moduleBy(x.q.module).name)} ${badge(x.q.approach, 'blue')} ${esc(topicLabel(x.q.topicId))}</p></details>`).join('')}</section>`;
+  <p class="hint">${rows.length} preguntas en esta vista.</p>${rows.map(x => `<details class="mock-review-row ${x.ok ? '' : 'wrong'}"><summary><span class="status-dot"></span> ${x.n + 1}. ${esc(x.q.prompt)} ${x.unscored ? badge('No puntuada', 'orange') : ''}</summary>${slotType(x.q) ? `<ol>${x.q.items.map(it => `<li>${esc(it)}</li>`).join('')}</ol>` : ''}${x.q.options ? `<ol type="A">${x.q.options.map(o => `<li>${esc(o)}</li>`).join('')}</ol>` : ''}<p><strong>Tu respuesta:</strong> ${esc(yours(x.q, x.sel))} · <strong>Correcta:</strong> ${esc(key(x.q))}</p><p class="hint">${esc(x.q.rationale)}</p>${whyBlock(x.q)}<p class="hint">${badge(moduleBy(x.q.module).name)} ${badge(x.q.approach, 'blue')} ${esc(topicLabel(x.q.topicId))}</p></details>`).join('')}</section>`;
 }
 
 /* ---------- acciones ---------- */
@@ -177,8 +180,8 @@ document.addEventListener('change', ev => {
   const el = ev.target, id = r.ids[r.index], q = mockQ(id);
   if (el.name === 'mock-choice') {
     const v = Number(el.value);
-    let sel = q.type === 'multi' ? [...(r.answers[id] || [])] : [];
-    if (q.type === 'multi') sel = el.checked ? [...new Set([...sel, v])].sort() : sel.filter(x => x !== v); else sel = [v];
+    let sel = multiPick(q) ? [...(r.answers[id] || [])] : [];
+    if (multiPick(q)) sel = el.checked ? [...new Set([...sel, v])].sort() : sel.filter(x => x !== v); else sel = [v];
     if (sel.length) r.answers[id] = sel; else delete r.answers[id];
     save(); render();
   } else if (el.dataset.mockMatch !== undefined) {

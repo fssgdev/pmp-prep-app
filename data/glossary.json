@@ -1,0 +1,1691 @@
+{
+  "source": "Términos tomados de la lista del glosario del curso PMP v4.1 (PMI). Las definiciones y los ejemplos de construcción son redacción propia y simplificada; no reproducen el texto de PMI.",
+  "terms": [
+    {
+      "id": "g-accion-correctiva",
+      "term": "Acción correctiva",
+      "en": "Corrective action",
+      "def": "Acción para que el desempeño futuro vuelva a ajustarse al plan.",
+      "ex": "Se agrega una cuadrilla los sábados para recuperar el atraso del casco.",
+      "lesson": 7,
+      "topicId": "process-9"
+    },
+    {
+      "id": "g-accion-preventiva",
+      "term": "Acción preventiva",
+      "en": "Preventive action",
+      "def": "Acción para evitar que el desempeño se desvíe del plan en el futuro.",
+      "ex": "Se revisan los encofrados antes de cada vaciado para evitar deformaciones.",
+      "lesson": 7,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-aceptar",
+      "term": "Aceptar",
+      "en": "Accept",
+      "def": "Reconocer el riesgo sin actuar por ahora; activamente, reservando fondos o tiempo.",
+      "ex": "Se acepta el riesgo de alza leve de precios y se reserva un monto de contingencia.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-acta-de-constitucion-del-equipo",
+      "term": "Acta de constitución del equipo",
+      "en": "Team charter",
+      "def": "Acuerdos del equipo sobre valores, forma de trabajar, decisiones y manejo de conflictos.",
+      "ex": "El equipo acuerda que nadie libera un vaciado sin la firma de calidad y que los conflictos se tratan en privado.",
+      "lesson": 4,
+      "topicId": "people-3"
+    },
+    {
+      "id": "g-acta-de-constitucion-del-proyecto",
+      "term": "Acta de constitución del proyecto",
+      "en": "Project charter",
+      "def": "Documento que autoriza formalmente el proyecto y da al director autoridad para usar recursos.",
+      "ex": "Antes de comprar el terreno, el gerente general firma el acta que nombra al director y fija objetivos y presupuesto preliminar.",
+      "lesson": 2,
+      "topicId": "business-1"
+    },
+    {
+      "id": "g-activos-de-los-procesos-de-la-organizaci",
+      "term": "Activos de los procesos de la organización (OPA)",
+      "en": "Organizational process assets",
+      "def": "Planes, procedimientos, plantillas y lecciones propias de la organización que el proyecto puede usar.",
+      "ex": "El procedimiento de vaciado y las lecciones de la obra anterior son activos de la organización.",
+      "lesson": 2,
+      "topicId": "business-6"
+    },
+    {
+      "id": "g-adaptacion-tailoring",
+      "term": "Adaptación (tailoring)",
+      "en": "Tailoring",
+      "def": "Ajustar el enfoque, los procesos y los documentos a lo que el proyecto realmente necesita.",
+      "ex": "Para remodelar un baño no se usan todas las plantillas de un hospital: se toma lo útil y se simplifica el resto.",
+      "lesson": 6,
+      "topicId": "process-1"
+    },
+    {
+      "id": "g-adelanto-y-retraso",
+      "term": "Adelanto y retraso",
+      "en": "Lead and lag",
+      "def": "Adelanto: la sucesora empieza antes de que termine la predecesora. Retraso: espera obligatoria entre ambas.",
+      "ex": "Esperar 7 días de curado antes de cargar la losa es un retraso; empezar el tarrajeo del piso 1 mientras se termina el 2 es un adelanto.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-alcance-del-producto",
+      "term": "Alcance del producto",
+      "en": "Product scope",
+      "def": "Las características y funciones que debe tener el producto final.",
+      "ex": "Departamentos de 70 m² con dos dormitorios, piso laminado y terma eléctrica.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-alcance-del-proyecto",
+      "term": "Alcance del proyecto",
+      "en": "Project scope",
+      "def": "Todo el trabajo necesario para entregar el producto con las características acordadas, y solo ese trabajo.",
+      "ex": "Construir 12 pisos, sótanos y áreas comunes; el amoblado de los departamentos no está incluido.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-alisamiento-de-recursos",
+      "term": "Alisamiento de recursos",
+      "en": "Resource smoothing",
+      "def": "Ajustar actividades dentro de su holgura para equilibrar recursos sin cambiar la fecha de fin.",
+      "ex": "Se mueve el tarrajeo de áreas comunes dentro de su holgura para no pasar de 6 electricistas por semana.",
+      "lesson": 6,
+      "topicId": "process-4"
+    },
+    {
+      "id": "g-ambiguedad",
+      "term": "Ambigüedad",
+      "en": "Ambiguity",
+      "def": "Falta de claridad: no se sabe bien qué ocurre o qué significa una situación.",
+      "ex": "El cliente pide un 'lobby moderno' sin decir qué entiende por moderno.",
+      "lesson": 5
+    },
+    {
+      "id": "g-analisis-de-causa-raiz",
+      "term": "Análisis de causa raíz",
+      "en": "Root cause analysis",
+      "def": "Técnica para encontrar la causa de fondo de un problema y no solo sus síntomas.",
+      "ex": "Con los 5 porqués se descubre que las fisuras vienen de retirar los puntales antes de tiempo.",
+      "lesson": 8,
+      "topicId": "business-6"
+    },
+    {
+      "id": "g-analisis-de-hacer-o-comprar",
+      "term": "Análisis de hacer o comprar",
+      "en": "Make-or-buy analysis",
+      "def": "Comparar si conviene hacer algo con recursos propios o contratarlo afuera.",
+      "ex": "¿Encofrado propio o alquilado? Se comparan costo, uso futuro y riesgo.",
+      "lesson": 6,
+      "topicId": "process-5"
+    },
+    {
+      "id": "g-analisis-foda",
+      "term": "Análisis FODA",
+      "en": "SWOT analysis",
+      "def": "Evalúa fortalezas y debilidades internas, y oportunidades y amenazas externas.",
+      "ex": "Fortaleza: buena ubicación; amenaza: un competidor lanza un proyecto similar a menor precio.",
+      "lesson": 8,
+      "topicId": "business-8"
+    },
+    {
+      "id": "g-analisis-pestle",
+      "term": "Análisis PESTLE",
+      "en": "PESTLE analysis",
+      "def": "Revisión del entorno externo: factores políticos, económicos, sociales, tecnológicos, legales y ambientales.",
+      "ex": "Una nueva norma de eficiencia energética (legal) y el alza de tasas hipotecarias (económico) afectan la venta del proyecto.",
+      "lesson": 8,
+      "topicId": "business-8"
+    },
+    {
+      "id": "g-apetito-al-riesgo",
+      "term": "Apetito al riesgo",
+      "en": "Risk appetite",
+      "def": "Cantidad de incertidumbre que una organización está dispuesta a aceptar para lograr sus objetivos.",
+      "ex": "La inmobiliaria acepta riesgos de mercado en zonas nuevas, pero no riesgos de seguridad estructural.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-aseguramiento-de-la-calidad",
+      "term": "Aseguramiento de la calidad",
+      "en": "Quality assurance",
+      "def": "Actividades sobre el proceso para prevenir defectos y dar confianza de que se cumplirán los requisitos.",
+      "ex": "Auditar que el procedimiento de vaciado se esté aplicando tal como se aprobó.",
+      "lesson": 6,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-auditoria-de-adquisiciones",
+      "term": "Auditoría de adquisiciones",
+      "en": "Procurement audit",
+      "def": "Revisión del proceso de compras y contratos para identificar aciertos y fallas.",
+      "ex": "Al cerrar la obra se revisa por qué dos proveedores incumplieron entregas.",
+      "lesson": 8,
+      "topicId": "process-10"
+    },
+    {
+      "id": "g-backlog-del-producto",
+      "term": "Backlog del producto",
+      "en": "Product backlog",
+      "def": "Lista ordenada de todo lo que podría construirse en el producto, priorizada por el dueño del producto.",
+      "ex": "Reservas de áreas comunes, pagos de mantenimiento y avisos de la administración, en orden de valor.",
+      "lesson": 5,
+      "topicId": "agile-4"
+    },
+    {
+      "id": "g-burndown",
+      "term": "Burndown",
+      "en": "Burndown chart",
+      "def": "Gráfico del trabajo que falta en el tiempo; si sube, se agregó trabajo.",
+      "ex": "El burndown del sprint muestra 30 horas planas por tres días: hay un bloqueo.",
+      "lesson": 7,
+      "topicId": "process-9"
+    },
+    {
+      "id": "g-burnup",
+      "term": "Burnup",
+      "en": "Burnup chart",
+      "def": "Gráfico del trabajo terminado frente al alcance total; muestra por separado los cambios de alcance.",
+      "ex": "La línea de alcance sube cuando se agregan funciones legales, y la de terminado sigue su ritmo.",
+      "lesson": 7,
+      "topicId": "process-9"
+    },
+    {
+      "id": "g-calendario-de-recursos",
+      "term": "Calendario de recursos",
+      "en": "Resource calendar",
+      "def": "Muestra cuándo está disponible cada recurso (personas o equipos).",
+      "ex": "La grúa torre está alquilada solo hasta la semana 18.",
+      "lesson": 5,
+      "topicId": "process-4"
+    },
+    {
+      "id": "g-calidad",
+      "term": "Calidad",
+      "en": "Quality",
+      "def": "Grado en que un entregable cumple los requisitos.",
+      "ex": "Una losa que alcanza la resistencia de diseño y la planitud especificada cumple con la calidad.",
+      "lesson": 6,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-cambio-organizacional",
+      "term": "Cambio organizacional",
+      "en": "Organizational change",
+      "def": "Transición de una organización hacia nuevas formas de trabajar, que requiere preparar y acompañar a las personas.",
+      "ex": "Pasar del control de calidad en papel a una app en tablet en todas las obras.",
+      "lesson": 8,
+      "topicId": "business-7"
+    },
+    {
+      "id": "g-canales-de-comunicacion",
+      "term": "Canales de comunicación",
+      "en": "Communication channels",
+      "def": "Número de vías posibles entre personas: n × (n − 1) / 2.",
+      "ex": "Con 6 personas en la coordinación hay 15 canales; con 9, hay 36.",
+      "lesson": 3,
+      "topicId": "people-8"
+    },
+    {
+      "id": "g-caso-de-negocio",
+      "term": "Caso de negocio",
+      "en": "Business case",
+      "def": "Justificación del proyecto: por qué conviene hacerlo, con beneficios, costos y alternativas.",
+      "ex": "El estudio que muestra que 40 departamentos se venderán con 18 % de margen justifica construir la torre.",
+      "lesson": 2,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-chapado-en-oro-gold-plating",
+      "term": "Chapado en oro (gold plating)",
+      "en": "Gold plating",
+      "def": "Entregar más de lo pedido por iniciativa del equipo, sin que el cliente lo solicite.",
+      "ex": "El equipo instala un enchape más caro 'para que se vea mejor' sin que el cliente lo haya pedido.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-ciclo-de-vida-del-proyecto",
+      "term": "Ciclo de vida del proyecto",
+      "en": "Project life cycle",
+      "def": "Etapas que recorre un proyecto, una tras otra, desde su arranque hasta su cierre.",
+      "ex": "Factibilidad, diseño, licencias, obra gruesa, acabados y entrega son las fases de un edificio.",
+      "lesson": 2,
+      "topicId": "agile-6"
+    },
+    {
+      "id": "g-ciclo-de-vida-incremental",
+      "term": "Ciclo de vida incremental",
+      "en": "Incremental life cycle",
+      "def": "El producto se entrega por partes que funcionan y se suman hasta completarlo.",
+      "ex": "Un condominio entrega primero la torre A habitada, luego la B y al final las áreas comunes.",
+      "lesson": 2,
+      "topicId": "agile-6"
+    },
+    {
+      "id": "g-ciclo-de-vida-iterativo",
+      "term": "Ciclo de vida iterativo",
+      "en": "Iterative life cycle",
+      "def": "Se repiten ciclos para mejorar el producto con cada versión hasta que es aceptable.",
+      "ex": "El diseño de la fachada pasa por varias versiones que se revisan con el cliente hasta aprobarla.",
+      "lesson": 2,
+      "topicId": "agile-6"
+    },
+    {
+      "id": "g-ciclo-pdca",
+      "term": "Ciclo PDCA",
+      "en": "Plan-Do-Check-Act",
+      "def": "Ciclo de mejora: planificar, hacer, verificar y actuar, y luego repetir.",
+      "ex": "Se prueba un nuevo encofrado en un piso, se mide el tiempo, se compara y se adopta en toda la obra.",
+      "lesson": 8,
+      "topicId": "business-6"
+    },
+    {
+      "id": "g-cierre-del-proyecto-o-fase",
+      "term": "Cierre del proyecto o fase",
+      "en": "Close project or phase",
+      "def": "Terminar formalmente el trabajo: aceptación, transferencia, cierre de contratos, liberación de recursos y lecciones aprendidas.",
+      "ex": "Tras el acta de recepción se cierran contratos, se entrega la documentación y se libera al equipo.",
+      "lesson": 8,
+      "topicId": "process-10"
+    },
+    {
+      "id": "g-colaborar-resolver-el-problema",
+      "term": "Colaborar / resolver el problema",
+      "en": "Collaborate / problem solve",
+      "def": "Técnica de conflicto en la que las partes analizan juntas el problema y buscan una solución que satisfaga a ambas.",
+      "ex": "Residente y supervisora revisan juntos el cronograma de liberaciones para que no se repita el choque.",
+      "lesson": 4,
+      "topicId": "people-2"
+    },
+    {
+      "id": "g-comite-de-control-de-cambios-ccb",
+      "term": "Comité de control de cambios (CCB)",
+      "en": "Change control board",
+      "def": "Grupo con autoridad para aprobar, postergar o rechazar cambios y registrar sus decisiones.",
+      "ex": "Gerencia, cliente y director del proyecto se reúnen cada dos semanas para decidir los cambios mayores.",
+      "lesson": 7,
+      "topicId": "business-3"
+    },
+    {
+      "id": "g-compartir-oportunidad",
+      "term": "Compartir (oportunidad)",
+      "en": "Share",
+      "def": "Respuesta que se asocia con un tercero mejor posicionado para capturar una oportunidad.",
+      "ex": "Formar un consorcio con una empresa especialista para ganar una licitación mayor.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-complejidad",
+      "term": "Complejidad",
+      "en": "Complexity",
+      "def": "Dificultad de gestionar algo por la cantidad de relaciones, la incertidumbre o el comportamiento de las personas.",
+      "ex": "Un hospital con muchos especialistas, normas y usuarios distintos es mucho más complejo que un almacén.",
+      "lesson": 2,
+      "topicId": "process-1"
+    },
+    {
+      "id": "g-comunicacion-interactiva",
+      "term": "Comunicación interactiva",
+      "en": "Interactive communication",
+      "def": "Intercambio en tiempo real entre dos o más personas; es la forma más eficaz de aclarar dudas.",
+      "ex": "La reunión en obra donde la arquitecta y el residente resuelven una interferencia.",
+      "lesson": 3,
+      "topicId": "people-8"
+    },
+    {
+      "id": "g-comunicacion-pull",
+      "term": "Comunicación pull",
+      "en": "Pull communication",
+      "def": "Información que se deja disponible para que cada quien la consulte cuando la necesite.",
+      "ex": "Los planos vigentes publicados en la plataforma del proyecto.",
+      "lesson": 3,
+      "topicId": "people-8"
+    },
+    {
+      "id": "g-comunicacion-push",
+      "term": "Comunicación push",
+      "en": "Push communication",
+      "def": "Información que se envía a personas concretas, sin confirmar que la entendieron.",
+      "ex": "El correo con el acta de la reunión de obra enviado a todos los subcontratistas.",
+      "lesson": 3,
+      "topicId": "people-8"
+    },
+    {
+      "id": "g-conferencia-de-oferentes",
+      "term": "Conferencia de oferentes",
+      "en": "Bidder conference",
+      "def": "Reunión con todos los posibles proveedores para aclarar dudas por igual antes de que presenten ofertas.",
+      "ex": "Todos los postores del ascensor reciben las mismas respuestas en una reunión única.",
+      "lesson": 6,
+      "topicId": "process-5"
+    },
+    {
+      "id": "g-conflicto",
+      "term": "Conflicto",
+      "en": "Conflict",
+      "def": "Desacuerdo entre personas o grupos por intereses, ideas o recursos; bien manejado puede mejorar las decisiones.",
+      "ex": "Producción quiere vaciar hoy y calidad exige antes la liberación del acero.",
+      "lesson": 4,
+      "topicId": "people-2"
+    },
+    {
+      "id": "g-conocimiento-explicito",
+      "term": "Conocimiento explícito",
+      "en": "Explicit knowledge",
+      "def": "Saber que se puede escribir, dibujar o explicar con palabras y datos.",
+      "ex": "El procedimiento de curado del concreto con sus tiempos y temperaturas.",
+      "lesson": 4,
+      "topicId": "people-7"
+    },
+    {
+      "id": "g-conocimiento-tacito",
+      "term": "Conocimiento tácito",
+      "en": "Tacit knowledge",
+      "def": "Saber personal basado en la experiencia, difícil de escribir; se transmite observando y practicando.",
+      "ex": "El maestro de obra sabe por el sonido si el concreto está bien vibrado.",
+      "lesson": 4,
+      "topicId": "people-7"
+    },
+    {
+      "id": "g-contrato-de-costos-reembolsables",
+      "term": "Contrato de costos reembolsables",
+      "en": "Cost-reimbursable contract",
+      "def": "Se pagan los costos reales del vendedor más un honorario; el comprador asume más riesgo de costos.",
+      "ex": "Remediación de un suelo contaminado cuya extensión real solo se sabrá al excavar.",
+      "lesson": 6,
+      "topicId": "process-5"
+    },
+    {
+      "id": "g-contrato-de-precio-fijo",
+      "term": "Contrato de precio fijo",
+      "en": "Fixed-price contract",
+      "def": "Se paga un monto acordado por un alcance definido; el vendedor asume la mayor parte del riesgo de costos.",
+      "ex": "Construcción del cerco perimétrico por S/ 85 mil, con planos completos.",
+      "lesson": 6,
+      "topicId": "process-5"
+    },
+    {
+      "id": "g-contrato-de-tiempo-y-materiales",
+      "term": "Contrato de tiempo y materiales",
+      "en": "Time and materials",
+      "def": "Se paga por hora o día trabajado más los materiales; útil para trabajos pequeños o de alcance incierto.",
+      "ex": "Un especialista en impermeabilización contratado por días para resolver filtraciones puntuales.",
+      "lesson": 6,
+      "topicId": "process-5"
+    },
+    {
+      "id": "g-control-de-la-calidad",
+      "term": "Control de la calidad",
+      "en": "Quality control",
+      "def": "Inspeccionar y medir los entregables para verificar que cumplen los requisitos.",
+      "ex": "Romper probetas de concreto y comparar su resistencia con la especificada.",
+      "lesson": 6,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-control-integrado-de-cambios",
+      "term": "Control integrado de cambios",
+      "en": "Perform integrated change control",
+      "def": "Proceso para analizar, aprobar o rechazar los cambios y actualizar los planes, considerando su efecto en todo el proyecto.",
+      "ex": "Se analiza el impacto en costo, plazo, calidad y riesgos antes de que el comité decida.",
+      "lesson": 7,
+      "topicId": "business-3"
+    },
+    {
+      "id": "g-corrupcion-del-alcance-scope-creep",
+      "term": "Corrupción del alcance (scope creep)",
+      "en": "Scope creep",
+      "def": "Crecimiento del alcance sin control, sin ajustar tiempo, costo ni recursos.",
+      "ex": "Se agregan 'pequeñas' mejoras de acabados a pedido del cliente sin pasar por el comité y el costo se dispara.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-costo-de-la-calidad-coq",
+      "term": "Costo de la calidad (CoQ)",
+      "en": "Cost of quality",
+      "def": "Todo lo que cuesta lograr la calidad (prevención y evaluación) más lo que cuesta no lograrla (fallas internas y externas).",
+      "ex": "Capacitación y ensayos por un lado; demoler un muro mal hecho y atender reclamos de postventa por otro.",
+      "lesson": 6,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-costo-de-oportunidad",
+      "term": "Costo de oportunidad",
+      "en": "Opportunity cost",
+      "def": "Valor de la mejor alternativa que se deja de lado al elegir otra.",
+      "ex": "Al construir oficinas en el terreno, se renuncia a la ganancia que darían las viviendas.",
+      "lesson": 5,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-costo-real-ac",
+      "term": "Costo real (AC)",
+      "en": "Actual cost",
+      "def": "Lo que realmente se gastó en el trabajo realizado a la fecha.",
+      "ex": "Para hacer esos S/ 360 mil de obra se gastaron S/ 450 mil.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-coubicacion",
+      "term": "Coubicación",
+      "en": "Co-location",
+      "def": "Ubicar al equipo en un mismo espacio físico para mejorar la comunicación.",
+      "ex": "Arquitectura, instalaciones y obra trabajan juntos en la oficina de campo durante la etapa crítica.",
+      "lesson": 4,
+      "topicId": "people-3"
+    },
+    {
+      "id": "g-criterios-de-aceptacion",
+      "term": "Criterios de aceptación",
+      "en": "Acceptance criteria",
+      "def": "Condiciones verificables que un entregable debe cumplir para que se acepte.",
+      "ex": "Piso porcelanato sin piezas rotas, con desnivel menor a 3 mm en 2 m y fragua uniforme.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-criterios-de-seleccion-de-proveedores",
+      "term": "Criterios de selección de proveedores",
+      "en": "Source selection criteria",
+      "def": "Factores y pesos definidos de antemano para evaluar y elegir ofertas.",
+      "ex": "Precio 40 %, experiencia 30 % y plazo 30 %.",
+      "lesson": 6,
+      "topicId": "process-5"
+    },
+    {
+      "id": "g-cuadricula-de-poder-e-interes",
+      "term": "Cuadrícula de poder e interés",
+      "en": "Power/interest grid",
+      "def": "Herramienta que clasifica a los interesados según su poder y su interés para decidir cómo involucrarlos.",
+      "ex": "El banco (mucho poder, poco interés) se mantiene satisfecho; los futuros propietarios (poco poder, mucho interés) se mantienen informados.",
+      "lesson": 3,
+      "topicId": "people-4"
+    },
+    {
+      "id": "g-cultura-organizacional",
+      "term": "Cultura organizacional",
+      "en": "Organizational culture",
+      "def": "Valores, creencias y costumbres compartidas que influyen en cómo trabaja la gente.",
+      "ex": "En una empresa donde se castiga el error, nadie reporta los incidentes a tiempo.",
+      "lesson": 8,
+      "topicId": "business-7"
+    },
+    {
+      "id": "g-cumplimiento",
+      "term": "Cumplimiento",
+      "en": "Compliance",
+      "def": "Asegurar que el proyecto respete leyes, normas, políticas y estándares que le aplican.",
+      "ex": "Cumplir el reglamento nacional de edificaciones y las normas de seguridad en obra.",
+      "lesson": 5,
+      "topicId": "business-2"
+    },
+    {
+      "id": "g-definicion-de-terminado-dod",
+      "term": "Definición de terminado (DoD)",
+      "en": "Definition of done",
+      "def": "Lista común de criterios que todo incremento debe cumplir para considerarse terminado.",
+      "ex": "Código revisado, pruebas automatizadas aprobadas y manual de usuario actualizado.",
+      "lesson": 6,
+      "topicId": "agile-2"
+    },
+    {
+      "id": "g-dependencia-discrecional",
+      "term": "Dependencia discrecional",
+      "en": "Discretionary dependency",
+      "def": "Secuencia elegida por el equipo por buenas prácticas; se puede cambiar si conviene.",
+      "ex": "Se prefiere pintar después de instalar las puertas, aunque podría hacerse al revés.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-dependencia-obligatoria",
+      "term": "Dependencia obligatoria",
+      "en": "Mandatory dependency",
+      "def": "Relación entre actividades impuesta por la naturaleza del trabajo o por contrato.",
+      "ex": "No se puede desencofrar una losa antes de vaciarla.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-diagrama-de-causa-y-efecto-ishikawa",
+      "term": "Diagrama de causa y efecto (Ishikawa)",
+      "en": "Fishbone diagram",
+      "def": "Diagrama en forma de espina de pescado que organiza las posibles causas de un problema por categorías.",
+      "ex": "Para las fisuras: materiales, mano de obra, método, equipos, medio ambiente y medición.",
+      "lesson": 6,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-diagrama-de-flujo-acumulado",
+      "term": "Diagrama de flujo acumulado",
+      "en": "Cumulative flow diagram",
+      "def": "Muestra cuántos elementos hay en cada etapa del flujo a lo largo del tiempo; las bandas que se ensanchan indican cuellos de botella.",
+      "ex": "La banda de 'Verificación' crece cada semana: ahí se acumula el trabajo.",
+      "lesson": 7,
+      "topicId": "agile-3"
+    },
+    {
+      "id": "g-diagrama-de-pareto",
+      "term": "Diagrama de Pareto",
+      "en": "Pareto chart",
+      "def": "Gráfico de barras ordenado de mayor a menor que muestra que pocas causas generan la mayoría de los problemas.",
+      "ex": "Tres tipos de defecto explican el 78 % de los reclamos de postventa.",
+      "lesson": 6,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-diccionario-de-la-edt",
+      "term": "Diccionario de la EDT",
+      "en": "WBS dictionary",
+      "def": "Documento que describe en detalle cada elemento de la EDT: qué incluye, responsable y criterios.",
+      "ex": "Para 'tarrajeo de muros' indica el espesor, el ensayo de adherencia y quién lo libera.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-director-del-proyecto",
+      "term": "Director del proyecto",
+      "en": "Project manager",
+      "def": "Persona designada para conducir al equipo y lograr los objetivos del proyecto.",
+      "ex": "El gerente de proyecto coordina diseño, obra, compras y clientes para entregar el edificio a tiempo.",
+      "lesson": 1
+    },
+    {
+      "id": "g-disparador-condicion-disparadora",
+      "term": "Disparador (condición disparadora)",
+      "en": "Trigger condition",
+      "def": "Señal de que un riesgo está por ocurrir y hay que activar su respuesta.",
+      "ex": "Si el pronóstico anuncia lluvia intensa, se activa el plan de bombeo.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-dueno-del-producto",
+      "term": "Dueño del producto",
+      "en": "Product owner",
+      "def": "Rol que representa al negocio y a los usuarios, y decide el orden del backlog para maximizar el valor.",
+      "ex": "La jefa de postventa decide qué función de la app se construye primero.",
+      "lesson": 5,
+      "topicId": "agile-4"
+    },
+    {
+      "id": "g-ejecucion-rapida-fast-tracking",
+      "term": "Ejecución rápida (fast tracking)",
+      "en": "Fast tracking",
+      "def": "Acortar el cronograma haciendo en paralelo actividades que estaban en secuencia; aumenta el riesgo de retrabajo.",
+      "ex": "Empezar las instalaciones del piso 2 mientras se termina la estructura del piso 4.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-empoderamiento",
+      "term": "Empoderamiento",
+      "en": "Empowerment",
+      "def": "Dar al equipo autoridad y confianza para decidir sobre su propio trabajo.",
+      "ex": "El capataz decide el orden de los encofrados del piso sin esperar autorización diaria.",
+      "lesson": 4,
+      "topicId": "people-3"
+    },
+    {
+      "id": "g-enfoque-adaptativo-agil",
+      "term": "Enfoque adaptativo (ágil)",
+      "en": "Adaptive approach",
+      "def": "Forma de trabajo en ciclos cortos que entrega partes del producto y ajusta el plan con la retroalimentación.",
+      "ex": "La app de reservas de áreas comunes se construye por sprints y se ajusta con lo que opinan los propietarios.",
+      "lesson": 2,
+      "topicId": "agile-1"
+    },
+    {
+      "id": "g-enfoque-hibrido",
+      "term": "Enfoque híbrido",
+      "en": "Hybrid approach",
+      "def": "Combinación de prácticas predictivas y ágiles según lo que necesita cada parte del proyecto.",
+      "ex": "La obra se maneja con cronograma maestro y el sistema domótico se desarrolla por iteraciones.",
+      "lesson": 2,
+      "topicId": "agile-6"
+    },
+    {
+      "id": "g-enfoque-predictivo",
+      "term": "Enfoque predictivo",
+      "en": "Predictive approach",
+      "def": "Forma de trabajo que planifica casi todo al inicio y sigue ese plan; sirve cuando los requisitos son estables.",
+      "ex": "Una losa con planos aprobados se ejecuta con cronograma y presupuesto fijados desde el inicio.",
+      "lesson": 2,
+      "topicId": "agile-6"
+    },
+    {
+      "id": "g-enunciado-del-alcance",
+      "term": "Enunciado del alcance",
+      "en": "Scope statement",
+      "def": "Descripción del alcance con entregables, exclusiones, supuestos y criterios de aceptación.",
+      "ex": "Indica que el proyecto incluye la piscina, pero excluye el mobiliario de las áreas comunes.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-enunciado-del-trabajo-sow",
+      "term": "Enunciado del trabajo (SOW)",
+      "en": "Statement of work",
+      "def": "Descripción de lo que el proveedor debe entregar, con detalle suficiente para cotizar.",
+      "ex": "Suministro e instalación de 120 ventanas de aluminio con vidrio templado de 6 mm, según planos.",
+      "lesson": 6,
+      "topicId": "process-5"
+    },
+    {
+      "id": "g-equipo-virtual",
+      "term": "Equipo virtual",
+      "en": "Virtual team",
+      "def": "Equipo que trabaja a distancia, en distintos lugares, comunicándose por medios digitales.",
+      "ex": "El calculista en Arequipa y el modelador BIM en Bogotá coordinan con la obra por videollamada.",
+      "lesson": 4,
+      "topicId": "people-3"
+    },
+    {
+      "id": "g-escalar",
+      "term": "Escalar",
+      "en": "Escalate",
+      "def": "Respuesta para una amenaza u oportunidad que está fuera del alcance o la autoridad del proyecto: se traslada a quien corresponde.",
+      "ex": "Un cambio en la ley de alquileres que afecta a toda la cartera se escala a la gerencia general.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-estimacion-a-la-conclusion-eac",
+      "term": "Estimación a la conclusión (EAC)",
+      "en": "Estimate at completion",
+      "def": "Costo total esperado al terminar. Si la eficiencia continúa: BAC / CPI; si la desviación fue atípica: AC + (BAC − EV).",
+      "ex": "Con BAC 800 y CPI 0,80, la obra costaría 1 000 si todo sigue igual.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-estimacion-analoga",
+      "term": "Estimación análoga",
+      "en": "Analogous estimating",
+      "def": "Estimar con base en un proyecto similar anterior; es rápida pero poco precisa.",
+      "ex": "La torre anterior de 10 pisos tardó 14 meses, así que esta de características similares se estima en 14.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-estimacion-ascendente",
+      "term": "Estimación ascendente",
+      "en": "Bottom-up estimating",
+      "def": "Estimar cada paquete de trabajo y sumar hacia arriba; es la más precisa y la más laboriosa.",
+      "ex": "Se presupuesta cada partida del expediente y se suman para obtener el costo de la obra.",
+      "lesson": 6,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-estimacion-de-tres-valores-pert",
+      "term": "Estimación de tres valores (PERT)",
+      "en": "Three-point estimating",
+      "def": "Usa valores optimista, más probable y pesimista; PERT: (O + 4M + P) / 6.",
+      "ex": "Excavación: O = 8, M = 11, P = 20 días → (8 + 44 + 20) / 6 = 12 días.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-estimacion-hasta-la-conclusion-etc",
+      "term": "Estimación hasta la conclusión (ETC)",
+      "en": "Estimate to complete",
+      "def": "Cuánto falta gastar para terminar: ETC = EAC − AC.",
+      "ex": "Si la EAC es 1 000 y ya se gastaron 450, faltan 550.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-estimacion-parametrica",
+      "term": "Estimación paramétrica",
+      "en": "Parametric estimating",
+      "def": "Estimar multiplicando una cantidad por un rendimiento o costo unitario histórico.",
+      "ex": "1 200 m² de tarrajeo a 12 m² por cuadrilla-día dan 100 cuadrillas-día.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-estructura-de-desglose-del-trabajo-edt",
+      "term": "Estructura de desglose del trabajo (EDT)",
+      "en": "Work breakdown structure (WBS)",
+      "def": "Árbol que reparte todo el trabajo del proyecto en niveles cada vez más detallados hasta llegar a piezas manejables.",
+      "ex": "Edificio → estructuras → sótano → muros pantalla; cada nivel detalla más el trabajo.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-evitar",
+      "term": "Evitar",
+      "en": "Avoid",
+      "def": "Respuesta que cambia el plan para eliminar la amenaza o su causa.",
+      "ex": "Cambiar el método de excavación para no trabajar bajo el nivel freático.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-expectativas-de-los-interesados",
+      "term": "Expectativas de los interesados",
+      "en": "Stakeholder expectations",
+      "def": "Lo que cada interesado espera obtener o que ocurra, aunque no siempre esté escrito.",
+      "ex": "El comprador espera recibir su departamento con la vista que vio en la sala de ventas.",
+      "lesson": 3,
+      "topicId": "people-5"
+    },
+    {
+      "id": "g-explotar",
+      "term": "Explotar",
+      "en": "Exploit",
+      "def": "Respuesta que busca asegurar que una oportunidad ocurra.",
+      "ex": "Asignar a la mejor cuadrilla para ganar el bono por entrega anticipada.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-etica-y-conducta-profesional",
+      "term": "Ética y conducta profesional",
+      "en": "Code of ethics",
+      "def": "Valores de responsabilidad, respeto, equidad y honestidad que guían a los profesionales de proyectos.",
+      "ex": "El director rechaza la invitación de un proveedor que participa en la licitación y lo informa a la empresa.",
+      "lesson": 1
+    },
+    {
+      "id": "g-factores-ambientales-de-la-empresa-eef",
+      "term": "Factores ambientales de la empresa (EEF)",
+      "en": "Enterprise environmental factors",
+      "def": "Condiciones internas o externas que el proyecto no controla y que influyen en él.",
+      "ex": "El reglamento de edificaciones, el clima de Lima y el mercado de acero son factores ambientales.",
+      "lesson": 2,
+      "topicId": "business-8"
+    },
+    {
+      "id": "g-fase",
+      "term": "Fase",
+      "en": "Phase",
+      "def": "Grupo de actividades relacionadas que terminan con uno o más entregables principales.",
+      "ex": "La fase de casco termina cuando la estructura está completa y liberada.",
+      "lesson": 2
+    },
+    {
+      "id": "g-forzar-dirigir",
+      "term": "Forzar / dirigir",
+      "en": "Force / direct",
+      "def": "Técnica de conflicto en la que se impone una decisión; útil en emergencias o asuntos no negociables.",
+      "ex": "Ante el riesgo de caída, el prevencionista detiene el trabajo en altura sin discutir.",
+      "lesson": 4,
+      "topicId": "people-2"
+    },
+    {
+      "id": "g-gobernanza",
+      "term": "Gobernanza",
+      "en": "Governance",
+      "def": "Marco de reglas, roles y decisiones que dirige y supervisa el proyecto: quién decide qué y cómo.",
+      "ex": "El comité que aprueba cambios mayores a S/ 50 mil y revisa el avance cada mes forma parte de la gobernanza.",
+      "lesson": 2,
+      "topicId": "business-1"
+    },
+    {
+      "id": "g-grado",
+      "term": "Grado",
+      "en": "Grade",
+      "def": "Categoría o nivel de características técnicas; un grado bajo no es un problema si cumple los requisitos.",
+      "ex": "Un piso cerámico económico es de grado menor que un porcelanato importado, pero puede tener buena calidad.",
+      "lesson": 6,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-grafico-de-control",
+      "term": "Gráfico de control",
+      "en": "Control chart",
+      "def": "Gráfico que muestra si un proceso es estable comparando sus mediciones con la media y los límites de control.",
+      "ex": "El asentamiento de cada mixer se grafica; un punto fuera de los límites o 7 seguidos de un lado indican una causa especial.",
+      "lesson": 6,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-histograma-de-recursos",
+      "term": "Histograma de recursos",
+      "en": "Resource histogram",
+      "def": "Gráfico de barras que muestra cuántos recursos se necesitan en cada periodo.",
+      "ex": "Muestra que en las semanas 3 y 4 se necesitan 9 electricistas y solo hay 6.",
+      "lesson": 5,
+      "topicId": "process-4"
+    },
+    {
+      "id": "g-historia-de-usuario",
+      "term": "Historia de usuario",
+      "en": "User story",
+      "def": "Descripción breve de una necesidad desde la mirada del usuario: quién, qué quiere y para qué.",
+      "ex": "'Como propietario, quiero reservar la parrilla desde el celular para no ir a administración.'",
+      "lesson": 5,
+      "topicId": "agile-4"
+    },
+    {
+      "id": "g-hito",
+      "term": "Hito",
+      "en": "Milestone",
+      "def": "Punto o evento importante del proyecto, con duración cero.",
+      "ex": "'Casco terminado' o 'conformidad de obra emitida'.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-holgura-libre",
+      "term": "Holgura libre",
+      "en": "Free float",
+      "def": "Tiempo que una actividad puede retrasarse sin afectar el inicio de la siguiente.",
+      "ex": "La pintura del cerco puede atrasarse 2 días sin retrasar el montaje del portón.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-holgura-total",
+      "term": "Holgura total",
+      "en": "Total float",
+      "def": "Tiempo que una actividad puede retrasarse sin mover la fecha de fin del proyecto.",
+      "ex": "El cerco perimétrico tiene 5 días de holgura: un retraso de 3 días no afecta la entrega.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-impedimento",
+      "term": "Impedimento",
+      "en": "Impediment",
+      "def": "Obstáculo que impide al equipo avanzar; en ágil, el líder ayuda a eliminarlo.",
+      "ex": "El equipo lleva dos días sin entorno de pruebas para la app.",
+      "lesson": 7,
+      "topicId": "business-4"
+    },
+    {
+      "id": "g-incertidumbre",
+      "term": "Incertidumbre",
+      "en": "Uncertainty",
+      "def": "Falta de conocimiento sobre lo que pasará; puede generar amenazas u oportunidades.",
+      "ex": "No se sabe si el precio del acero subirá antes de la compra principal.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-incidente-problema",
+      "term": "Incidente (problema)",
+      "en": "Issue",
+      "def": "Situación que ya está ocurriendo y afecta al proyecto; se gestiona con responsable, acciones y fecha.",
+      "ex": "Un inspector paralizó la excavación por falta de un permiso de vía pública.",
+      "lesson": 7,
+      "topicId": "business-4"
+    },
+    {
+      "id": "g-informe-final",
+      "term": "Informe final",
+      "en": "Final report",
+      "def": "Resumen del desempeño del proyecto frente a las líneas base, sus objetivos y lo aprendido.",
+      "ex": "Compara el costo, el plazo y la calidad finales con lo aprobado y explica las desviaciones.",
+      "lesson": 8,
+      "topicId": "process-10"
+    },
+    {
+      "id": "g-inteligencia-emocional",
+      "term": "Inteligencia emocional",
+      "en": "Emotional intelligence",
+      "def": "Capacidad de reconocer y manejar las emociones propias y de los demás.",
+      "ex": "El director nota que el capataz está frustrado por los cambios y conversa con él antes de la reunión.",
+      "lesson": 4,
+      "topicId": "people-3"
+    },
+    {
+      "id": "g-intensificacion-crashing",
+      "term": "Intensificación (crashing)",
+      "en": "Crashing",
+      "def": "Acortar el cronograma agregando recursos a actividades de la ruta crítica, lo que suele aumentar el costo.",
+      "ex": "Contratar una segunda cuadrilla de encofradores para la estructura.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-interesado",
+      "term": "Interesado",
+      "en": "Stakeholder",
+      "def": "Persona, grupo u organización que puede influir en el proyecto o verse afectada por él.",
+      "ex": "Los vecinos que soportan el ruido de la obra son interesados, aunque no hayan contratado nada.",
+      "lesson": 3,
+      "topicId": "people-4"
+    },
+    {
+      "id": "g-iteracion-sprint",
+      "term": "Iteración (sprint)",
+      "en": "Iteration / sprint",
+      "def": "Periodo corto y fijo (por ejemplo, 2 semanas) en el que el equipo construye un incremento terminado.",
+      "ex": "En el sprint 4 se entrega la función de avisos de la administración.",
+      "lesson": 6,
+      "topicId": "agile-2"
+    },
+    {
+      "id": "g-indice-de-desempeno-del-costo-cpi",
+      "term": "Índice de desempeño del costo (CPI)",
+      "en": "Cost performance index",
+      "def": "CPI = EV / AC. Menor que 1: sobrecosto; mayor que 1: ahorro.",
+      "ex": "360 / 450 = 0,80: por cada sol gastado se obtienen 80 céntimos de obra.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-indice-de-desempeno-del-cronograma-spi",
+      "term": "Índice de desempeño del cronograma (SPI)",
+      "en": "Schedule performance index",
+      "def": "SPI = EV / PV. Menor que 1: atraso; mayor que 1: adelanto.",
+      "ex": "360 / 400 = 0,90: se avanza al 90 % del ritmo planificado.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-indice-de-desempeno-del-trabajo-por-comp",
+      "term": "Índice de desempeño del trabajo por completar (TCPI)",
+      "en": "To-complete performance index",
+      "def": "Eficiencia de costos que se necesita en el trabajo restante para cumplir una meta: (BAC − EV) / (BAC − AC).",
+      "ex": "(800 − 360) / (800 − 450) = 1,26: habría que rendir 26 % mejor que lo planificado para no pasarse.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-kanban",
+      "term": "Kanban",
+      "en": "Kanban",
+      "def": "Método que visualiza el flujo de trabajo en un tablero y limita el trabajo en curso para terminar antes de empezar.",
+      "ex": "El tablero de postventa tiene columnas Por hacer, Reparación, Verificación y Cerrado.",
+      "lesson": 6,
+      "topicId": "agile-3"
+    },
+    {
+      "id": "g-lecciones-aprendidas",
+      "term": "Lecciones aprendidas",
+      "en": "Lessons learned",
+      "def": "Conocimiento obtenido durante el proyecto que sirve para mejorar este y futuros proyectos.",
+      "ex": "'Pedir los ascensores con 20 semanas de anticipación' queda registrado para la próxima torre.",
+      "lesson": 8,
+      "topicId": "business-6"
+    },
+    {
+      "id": "g-liderazgo-de-servicio",
+      "term": "Liderazgo de servicio",
+      "en": "Servant leadership",
+      "def": "Estilo de liderazgo que pone primero las necesidades del equipo: quita obstáculos y lo ayuda a crecer.",
+      "ex": "El jefe de proyecto consigue el permiso de la vía para que la cuadrilla no pare, en lugar de vigilar cada tarea.",
+      "lesson": 4,
+      "topicId": "agile-1"
+    },
+    {
+      "id": "g-limite-de-trabajo-en-curso-wip",
+      "term": "Límite de trabajo en curso (WIP)",
+      "en": "WIP limit",
+      "def": "Número máximo de elementos permitidos a la vez en una etapa del flujo.",
+      "ex": "En Verificación solo puede haber 2 tarjetas; si hay más, el equipo ayuda a terminar antes de tomar nuevas.",
+      "lesson": 6,
+      "topicId": "agile-3"
+    },
+    {
+      "id": "g-linea-base",
+      "term": "Línea base",
+      "en": "Baseline",
+      "def": "Versión aprobada de un plan (alcance, cronograma o costo) que sirve para medir el desempeño; solo cambia con control de cambios.",
+      "ex": "El cronograma aprobado en el arranque es la línea base contra la que se mide el retraso.",
+      "lesson": 6,
+      "topicId": "process-1"
+    },
+    {
+      "id": "g-linea-base-de-costos",
+      "term": "Línea base de costos",
+      "en": "Cost baseline",
+      "def": "Presupuesto aprobado distribuido en el tiempo, contra el que se mide el desempeño de costos.",
+      "ex": "La curva S del presupuesto mensual de la obra.",
+      "lesson": 5,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-linea-base-del-alcance",
+      "term": "Línea base del alcance",
+      "en": "Scope baseline",
+      "def": "Versión aprobada del enunciado del alcance, la EDT y su diccionario; solo cambia con control de cambios.",
+      "ex": "Con ella se compara si el cliente está pidiendo algo nuevo o algo ya incluido.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-manifiesto-agil",
+      "term": "Manifiesto ágil",
+      "en": "Agile Manifesto",
+      "def": "Declaración de 4 valores y 12 principios que dan origen a las prácticas ágiles.",
+      "ex": "Valorar la colaboración con el cliente sobre la negociación del contrato lleva a mostrar avances al propietario cada dos semanas.",
+      "lesson": 2,
+      "topicId": "agile-1"
+    },
+    {
+      "id": "g-matriz-de-evaluacion-del-involucramiento",
+      "term": "Matriz de evaluación del involucramiento",
+      "en": "Stakeholder engagement assessment matrix",
+      "def": "Tabla que compara el nivel actual de compromiso de cada interesado con el nivel deseado.",
+      "ex": "La junta de propietarios está 'reticente' y se necesita 'partidaria': hay una brecha que gestionar.",
+      "lesson": 3,
+      "topicId": "people-4"
+    },
+    {
+      "id": "g-matriz-de-probabilidad-e-impacto",
+      "term": "Matriz de probabilidad e impacto",
+      "en": "Probability and impact matrix",
+      "def": "Cuadrícula que ubica los riesgos según su probabilidad e impacto para priorizarlos.",
+      "ex": "Los riesgos en la esquina de probabilidad e impacto altos se atienden primero.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-matriz-raci",
+      "term": "Matriz RACI",
+      "en": "RACI chart",
+      "def": "Tabla que indica quién es Responsable, quién Rinde cuentas, a quién se Consulta y a quién se Informa en cada actividad.",
+      "ex": "Para 'liberar encofrado' rinde cuentas solo la supervisora de calidad; el residente es responsable de ejecutarlo.",
+      "lesson": 5,
+      "topicId": "process-4"
+    },
+    {
+      "id": "g-mejora-continua",
+      "term": "Mejora continua",
+      "en": "Continuous improvement",
+      "def": "Esfuerzo permanente por mejorar procesos, productos y servicios con pequeños cambios medidos.",
+      "ex": "Cada obra actualiza el procedimiento de encofrado con lo que aprendió.",
+      "lesson": 8,
+      "topicId": "business-6"
+    },
+    {
+      "id": "g-mejorar-oportunidad",
+      "term": "Mejorar (oportunidad)",
+      "en": "Enhance",
+      "def": "Respuesta que aumenta la probabilidad o el beneficio de una oportunidad.",
+      "ex": "Adelantar la compra para aprovechar un descuento por volumen.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-mentoria",
+      "term": "Mentoría",
+      "en": "Mentoring",
+      "def": "Relación en la que alguien con más experiencia orienta el desarrollo de otra persona.",
+      "ex": "La jefa de calidad acompaña a la asistente nueva en sus primeras liberaciones.",
+      "lesson": 3,
+      "topicId": "people-5"
+    },
+    {
+      "id": "g-mitigar",
+      "term": "Mitigar",
+      "en": "Mitigate",
+      "def": "Respuesta que reduce la probabilidad o el impacto de una amenaza.",
+      "ex": "Homologar un segundo proveedor de acero por si el principal falla.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-modelo-de-tuckman",
+      "term": "Modelo de Tuckman",
+      "en": "Tuckman ladder",
+      "def": "Etapas por las que suele pasar un equipo: formación, conflicto, normalización, desempeño y disolución.",
+      "ex": "Al inicio la cuadrilla nueva es cortés (formación); luego discute métodos (conflicto) y después acuerda cómo trabajar.",
+      "lesson": 4,
+      "topicId": "people-3"
+    },
+    {
+      "id": "g-nivelacion-de-recursos",
+      "term": "Nivelación de recursos",
+      "en": "Resource leveling",
+      "def": "Ajustar fechas para respetar la disponibilidad de recursos; puede alargar la ruta crítica.",
+      "ex": "La única topógrafa no puede estar en dos obras a la vez, así que se mueve una actividad y el fin se corre 3 días.",
+      "lesson": 6,
+      "topicId": "process-4"
+    },
+    {
+      "id": "g-oficina-de-direccion-de-proyectos-pmo",
+      "term": "Oficina de dirección de proyectos (PMO)",
+      "en": "PMO",
+      "def": "Área que estandariza métodos, herramientas y apoyo para los proyectos de la organización.",
+      "ex": "La PMO de la inmobiliaria define las plantillas de cronograma y el formato del informe mensual de todas las obras.",
+      "lesson": 2,
+      "topicId": "business-1"
+    },
+    {
+      "id": "g-operaciones",
+      "term": "Operaciones",
+      "en": "Operations",
+      "def": "Trabajo continuo y repetitivo que mantiene funcionando a la organización; no tiene un final planificado.",
+      "ex": "El mantenimiento mensual de los ascensores de un edificio ya entregado es operación, no proyecto.",
+      "lesson": 1
+    },
+    {
+      "id": "g-paquete-de-trabajo",
+      "term": "Paquete de trabajo",
+      "en": "Work package",
+      "def": "Nivel más bajo de la EDT, que se puede estimar, programar y controlar.",
+      "ex": "'Encofrado y vaciado de la losa del piso 3' es un paquete de trabajo.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-patrocinador",
+      "term": "Patrocinador",
+      "en": "Sponsor",
+      "def": "Persona o grupo que aporta los recursos y el respaldo del proyecto, y responde por su éxito ante la organización.",
+      "ex": "El gerente general que aprueba el presupuesto del edificio y destraba decisiones es el patrocinador.",
+      "lesson": 2,
+      "topicId": "business-1"
+    },
+    {
+      "id": "g-periodo-de-recuperacion",
+      "term": "Periodo de recuperación",
+      "en": "Payback period",
+      "def": "Tiempo que tarda el proyecto en recuperar la inversión inicial.",
+      "ex": "Las luminarias LED de las áreas comunes se pagan solas con el ahorro de energía en 3 años.",
+      "lesson": 5,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-plan-de-gestion-de-las-adquisiciones",
+      "term": "Plan de gestión de las adquisiciones",
+      "en": "Procurement management plan",
+      "def": "Define qué se comprará o contratará, cómo, con qué tipo de contrato y cómo se gestionarán los proveedores.",
+      "ex": "Ascensores por licitación con precio fijo; especialistas eventuales por tiempo y materiales.",
+      "lesson": 6,
+      "topicId": "process-5"
+    },
+    {
+      "id": "g-plan-de-gestion-de-las-comunicaciones",
+      "term": "Plan de gestión de las comunicaciones",
+      "en": "Communications management plan",
+      "def": "Define qué información se comunica, a quién, cuándo, cómo y quién es responsable.",
+      "ex": "El informe ejecutivo va quincenal al patrocinador; la programación semanal, a los subcontratistas en obra.",
+      "lesson": 3,
+      "topicId": "people-8"
+    },
+    {
+      "id": "g-plan-de-involucramiento-de-los-interesad",
+      "term": "Plan de involucramiento de los interesados",
+      "en": "Stakeholder engagement plan",
+      "def": "Estrategias y acciones para lograr que cada interesado participe como se necesita.",
+      "ex": "Reuniones mensuales con la junta de vecinos y avisos con una semana de anticipación antes de trabajos ruidosos.",
+      "lesson": 3,
+      "topicId": "people-4"
+    },
+    {
+      "id": "g-plan-para-la-direccion-del-proyecto",
+      "term": "Plan para la dirección del proyecto",
+      "en": "Project management plan",
+      "def": "Documento que integra las líneas base y los planes de gestión, y explica cómo se ejecutará, controlará y cerrará el proyecto.",
+      "ex": "Reúne alcance, cronograma, costos, calidad, riesgos, compras y comunicaciones de la obra en un solo plan coherente.",
+      "lesson": 6,
+      "topicId": "process-1"
+    },
+    {
+      "id": "g-planificacion-gradual-rolling-wave",
+      "term": "Planificación gradual (rolling wave)",
+      "en": "Rolling wave planning",
+      "def": "Detallar lo cercano y dejar lo lejano a alto nivel, refinándolo cuando hay más información.",
+      "ex": "Se programan al detalle las 6 semanas de estructuras y los acabados quedan en bloques mensuales.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-planning-poker",
+      "term": "Planning poker",
+      "en": "Planning poker",
+      "def": "Técnica de estimación en equipo en la que cada persona muestra su estimación a la vez y se conversa sobre las diferencias.",
+      "ex": "Si uno vota 3 y otro 13, explican sus razones antes de volver a votar.",
+      "lesson": 6,
+      "topicId": "agile-5"
+    },
+    {
+      "id": "g-portafolio",
+      "term": "Portafolio",
+      "en": "Portfolio",
+      "def": "Conjunto de proyectos, programas y operaciones que una organización selecciona y prioriza para cumplir su estrategia.",
+      "ex": "La inmobiliaria decide en su portafolio qué terrenos desarrollar este año según rentabilidad y riesgo.",
+      "lesson": 2,
+      "topicId": "business-1"
+    },
+    {
+      "id": "g-presupuesto-bac",
+      "term": "Presupuesto (BAC)",
+      "en": "Budget at completion",
+      "def": "Monto total aprobado para el trabajo del proyecto, sin la reserva de gestión.",
+      "ex": "El BAC de la obra es S/ 8 millones, distribuido por partidas y meses.",
+      "lesson": 5,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-priorizacion-moscow",
+      "term": "Priorización MoSCoW",
+      "en": "MoSCoW",
+      "def": "Técnica que clasifica requisitos en debe tener, debería tener, podría tener y no tendrá ahora.",
+      "ex": "Debe tener: reservas. Debería: pagos. Podría: chat vecinal. No ahora: domótica.",
+      "lesson": 5,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-producto-minimo-viable-mvp",
+      "term": "Producto mínimo viable (MVP)",
+      "en": "Minimum viable product",
+      "def": "Primera versión con lo mínimo necesario para entregar valor y aprender de los usuarios.",
+      "ex": "La app sale solo con reserva de parrilla y avisos; después se agregan pagos.",
+      "lesson": 5,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-programa",
+      "term": "Programa",
+      "en": "Program",
+      "def": "Conjunto de proyectos relacionados que se dirigen juntos porque así se logran beneficios mayores que gestionándolos aislados.",
+      "ex": "Tres torres de un mismo condominio, con áreas comunes y ventas compartidas, se gestionan como un programa.",
+      "lesson": 2,
+      "topicId": "business-1"
+    },
+    {
+      "id": "g-proyecto",
+      "term": "Proyecto",
+      "en": "Project",
+      "def": "Esfuerzo temporal, con inicio y fin, que se hace para crear algo único que aporte valor.",
+      "ex": "Construir el edificio Residencial Castilla es un proyecto: tiene fecha de inicio, de entrega y un resultado único.",
+      "lesson": 1
+    },
+    {
+      "id": "g-puntos-de-historia",
+      "term": "Puntos de historia",
+      "en": "Story points",
+      "def": "Unidad relativa para estimar el esfuerzo y la complejidad de una historia, no horas.",
+      "ex": "Reservar la parrilla (3 puntos) cuesta más o menos la mitad que pagar el mantenimiento (8).",
+      "lesson": 6,
+      "topicId": "agile-5"
+    },
+    {
+      "id": "g-radiador-de-informacion",
+      "term": "Radiador de información",
+      "en": "Information radiator",
+      "def": "Pantalla o tablero visible que muestra el estado del trabajo sin tener que pedirlo.",
+      "ex": "El tablero en la caseta de obra con el avance por piso y los incidentes abiertos.",
+      "lesson": 7,
+      "topicId": "process-9"
+    },
+    {
+      "id": "g-registro-de-beneficios",
+      "term": "Registro de beneficios",
+      "en": "Benefits register",
+      "def": "Lista de los beneficios esperados, con su indicador, responsable y fecha de medición.",
+      "ex": "'Reducir 30 % los reclamos de postventa', medido por el área de atención al cliente a los 12 meses.",
+      "lesson": 5,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-registro-de-cambios",
+      "term": "Registro de cambios",
+      "en": "Change log",
+      "def": "Lista de todas las solicitudes de cambio con su estado y decisión.",
+      "ex": "CR-07: agregar un nivel de depósitos, pendiente de aprobación.",
+      "lesson": 7,
+      "topicId": "business-3"
+    },
+    {
+      "id": "g-registro-de-incidentes",
+      "term": "Registro de incidentes",
+      "en": "Issue log",
+      "def": "Lista de los incidentes con su responsable, acciones, fecha objetivo y estado.",
+      "ex": "I-15: licencia observada, responsable la jefa de trámites, fecha objetivo 30/11.",
+      "lesson": 7,
+      "topicId": "business-4"
+    },
+    {
+      "id": "g-registro-de-interesados",
+      "term": "Registro de interesados",
+      "en": "Stakeholder register",
+      "def": "Lista de los interesados con sus datos, intereses, influencia y expectativas.",
+      "ex": "Incluye al cliente, la municipalidad, la junta de vecinos, el banco y los subcontratistas principales.",
+      "lesson": 3,
+      "topicId": "people-4"
+    },
+    {
+      "id": "g-registro-de-riesgos",
+      "term": "Registro de riesgos",
+      "en": "Risk register",
+      "def": "Lista de riesgos con su probabilidad, impacto, dueño, respuesta y estado.",
+      "ex": "R3: demora de la conformidad municipal, probabilidad alta, impacto alto, dueño: residente.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-reglas-basicas",
+      "term": "Reglas básicas",
+      "en": "Ground rules",
+      "def": "Normas de conducta que el equipo acuerda y espera que todos respeten.",
+      "ex": "Las reuniones de coordinación empiezan puntuales y se apagan los celulares.",
+      "lesson": 4,
+      "topicId": "people-2"
+    },
+    {
+      "id": "g-relacion-beneficio-costo",
+      "term": "Relación beneficio-costo",
+      "en": "Benefit-cost ratio",
+      "def": "Beneficios divididos entre costos (a valor presente); mayor que 1 conviene.",
+      "ex": "Paneles solares con beneficios de 900 y costos de 750: relación 1,20.",
+      "lesson": 5,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-reparacion-de-defectos",
+      "term": "Reparación de defectos",
+      "en": "Defect repair",
+      "def": "Acción para corregir un entregable que no cumple los requisitos.",
+      "ex": "Rehacer el tarrajeo de un muro desplomado.",
+      "lesson": 7,
+      "topicId": "process-7"
+    },
+    {
+      "id": "g-reserva-de-contingencia",
+      "term": "Reserva de contingencia",
+      "en": "Contingency reserve",
+      "def": "Fondos para responder a riesgos identificados; forman parte de la línea base de costos.",
+      "ex": "S/ 120 mil reservados por si las lluvias obligan a bombear en la excavación.",
+      "lesson": 5,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-reserva-de-gestion",
+      "term": "Reserva de gestión",
+      "en": "Management reserve",
+      "def": "Fondos para imprevistos no identificados; no son parte de la línea base y su uso requiere aprobación de la dirección.",
+      "ex": "Cuando aparece una tubería no registrada, el patrocinador autoriza usar la reserva de gestión.",
+      "lesson": 5,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-restriccion",
+      "term": "Restricción",
+      "en": "Constraint",
+      "def": "Límite que condiciona cómo se puede ejecutar el proyecto.",
+      "ex": "La municipalidad solo permite trabajar de 8:00 a 18:00 de lunes a sábado.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-retirarse-evitar",
+      "term": "Retirarse / evitar",
+      "en": "Withdraw / avoid",
+      "def": "Técnica de conflicto que posterga el tema; útil solo para enfriar los ánimos o si no es importante.",
+      "ex": "Se deja para mañana una discusión acalorada sobre colores, cuando todos estén más calmados.",
+      "lesson": 4,
+      "topicId": "people-2"
+    },
+    {
+      "id": "g-retrospectiva",
+      "term": "Retrospectiva",
+      "en": "Retrospective",
+      "def": "Reunión periódica en la que el equipo revisa cómo trabajó y acuerda mejoras concretas.",
+      "ex": "Al final del sprint, el equipo decide limitar las tareas en revisión a dos.",
+      "lesson": 8,
+      "topicId": "business-6"
+    },
+    {
+      "id": "g-revision-de-fase-puerta-de-fase",
+      "term": "Revisión de fase (puerta de fase)",
+      "en": "Phase gate",
+      "def": "Punto al final de una fase donde se decide si el proyecto continúa, cambia o se detiene.",
+      "ex": "Antes de iniciar los acabados, el comité revisa costo y calidad del casco y decide si se sigue.",
+      "lesson": 2,
+      "topicId": "business-1"
+    },
+    {
+      "id": "g-riesgo",
+      "term": "Riesgo",
+      "en": "Risk",
+      "def": "Evento o condición incierta que, si ocurre, afecta a los objetivos; puede ser negativo (amenaza) o positivo (oportunidad).",
+      "ex": "Que lleguen antes los ascensores sería una oportunidad; que lleguen tarde, una amenaza.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-riesgo-residual",
+      "term": "Riesgo residual",
+      "en": "Residual risk",
+      "def": "Riesgo que queda después de aplicar la respuesta.",
+      "ex": "Aunque se instaló bombeo, queda la posibilidad de una lluvia extrema que lo supere.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-riesgo-secundario",
+      "term": "Riesgo secundario",
+      "en": "Secondary risk",
+      "def": "Nuevo riesgo que aparece como consecuencia de aplicar una respuesta.",
+      "ex": "El segundo proveedor de acero podría entregar material con otra certificación.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-ruta-critica",
+      "term": "Ruta crítica",
+      "en": "Critical path",
+      "def": "Secuencia de actividades más larga del proyecto; determina la duración mínima y no tiene holgura.",
+      "ex": "Excavación → cimentación → estructura → techos: si una se retrasa, se retrasa la entrega.",
+      "lesson": 6,
+      "topicId": "process-8"
+    },
+    {
+      "id": "g-seguridad-psicologica",
+      "term": "Seguridad psicológica",
+      "en": "Psychological safety",
+      "def": "Clima en el que las personas se sienten libres de opinar, preguntar o admitir errores sin temor.",
+      "ex": "Un operario avisa que se equivocó en una medida y el equipo lo corrige sin burlas ni sanciones.",
+      "lesson": 4,
+      "topicId": "people-3"
+    },
+    {
+      "id": "g-solicitud-de-cambio",
+      "term": "Solicitud de cambio",
+      "en": "Change request",
+      "def": "Propuesta formal para modificar algo del proyecto: alcance, cronograma, costo, documentos o productos.",
+      "ex": "El cliente pide formalmente cambiar el revestimiento de la fachada.",
+      "lesson": 7,
+      "topicId": "business-3"
+    },
+    {
+      "id": "g-solucion-alternativa-workaround",
+      "term": "Solución alternativa (workaround)",
+      "en": "Workaround",
+      "def": "Respuesta inmediata a un problema no previsto o a un riesgo que ocurrió sin respuesta planificada.",
+      "ex": "Ante una tubería no registrada, se desvía la excavación mientras se coordina con la empresa de agua.",
+      "lesson": 7,
+      "topicId": "business-4"
+    },
+    {
+      "id": "g-sostenibilidad",
+      "term": "Sostenibilidad",
+      "en": "Sustainability",
+      "def": "Considerar el impacto ambiental, social y económico de las decisiones del proyecto a lo largo del tiempo.",
+      "ex": "Elegir luminarias LED y reciclar el desmonte reduce el impacto del edificio durante y después de la obra.",
+      "lesson": 8,
+      "topicId": "business-8"
+    },
+    {
+      "id": "g-suavizar-acomodar",
+      "term": "Suavizar / acomodar",
+      "en": "Smooth / accommodate",
+      "def": "Técnica de conflicto que resalta los puntos en común y minimiza las diferencias.",
+      "ex": "El director recuerda a ambos que comparten la meta de entregar a tiempo, para bajar la tensión.",
+      "lesson": 4,
+      "topicId": "people-2"
+    },
+    {
+      "id": "g-supuesto",
+      "term": "Supuesto",
+      "en": "Assumption",
+      "def": "Algo que se considera cierto sin haberlo comprobado; si resulta falso, puede volverse un riesgo.",
+      "ex": "Se supone que el estudio de suelos es correcto y no habrá napa freática a 6 m.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-tiempo-de-ciclo-cycle-time",
+      "term": "Tiempo de ciclo (cycle time)",
+      "en": "Cycle time",
+      "def": "Tiempo desde que se empieza a trabajar en algo hasta que se termina.",
+      "ex": "La cuadrilla empezó la reparación el día 5 y terminó el 10: 5 días.",
+      "lesson": 7,
+      "topicId": "agile-5"
+    },
+    {
+      "id": "g-tiempo-de-entrega-lead-time",
+      "term": "Tiempo de entrega (lead time)",
+      "en": "Lead time",
+      "def": "Tiempo desde que se pide algo hasta que se entrega.",
+      "ex": "Del reclamo del propietario (día 2) a la reparación terminada (día 10): 8 días.",
+      "lesson": 7,
+      "topicId": "agile-5"
+    },
+    {
+      "id": "g-transferir",
+      "term": "Transferir",
+      "en": "Transfer",
+      "def": "Respuesta que traslada a un tercero el impacto de una amenaza y la responsabilidad de gestionarla.",
+      "ex": "Contratar un seguro todo riesgo de construcción.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-transicion-traspaso",
+      "term": "Transición (traspaso)",
+      "en": "Transition",
+      "def": "Entregar el resultado a quien lo operará, verificando que está preparado para hacerlo.",
+      "ex": "El área de mantenimiento recibe manuales, capacitación y accesos del sistema del edificio.",
+      "lesson": 8,
+      "topicId": "process-10"
+    },
+    {
+      "id": "g-transigir-conciliar",
+      "term": "Transigir / conciliar",
+      "en": "Compromise / reconcile",
+      "def": "Técnica de conflicto en la que cada parte cede algo para llegar a un acuerdo aceptable.",
+      "ex": "Dos frentes acuerdan compartir la grúa: uno la usa en la mañana y otro en la tarde.",
+      "lesson": 4,
+      "topicId": "people-2"
+    },
+    {
+      "id": "g-trazabilidad-de-requisitos",
+      "term": "Trazabilidad de requisitos",
+      "en": "Requirements traceability matrix",
+      "def": "Tabla que vincula cada requisito con su origen y con el entregable y la prueba que lo cumplen.",
+      "ex": "El requisito de aislamiento acústico se enlaza con el tipo de tabique y el ensayo de ruido.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-validar-el-alcance",
+      "term": "Validar el alcance",
+      "en": "Validate scope",
+      "def": "Obtener la aceptación formal del cliente sobre los entregables terminados.",
+      "ex": "El cliente recorre el piso 5 con la lista de verificación y firma el acta de conformidad.",
+      "lesson": 5,
+      "topicId": "process-2"
+    },
+    {
+      "id": "g-valor",
+      "term": "Valor",
+      "en": "Value",
+      "def": "El beneficio que un resultado aporta a quien lo recibe; puede ser económico, social o de otro tipo.",
+      "ex": "Para el comprador, el valor de un departamento está en vivir seguro y cómodo, no en la cantidad de concreto usado.",
+      "lesson": 2,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-valor-actual-neto-van",
+      "term": "Valor actual neto (VAN)",
+      "en": "Net present value",
+      "def": "Diferencia entre el valor presente de los ingresos y el de los costos; si es positivo, el proyecto crea valor.",
+      "ex": "Un VAN de S/ 1,2 millones indica que la torre aporta más de lo que cuesta a valor de hoy.",
+      "lesson": 5,
+      "topicId": "process-3"
+    },
+    {
+      "id": "g-valor-ganado-ev",
+      "term": "Valor ganado (EV)",
+      "en": "Earned value",
+      "def": "Presupuesto del trabajo realmente terminado a la fecha.",
+      "ex": "Se terminaron partidas que en el presupuesto suman S/ 360 mil.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-valor-monetario-esperado-emv",
+      "term": "Valor monetario esperado (EMV)",
+      "en": "Expected monetary value",
+      "def": "Probabilidad por impacto económico de un riesgo; las amenazas restan y las oportunidades suman.",
+      "ex": "40 % de probabilidad de un sobrecosto de S/ 80 mil da un EMV de −S/ 32 mil.",
+      "lesson": 5,
+      "topicId": "business-5"
+    },
+    {
+      "id": "g-valor-planificado-pv",
+      "term": "Valor planificado (PV)",
+      "en": "Planned value",
+      "def": "Presupuesto del trabajo que, según el plan, debería estar hecho a la fecha.",
+      "ex": "Al mes 4 debían estar construidos S/ 400 mil de obra según la curva S.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-variacion-a-la-conclusion-vac",
+      "term": "Variación a la conclusión (VAC)",
+      "en": "Variance at completion",
+      "def": "VAC = BAC − EAC: cuánto se espera estar por encima o por debajo del presupuesto al final.",
+      "ex": "800 − 1 000 = −200: se espera terminar S/ 200 mil sobre el presupuesto.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-variacion-del-costo-cv",
+      "term": "Variación del costo (CV)",
+      "en": "Cost variance",
+      "def": "CV = EV − AC. Negativa: se gastó más de lo que vale lo hecho.",
+      "ex": "360 − 450 = −90: la obra va S/ 90 mil por encima del costo previsto.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-variacion-del-cronograma-sv",
+      "term": "Variación del cronograma (SV)",
+      "en": "Schedule variance",
+      "def": "SV = EV − PV. Negativa: se avanzó menos de lo planificado.",
+      "ex": "360 − 400 = −40: se ha hecho S/ 40 mil menos de obra de lo previsto a la fecha.",
+      "lesson": 7,
+      "topicId": "process-6"
+    },
+    {
+      "id": "g-velocidad",
+      "term": "Velocidad",
+      "en": "Velocity",
+      "def": "Cantidad de trabajo (por ejemplo, puntos de historia) que un equipo ágil termina por iteración.",
+      "ex": "El equipo de la app termina en promedio 24 puntos por sprint.",
+      "lesson": 6,
+      "topicId": "agile-5"
+    },
+    {
+      "id": "g-vision-del-proyecto",
+      "term": "Visión del proyecto",
+      "en": "Project vision",
+      "def": "Descripción breve e inspiradora del futuro que el proyecto quiere lograr y por qué importa.",
+      "ex": "'Viviendas seguras y silenciosas para familias jóvenes de Lima Norte' orienta cada decisión del equipo.",
+      "lesson": 3,
+      "topicId": "people-1"
+    }
+  ]
+}
