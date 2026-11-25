@@ -99,3 +99,4 @@ tr.current-week td{background:#f2f7e8;font-weight:600;color:var(--ink)}
 .quiz-img-wrap.zoom .quiz-img{width:680px;max-width:none}.quiz-img-wrap .quiz-img{cursor:zoom-in}.quiz-img-wrap.zoom .quiz-img{cursor:zoom-out}.pdf-block .quiz-img-wrap .quiz-img{cursor:pointer}
 .gloss-aka{font-size:12px;color:var(--muted,#6b7a63);margin:4px 0 6px}
 .cl-lessons{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:10px 0;display:grid;gap:6px}.cl-lessons legend{font-weight:600;font-size:13px;padding:0 4px}.cl-disc{margin-top:6px}
+.new-per-day{max-width:360px;margin:-6px 0 16px}

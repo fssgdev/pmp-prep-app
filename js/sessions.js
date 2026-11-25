@@ -82,3 +82,4 @@ const SESSION_ACTIONS = {
   'classlog-save': () => saveClassLog(document.getElementById('classlog-form')?.dataset.session)
 };
 Object.assign(STUDY_ACTIONS, SESSION_ACTIONS);
+document.addEventListener('change', ev => { if (ev.target.id === 'new-per-day') { state.settings.newCardsPerDay = Number(ev.target.value); save(); cardQueue = null; render(); toast(`Cupo de nuevas: ${ev.target.value} por día. La meta diaria sigue siendo 4 tarjetas aprendidas.`); } });

@@ -132,5 +132,32 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
   }
+  // ---------- #8: prioridad del glosario en tarjetas nuevas ----------
+  console.log('\n== #8 glosario');
+  {
+    const {ctx, page, errors, boot} = await fresh('2026-11-26T09:00:00-05:00');
+    await boot('inicio');
+    await page.evaluate(() => { ensureClassLog().push({id: 'cl-s7', session: 7, date: '2026-11-25', lessons: [3], updated: stamp()}); allCards.cache = null; });
+    const r = await page.evaluate(() => {
+      const f = freshCards(), cov = coveredLessons(today()), top = f.slice(0, 8), t3 = new Set(lessonCfg(3).topics);
+      const firstFuture = f.findIndex(c => !cov.includes(cardLesson(c)) && cardLesson(c) > Math.max(...cov)), lastPast = f.map(c => cov.includes(cardLesson(c)) || cardLesson(c) <= Math.max(...cov)).lastIndexOf(true);
+      const firstConcept = f.findIndex(c => !c.gloss), lastPastGloss = f.map(c => c.gloss && cardLesson(c) <= Math.max(...cov)).lastIndexOf(true);
+      const fronts = allCards().filter(c => c.gloss).map(c => c.front), aka = D.glossary.flatMap(g => g.aka || []);
+      return {top: top.every(c => c.gloss && (cardLesson(c) === 3 || t3.has(c.topicId))), order: firstFuture > lastPast, glossFirst: firstConcept > lastPastGloss, dup: fronts.length - new Set(fronts).size, akaCards: fronts.filter(x => aka.includes(x)).length, n: fronts.length};
+    });
+    assert(r.top, 'con la lección 3 declarada, las primeras tarjetas nuevas son del glosario de la lección 3 o de sus tareas ECO');
+    assert(r.glossFirst, 'el glosario de lecciones vistas va antes que las tarjetas de conceptos');
+    assert(r.order, 'las tarjetas de lecciones futuras nunca desplazan a las ya vistas');
+    assert(r.dup === 0 && r.akaCards === 0 && r.n === 618, 'una tarjeta por término (618), sin duplicar sinónimos ni alias');
+    const ids = await page.evaluate(() => { cardQueue = buildQueue(); const g = []; for (let i = 0; i < 2; i++) { g.push(cardQueue[0]); cardRevealed = true; gradeCard('good'); } return g; });
+    await boot('flashcards');
+    assert(await page.evaluate(ids => ids.every(id => state.cards[id]) && !freshCards().some(c => ids.includes(c.id)), ids), 'las tarjetas aprendidas persisten y no vuelven como nuevas');
+    const cupo = await page.evaluate(() => newAllowance()); await page.selectOption('#new-per-day', '12');
+    assert(await page.evaluate(() => newPerDay()) === 12 && await page.evaluate(() => newAllowance()) === cupo + 4 && await page.evaluate(() => CARD_DAILY_GOAL) === 4, 'el cupo de nuevas se configura (8 → 12) sin cambiar la meta de 4 aprendidas');
+    await page.evaluate(() => { location.hash = 'conceptos/glosario'; conceptSearch = 'espina de pescado'; render(); });
+    assert(await page.locator('.gloss-item h4', {hasText: 'Diagrama de causa y efecto'}).count() === 1, 'el glosario completo se puede buscar también por sus alias');
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
   await browser.close();
 })().catch(e => { console.error(e.message); process.exit(1); });

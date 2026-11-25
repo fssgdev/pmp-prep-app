@@ -164,17 +164,28 @@ function allCards() {
 }
 /* Lección v4.1 de una tarjeta (la del glosario o la de su tarea ECO). */
 function cardLesson(c) { if (c.lesson) return c.lesson; const t = topicBy(c.topicId), l = t && D.course?.lessons.find(x => x.eco.includes(t.code)); return l ? l.n : 9; }
-/* Orden de las tarjetas nuevas: primero las de lecciones ya vistas o en curso, luego el resto por lección. */
+/* Orden de las tarjetas nuevas (#8, criterio aprobado el 25/11):
+   1) glosario de la lección que se está estudiando (avance real) o de sus tareas ECO activas;
+   2) glosario de otras lecciones ya vistas; 3) tarjetas de conceptos de lecciones vistas;
+   4) lo de lecciones futuras (primero glosario), que nunca desplaza a lo ya visto. */
 function freshCards() {
-  const seen = typeof coveredLessons === 'function' ? Math.max(0, ...coveredLessons(today())) : 9;
-  return allCards().filter(c => !cardState(c.id)).map((c, i) => ({c, i, l: cardLesson(c)})).sort((a, b) => ((a.l <= seen) === (b.l <= seen) ? 0 : a.l <= seen ? -1 : 1) || a.l - b.l || a.i - b.i).map(x => x.c);
+  const covered = typeof coveredLessons === 'function' ? coveredLessons(today()) : [], seen = covered.length ? Math.max(...covered) : 9;
+  const act = typeof activeLesson === 'function' ? activeLesson(weekStart()) : null, actN = act?.n || seen, actTopics = new Set(lessonCfg(actN).topics || []);
+  const rank = c => { const l = cardLesson(c), past = l <= seen || covered.includes(l);
+    if (!past) return c.gloss ? 3 : 4;
+    if (c.gloss && (l === actN || (c.topicId && actTopics.has(c.topicId)))) return 0;
+    return c.gloss ? 1 : 2; };
+  return allCards().filter(c => !cardState(c.id)).map((c, i) => ({c, i, r: rank(c), l: cardLesson(c)}))
+    .sort((a, b) => a.r - b.r || (a.r >= 3 ? a.l - b.l : b.l - a.l) || a.i - b.i).map(x => x.c);
 }
 function cardState(id) { return state.cards[id] || null; }
 function cardPhase(s) { return !s ? 'new' : s.phase ? s.phase : (s.reps > 0 && s.interval >= 1 ? 'review' : 'learning'); }
 /* Tarjetas nuevas del día: las de fallos (err-) no consumen el cupo de nuevas ordinarias (#5). */
 function newToday() { return state.cardLog.filter(l => l.first && l.date === today() && !l.extra && !String(l.id).startsWith('err-')).length; }
 function extraNewToday() { return Number(state.cardExtra?.[today()] || 0); }
-function newAllowance() { return Math.max(0, NEW_CARDS_PER_DAY + extraNewToday() - newToday()); }
+/* Cupo de nuevas configurable (#8): por defecto 8; no es una obligación diaria, la meta sigue siendo 4/4. */
+function newPerDay() { const n = Number(state.settings?.newCardsPerDay); return n >= 2 && n <= 30 ? n : NEW_CARDS_PER_DAY; }
+function newAllowance() { return Math.max(0, newPerDay() + extraNewToday() - newToday()); }
 /* Vencimiento real: los pasos en minutos usan la marca de tiempo dueAt; los repasos en días
    vencen a la medianoche de Lima (UTC−5, sin horario de verano) de su fecha due. */
 const limaDay = ms => new Intl.DateTimeFormat('en-CA', {timeZone: 'America/Lima', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date(ms));
@@ -454,7 +465,7 @@ function renderFlashcards() {
   clearTimeout(cardTimer);
   const total = allCards().length, learned = Object.keys(state.cards).length, due = dueCards().length, newAvail = Math.min(newAllowance(), allCards().filter(c => !cardState(c.id)).length), g = cardsGradedToday(), goal = cardGoalDone();
   const head = heading('FLASHCARDS · RUTINA DIARIA', 'Repaso espaciado', `Meta diaria: ${CARD_DAILY_GOAL} tarjetas distintas aprendidas («Otra vez» no suma: vuelve al final como yapa). Puedes seguir repasando todo lo que quieras.`, `<a class="button white" href="#conceptos">${icon('book')} Conceptos</a>`) +
-    `<div class="stats flash-stats">${stat('Meta de hoy', `${Math.min(g, CARD_DAILY_GOAL)} <small>/ ${CARD_DAILY_GOAL}</small>`, goal ? 'cumplida' : 'tarjetas distintas', 'check')}${stat('Vencidas', due, 'para repasar hoy', 'clock')}${stat('Nuevas hoy', newAvail, `límite ${NEW_CARDS_PER_DAY} al día${extraNewToday() ? ' + ' + extraNewToday() + ' extra' : ''}`, 'plus')}${stat('Banco', `${learned} <small>/ ${total}</small>`, 'estudiadas / total', 'cards')}</div>` +
+    `<div class="stats flash-stats">${stat('Meta de hoy', `${Math.min(g, CARD_DAILY_GOAL)} <small>/ ${CARD_DAILY_GOAL}</small>`, goal ? 'cumplida' : 'tarjetas distintas', 'check')}${stat('Vencidas', due, 'para repasar hoy', 'clock')}${stat('Nuevas hoy', newAvail, `límite ${newPerDay()} al día${extraNewToday() ? ' + ' + extraNewToday() + ' extra' : ''}`, 'plus')}${stat('Banco', `${learned} <small>/ ${total}</small>`, 'estudiadas / total', 'cards')}</div><label class="field new-per-day"><span>Tarjetas nuevas por día (cupo máximo, no obligación)</span><select id="new-per-day">${[4, 6, 8, 10, 12, 15, 20].map(n => `<option value="${n}" ${newPerDay() === n ? 'selected' : ''}>${n}${n === NEW_CARDS_PER_DAY ? ' (recomendado)' : ''}</option>`).join('')}</select></label>` +
     (cardMode === 'extra' ? `<div class="notice">Repaso extra voluntario: tus respuestas se registran, pero no cambian cuándo vuelve cada tarjeta. ${button('Terminar repaso extra', 'cards-extra-stop', 'ghost small')}</div>` : '') +
     (goal && cardQueue.length && cardMode === 'due' ? `<div class="notice">Meta diaria cumplida (${Math.min(g, CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}). Lo que repases ahora es estudio adicional.</div>` : '');
   const later = learningLater();
