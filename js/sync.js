@@ -42,7 +42,7 @@
      - Actividades hechas: unión; una actividad desmarcada después ('task:<id>' en deleted) se respeta.
      - Tarjetas: gana la que tiene más repasos; historial de tarjetas: unión sin duplicar.
      - Temas, asistencia: por clave; ajustes, cuestionario y simulacro en curso: el estado más nuevo. */
-  const LISTS = ['notes', 'errors', 'mocks', 'attempts', 'questions', 'studySessions', 'results'];
+  const LISTS = ['notes', 'errors', 'mocks', 'attempts', 'questions', 'studySessions', 'results', 'classLog'];
   function merge(local, remote, localNewer) {
     if (!remote) return local; if (!local) return remote;
     const [newer, older] = localNewer ? [local, remote] : [remote, local];

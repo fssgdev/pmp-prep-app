@@ -19,6 +19,7 @@
     await load('js/items.js');
     await load('js/results.js');
     await load('js/pdfimport.js');
+    await load('js/sessions.js');
     await load('js/mock.js');
     await load('js/app.js');
   } catch (err) {
