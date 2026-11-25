@@ -219,7 +219,7 @@ function saveFormsImport() {
     const img = b.front || b.back ? {front: b.front || '', back: b.back || ''} : null;
     if (prev) { prev.misses = (prev.misses || 1) + 1; prev.due = next; prev.updated = stamp(); if (img) { prev.img = true; pdfImgPut(prev.id, img); } n++; return; }
     const id = uid();
-    state.errors.unshift({id, questionId: null, topicId: imp.topicId, module, prompt: b.prompt, correctText: b.correctText, yourText: b.yourText, quiz: imp.title, n: b.n, img: !!img, category: 'Conceptual', lesson: b.correctText ? 'Respuesta correcta: ' + b.correctText : img ? 'Mira la respuesta correcta en la imagen de la pregunta y anota la regla.' : 'Revisa la respuesta correcta en el quiz.', action: 'Vuelve como tarjeta en Flashcards y refuerza su tema en tus cuestionarios.', date: today(), due: next, resolved: false, source: 'pdf', hits: 0, misses: 1, updated: stamp()});
+    state.errors.unshift({id, questionId: null, topicId: imp.topicId, module, prompt: b.prompt, correctText: b.correctText, yourText: b.yourText, quiz: imp.title, n: b.n, img: !!img, category: 'Conceptual', lesson: b.correctText ? 'Respuesta correcta: ' + b.correctText : img ? 'Mira la respuesta correcta en la imagen de la pregunta y anota la regla.' : 'Revisa la respuesta correcta en el quiz.', action: 'Vuelve como tarjeta en Anki y refuerza su tema en tus cuestionarios.', date: today(), due: next, resolved: false, source: 'pdf', hits: 0, misses: 1, updated: stamp()});
     if (img) pdfImgPut(id, img);
     n++;
   });

@@ -67,7 +67,9 @@
     for (const src of [older.tasksDone || {}, newer.tasksDone || {}]) for (const [id, at] of Object.entries(src)) {
       const tomb = deleted['task:' + id];
       if (tomb && tomb > at) continue;
-      if (!out.tasksDone[id] || at < out.tasksDone[id]) out.tasksDone[id] = at;
+      // Las láminas pueden volver a hacerse al publicarse otra versión (#3): gana la marca más reciente.
+      const later = id.startsWith('slide-');
+      if (!out.tasksDone[id] || (later ? at > out.tasksDone[id] : at < out.tasksDone[id])) out.tasksDone[id] = at;
     }
     out.cards = {...(older.cards || {})};
     for (const [id, c] of Object.entries(newer.cards || {})) {

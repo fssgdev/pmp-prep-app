@@ -196,9 +196,19 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     const folder = page.locator('.session-folder', {hasText: '2026-11-25_clase-7'});
     assert(await folder.locator('.note-file').count() === 1 && /drive\.google\.com\/drive\/search\?q=2026-11-25_clase-7$/.test(await folder.locator('a', {hasText: 'Abrir en Drive'}).getAttribute('href')), 'Mis notas muestra la carpeta 2026-11-25_clase-7 con su enlace al Drive (búsqueda por nombre, sin IDs privados)');
     assert(await page.locator('[data-action="note-file-add"]').count() === 0, 'Mis notas ya no sube archivos: funciona como visor');
+    // Cuaderno anterior: legible, sin crear ni editar desde Mis notas
+    await page.evaluate(() => { state.notes.push({id: 'n-legado', title: 'Regla de decisión sintética', body: 'Evaluar antes de actuar.', origin: 'Práctica propia', updated: '2026-11-10T15:00:00.000Z'}); save(); render(); });
+    assert(await page.locator('[data-action="new-note"], [data-action="edit-note"], [data-action="note-file-add"]').count() === 0, 'Mis notas no ofrece crear ni editar notas: es un visor');
+    await page.locator('.legacy-notes summary').click();
+    assert(await page.locator('.legacy-notes .legacy-note', {hasText: 'Regla de decisión sintética'}).isVisible() && await page.locator('[data-action="notes-export"]').count() === 1, 'las notas de texto anteriores siguen legibles (solo lectura) y se pueden descargar');
+    await page.evaluate(() => { location.hash = 'agenda'; calendarMonth = '2026-11'; calendarDay = '2026-11-25'; render(); });
+    assert(await page.locator('[data-action="session-note"]').count() === 0 && /drive\/search\?q=2026-11-25_clase-7$/.test(await page.locator('.agenda-session a', {hasText: 'Apuntes en Drive'}).first().getAttribute('href')), 'la Agenda cambia «Apunte» por «Apuntes en Drive» de esa clase');
+    await page.evaluate(() => { location.hash = 'modulos'; render(); });
+    assert(await page.locator('[data-action="topic-note"]').count() === 0, 'Módulos ya no crea notas de texto');
     // Paquete de contexto: con avance, notas del profesor, apunte y discrepancia; y sin nada
     const pk = await page.evaluate(() => { Object.assign(classLogFor(7), {lastTopic: 'Diapositiva 40'}); const s7 = D.sessions.find(s => s.id === 7); s7.mapping = 'confirmada'; s7.lesson41 = [2, 3]; const a = contextPackage(7); s7.mapping = 'por confirmar'; const b = contextPackage(8); return [a, b]; });
-    assert(/lección v4.1 3/.test(pk[0]) && /confirmadas, lección 2 y 3/.test(pk[0]) && /Clase7\.pdf/.test(pk[0]) && /Discrepancia/.test(pk[0]), 'el paquete de contexto reúne avance, notas del profesor, apuntes y la discrepancia');
+    assert(/lección v4.1 3/.test(pk[0]) && /confirmadas, lección 2 y 3/.test(pk[0]) && /Archivos locales antiguos.*Clase7\.pdf/.test(pk[0]) && /Discrepancia/.test(pk[0]), 'el paquete de contexto reúne avance, notas del profesor, archivos locales antiguos (identificados como tales) y la discrepancia');
+    assert(/verificar la subcarpeta «2026-11-27_clase-8»/.test(pk[1]) && !/Archivos locales/.test(pk[1]) && !/No hay apuntes|ninguno/.test(pk[1]), 'sin archivos locales, el paquete no afirma que no haya apuntes: pide verificar la carpeta del Drive');
     assert(/sin registrar/.test(pk[1]) && /No hay avance declarado/.test(pk[1]) && /por confirmar/.test(pk[1]) && !/https?:/.test(pk[0] + pk[1]), 'sin fuentes, el paquete lo declara como brechas y no incluye enlaces privados');
     // Forms asociado a la clase, sin duplicar
     const fx = path.join(os.tmpdir(), 'forms-quiz-texto-lb.pdf');
@@ -218,7 +228,16 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     await boot('inicio');
     const keep = await page.evaluate(() => ({legacy: state.tasksDone['rev-s3-d1'], slides: slideStatus(7), notes: state.noteFiles.length, log: !!classLogFor(7)}));
     assert(keep.legacy && keep.slides === 'revisada' && keep.notes === 1 && keep.log, 'al recargar se conservan lámina, apuntes, avance y las marcas de tareas de la línea anterior');
-    for (const h of ['inicio', 'agenda', 'ruta', 'notas', 'simulacros']) { await page.evaluate(h => { location.hash = h; render(); }, h); assert(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 1, `#${h} sin desplazamiento horizontal a 375 px`); }
+    // Navegación renombrada (#3): mismas rutas internas, etiquetas nuevas
+    const navTxt = await page.evaluate(() => [...document.querySelectorAll('a.nav-link')].map(a => a.getAttribute('href') + '=' + a.textContent.trim()));
+    const mobTxt = await page.evaluate(() => [...document.querySelectorAll('#mobile-navigation a, .mobile-nav a')].map(a => a.textContent.trim()));
+    assert((mobTxt.includes('Anki') && mobTxt.includes('Evaluaciones')), 'la barra móvil también dice «Anki» y «Evaluaciones» ' + JSON.stringify(mobTxt));
+    assert(navTxt.includes('#simulacros=Evaluaciones') && navTxt.includes('#flashcards=Anki') && !navTxt.some(x => /=(Simulacros|Flashcards)$/.test(x)), 'el menú dice «Evaluaciones» y «Anki» y conserva #simulacros y #flashcards');
+    await page.evaluate(() => { location.hash = 'simulacros'; render(); });
+    assert(/Evaluaciones/i.test(await page.locator('h1').first().innerText() + await page.locator('.eyebrow').first().innerText()) && await page.getByRole('button', {name: 'Simulacro PMP completo'}).count() === 1, 'Evaluaciones reúne práctica, examen completo (con su nombre) e historial');
+    await page.evaluate(() => { location.hash = 'flashcards'; render(); });
+    assert(/ANKI/.test(await page.locator('.eyebrow').first().innerText()), 'Anki abre las tarjetas con repetición espaciada');
+    for (const h of ['inicio', 'agenda', 'ruta', 'notas', 'simulacros', 'flashcards']) { await page.evaluate(h => { location.hash = h; render(); }, h); assert(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 1, `#${h} sin desplazamiento horizontal a 375 px`); }
     assert(await page.evaluate(() => { const r = buildMock(); return !!r && r.ids.length === 180; }), 'el simulacro libre de 180 sigue disponible (voluntario)');
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
@@ -236,6 +255,24 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     const r2 = await page.evaluate(() => { const a = [slideStatus(7), !!state.tasksDone['slide-s7']]; D.slidesRepo.push({session: 7, version: 2, file: 'slides/clase-07-v2.pdf', status: 'final', createdAt: '2026-11-27T21:00:00-05:00'}); state.slides[0].reviewedAt = '2026-11-28T00:10:00.000Z'; return [...a, slideStatus(7)]; });
     assert(r2[0] === 'revisada' && r2[1], 'al marcarla como revisada, la tarea queda hecha');
     assert(r2[2] === 'disponible', 'si GPT publica una versión nueva después de la revisión, vuelve a mostrarse como disponible');
+    // v1 revisada → v2 publicada: la tarea se reactiva (vencida al día siguiente) y queda accesible en Inicio, Agenda y Ruta
+    await page.clock.fastForward(16 * 3600000); // sábado 28/11 ~10:10 (Lima)
+    await page.evaluate(() => { location.hash = 'inicio'; render(); });
+    const re = await page.evaluate(() => { const t = buildPlan().find(x => x.id === 'slide-s7'); return [taskStatus(t), !!state.tasksDone['slide-s7']]; });
+    assert(re[0] === 'overdue' && re[1], 'con la v2 sin revisar, la tarea vuelve a vencida sin borrar la marca anterior');
+    assert(await page.locator('#vencidos .task-row', {hasText: 'Repasar láminas'}).count() === 1, 'Inicio la muestra en Vencidos con acceso a la lámina');
+    await page.evaluate(() => { location.hash = 'agenda'; calendarMonth = '2026-11'; calendarDay = '2026-11-27'; render(); });
+    assert(await page.locator('.agenda-session', {hasText: 'Repasar láminas'}).locator('[data-action="task-do"]').count() === 1, 'Agenda la muestra pendiente, con su botón para abrirla');
+    await page.evaluate(() => { location.hash = 'ruta'; render(); });
+    assert(/Vencido/.test(await page.locator('.task-inline', {hasText: 'Lámina de repaso'}).first().innerText()), 'Ruta la marca como vencida junto a la clase');
+    await page.evaluate(() => doTask('slide-s7'));
+    assert(/Versión 2/.test(await page.locator('#modal').innerText()), 'al abrirla se ve la versión 2');
+    await page.getByRole('button', {name: 'Marcar como revisada'}).click();
+    const r3 = await page.evaluate(() => [taskStatus(buildPlan().find(x => x.id === 'slide-s7')), slideStatus(7), slideVersions(7).length]);
+    assert(r3[0] === 'done' && r3[1] === 'revisada' && r3[2] === 2, 'al revisar la v2 la tarea vuelve a hecha y se conservan ambas versiones');
+    // Sincronización: gana la marca de lámina más reciente (no la primera)
+    const mg = await page.evaluate(() => { const t1 = '2026-11-27T23:10:00.000Z', t2 = '2026-11-28T15:10:00.000Z'; const m = PMPSync.merge({...state, tasksDone: {'slide-s7': t1, 'forms-s7': t2}}, {...state, tasksDone: {'slide-s7': t2, 'forms-s7': t1}}, true); return [m.tasksDone['slide-s7'] === t2, m.tasksDone['forms-s7'] === t1]; });
+    assert(mg[0] && mg[1], 'al sincronizar, la lámina conserva la revisión más reciente y las demás tareas su primera marca');
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
   }

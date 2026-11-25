@@ -40,7 +40,7 @@ for (const s of sessions) {
 sessions.forEach((s, i) => { const prev = sessions[i - 1]; if (prev && prev.date >= BASELINE_START) ev({uid: 'lamina-s' + prev.id, d: s.date, start: '18:00', end: '18:30', alarm: 0, summary: `PMP · Repasar láminas de la sesión ${prev.id}`, desc: `Antes de la clase de hoy: lámina de repaso de la clase ${prev.id} en la app (Inicio o Ruta).`}); });
 // 2) Rutina de lunes a viernes
 const days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'], first = (() => { let d = '2026-11-23'; while (!S.routineDays.includes(wd(d))) d = plusDays(d, 1); return d; })();
-ev({uid: 'rutina-lun-vie', d: first, start: S.routineTime, end: addMin(S.routineTime, 20), alarm: 0, rrule: `FREQ=WEEKLY;BYDAY=${S.routineDays.map(i => days[i]).join(',')};UNTIL=${z(plusDays(exam, -1), '23:59')}`, summary: 'PMP · Rutina: 4 tarjetas + Bullet Quiz de 5', desc: 'Flashcards 4/4 (primero las vencidas y tus preguntas falladas) y Bullet Quiz de 5 de la lección de la semana. Domingo: descanso.'});
+ev({uid: 'rutina-lun-vie', d: first, start: S.routineTime, end: addMin(S.routineTime, 20), alarm: 0, rrule: `FREQ=WEEKLY;BYDAY=${S.routineDays.map(i => days[i]).join(',')};UNTIL=${z(plusDays(exam, -1), '23:59')}`, summary: 'PMP · Rutina: 4 tarjetas + Bullet Quiz de 5', desc: 'Anki 4/4 (primero las vencidas y tus preguntas falladas) y Bullet Quiz de 5 de la lección de la semana. Domingo: descanso.'});
 // 3) Sábados: cuestionario de 20 o examen completo
 const lastS = sessions[sessions.length - 1].date;
 let exam0 = plusDays(lastS, 1); while (wd(exam0) !== S.quizDay) exam0 = plusDays(exam0, 1);

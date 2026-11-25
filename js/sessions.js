@@ -104,6 +104,8 @@ const slideFor = sid => ensureSlides().find(x => x.session === Number(sid) && !x
 function repoSlideVersions(sid) { return (D.slidesRepo || []).filter(e => Number(e.session) === Number(sid) && /^slides\/[\w.-]+\.(pdf|html|png|jpg|md)$/i.test(e.file || '')).map(e => ({link: new URL(e.file, location.href).href, name: e.title || e.file.split('/').pop(), at: e.createdAt || '', note: [e.status === 'provisional' ? 'provisional' : '', e.note || ''].filter(Boolean).join(' · '), source: e.author || 'GPT', repo: true, version: e.version})); }
 function slideVersions(sid) { return [...repoSlideVersions(sid), ...(slideFor(sid)?.versions || [])].sort((a, b) => (Date.parse(a.at) || 0) - (Date.parse(b.at) || 0)); }
 function slideStatus(sid) { const v = slideVersions(sid), x = slideFor(sid); if (!v.length) return 'pendiente'; const last = v[v.length - 1]; return x?.reviewedAt && Date.parse(x.reviewedAt) >= (Date.parse(last.at) || 0) ? 'revisada' : 'disponible'; }
+/* ¿Hay una versión de la lámina posterior a `when` (marca de tarea hecha) que aún no se revisó? */
+function slideNewerThan(sid, when) { const v = slideVersions(sid), last = v[v.length - 1]; if (!last || slideStatus(sid) !== 'disponible') return false; const t = typeof when === 'string' ? Date.parse(when) : NaN; return !Number.isFinite(t) || (Date.parse(last.at) || 0) > t; }
 const SLIDE_LABEL = {pendiente: 'Pendiente de generación', disponible: 'Disponible', revisada: 'Revisada'};
 function slideDialog(sid, taskId) {
   const s = sessionById(sid); if (!s) return;
@@ -160,15 +162,20 @@ async function addNoteFile(file, existing, sessionId) {
   save(); render(); toast('Apunte guardado en este dispositivo.');
 }
 
+/* Acceso a los apuntes de una clase INGENIUM en el Drive (reemplaza a «Añadir apunte» en la Agenda). */
+function sessionNotesLink(s) { const x = sessionById(s.id) || s; return x?.date ? `<a class="button ghost" href="${driveSearch(driveFolderName(x))}" target="_blank" rel="noopener">Apuntes en Drive ↗</a>` : ''; }
+
 /* ---------- paquete de contexto por sesión (para que GPT prepare la lámina) ----------
    La app no puede escribir en tu Drive: genera un archivo de texto que puedes guardar en tu carpeta privada o pegar en GPT. */
 function contextPackage(sid) {
-  const s = sessionById(sid), r = classLogFor(sid), d = classLogDiscrepancy(r), notesFiles = ensureNoteFiles().filter(f => f.session === Number(sid) && !f.removed);
-  const gaps = [!r && 'No hay avance declarado por Fabrizio.', s.mapping !== 'confirmada' && 'Aún no hay notas del profesor confirmadas en el Drive para esta clase.', !notesFiles.length && 'No hay apuntes de OneNote cargados (opcional).'].filter(Boolean);
+  const s = sessionById(sid), r = classLogFor(sid), d = classLogDiscrepancy(r), localFiles = ensureNoteFiles().filter(f => f.session === Number(sid) && !f.removed);
+  /* La app no lista el Drive: no puede saber si hay apuntes allí, así que no lo afirma (#3). */
+  const gaps = [!r && 'No hay avance declarado por Fabrizio.', s.mapping !== 'confirmada' && 'Aún no hay notas del profesor confirmadas en el Drive para esta clase.'].filter(Boolean);
   return [`# Contexto de la clase ${s.id} · ${s.date}`, '', `- Programa INGENIUM: ${s.title}`, `- PPT de referencia: ${s.ppt}`,
     `- Avance declarado por Fabrizio: ${r ? `lección v4.1 ${r.lessons.join(' y ')}${r.sections ? '; secciones: ' + r.sections : ''}${r.lastTopic ? '; último tema/diapositiva: ' + r.lastTopic : ''}${r.notes ? '; observaciones: ' + r.notes : ''} (registrado ${stampDay(r.updated)})` : 'sin registrar'}`,
     `- Notas del profesor (Google Sheets en la carpeta de la lección del Drive): ${s.mapping === 'confirmada' ? 'confirmadas, lección ' + s.lesson41.join(' y ') : 'por confirmar'}`,
-    `- Apuntes de OneNote: ${notesFiles.length ? notesFiles.map(f => f.name + (f.local ? ' (solo en el dispositivo de Fabrizio)' : '')).join(', ') : 'ninguno'}`,
+    `- Apuntes de Fabrizio en el Drive: verificar la subcarpeta «${driveFolderName(s)}» de su carpeta privada «${DRIVE_ROOT_NAME}» (la app no puede comprobarlo).`,
+    localFiles.length ? `- Archivos locales antiguos (cargados en la app antes del 25/11; solo en el dispositivo de Fabrizio, no en el Drive): ${localFiles.map(f => f.name).join(', ')}` : '',
     d ? `- Discrepancia: Fabrizio declaró la lección ${d.declared.join(' y ')}; las notas del profesor indican la ${d.notes.join(' y ')}. Marcar como provisional.` : '',
     '', '## Brechas', ...(gaps.length ? gaps.map(g => '- ' + g) : ['- Ninguna.']), '',
     `## Pedido`, `Preparar la lámina de repaso de esta clase (original, breve y visual; con conceptos esenciales, palabras clave, ejemplos de construcción, errores frecuentes, reglas de decisión PMP y autoevaluación opcional) para revisarla el día de la siguiente clase a las 18:00. Marcar como provisional lo no confirmado.`].filter(x => x !== '').join('\n');

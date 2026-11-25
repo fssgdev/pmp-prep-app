@@ -5,7 +5,7 @@
    - state.errors: cada pregunta fallada (en cualquier parte) queda abierta con un vencimiento:
        falla → vuelve el siguiente día de rutina; acierto → +3 días; dos aciertos seguidos → resuelta.
      Las vencidas se reinsertan en el Bullet Quiz (hasta 2 de 5), en el cuestionario del sábado (hasta 5 de 20)
-     y como tarjetas en Flashcards mientras sigan abiertas.
+     y como tarjetas en Anki mientras sigan abiertas.
    - Las preguntas importadas de un PDF (no están en el banco) solo viven como tarjeta y se resuelven cuando su
      tarjeta llega a un repaso de 7 días o más.
    Se carga después de items.js y antes de mock.js y app.js. */
@@ -135,7 +135,7 @@ function renderHistory() {
   const row = r => `<article class="history-row"><div class="date-box"><b>${Number(r.date.slice(8))}</b><span>${date(r.date, {month: 'short'})}</span></div><div class="content"><div class="meta">${badge(RESULT_KINDS[r.kind] || 'Práctica', r.kind === 'mock' ? 'blue' : r.kind === 'import' ? 'orange' : r.kind === 'bullet' ? 'green' : '')}${r.minutes ? ` <span class="hint">${r.minutes} min</span>` : ''}</div><h3>${esc(r.label || RESULT_KINDS[r.kind])}</h3><p class="hint">${Object.entries(r.dom || {}).filter(([d]) => moduleBy(d)).map(([d, x]) => `${esc(moduleBy(d).name)} ${x.correct}/${x.total}`).join(' · ')}${r.wrong?.length ? ` · ${r.wrong.length} ${r.wrong.length === 1 ? 'fallo' : 'fallos'} enviados a repaso` : ''}</p></div><div class="row-end"><strong class="stat-value">${pct(r.correct, r.total)}<small>%</small></strong><span class="hint">${r.correct}/${r.total}</span>${r.wrong?.some(id => questionById(id)) ? button('Repasar fallos', 'history-retry', 'ghost small', `data-id="${r.id}"`) : ''}</div></article>`;
   return `<div class="stats">${stats}</div>
   <div class="grid-2"><section class="card"><div class="card-header"><div><h2>Fallos por repasar</h2><p>${open.length} abiertos · ${due.length} vencen hoy o antes</p></div>${button('Repasar los vencidos ' + icon('arrow'), 'failures-now', 'light small', due.some(e => e.questionId) ? '' : 'disabled')}</div>
-  <p class="hint">Cada pregunta que fallas en un Bullet Quiz, un cuestionario, un examen o un quiz importado queda aquí sola. Vuelve al día de rutina siguiente: hasta 2 en tu Bullet Quiz, hasta 5 en el cuestionario del sábado y como tarjeta en Flashcards. Se cierra cuando la aciertas dos veces seguidas (o, si viene de un PDF, cuando dominas su tarjeta).</p>
+  <p class="hint">Cada pregunta que fallas en un Bullet Quiz, un cuestionario, un examen o un quiz importado queda aquí sola. Vuelve al día de rutina siguiente: hasta 2 en tu Bullet Quiz, hasta 5 en el cuestionario del sábado y como tarjeta en Anki. Se cierra cuando la aciertas dos veces seguidas (o, si viene de un PDF, cuando dominas su tarjeta).</p>
   ${weakTopics().length ? `<p class="hint"><strong>Temas con más fallos:</strong> ${weakTopics().map(t => badge(topicLabel(t) + ' · ' + (topicBy(t)?.title || ''), 'orange')).join(' ')}</p>` : ''}<a class="text-link" href="#errores">Ver el registro de errores ${icon('arrow')}</a></section>
   ${renderPdfImport()}</div>
   <section class="card" style="margin-top:20px"><div class="card-header"><div><h2>Historial automático</h2><p>Se registra solo al terminar cada Bullet Quiz, cuestionario, práctica o examen completo.</p></div></div>${rs.length ? rs.slice(0, 60).map(row).join('') : empty('Aún no hay intentos registrados', 'Cuando termines tu primer Bullet Quiz o cuestionario aparecerá aquí con su puntaje y sus fallos.')}</section>`;

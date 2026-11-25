@@ -28,7 +28,7 @@ async function device(browser, name) {
 }
 const answer = (page, n, wrongEvery) => page.evaluate(([n, w]) => {
   startQuiz(allQuestions(), n, 'Prueba de sincronización', true);
-  for (let i = 0; i < n; i++) { const q = quizQuestion(); const ok = (i + 1) % w !== 0; state.quiz.selected = q.type === 'match' ? (ok ? [...q.correct] : q.correct.map(c => (c + 1) % q.options.length)) : ok ? [...q.correct] : [q.options.findIndex((_, k) => !q.correct.includes(k))]; checkAnswer(); actions['next-question'](); }
+  for (let i = 0; i < n; i++) { const q = quizQuestion(); const ok = (i + 1) % w !== 0; state.quiz.selected = ok ? [...q.correct] : q.type === 'match' ? q.correct.map(c => (c + 1) % q.options.length) : q.type === 'dropdown' ? q.correct.map((c, j) => (c + 1) % q.choices[j].length) : q.type === 'hotspot' ? [q.correct[0] === 0 ? 1 : 0] : [q.options.findIndex((_, k) => !q.correct.includes(k))]; checkAnswer(); actions['next-question'](); }
 }, [n, wrongEvery]);
 const grade = (page, n) => page.evaluate(n => { location.hash = 'flashcards'; cardQueue = buildQueue(); for (let i = 0; i < n; i++) { cardRevealed = true; gradeCard('good'); } }, n);
 const snap = page => page.evaluate(() => ({attempts: state.attempts.map(a => a.id).sort(), errors: state.errors.map(e => e.id).sort(), notes: state.notes.map(e => e.id).sort(), mocks: state.mocks.map(e => e.id).sort(), cards: Object.keys(state.cards).sort(), cardLog: state.cardLog.length, tasks: Object.keys(state.tasksDone).sort(), act7: JSON.stringify(activity7()), due: cardsDueCount()}));

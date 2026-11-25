@@ -561,9 +561,9 @@ DTSTART:20261123T123000Z
 DTEND:20261123T125000Z
 RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;UNTIL=20270131T045900Z
 SUMMARY:PMP · Rutina: 4 tarjetas + Bullet Quiz de 5
-DESCRIPTION:Flashcards 4/4 (primero las vencidas y tus preguntas falladas)
-  y Bullet Quiz de 5 de la lección de la semana. Domingo: descanso.\n\nht
- tps://fssgdev.github.io/pmp-prep-app/
+DESCRIPTION:Anki 4/4 (primero las vencidas y tus preguntas falladas) y Bul
+ let Quiz de 5 de la lección de la semana. Domingo: descanso.\n\nhttps://
+ fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
