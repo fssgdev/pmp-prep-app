@@ -80,7 +80,8 @@ function failureCards() {
     const q = e.questionId && bank.get(e.questionId);
     const answer = q ? itemKey(q) : (e.correctText || 'Revisa la respuesta correcta en tu quiz.');
     const front = q ? q.prompt : e.prompt;
-    return {id: 'err-' + e.id, errorId: e.id, front, back: `Respuesta correcta: ${answer}`, example: q ? q.rationale : (e.yourText ? `Tu respuesta fue: ${e.yourText}` : ''), exLabel: q ? 'POR QUÉ' : 'EN TU QUIZ', topicId: e.topicId, failCard: true, concept: e.source === 'pdf' ? 'Fallo de quiz importado' : 'Pregunta fallada'};
+    const back = q || e.correctText ? `Respuesta correcta: ${answer}` : e.img ? 'La respuesta correcta está marcada en la imagen de tu quiz.' : `Respuesta correcta: ${answer}`;
+    return {id: 'err-' + e.id, errorId: e.id, front, back, imgId: e.img ? e.id : null, quiz: e.quiz || '', example: q ? q.rationale : (e.yourText ? `Tu respuesta fue: ${e.yourText}` : ''), exLabel: q ? 'POR QUÉ' : 'EN TU QUIZ', topicId: e.topicId, failCard: true, concept: e.source === 'pdf' ? 'Fallo de quiz importado' : 'Pregunta fallada'};
   });
 }
 /* Fallos importados (sin pregunta en el banco): se resuelven cuando su tarjeta llega a un repaso de 7 días o más. */

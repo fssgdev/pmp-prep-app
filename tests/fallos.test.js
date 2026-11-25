@@ -1,15 +1,26 @@
 // Historial automático, bucle de fallos, importación de PDF de Google Forms, frecuencia semanal y calendario (issue #9).
 // Uso: python3 -m http.server 8765 &  node tests/fallos.test.js [ruta-al-Glossary-PDF-opcional]
-// El PDF de prueba (tests/fixtures/forms-quiz-sintetico.pdf) es sintético: imita el «printable» de un quiz de Google Forms.
+//      QUIZ_PDF=ruta node tests/fallos.test.js  → además lee un printable real (que no está en el repositorio) y muestra lo detectado.
+// PDF de prueba: forms-quiz-sintetico.pdf (solo texto, sin íconos) y forms-quiz.html, que imita la vista «Ver puntuación» de
+// Google Forms y se imprime aquí de dos formas: con texto («Guardar como PDF») y como imagen («Microsoft Print to PDF»).
 const {chromium} = require('playwright');
 const {execSync} = require('child_process');
 const path = require('path');
+const os = require('os');
+const fs = require('fs');
 const URL = 'http://localhost:8765/';
 const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('ok  ' + m); };
 (async () => {
   execSync('node tools/build-ics.mjs --check', {cwd: path.join(__dirname, '..'), stdio: 'pipe'});
   assert(true, 'calendar.ics está al día con data/calendar.json y data/weekly-plan.json');
   const browser = await chromium.launch({executablePath: '/usr/bin/google-chrome'});
+  // Quiz tipo Forms impreso con texto y como imagen (sin texto)
+  const fxText = path.join(os.tmpdir(), 'forms-quiz-texto.pdf'), fxImg = path.join(os.tmpdir(), 'forms-quiz-imagen.pdf');
+  { const c = await browser.newContext({viewport: {width: 900, height: 1000}, deviceScaleFactor: 2}), p = await c.newPage();
+    await p.goto(URL + 'tests/fixtures/forms-quiz.html'); await p.pdf({path: fxText, format: 'A4', printBackground: true});
+    const png = await p.screenshot({fullPage: true}), [w, h] = await p.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.scrollHeight]);
+    await p.setContent(`<html><head><title>Q90 PMP V4 ECO1.2 Prueba sintética</title><style>body{margin:0}img{display:block;width:${w}px}</style></head><body><img src="data:image/png;base64,${png.toString('base64')}"></body></html>`);
+    await p.pdf({path: fxImg, width: w + 'px', height: h + 'px', printBackground: true}); await c.close(); }
   for (const [name, vp] of [['escritorio', {width: 1366, height: 900}], ['movil', {width: 375, height: 812}]]) {
     console.log('\n== ' + name);
     const ctx = await browser.newContext({viewport: vp}); const page = await ctx.newPage(); const errors = [];
@@ -58,6 +69,41 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     assert(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 1, 'sin desplazamiento horizontal');
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
+    // Quiz con el diseño de Forms: preguntas ubicadas por su ícono ✓/×, con texto o solo como imagen
+    const ctx2 = await browser.newContext({viewport: vp}); const p2 = await ctx2.newPage(); const errors2 = [];
+    p2.on('pageerror', e => errors2.push(e.message)); await p2.route(/supabase-js|fonts\.g/, r => r.abort());
+    await p2.clock.install({time: new Date('2026-11-25T09:00:00-05:00')});
+    const boot2 = async h => { await p2.goto(URL + '#' + h); await p2.waitForFunction(() => typeof renderHistory === 'function' && typeof state === 'object'); await p2.evaluate(() => { simTab = 'externos'; render(); }); };
+    const readPdf = async f => { await p2.setInputFiles('#forms-pdf', f); await p2.waitForFunction(() => !pdfBusy && pdfImport, null, {timeout: 60000}); return p2.evaluate(() => ({title: pdfImport.title, t: pdfImport.topicId, textless: pdfImport.textless, mode: pdfImport.mode, b: pdfImport.blocks.map(b => ({n: b.n, w: b.wrong, p: b.prompt, c: b.correctText, y: b.yourText, img: !!b.front && !!b.back}))})); };
+    await boot2('simulacros');
+    const tx = await readPdf(fxText);
+    assert(tx.mode === 'íconos' && !tx.textless && tx.t === 'people-2' && JSON.stringify(tx.b.map(b => b.w)) === JSON.stringify([false, true, false, true, false]), 'PDF con texto: 5 preguntas por su ícono, la 2 y la 4 en rojo, tarea 1.2');
+    assert(/subcontratista/.test(tx.b[1].p) && tx.b[1].c === 'B. Conversar en privado sobre la regla y su impacto' && tx.b[1].y === 'A. Aplicarle una penalidad contractual', 'PDF con texto: enunciado, respuesta correcta y tu respuesta de cada fallo');
+    await p2.getByRole('button', {name: 'Descartar'}).click();
+    const im = await readPdf(fxImg);
+    assert(im.mode === 'íconos' && im.textless && im.t === 'people-2' && JSON.stringify(im.b.map(b => b.w)) === JSON.stringify([false, true, false, true, false]) && im.b.every(b => b.img), 'PDF sin texto (como «Microsoft Print to PDF»): 5 preguntas, la 2 y la 4 como fallos, con su imagen');
+    assert(await p2.locator('.pdf-block img.quiz-img').count() === 5 && await p2.locator('.pdf-note').count() === 1, 'la revisión muestra la imagen de cada pregunta y explica que el PDF no trae texto');
+    await p2.selectOption('#pdf-topic', 'people-4');
+    await p2.getByRole('button', {name: /Guardar 2 fallos/}).click();
+    await p2.waitForFunction(() => pdfImgs.size === 2);
+    await boot2('flashcards'); await p2.waitForFunction(() => pdfImgs.size === 2);
+    const fc = await p2.evaluate(() => ({errs: state.errors.filter(e => e.img && e.topicId === 'people-4').length, cards: allCards().filter(c => c.imgId).length}));
+    assert(fc.errs === 2 && fc.cards === 2, 'los 2 fallos quedan con la tarea elegida y como tarjetas con imagen');
+    assert(await p2.locator('.flashcard img.quiz-img').count() === 1, 'después de recargar, la tarjeta muestra el enunciado como imagen (guardada en el dispositivo)');
+    const zw = await p2.evaluate(() => { const w = document.querySelector('.flashcard .quiz-img-wrap'), a = w.querySelector('img').getBoundingClientRect().width; w.click(); const b = w.querySelector('img').getBoundingClientRect().width; return [a, b, document.documentElement.scrollWidth - innerWidth]; });
+    assert(zw[1] >= 680 && zw[2] <= 1 && (vp.width > 700 || zw[0] < zw[1]), 'tocar la imagen la amplía sin desbordar la página');
+    await p2.getByRole('button', {name: 'Mostrar respuesta'}).click();
+    assert(await p2.locator('.flashcard img.quiz-img').count() === 1 && /imagen de tu quiz/.test(await p2.locator('.flash-back').innerText()), 'al mostrar la respuesta aparece la pregunta completa con la respuesta correcta');
+    await boot2('errores'); await p2.waitForFunction(() => pdfImgs.size === 2 && document.querySelectorAll('.item-card h3 + .quiz-img-wrap img.quiz-img').length > 0, null, {timeout: 10000}).catch(() => {});
+    assert(await p2.locator('.item-card h3 + .quiz-img-wrap img.quiz-img').count() === 2 && await p2.locator('.item-card details.quiz-full').count() === 2, 'el registro de errores muestra la imagen de cada fallo importado');
+    if (process.env.QUIZ_PDF) {
+      await boot2('simulacros'); const real = await readPdf(process.env.QUIZ_PDF);
+      console.log(`    (QUIZ_PDF) ${real.title}: ${real.b.length} preguntas, fallos ${real.b.filter(b => b.w).map(b => b.n).join(', ') || 'ninguno'}${real.textless ? ' · sin texto' : ''}`);
+      assert(real.b.length > 0, 'el printable real se lee');
+    }
+    assert(await p2.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 1, 'sin desplazamiento horizontal (importación por imagen)');
+    assert(errors2.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors2));
+    await ctx2.close();
   }
   await browser.close();
 })().catch(e => { console.error(e.message); process.exit(1); });

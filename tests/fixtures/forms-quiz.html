@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Q90 PMP V4 ECO1.2 Prueba sintética</title>
+<!-- Quiz sintético que imita la vista «Ver puntuación» de Google Forms (contenido inventado, solo para pruebas).
+     tests/fallos.test.js lo imprime a PDF con texto (como «Guardar como PDF») y como imagen (como «Microsoft Print to PDF»). -->
+<style>
+  body { margin: 0; background: #f0ebf8; font-family: Roboto, Arial, sans-serif; color: #202124; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .wrap { width: 640px; margin: 0 auto; padding: 12px 0; }
+  .card { background: #fff; border: 1px solid #dadce0; border-radius: 8px; padding: 24px; margin-bottom: 12px; break-inside: avoid; }
+  .head { border-top: 10px solid #673ab7; }
+  h1 { font-size: 32px; font-weight: 400; margin: 0; display: flex; justify-content: space-between; align-items: center; }
+  .total { font-size: 14px; } .total b { background: #673ab7; color: #fff; border-radius: 4px; padding: 2px 6px; }
+  .q { display: flex; align-items: flex-start; }
+  .ic { width: 18px; height: 18px; flex: none; margin: 3px 14px 0 4px; }
+  .qt { flex: 1; font-size: 16px; line-height: 24px; }
+  .pts { font-size: 12px; margin-left: 16px; white-space: nowrap; line-height: 24px; } .pts i { color: #d93025; font-style: normal; }
+  .red { color: #d93025; } .green { color: #1e8e3e; }
+  .opt { display: flex; align-items: center; gap: 12px; padding: 8px 12px; font-size: 14px; border-radius: 4px; margin-top: 6px; }
+  .opt.bad { background: #fce8e6; } .opt.good { background: #e6f4ea; }
+  .dot { width: 16px; height: 16px; border: 2px solid #5f6368; border-radius: 50%; box-sizing: border-box; flex: none; }
+  .dot.on { background: radial-gradient(#5f6368 35%, transparent 40%); }
+  .box { width: 16px; height: 16px; border: 2px solid #5f6368; border-radius: 2px; box-sizing: border-box; flex: none; }
+  .box.on { background: #5f6368; }
+  .mark { margin-left: auto; width: 16px; height: 16px; flex: none; }
+  .lab { font-size: 13px; margin-top: 14px; }
+  .com { background: #f8f9fa; padding: 16px; margin-top: 16px; font-size: 12px; } .com b { display: block; margin-bottom: 8px; } .com p { margin: 0; font-style: italic; }
+  .field { font-size: 16px; } .field i { color: #d93025; font-style: normal; } .ans { font-size: 14px; margin-top: 16px; border-bottom: 1px dotted #5f6368; padding-bottom: 4px; width: 50%; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="x" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol>
+  <symbol id="ok" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></symbol>
+</svg>
+<div class="wrap">
+  <div class="card head"><h1>Q90 PMP V4 ECO1.2 Prueba sintética <span class="total">Total de puntos <b>3/5</b></span></h1></div>
+  <div class="card"><div class="field">Nombre <i>*</i></div><div class="ans">Estudiante de prueba</div></div>
+
+  <div class="card">
+    <div class="q"><svg class="ic" fill="#1e8e3e"><use href="#ok"/></svg><div class="qt green">1. Dos supervisores discrepan sobre la secuencia de vaciado de una losa y el avance se detiene. ¿Qué debería hacer primero el director del proyecto?</div><div class="pts"><i>*</i>1/1</div></div>
+    <div class="opt good"><span class="dot on"></span>A. Reunirse con ambos para entender sus razones<svg class="mark" fill="#1e8e3e"><use href="#ok"/></svg></div>
+    <div class="opt"><span class="dot"></span>B. Escalar el tema al patrocinador</div>
+    <div class="opt"><span class="dot"></span>C. Imponer la secuencia del cronograma</div>
+    <div class="opt"><span class="dot"></span>D. Esperar a que lo resuelvan solos</div>
+  </div>
+
+  <div class="card">
+    <div class="q"><svg class="ic" fill="#d93025"><use href="#x"/></svg><div class="qt red">2. Un subcontratista ignora las reglas básicas acordadas por el equipo en el arranque. ¿Cuál es la mejor acción inicial?</div><div class="pts"><i>*</i>0/1</div></div>
+    <div class="opt bad"><span class="dot on"></span>A. Aplicarle una penalidad contractual<svg class="mark" fill="#d93025"><use href="#x"/></svg></div>
+    <div class="opt"><span class="dot"></span>B. Conversar en privado sobre la regla y su impacto</div>
+    <div class="opt"><span class="dot"></span>C. Retirarlo de la obra</div>
+    <div class="opt"><span class="dot"></span>D. Informar a todo el equipo</div>
+    <div class="lab">Respuesta correcta</div>
+    <div class="opt"><span class="dot on"></span>B. Conversar en privado sobre la regla y su impacto</div>
+    <div class="com"><b>Comentarios</b><p>Primero se aborda en privado y se refuerzan los acuerdos del equipo.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="q"><svg class="ic" fill="#1e8e3e"><use href="#ok"/></svg><div class="qt green">3. Selecciona dos técnicas que buscan una solución duradera a un conflicto (elige dos):</div><div class="pts"><i>*</i>1/1</div></div>
+    <div class="opt good"><span class="box on"></span>A. Colaborar<svg class="mark" fill="#1e8e3e"><use href="#ok"/></svg></div>
+    <div class="opt"><span class="box"></span>B. Evitar</div>
+    <div class="opt good"><span class="box on"></span>C. Confrontar el problema<svg class="mark" fill="#1e8e3e"><use href="#ok"/></svg></div>
+    <div class="opt"><span class="box"></span>D. Suavizar</div>
+  </div>
+
+  <div class="card">
+    <div class="q"><svg class="ic" fill="#d93025"><use href="#x"/></svg><div class="qt red">4. Verdadero o falso: cuando dos interesados compiten por los mismos recursos, forzar la decisión es siempre la técnica preferida porque ahorra tiempo al equipo y evita reuniones adicionales.</div><div class="pts"><i>*</i>0/1</div></div>
+    <div class="opt bad"><span class="dot on"></span>A. Verdadero<svg class="mark" fill="#d93025"><use href="#x"/></svg></div>
+    <div class="opt"><span class="dot"></span>B. Falso</div>
+    <div class="lab">Respuesta correcta</div>
+    <div class="opt"><span class="dot on"></span>B. Falso</div>
+    <div class="com"><b>Comentarios</b><p>Forzar sirve en emergencias, pero no da acuerdos duraderos.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="q"><svg class="ic" fill="#1e8e3e"><use href="#ok"/></svg><div class="qt green">5. Ante un conflicto de prioridades entre dos interesados, ¿qué conviene analizar primero?</div><div class="pts"><i>*</i>1/1</div></div>
+    <div class="opt good"><span class="dot on"></span>A. Los intereses de cada uno<svg class="mark" fill="#1e8e3e"><use href="#ok"/></svg></div>
+    <div class="opt"><span class="dot"></span>B. El organigrama</div>
+    <div class="opt"><span class="dot"></span>C. El presupuesto disponible</div>
+    <div class="opt"><span class="dot"></span>D. La duración de la reunión</div>
+  </div>
+</div>
+</body>
+</html>
