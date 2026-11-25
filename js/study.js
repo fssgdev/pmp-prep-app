@@ -3,7 +3,8 @@
    Se carga antes de app.js y usa sus utilidades en tiempo de ejecución. */
 
 const EXAM_TENTATIVE = '2027-01-31';
-const REVIEW_DAYS = [1, 3, 7, 14];
+const REVIEW_DAYS = [1, 3, 7, 14]; // línea anterior; ya no se programan (ver buildPlan)
+const BASELINE_START = '2026-11-25'; // línea base aprobada el 25/11 (#3)
 const NEW_CARDS_PER_DAY = 8;
 const MOCK_FORMAT = {total: 180, unscored: 10, minutes: 240, breaks: 2, breakMinutes: 10, weights: {people: .33, process: .41, business: .26}};
 let simTab = 'practica', conceptFilter = 'all', conceptSearch = '', cardQueue = null, cardMode = 'due', cardTimer = null, cardRevealed = false, agendaSource = 'all';
@@ -39,32 +40,27 @@ function buildPlan() {
   const exam = examDate(), tasks = [], seen = new Set();
   const ss = [...D.sessions].sort((a, b) => a.date.localeCompare(b.date));
   const notRest = d => { let x = d; while (isRestDay(x)) x = plusDays(x, -1); return x; };
+  /* Línea base del 25/11 (#3): por cada clase desde BASELINE_START, el quiz de Google Forms de la clase (al terminarla) y,
+     el día de la siguiente clase a las 18:00, el repaso de la lámina de la clase anterior (la redacta GPT). Los repasos
+     genéricos +1/+3/+7/+14 y el cuestionario interno por sesión de la línea anterior ya no se programan: su historial y
+     sus marcas de hecho se conservan. */
   ss.forEach((s, i) => {
-    const next = ss[i + 1];
-    const due = notRest(next ? plusDays(next.date, -1) : plusDays(exam, -7));
-    if (s.topics.length) {
-      tasks.push({id: 'quiz-s' + s.id, kind: 'quiz', session: s.id, date: s.date, due, topics: s.topics,
-        title: `Cuestionario de la sesión ${s.id}`, detail: s.title});
-      REVIEW_DAYS.forEach(d => {
-        const day = workDay(plusDays(s.date, d), true), key = day + '|' + s.topics.join(',');
-        if (day >= plusDays(exam, -1) || seen.has(key)) return;
-        seen.add(key);
-        tasks.push({id: `rev-s${s.id}-d${d}`, kind: 'review', session: s.id, date: day, due: day, topics: s.topics,
-          title: `Repaso +${d} días · sesión ${s.id}`, detail: s.topics.map(topicLabel).join(', ')});
-      });
-    } else {
-      tasks.push({id: 'study-s' + s.id, kind: 'manual', session: s.id, date: s.date, due,
-        title: `Sesión ${s.id}: preparar la aplicación PMP`, detail: 'Revisa requisitos, horas de formación y experiencia para tu solicitud.'});
-    }
+    const prev = ss[i - 1], next = ss[i + 1];
+    if (s.date < BASELINE_START) return;
+    tasks.push({id: 'forms-s' + s.id, kind: 'forms', session: s.id, date: s.date, due: notRest(next ? plusDays(next.date, -1) : plusDays(s.date, 2)),
+      title: `Quiz de Google Forms de la clase ${s.id}`, detail: 'Resuélvelo desde la carpeta del curso en el Drive y carga aquí el PDF de resultados: tus fallos pasan solos al repaso.'});
+    if (prev && prev.date >= BASELINE_START) tasks.push({id: 'slide-s' + prev.id, kind: 'slide', session: prev.id, forSession: s.id, date: s.date, due: s.date, time: '18:00',
+      title: 'Repasar láminas de la sesión anterior', detail: `Lámina de repaso de la clase ${prev.id} (${date(prev.date, {day: 'numeric', month: 'short'})}), antes de la clase de hoy.`});
   });
-  // Exámenes completos en el día del cuestionario (sábado): al terminar las lecciones y a −14 y −7 días del examen.
+  // Examen de fin de curso (único simulacro programado; los demás son voluntarios en Simulacros).
   const lastS = ss[ss.length - 1]?.date || '2027-01-06';
   let exam0 = plusDays(lastS, 1); while (weekday(exam0) !== sched().quizDay) exam0 = plusDays(exam0, 1);
-  const mock1 = quizDayOnOrBefore(plusDays(exam, -14)), mock2 = quizDayOnOrBefore(plusDays(exam, -7));
+  if (ss.length && ss[ss.length - 1].date >= BASELINE_START) { const last = ss[ss.length - 1], fr = notRest(plusDays(exam0, -1));
+    tasks.push({id: 'slide-s' + last.id, kind: 'slide', session: last.id, forSession: null, date: fr, due: fr, time: '18:00', title: 'Repaso final con las láminas del curso', detail: `Lámina de la última clase y repaso general antes del examen de fin de curso del ${date(exam0, {day: 'numeric', month: 'short'})}.`}); }
   // Cuestionario semanal de 20 preguntas con las lecciones vistas hasta esa semana.
   let first = WEEKLY_START; while (weekday(first) !== sched().quizDay) first = plusDays(first, 1);
   for (let d = first; d < plusDays(exam, -1); d = plusDays(d, 7)) {
-    if ([exam0, mock1, mock2].includes(d)) continue;
+    if (d === exam0) continue;
     const topics = weeklyTopics(d), n = weeklyCount(d);
     tasks.push({id: 'week20-' + d, kind: 'weekly', date: d, due: workDay(plusDays(d, 1)), topics, n,
       title: 'Cuestionario semanal de 20 preguntas', detail: `Lecciones v4.1 vistas hasta esta semana: ${coveredLessons(d).join(', ') || '—'}, más tus preguntas falladas que toca repasar. ~40 % predictivo y ~60 % ágil o híbrido, con gráficos, tablas, listas desplegables y «señale y haga clic».`});
@@ -74,14 +70,7 @@ function buildPlan() {
     const r = workDay(plusDays(d, 1));
     tasks.push({id: 'mockrev-' + id, kind: 'errors', date: r, due: r, title: revTitle, detail: revDetail});
   };
-  if (exam0 < mock1) fullMock(0, exam0, 'Examen completo de fin de curso', '180 preguntas en 240 minutos al terminar las lecciones: tu diagnóstico de partida para el tramo final.', 'Revisión del examen de fin de curso', 'Identifica los dominios y tareas más débiles y priorízalos en el tramo final.');
-  if (mock1 >= today() || mock1 >= '2027-01-07') fullMock(1, mock1, 'Simulacro completo 1', '180 preguntas en 240 minutos, en condiciones de examen.', 'Revisión del simulacro 1', 'Analiza los errores por dominio y ajusta tu plan.');
-  fullMock(2, mock2, 'Simulacro completo 2', '180 preguntas en 240 minutos, en condiciones de examen.', 'Revisión del simulacro 2', 'Cierra brechas puntuales; no inicies temas nuevos.');
-  // Tramo final (sin clases): práctica mixta de 20 en los días que antes eran de clase.
-  for (let d = plusDays(lastS, 1); d < plusDays(exam, -1); d = plusDays(d, 1)) {
-    if (sched().classDays.includes(weekday(d)) && !tasks.some(t => t.date === d && t.kind === 'errors'))
-      tasks.push({id: 'mix-' + d, kind: 'mixed', date: d, due: d, title: 'Práctica mixta de 20 preguntas', detail: 'Los tres dominios y todos los enfoques, en el horario que antes era de clase.'});
-  }
+  fullMock(0, exam0, 'Examen completo de fin de curso', '180 preguntas en 240 minutos al terminar las lecciones, con el motor del simulacro. Los demás simulacros completos son voluntarios.', 'Revisión del examen de fin de curso', 'Identifica los dominios y tareas más débiles y priorízalos en el tramo final.');
   if (typeof classLogTasks === 'function') tasks.push(...classLogTasks());
   const close = notRest(plusDays(exam, -1));
   tasks.push({id: 'light-close', kind: 'manual', date: close, due: close, title: 'Cierre ligero antes del examen', detail: 'Repasa conceptos clave y tarjetas, revisa la logística y descansa.'});
@@ -126,12 +115,12 @@ function taskStatus(t) {
 }
 const statusBadge = st => ({done: badge('Hecho', 'green'), overdue: badge('Vencido', 'red'), today: badge('Para hoy', 'orange'), upcoming: badge('Próximo')})[st];
 function taskAction(t, kind = 'button') {
-  const label = {quiz: 'Hacer cuestionario', review: 'Repasar', mixed: 'Practicar', errors: 'Ver errores', mock: 'Ir a simulacros', manual: 'Ver', weekly: 'Empezar', classlog: 'Registrar avance'}[t.kind] || 'Abrir';
+  const label = {quiz: 'Hacer cuestionario', review: 'Repasar', mixed: 'Practicar', errors: 'Ver errores', mock: 'Ir a simulacros', manual: 'Ver', weekly: 'Empezar', classlog: 'Registrar avance', forms: 'Cargar PDF', slide: 'Abrir lámina'}[t.kind] || 'Abrir';
   return button(label + ' ' + icon('arrow'), 'task-do', 'light small', `data-id="${t.id}"`);
 }
 function taskRow(t) {
   const st = taskStatus(t);
-  return `<article class="task-row ${st}"><button class="check-button ${st === 'done' ? 'done' : ''}" data-action="${t.kind === 'classlog' && st !== 'done' ? 'task-do' : 'task-toggle'}" data-id="${t.id}" aria-pressed="${st === 'done'}" aria-label="${st === 'done' ? 'Marcar pendiente' : 'Marcar como hecho'}">${icon('check')}</button><div class="content"><div class="meta">${statusBadge(st)} <span>${t.date === t.due ? date(t.due, {weekday: 'short', day: 'numeric', month: 'short'}) : 'Vence ' + date(t.due, {weekday: 'short', day: 'numeric', month: 'short'})}</span></div><h3>${esc(t.title)}</h3><p class="hint">${esc(t.detail || '')}</p></div>${st !== 'done' ? taskAction(t) : ''}</article>`;
+  return `<article class="task-row ${st}"><button class="check-button ${st === 'done' ? 'done' : ''}" data-action="${['classlog', 'slide'].includes(t.kind) && st !== 'done' ? 'task-do' : 'task-toggle'}" data-id="${t.id}" aria-pressed="${st === 'done'}" aria-label="${st === 'done' ? 'Marcar pendiente' : 'Marcar como hecho'}">${icon('check')}</button><div class="content"><div class="meta">${statusBadge(st)} <span>${t.date === t.due ? date(t.due, {weekday: 'short', day: 'numeric', month: 'short'}) : 'Vence ' + date(t.due, {weekday: 'short', day: 'numeric', month: 'short'})}</span></div><h3>${esc(t.title)}</h3><p class="hint">${esc(t.detail || '')}</p></div>${st !== 'done' ? taskAction(t) : ''}</article>`;
 }
 function markTask(id, done = true) { ensureStudyState(); state.deleted = state.deleted || {}; if (done) { state.tasksDone[id] = stamp(); delete state.deleted['task:' + id]; } else { delete state.tasksDone[id]; state.deleted['task:' + id] = stamp(); } save(); }
 function doTask(id) {
@@ -143,6 +132,8 @@ function doTask(id) {
   else if (t.kind === 'errors') go('errores');
   else if (t.kind === 'mock') { simTab = 'completo'; go('simulacros'); }
   else if (t.kind === 'classlog') classLogDialog(t.session);
+  else if (t.kind === 'forms') { pdfImportSession = t.session; simTab = 'externos'; go('simulacros'); if (location.hash === '#simulacros') render(); }
+  else if (t.kind === 'slide') slideDialog(t.session, t.id);
   else dialog(t.title, `<p class="hint">${esc(t.detail)}</p><div class="actions">${button('Marcar como hecho', 'task-toggle', '', `data-id="${t.id}"`)}${button('Cerrar', 'close-dialog', 'white')}</div>`);
 }
 
@@ -372,7 +363,9 @@ function activity7() {
   return days.map(d => ({d, ans: ans(d), cards: crd(d), tasks: tsk(d)}));
 }
 function nextStep(todayTasks, overdue, qCards, cardsDone, bulletDone) {
-  const pending = todayTasks.filter(t => taskStatus(t) === 'today' && t.kind !== 'classlog'), logToday = todayTasks.find(t => t.kind === 'classlog' && taskStatus(t) === 'today');
+  const evening = limaHour() >= 18, slideToday = evening && todayTasks.find(t => t.kind === 'slide' && taskStatus(t) === 'today');
+  const pending = todayTasks.filter(t => taskStatus(t) === 'today' && !['classlog', 'slide'].includes(t.kind)), logToday = todayTasks.find(t => t.kind === 'classlog' && taskStatus(t) === 'today');
+  if (slideToday) return {eyebrow: 'ANTES DE LA CLASE · 18:00', title: slideToday.title, text: slideToday.detail + ' Estado: ' + SLIDE_LABEL[slideStatus(slideToday.session)].toLowerCase() + '.', action: button('Abrir lámina ' + icon('arrow'), 'task-do', 'lime', `data-id="${slideToday.id}"`), meta: 'Hoy a las 18:00'};
   if (pending.length) { const t = pending[0]; return {eyebrow: 'TU SIGUIENTE PASO', title: t.title, text: t.detail, action: button({quiz: 'Empezar cuestionario', review: 'Empezar repaso', mixed: 'Empezar práctica', errors: 'Revisar errores', mock: 'Ir a simulacros', manual: 'Ver detalle'}[t.kind] + ' ' + icon('arrow'), 'task-do', 'lime', `data-id="${t.id}"`), meta: 'Vence ' + date(t.due, {weekday: 'long', day: 'numeric', month: 'short'})}; }
   const rd = isRoutineDay();
   if (rd && !cardsDone && qCards) return {eyebrow: 'RUTINA DIARIA', title: `Flashcards ${Math.min(cardsGradedToday(), CARD_DAILY_GOAL)}/${CARD_DAILY_GOAL}`, text: `Aprende ${CARD_DAILY_GOAL} tarjetas distintas (Difícil, Bien o Fácil); «Otra vez» no suma y la tarjeta vuelve al final como yapa. Son pocos minutos y fijan los conceptos clave.`, action: `<a class="button lime" href="#flashcards">Repasar tarjetas ${icon('arrow')}</a>`, meta: 'Obligatorio diario'};
@@ -385,7 +378,9 @@ function nextStep(todayTasks, overdue, qCards, cardsDone, bulletDone) {
 function renderDashboard() {
   const plan = buildPlan(), t = today();
   /* Domingo de descanso: no se muestran tareas para hoy (lo pendiente vuelve el lunes). */
-  const active = isRestDay(t) ? [] : plan.filter(x => x.date <= t && x.due >= t);
+  /* Orden del día (#3): primero lo que vence antes; a igual vencimiento, lámina 18:00, registro del avance, quiz de Forms, cuestionario semanal, examen. */
+  const PRIO = {slide: 1, classlog: 2, forms: 3, weekly: 4, mock: 5, errors: 6};
+  const active = isRestDay(t) ? [] : plan.filter(x => x.date <= t && x.due >= t).sort((a, b) => a.due.localeCompare(b.due) || (PRIO[a.kind] || 9) - (PRIO[b.kind] || 9));
   const overdue = isRestDay(t) ? [] : plan.filter(x => taskStatus(x) === 'overdue');
   const qCards = cardsDueCount(), cardsDone = cardGoalDone(), bulletDone = Boolean(state.tasksDone?.[bulletId(t)]);
   const total = active.length + routineCount(), done = active.filter(x => state.tasksDone?.[x.id]).length + routineDoneCount();
@@ -421,12 +416,12 @@ function renderPlan() {
   const plan = buildPlan(), ss = [...D.sessions].sort((a, b) => a.date.localeCompare(b.date));
   const final = plan.filter(t => !t.session);
   const done = plan.filter(t => state.tasksDone?.[t.id]).length;
-  return heading('RUTA DE APRENDIZAJE', 'Sesión por sesión hasta el examen', `Cada cuestionario vence el día anterior a la siguiente sesión. Examen: ${date(examDate())} ${examConfirmed() ? '(confirmado)' : '(tentativo)'}.`, button('Cambiar fecha del examen', 'settings', 'white')) +
-  `<section class="card freq"><div class="freq-grid"><div><b>Lunes a viernes</b><span>rutina diaria: 4 tarjetas y Bullet Quiz de 5, con tus fallos que toca repasar</span></div><div><b>Miércoles y viernes</b><span>clase INGENIUM (algunas sesiones son en lunes según el programa) y su cuestionario</span></div><div><b>Sábado</b><span>cuestionario de 20 preguntas con las lecciones vistas; exámenes completos de 180 al terminar el curso y a −14 y −7 días</span></div><div><b>Domingo</b><span>descanso: sin tareas; los repasos que caerían en domingo pasan al lunes</span></div><div><b>1 · 3 · 7 · 14</b><span>repasos cortos de cada sesión, en días de semana</span></div><div><b>Fallos</b><span>cada pregunta fallada vuelve en el Bullet Quiz, el cuestionario del sábado y las tarjetas hasta que la aciertes dos veces</span></div></div><p class="hint" style="margin-top:12px">${done} de ${plan.length} actividades hechas. Si cambias la fecha del examen, los repasos y simulacros futuros se recalculan; lo completado se conserva.</p></section>` +
+  return heading('RUTA DE APRENDIZAJE', 'Sesión por sesión hasta el examen', `Por clase: quiz de Google Forms, registro del avance y lámina de repaso a las 18:00 del día de la clase siguiente. Examen: ${date(examDate())} ${examConfirmed() ? '(confirmado)' : '(tentativo)'}.`, button('Cambiar fecha del examen', 'settings', 'white')) +
+  `<section class="card freq"><div class="freq-grid"><div><b>Lunes a viernes</b><span>rutina diaria: 4 tarjetas y Bullet Quiz de 5, con tus fallos que toca repasar</span></div><div><b>Miércoles y viernes</b><span>clase INGENIUM (algunas sesiones son en lunes según el programa): lámina de la clase anterior a las 18:00, registro del avance y quiz de Google Forms</span></div><div><b>Sábado</b><span>cuestionario de 20 preguntas con las lecciones vistas; examen completo de 180 al terminar el curso (los demás simulacros son voluntarios)</span></div><div><b>Domingo</b><span>descanso: sin tareas; los repasos que caerían en domingo pasan al lunes</span></div><div><b>18:00</b><span>lámina de repaso que prepara GPT con tu avance, las notas del profesor y tus apuntes</span></div><div><b>Fallos</b><span>cada pregunta fallada vuelve en el Bullet Quiz, el cuestionario del sábado y las tarjetas hasta que la aciertes dos veces</span></div></div><p class="hint" style="margin-top:12px">${done} de ${plan.length} actividades hechas. Si cambias la fecha del examen o de una clase, lo futuro se recalcula; lo completado se conserva.</p></section>` +
   `<div class="notice" style="margin-top:20px">El título y el PPT de cada sesión son los del programa INGENIUM. La lección v4.1 y los temas siguen el avance real de la clase, verificado con las notas que el instructor sube al Drive con la fecha de cada sesión; las sesiones futuras son una proyección por confirmar.</div><div class="stack" style="margin-top:14px">${ss.map(s => {
-    const own = plan.filter(t => t.session === s.id), quiz = own.find(t => !['review', 'classlog'].includes(t.kind)), reviews = own.filter(t => t.kind === 'review');
+    const own = plan.filter(t => t.session === s.id), quiz = own.find(t => t.kind === 'forms'), reviews = [], slide = plan.find(t => t.kind === 'slide' && t.session === s.id);
     const n = s.topics.length ? questionsFor(s.topics).length : 0;
-    return `<article class="session-card ${s.date <= today() ? 'past' : ''}"><div class="date-box"><b>${Number(s.date.slice(8))}</b><span>${date(s.date, {month: 'short'})}</span></div><div class="content"><div class="meta">${badge('INGENIUM · SESIÓN ' + s.id, 'ingenium')} ${s.mapping === 'confirmada' ? badge('Lección confirmada por notas', 'green') : badge(s.date <= today() ? 'Lección por confirmar' : 'Proyección por confirmar', 'orange')}</div><h3>${esc(s.title)}</h3><p class="hint"><strong>PPT:</strong> ${esc(s.ppt)} · <strong>Curso v4.1:</strong> lección ${s.lesson41.join(' y ')}</p>${s.progress ? `<p class="hint"><strong>Avance:</strong> ${esc(s.progress)}</p>` : ''}<div class="chips">${s.topics.map(id => `<a class="badge" href="#modulos/${id.split('-')[0]}">${topicLabel(id)} · ${esc(topicBy(id)?.title || '')}</a>`).join('')}</div>${typeof classLogLine === 'function' ? classLogLine(s) : ''}${quiz ? `<div class="task-inline">${statusBadge(taskStatus(quiz))} <span><strong>${esc(quiz.title)}</strong>${n ? ` · ${Math.min(10, n)} preguntas` : ''} · vence ${date(quiz.due, {weekday: 'short', day: 'numeric', month: 'short'})}</span>${taskStatus(quiz) !== 'done' ? taskAction(quiz) : ''}</div>` : ''}${reviews.length ? `<div class="review-chips">${reviews.map(r => `<button class="review-chip ${taskStatus(r)}" data-action="${taskStatus(r) === 'done' ? 'task-toggle' : 'task-do'}" data-id="${r.id}" title="${esc(r.title)}">${r.id.split('-d')[1] === undefined ? '' : '+' + r.id.split('-d')[1] + 'd'} · ${date(r.date, {day: 'numeric', month: 'short'})}${taskStatus(r) === 'done' ? ' ✓' : ''}</button>`).join('')}</div>` : ''}</div></article>`;
+    return `<article class="session-card ${s.date <= today() ? 'past' : ''}"><div class="date-box"><b>${Number(s.date.slice(8))}</b><span>${date(s.date, {month: 'short'})}</span></div><div class="content"><div class="meta">${badge('INGENIUM · SESIÓN ' + s.id, 'ingenium')} ${s.mapping === 'confirmada' ? badge('Lección confirmada por notas', 'green') : badge(s.date <= today() ? 'Lección por confirmar' : 'Proyección por confirmar', 'orange')}</div><h3>${esc(s.title)}</h3><p class="hint"><strong>PPT:</strong> ${esc(s.ppt)} · <strong>Curso v4.1:</strong> lección ${s.lesson41.join(' y ')}</p>${s.progress ? `<p class="hint"><strong>Avance:</strong> ${esc(s.progress)}</p>` : ''}<div class="chips">${s.topics.map(id => `<a class="badge" href="#modulos/${id.split('-')[0]}">${topicLabel(id)} · ${esc(topicBy(id)?.title || '')}</a>`).join('')}</div>${typeof classLogLine === 'function' ? classLogLine(s) : ''}${slide ? `<div class="task-inline">${statusBadge(taskStatus(slide))} ${badge(SLIDE_LABEL[slideStatus(s.id)], slideStatus(s.id) === 'revisada' ? 'green' : slideStatus(s.id) === 'disponible' ? 'blue' : 'orange')} <span><strong>Lámina de repaso</strong> · ${date(slide.date, {weekday: 'short', day: 'numeric', month: 'short'})} 18:00</span>${button('Abrir ' + icon('arrow'), 'task-do', 'light small', `data-id="${slide.id}"`)}</div>` : ''}${quiz ? `<div class="task-inline">${statusBadge(taskStatus(quiz))} <span><strong>${esc(quiz.title)}</strong> · vence ${date(quiz.due, {weekday: 'short', day: 'numeric', month: 'short'})}</span>${taskStatus(quiz) !== 'done' ? taskAction(quiz) : ''}</div>` : ''}${reviews.length ? `<div class="review-chips">${reviews.map(r => `<button class="review-chip ${taskStatus(r)}" data-action="${taskStatus(r) === 'done' ? 'task-toggle' : 'task-do'}" data-id="${r.id}" title="${esc(r.title)}">${r.id.split('-d')[1] === undefined ? '' : '+' + r.id.split('-d')[1] + 'd'} · ${date(r.date, {day: 'numeric', month: 'short'})}${taskStatus(r) === 'done' ? ' ✓' : ''}</button>`).join('')}</div>` : ''}</div></article>`;
   }).join('')}</div>
   ${renderWeeklyPlan()}
   <section class="card" style="margin-top:20px"><div class="card-header"><div><h2>Tramo final hasta el examen</h2><p>Práctica mixta, errores, simulacros y cierre ligero</p></div></div>${final.map(taskRow).join('')}</section>
@@ -490,7 +485,8 @@ function gcalLink(title, day, start, end, details) {
   const z = t => new Date(day + 'T' + t + ':00-05:00').toISOString().replace(/[-:]/g, '').replace('.000', '');
   return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) + '&dates=' + z(start) + '/' + z(end) + '&details=' + encodeURIComponent(details) + '&ctz=America/Lima';
 }
-function eventTimes(e) { const r = state.settings.reminderTime || '07:30'; return e.source === 'ingenium' ? ['20:00', '22:00'] : e.source === 'practice' ? [e.start, e.end] : [r, plusMinutes(r, 30)]; }
+function eventTimes(e) { const r = state.settings.reminderTime || '07:30'; return e.source === 'ingenium' ? ['20:00', '22:00'] : e.source === 'practice' ? [e.start, e.end] : e.time ? [e.time, plusMinutes(e.time, 30)] : [r, plusMinutes(r, 30)]; }
+function limaHour() { return Number(new Intl.DateTimeFormat('en-GB', {timeZone: 'America/Lima', hour: '2-digit', hour12: false}).format(new Date())) % 24; }
 function plusMinutes(t, m) { const [h, mm] = t.split(':').map(Number), x = h * 60 + mm + m; return String(Math.floor(x / 60) % 24).padStart(2, '0') + ':' + String(x % 60).padStart(2, '0'); }
 function eventTitle(e) { return e.source === 'ingenium' ? `INGENIUM · Sesión ${e.id} · ${e.title}` : e.source === 'practice' ? 'Práctica propia · ' + e.title : 'PMP · ' + e.title; }
 function renderAgenda() {

@@ -5,22 +5,23 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:PMP Master Plan 2027
 X-WR-TIMEZONE:America/Lima
-X-WR-CALDESC:Plan de estudio PMP de Fabrizio: rutina de lunes a viernes\, 
- clases INGENIUM\, cuestionario del sábado y exámenes. Se actualiza solo
- .
+X-WR-CALDESC:Plan de estudio PMP: rutina de lunes a viernes\, clases INGEN
+ IUM con su lámina de repaso a las 18:00\, cuestionario del sábado y exa
+ men de fin de curso. Se actualiza solo.
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:sesion-1@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261105T010000Z
 DTEND:20261105T030000Z
 SUMMARY:INGENIUM · Sesión 1 · Lección 1 (v4.1)
 DESCRIPTION:Establecer los fundamentos\nPPT: Lección 1 y 2 (v4.0): Founda
  tion / Laying the Foundation\nLección del curso v4.1: 1 (proyección por
   confirmar).\nSin notas publicadas para esta fecha; el 6/11 y el 11/11 se
-  trabajó la lección 1.\nDespués de la clase: cuestionario de la sesió
- n en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+  trabajó la lección 1.\nDespués de la clase: registra el avance en la 
+ app\, resuelve el quiz de Google Forms y carga su PDF.\n\nhttps://fssgdev
+ .github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -30,15 +31,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-2@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261107T010000Z
 DTEND:20261107T030000Z
 SUMMARY:INGENIUM · Sesión 2 · Lección 1 (v4.1)
 DESCRIPTION:Establecer los fundamentos\nPPT: Lección 1 y 2 (v4.0): Founda
  tion / Laying the Foundation\nLección del curso v4.1: 1 (confirmada con 
  las notas del instructor).\nNotas del instructor del 6/11 en la carpeta d
- e la lección 1 del curso.\nDespués de la clase: cuestionario de la sesi
- ón en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ e la lección 1 del curso.\nDespués de la clase: registra el avance en l
+ a app\, resuelve el quiz de Google Forms y carga su PDF.\n\nhttps://fssgd
+ ev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -48,15 +50,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-3@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261112T010000Z
 DTEND:20261112T030000Z
 SUMMARY:INGENIUM · Sesión 3 · Lección 1 (v4.1)
 DESCRIPTION:Establecer los fundamentos\nPPT: Lección 1 y 2 (v4.0): Founda
  tion / Laying the Foundation\nLección del curso v4.1: 1 (confirmada con 
  las notas del instructor).\nNotas del instructor del 11/11 en la carpeta 
- de la lección 1 del curso.\nDespués de la clase: cuestionario de la ses
- ión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ de la lección 1 del curso.\nDespués de la clase: registra el avance en 
+ la app\, resuelve el quiz de Google Forms y carga su PDF.\n\nhttps://fssg
+ dev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -66,7 +69,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-4@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261114T010000Z
 DTEND:20261114T030000Z
 SUMMARY:INGENIUM · Sesión 4 · Lección 2 (v4.1)
@@ -74,8 +77,9 @@ DESCRIPTION:Definición del alcance\, el valor y los criterios de éxito d
  el proyecto\nPPT: Lección 3 (v4.0): Defining Scope\, Value and Success C
  riteria\nLección del curso v4.1: 2 (confirmada con las notas del instruc
  tor).\nNotas del instructor del 13/11 en la carpeta de la lección 2 (cic
- los de vida predictivo y adaptativo).\nDespués de la clase: cuestionario
-  de la sesión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ los de vida predictivo y adaptativo).\nDespués de la clase: registra el 
+ avance en la app\, resuelve el quiz de Google Forms y carga su PDF.\n\nht
+ tps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -85,7 +89,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-5@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261119T010000Z
 DTEND:20261119T030000Z
 SUMMARY:INGENIUM · Sesión 5 · Lección 2 (v4.1)
@@ -93,8 +97,9 @@ DESCRIPTION:Definición del alcance\, el valor y los criterios de éxito d
  el proyecto\nPPT: Lección 3 (v4.0): Defining Scope\, Value and Success C
  riteria\nLección del curso v4.1: 2 (confirmada con las notas del instruc
  tor).\nNotas del instructor del 18/11 en la carpeta de la lección 2 (dom
- inios\, áreas de enfoque y gobernanza).\nDespués de la clase: cuestiona
- rio de la sesión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ inios\, áreas de enfoque y gobernanza).\nDespués de la clase: registra 
+ el avance en la app\, resuelve el quiz de Google Forms y carga su PDF.\n\
+ nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -104,7 +109,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-6@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261121T010000Z
 DTEND:20261121T030000Z
 SUMMARY:INGENIUM · Sesión 6 · Lección 2 y 3 (v4.1)
@@ -112,8 +117,8 @@ DESCRIPTION:Elaboración del plan para la dirección de un proyecto: integ
  ración\, recursos y finanzas\nPPT: Lección 4 (v4.0): Building the Plan\
  nLección del curso v4.1: 2 y 3 (proyección por confirmar).\nProyección
  : cierre de la lección 2 o inicio de la 3; aún no hay notas del 20/11.\
- nDespués de la clase: cuestionario de la sesión en la app.\n\nhttps://f
- ssgdev.github.io/pmp-prep-app/
+ nDespués de la clase: registra el avance en la app\, resuelve el quiz de
+  Google Forms y carga su PDF.\n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -123,7 +128,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-7@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261126T010000Z
 DTEND:20261126T030000Z
 SUMMARY:INGENIUM · Sesión 7 · Lección 3 (v4.1)
@@ -131,8 +136,9 @@ DESCRIPTION:Elaboración del plan para la dirección de un proyecto: integ
  ración\, recursos y finanzas\nPPT: Lección 4 (v4.0): Building the Plan\
  nLección del curso v4.1: 3 (proyección por confirmar).\nProyección por
   el ritmo real del curso (unas dos sesiones por lección): lección 3 v4.
- 1.\nDespués de la clase: cuestionario de la sesión en la app.\n\nhttps:
- //fssgdev.github.io/pmp-prep-app/
+ 1.\nDespués de la clase: registra el avance en la app\, resuelve el quiz
+  de Google Forms y carga su PDF.\n\nhttps://fssgdev.github.io/pmp-prep-ap
+ p/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -142,15 +148,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-8@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261128T010000Z
 DTEND:20261128T030000Z
 SUMMARY:INGENIUM · Sesión 8 · Lección 3 (v4.1)
 DESCRIPTION:Adquisiciones\, calidad y programación\nPPT: Lección 5 (v4.0
  ): Procurement\, Quality and Scheduling\nLección del curso v4.1: 3 (proy
  ección por confirmar).\nProyección por el ritmo real del curso (unas do
- s sesiones por lección): lección 3 v4.1.\nDespués de la clase: cuestio
- nario de la sesión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ s sesiones por lección): lección 3 v4.1.\nDespués de la clase: registr
+ a el avance en la app\, resuelve el quiz de Google Forms y carga su PDF.\
+ n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -160,15 +167,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-9@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261203T010000Z
 DTEND:20261203T030000Z
 SUMMARY:INGENIUM · Sesión 9 · Lección 4 (v4.1)
 DESCRIPTION:Adquisiciones\, calidad y programación\nPPT: Lección 5 (v4.0
  ): Procurement\, Quality and Scheduling\nLección del curso v4.1: 4 (proy
  ección por confirmar).\nProyección por el ritmo real del curso (unas do
- s sesiones por lección): lección 4 v4.1.\nDespués de la clase: cuestio
- nario de la sesión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ s sesiones por lección): lección 4 v4.1.\nDespués de la clase: registr
+ a el avance en la app\, resuelve el quiz de Google Forms y carga su PDF.\
+ n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -178,7 +186,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-10@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261205T010000Z
 DTEND:20261205T030000Z
 SUMMARY:INGENIUM · Sesión 10 · Lección 4 (v4.1)
@@ -186,8 +194,8 @@ DESCRIPTION:Comunicación y transferencia de conocimientos\nPPT: Lección
  6 (v4.0): Communication and Knowledge Transfer\nLección del curso v4.1: 
  4 (proyección por confirmar).\nProyección por el ritmo real del curso (
  unas dos sesiones por lección): lección 4 v4.1.\nDespués de la clase: 
- cuestionario de la sesión en la app.\n\nhttps://fssgdev.github.io/pmp-pr
- ep-app/
+ registra el avance en la app\, resuelve el quiz de Google Forms y carga s
+ u PDF.\n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -197,15 +205,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-11@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261208T010000Z
 DTEND:20261208T030000Z
 SUMMARY:INGENIUM · Sesión 11 · Lección 5 (v4.1)
 DESCRIPTION:Liderar y empoderar al equipo\nPPT: Lección 7 (v4.0): Leading
   and Empowering the Team\nLección del curso v4.1: 5 (proyección por con
  firmar).\nProyección por el ritmo real del curso (unas dos sesiones por 
- lección): lección 5 v4.1.\nDespués de la clase: cuestionario de la ses
- ión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ lección): lección 5 v4.1.\nDespués de la clase: registra el avance en 
+ la app\, resuelve el quiz de Google Forms y carga su PDF.\n\nhttps://fssg
+ dev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -215,15 +224,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-12@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261212T010000Z
 DTEND:20261212T030000Z
 SUMMARY:INGENIUM · Sesión 12 · Lección 5 (v4.1)
 DESCRIPTION:Gestión de riesgos\, cambios e incidentes\nPPT: Lección 8 (v
  4.0): Managing Risk\, Change and Issues\nLección del curso v4.1: 5 (proy
  ección por confirmar).\nProyección por el ritmo real del curso (unas do
- s sesiones por lección): lección 5 v4.1.\nDespués de la clase: cuestio
- nario de la sesión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ s sesiones por lección): lección 5 v4.1.\nDespués de la clase: registr
+ a el avance en la app\, resuelve el quiz de Google Forms y carga su PDF.\
+ n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -233,15 +243,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-13@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261217T010000Z
 DTEND:20261217T030000Z
 SUMMARY:INGENIUM · Sesión 13 · Lección 5 (v4.1)
 DESCRIPTION:Gestión de riesgos\, cambios e incidentes\nPPT: Lección 8 (v
  4.0): Managing Risk\, Change and Issues\nLección del curso v4.1: 5 (proy
  ección por confirmar).\nProyección por el ritmo real del curso (unas do
- s sesiones por lección): lección 5 v4.1.\nDespués de la clase: cuestio
- nario de la sesión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ s sesiones por lección): lección 5 v4.1.\nDespués de la clase: registr
+ a el avance en la app\, resuelve el quiz de Google Forms y carga su PDF.\
+ n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -251,7 +262,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-14@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261219T010000Z
 DTEND:20261219T030000Z
 SUMMARY:INGENIUM · Sesión 14 · Lección 6 (v4.1)
@@ -259,8 +270,8 @@ DESCRIPTION:Monitorear el progreso y mantener la alineación\nPPT: Lecció
  n 9 (v4.0): Monitoring Progress and Maintaining Alignment\nLección del c
  urso v4.1: 6 (proyección por confirmar).\nProyección por el ritmo real 
  del curso (unas dos sesiones por lección): lección 6 v4.1.\nDespués de
-  la clase: cuestionario de la sesión en la app.\n\nhttps://fssgdev.githu
- b.io/pmp-prep-app/
+  la clase: registra el avance en la app\, resuelve el quiz de Google Form
+ s y carga su PDF.\n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -270,15 +281,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-15@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261222T010000Z
 DTEND:20261222T030000Z
 SUMMARY:INGENIUM · Sesión 15 · Lección 6 (v4.1)
 DESCRIPTION:Cerrar el proyecto con éxito\nPPT: Lección 10 (v4.0): Closin
  g the Project Successfully\nLección del curso v4.1: 6 (proyección por c
  onfirmar).\nProyección por el ritmo real del curso (unas dos sesiones po
- r lección): lección 6 v4.1.\nDespués de la clase: cuestionario de la s
- esión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ r lección): lección 6 v4.1.\nDespués de la clase: registra el avance e
+ n la app\, resuelve el quiz de Google Forms y carga su PDF.\n\nhttps://fs
+ sgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -288,15 +300,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-16@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261224T010000Z
 DTEND:20261224T030000Z
 SUMMARY:INGENIUM · Sesión 16 · Lección 7 (v4.1)
 DESCRIPTION:Cerrar el proyecto con éxito\nPPT: Lección 10 (v4.0): Closin
  g the Project Successfully\nLección del curso v4.1: 7 (proyección por c
  onfirmar).\nProyección por el ritmo real del curso (unas dos sesiones po
- r lección): lección 7 v4.1.\nDespués de la clase: cuestionario de la s
- esión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ r lección): lección 7 v4.1.\nDespués de la clase: registra el avance e
+ n la app\, resuelve el quiz de Google Forms y carga su PDF.\n\nhttps://fs
+ sgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -306,7 +319,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-17@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261229T010000Z
 DTEND:20261229T030000Z
 SUMMARY:INGENIUM · Sesión 17 · Lección 7 y 8 (v4.1)
@@ -314,8 +327,8 @@ DESCRIPTION:Impulsar la mejora continua de la organización\nPPT: Lección
   11 (v4.0): Driving Organizational Continuous Improvement\nLección del c
  urso v4.1: 7 y 8 (proyección por confirmar).\nProyección por el ritmo r
  eal del curso (unas dos sesiones por lección): lección 7 y 8 v4.1.\nDes
- pués de la clase: cuestionario de la sesión en la app.\n\nhttps://fssgd
- ev.github.io/pmp-prep-app/
+ pués de la clase: registra el avance en la app\, resuelve el quiz de Goo
+ gle Forms y carga su PDF.\n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -325,7 +338,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-18@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261231T010000Z
 DTEND:20261231T030000Z
 SUMMARY:INGENIUM · Sesión 18 · Lección 8 (v4.1)
@@ -333,8 +346,8 @@ DESCRIPTION:Impulsar la mejora continua de la organización\nPPT: Lección
   11 (v4.0): Driving Organizational Continuous Improvement\nLección del c
  urso v4.1: 8 (proyección por confirmar).\nProyección por el ritmo real 
  del curso (unas dos sesiones por lección): lección 8 v4.1.\nDespués de
-  la clase: cuestionario de la sesión en la app.\n\nhttps://fssgdev.githu
- b.io/pmp-prep-app/
+  la clase: registra el avance en la app\, resuelve el quiz de Google Form
+ s y carga su PDF.\n\nhttps://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -344,15 +357,16 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sesion-19@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20270107T010000Z
 DTEND:20270107T030000Z
 SUMMARY:INGENIUM · Sesión 19 · Lección 9 (v4.1)
 DESCRIPTION:Recomendaciones para generar y completar la aplicación PMP®\
  nPPT: Lección 12 (v4.0): Next Steps\nLección del curso v4.1: 9 (proyecc
  ión por confirmar).\nProyección por el ritmo real del curso (unas dos s
- esiones por lección): lección 9 v4.1.\nDespués de la clase: cuestionar
- io de la sesión en la app.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+ esiones por lección): lección 9 v4.1.\nDespués de la clase: registra e
+ l avance en la app\, resuelve el quiz de Google Forms y carga su PDF.\n\n
+ https://fssgdev.github.io/pmp-prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -361,8 +375,188 @@ TRIGGER:-PT30M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:lamina-s7@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261127T230000Z
+DTEND:20261127T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 7
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 7 en l
+ a app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 7
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s8@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261202T230000Z
+DTEND:20261202T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 8
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 8 en l
+ a app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 8
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s9@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261204T230000Z
+DTEND:20261204T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 9
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 9 en l
+ a app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 9
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s10@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261207T230000Z
+DTEND:20261207T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 10
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 10 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 10
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s11@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261211T230000Z
+DTEND:20261211T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 11
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 11 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 11
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s12@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261216T230000Z
+DTEND:20261216T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 12
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 12 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 12
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s13@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261218T230000Z
+DTEND:20261218T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 13
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 13 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 13
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s14@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261221T230000Z
+DTEND:20261221T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 14
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 14 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 14
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s15@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261223T230000Z
+DTEND:20261223T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 15
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 15 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 15
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s16@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261228T230000Z
+DTEND:20261228T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 16
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 16 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 16
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s17@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20261230T230000Z
+DTEND:20261230T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 17
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 17 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 17
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lamina-s18@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20270106T230000Z
+DTEND:20270106T233000Z
+SUMMARY:PMP · Repasar láminas de la sesión 18
+DESCRIPTION:Antes de la clase de hoy: lámina de repaso de la clase 18 en 
+ la app (Inicio o Ruta).\n\nhttps://fssgdev.github.io/pmp-prep-app/
+URL:https://fssgdev.github.io/pmp-prep-app/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:PMP · Repasar láminas de la sesión 18
+TRIGGER:-PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:rutina-lun-vie@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261123T123000Z
 DTEND:20261123T125000Z
 RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;UNTIL=20270131T045900Z
@@ -379,7 +573,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sabado-20261128@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261128T150000Z
 DTEND:20261128T160000Z
 SUMMARY:PMP · Cuestionario de 20 preguntas (lecciones 1–3)
@@ -395,7 +589,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sabado-20261205@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261205T150000Z
 DTEND:20261205T160000Z
 SUMMARY:PMP · Cuestionario de 20 preguntas (lecciones 1–4)
@@ -411,7 +605,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sabado-20261212@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261212T150000Z
 DTEND:20261212T160000Z
 SUMMARY:PMP · Cuestionario de 20 preguntas (lecciones 1–5)
@@ -427,7 +621,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sabado-20261219@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261219T150000Z
 DTEND:20261219T160000Z
 SUMMARY:PMP · Cuestionario de 20 preguntas (lecciones 1–5)
@@ -443,7 +637,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sabado-20261226@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20261226T150000Z
 DTEND:20261226T160000Z
 SUMMARY:PMP · Cuestionario de 20 preguntas (lecciones 1–6)
@@ -459,7 +653,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sabado-20270102@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20270102T150000Z
 DTEND:20270102T160000Z
 SUMMARY:PMP · Cuestionario de 20 preguntas (lecciones 1–7)
@@ -476,7 +670,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:examen-completo-0@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART:20270109T140000Z
 DTEND:20270109T180000Z
 SUMMARY:PMP · Examen completo de fin de curso (180 preguntas)
@@ -491,145 +685,58 @@ TRIGGER:-PT60M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:examen-completo-1@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270116T140000Z
-DTEND:20270116T180000Z
-SUMMARY:PMP · Simulacro completo 1 (180 preguntas)
-DESCRIPTION:240 minutos con dos pausas de 10\, en condiciones de examen. A
- l terminar\, tus fallos pasan solos al repaso.\n\nhttps://fssgdev.github.
- io/pmp-prep-app/
+UID:sabado-20270116@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20270116T150000Z
+DTEND:20270116T160000Z
+SUMMARY:PMP · Cuestionario de 20 preguntas (lecciones 1–9)
+DESCRIPTION:Lecciones v4.1 vistas hasta esta semana: 1\, 2\, 3\, 4\, 5\, 6
+ \, 7\, 8\, 9. Incluye tus preguntas falladas que toca repasar\, ~40 % pre
+ dictivo y todos los formatos del examen.\n\nhttps://fssgdev.github.io/pmp
+ -prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:PMP · Simulacro completo 1 (180 preguntas)
-TRIGGER:-PT60M
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:examen-completo-2@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270123T140000Z
-DTEND:20270123T180000Z
-SUMMARY:PMP · Simulacro completo 2 (180 preguntas)
-DESCRIPTION:240 minutos con dos pausas de 10\, en condiciones de examen. A
- l terminar\, tus fallos pasan solos al repaso.\n\nhttps://fssgdev.github.
- io/pmp-prep-app/
-URL:https://fssgdev.github.io/pmp-prep-app/
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:PMP · Simulacro completo 2 (180 preguntas)
-TRIGGER:-PT60M
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:mixta-20270108@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270109T010000Z
-DTEND:20270109T020000Z
-SUMMARY:PMP · Práctica mixta de 20 preguntas
-DESCRIPTION:En el horario que antes era de clase: los tres dominios y todo
- s los enfoques.\n\nhttps://fssgdev.github.io/pmp-prep-app/
-URL:https://fssgdev.github.io/pmp-prep-app/
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:PMP · Práctica mixta de 20 preguntas
+DESCRIPTION:PMP · Cuestionario de 20 preguntas (lecciones 1–9)
 TRIGGER:-PT30M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:mixta-20270113@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270114T010000Z
-DTEND:20270114T020000Z
-SUMMARY:PMP · Práctica mixta de 20 preguntas
-DESCRIPTION:En el horario que antes era de clase: los tres dominios y todo
- s los enfoques.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+UID:sabado-20270123@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20270123T150000Z
+DTEND:20270123T160000Z
+SUMMARY:PMP · Cuestionario de 20 preguntas (lecciones 1–9)
+DESCRIPTION:Lecciones v4.1 vistas hasta esta semana: 1\, 2\, 3\, 4\, 5\, 6
+ \, 7\, 8\, 9. Incluye tus preguntas falladas que toca repasar\, ~40 % pre
+ dictivo y todos los formatos del examen.\n\nhttps://fssgdev.github.io/pmp
+ -prep-app/
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:PMP · Práctica mixta de 20 preguntas
+DESCRIPTION:PMP · Cuestionario de 20 preguntas (lecciones 1–9)
 TRIGGER:-PT30M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:mixta-20270115@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270116T010000Z
-DTEND:20270116T020000Z
-SUMMARY:PMP · Práctica mixta de 20 preguntas
-DESCRIPTION:En el horario que antes era de clase: los tres dominios y todo
- s los enfoques.\n\nhttps://fssgdev.github.io/pmp-prep-app/
+UID:lamina-s19@pmp-master-plan-2027
+DTSTAMP:20261125T000000Z
+DTSTART:20270108T230000Z
+DTEND:20270108T233000Z
+SUMMARY:PMP · Repaso final con las láminas del curso
+DESCRIPTION:Lámina de la última clase y repaso general antes del examen 
+ de fin de curso del 2027-01-09.\n\nhttps://fssgdev.github.io/pmp-prep-app
+ /
 URL:https://fssgdev.github.io/pmp-prep-app/
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:PMP · Práctica mixta de 20 preguntas
-TRIGGER:-PT30M
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:mixta-20270120@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270121T010000Z
-DTEND:20270121T020000Z
-SUMMARY:PMP · Práctica mixta de 20 preguntas
-DESCRIPTION:En el horario que antes era de clase: los tres dominios y todo
- s los enfoques.\n\nhttps://fssgdev.github.io/pmp-prep-app/
-URL:https://fssgdev.github.io/pmp-prep-app/
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:PMP · Práctica mixta de 20 preguntas
-TRIGGER:-PT30M
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:mixta-20270122@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270123T010000Z
-DTEND:20270123T020000Z
-SUMMARY:PMP · Práctica mixta de 20 preguntas
-DESCRIPTION:En el horario que antes era de clase: los tres dominios y todo
- s los enfoques.\n\nhttps://fssgdev.github.io/pmp-prep-app/
-URL:https://fssgdev.github.io/pmp-prep-app/
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:PMP · Práctica mixta de 20 preguntas
-TRIGGER:-PT30M
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:mixta-20270127@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270128T010000Z
-DTEND:20270128T020000Z
-SUMMARY:PMP · Práctica mixta de 20 preguntas
-DESCRIPTION:En el horario que antes era de clase: los tres dominios y todo
- s los enfoques.\n\nhttps://fssgdev.github.io/pmp-prep-app/
-URL:https://fssgdev.github.io/pmp-prep-app/
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:PMP · Práctica mixta de 20 preguntas
-TRIGGER:-PT30M
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:mixta-20270129@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
-DTSTART:20270130T010000Z
-DTEND:20270130T020000Z
-SUMMARY:PMP · Práctica mixta de 20 preguntas
-DESCRIPTION:En el horario que antes era de clase: los tres dominios y todo
- s los enfoques.\n\nhttps://fssgdev.github.io/pmp-prep-app/
-URL:https://fssgdev.github.io/pmp-prep-app/
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:PMP · Práctica mixta de 20 preguntas
-TRIGGER:-PT30M
+DESCRIPTION:PMP · Repaso final con las láminas del curso
+TRIGGER:-PT0M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:examen-pmp@pmp-master-plan-2027
-DTSTAMP:20261124T000000Z
+DTSTAMP:20261125T000000Z
 DTSTART;VALUE=DATE:20270131
 DTEND;VALUE=DATE:20270201
 SUMMARY:Examen PMP (fecha tentativa)

@@ -2,6 +2,8 @@
 // prioridad del glosario y tareas de la semana. Estado sintético; nunca datos reales.
 // Uso: python3 -m http.server 8765 &  node tests/linea-base.test.js
 const {chromium} = require('playwright');
+const os = require('os');
+const path = require('path');
 const URL = 'http://localhost:8765/';
 const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('ok  ' + m); };
 
@@ -156,6 +158,76 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
     assert(await page.evaluate(() => newPerDay()) === 12 && await page.evaluate(() => newAllowance()) === cupo + 4 && await page.evaluate(() => CARD_DAILY_GOAL) === 4, 'el cupo de nuevas se configura (8 → 12) sin cambiar la meta de 4 aprendidas');
     await page.evaluate(() => { location.hash = 'conceptos/glosario'; conceptSearch = 'espina de pescado'; render(); });
     assert(await page.locator('.gloss-item h4', {hasText: 'Diagrama de causa y efecto'}).count() === 1, 'el glosario completo se puede buscar también por sus alias');
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
+  // ---------- #3: línea base (semana, láminas 18:00, Forms por clase, apuntes y contexto) ----------
+  console.log('\n== #3 línea base');
+  {
+    const {ctx, page, errors, boot} = await fresh('2026-11-30T08:00:00-05:00', {width: 375, height: 812});
+    await boot('inicio');
+    const plan = await page.evaluate(() => { const p = buildPlan(); return {ids: p.map(t => t.id), byDate: d => 0, list: p.map(t => [t.id, t.kind, t.date, t.due, t.time || ''])}; });
+    const on = d => plan.list.filter(t => t[2] === d).map(t => t[0]).sort();
+    assert(new Set(plan.ids).size === plan.ids.length, 'sin tareas duplicadas en el plan');
+    assert(on('2026-11-30').length === 0, 'lunes 30/11: solo la rutina (sin tareas de clase)');
+    assert(JSON.stringify(on('2026-12-02')) === JSON.stringify(['forms-s9', 'log-s9', 'slide-s8']), 'miércoles 2/12: lámina de la clase 8 a las 18:00, registro de avance y quiz de Forms de la clase 9');
+    assert(plan.list.find(t => t[0] === 'slide-s8')[4] === '18:00', 'la lámina se programa a las 18:00');
+    assert(JSON.stringify(on('2026-12-04')) === JSON.stringify(['forms-s10', 'log-s10', 'slide-s9']), 'viernes 4/12: lámina de la clase 9, registro y Forms de la clase 10');
+    assert(JSON.stringify(on('2026-12-05')) === JSON.stringify(['week20-2026-12-05']), 'sábado 5/12: cuestionario de 20');
+    assert(on('2026-12-06').length === 0 && plan.list.every(t => new Date(t[3] + 'T12:00:00Z').getUTCDay() !== 0), 'domingo sin tareas y ningún vencimiento en domingo');
+    assert(JSON.stringify(on('2026-12-07')) === JSON.stringify(['forms-s11', 'log-s11', 'slide-s10']), 'clase excepcional en lunes (7/12): la lámina de la clase 10 queda en la fecha real');
+    assert(plan.ids.includes('mock-0') && !plan.ids.some(id => /^mock-[12]$|^mix-|^rev-s|^quiz-s/.test(id)), 'solo el examen de fin de curso es obligatorio; sin repasos genéricos ni simulacros −14/−7');
+    const moved = await page.evaluate(() => { D.sessions.find(s => s.id === 12).date = '2026-12-10'; return buildPlan().find(t => t.id === 'slide-s11').date; });
+    assert(moved === '2026-12-10', 'si cambia la fecha de la clase siguiente, la lámina se mueve con ella');
+    await page.evaluate(() => { D.sessions.find(s => s.id === 12).date = '2026-12-11'; });
+    // Lámina: pendiente → disponible (enlace o PDF local) → revisada; versiones conservadas
+    await page.evaluate(() => { state.tasksDone['rev-s3-d1'] = '2026-11-12T12:00:00Z'; save(); });
+    let st = await page.evaluate(() => slideStatus(7));
+    await page.evaluate(() => slideDialog(7, 'slide-s7')); await page.fill('#slide-link', 'https://drive.google.com/file/d/ejemplo-sintetico/view'); await page.getByRole('button', {name: 'Guardar enlace'}).click();
+    await page.evaluate(async () => { await filePut('slide-s7-local', new Blob(['%PDF-1.4 sintético'], {type: 'application/pdf'})); addSlideVersion(7, {key: 'slide-s7-local', name: 'lamina-clase-7.pdf', local: true}); });
+    const st2 = await page.evaluate(() => [slideStatus(7), slideFor(7).versions.length]);
+    await page.getByRole('button', {name: 'Marcar como revisada'}).click();
+    const st3 = await page.evaluate(() => [slideStatus(7), !!state.tasksDone['slide-s7']]);
+    assert(st === 'pendiente' && st2[0] === 'disponible' && st2[1] === 2 && st3[0] === 'revisada' && st3[1], 'lámina: pendiente → disponible (2 versiones: enlace y PDF) → revisada, y la tarea queda hecha');
+    // Apuntes de OneNote por sesión (solo en el dispositivo)
+    await page.evaluate(() => { location.hash = 'notas'; render(); });
+    const nf = await page.evaluate(async () => { document.getElementById('nf-session').value = '7'; document.getElementById('nf-lesson').value = '3'; await addNoteFile(new File(['%PDF-1.4 apunte'], 'Clase7.pdf', {type: 'application/pdf'})); const before = state.noteFiles.length; await addNoteFile(new File(['x'], 'Seccion.one')); return [before, state.noteFiles.length, state.noteFiles[0].label, filesMem.has(state.noteFiles[0].key)]; });
+    assert(nf[0] === 1 && nf[1] === 1 && nf[2] === '2026-11-25_L3' && nf[3], 'apunte PDF de la clase 7 guardado como 2026-11-25_L3 y un .one se rechaza con explicación');
+    assert(await page.locator('.note-file').count() === 1, 'Mis notas muestra el apunte vinculado a la sesión');
+    // Paquete de contexto: con avance, notas del profesor, apunte y discrepancia; y sin nada
+    const pk = await page.evaluate(() => { ensureClassLog().push({id: 'cl-s7', session: 7, date: '2026-11-25', lessons: [3], lastTopic: 'Diapositiva 40', updated: stamp()}); const s7 = D.sessions.find(s => s.id === 7); s7.mapping = 'confirmada'; s7.lesson41 = [2, 3]; const a = contextPackage(7); s7.mapping = 'por confirmar'; const b = contextPackage(8); return [a, b]; });
+    assert(/lección v4.1 3/.test(pk[0]) && /confirmadas, lección 2 y 3/.test(pk[0]) && /Clase7\.pdf/.test(pk[0]) && /Discrepancia/.test(pk[0]), 'el paquete de contexto reúne avance, notas del profesor, apuntes y la discrepancia');
+    assert(/sin registrar/.test(pk[1]) && /No hay avance declarado/.test(pk[1]) && /por confirmar/.test(pk[1]) && !/https?:/.test(pk[0] + pk[1]), 'sin fuentes, el paquete lo declara como brechas y no incluye enlaces privados');
+    // Forms asociado a la clase, sin duplicar
+    const fx = path.join(os.tmpdir(), 'forms-quiz-texto-lb.pdf');
+    { const c = await browser.newContext(), p2 = await c.newPage(); await p2.goto(URL + 'tests/fixtures/forms-quiz.html'); await p2.pdf({path: fx, format: 'A4', printBackground: true}); await c.close(); }
+    await page.evaluate(() => doTask('forms-s7'));
+    await page.setInputFiles('#forms-pdf', fx); await page.waitForFunction(() => !pdfBusy && pdfImport, null, {timeout: 60000});
+    assert(await page.evaluate(() => pdfImport.session) === 7, 'al abrir el quiz de Forms desde la tarea, la clase 7 queda asociada');
+    await page.getByRole('button', {name: /Guardar 2 fallos/}).click();
+    let f = await page.evaluate(() => ({done: !!state.tasksDone['forms-s7'], r: state.results.filter(r => r.kind === 'import').map(r => r.session), e: state.errors.filter(e => e.source === 'pdf').map(e => e.misses)}));
+    assert(f.done && JSON.stringify(f.r) === '[7]' && f.e.length === 2, 'el resultado queda asociado a la clase 7, la tarea se marca y sus 2 fallos van al repaso');
+    await page.evaluate(() => { location.hash = 'simulacros'; simTab = 'externos'; render(); });
+    await page.setInputFiles('#forms-pdf', fx); await page.waitForFunction(() => !pdfBusy && pdfImport, null, {timeout: 60000});
+    await page.getByRole('button', {name: /Guardar 2 fallos/}).click();
+    f = await page.evaluate(() => ({r: state.results.filter(r => r.kind === 'import').length, e: state.errors.filter(e => e.source === 'pdf').map(e => e.misses || 1)}));
+    assert(f.r === 1 && f.e.every(m => m === 1), 'importar el mismo resultado otra vez no duplica el historial ni suma fallos');
+    // Persistencia, progreso anterior y móvil
+    await boot('inicio');
+    const keep = await page.evaluate(() => ({legacy: state.tasksDone['rev-s3-d1'], slides: slideStatus(7), notes: state.noteFiles.length, log: !!classLogFor(7)}));
+    assert(keep.legacy && keep.slides === 'revisada' && keep.notes === 1 && keep.log, 'al recargar se conservan lámina, apuntes, avance y las marcas de tareas de la línea anterior');
+    for (const h of ['inicio', 'agenda', 'ruta', 'notas', 'simulacros']) { await page.evaluate(h => { location.hash = h; render(); }, h); assert(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 1, `#${h} sin desplazamiento horizontal a 375 px`); }
+    assert(await page.evaluate(() => { const r = buildMock(); return !!r && r.ids.length === 180; }), 'el simulacro libre de 180 sigue disponible (voluntario)');
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
+  {
+    // 18:00 del día de clase: Inicio propone abrir la lámina
+    const {ctx, page, errors, boot} = await fresh('2026-12-02T18:05:00-05:00');
+    await boot('inicio');
+    assert(/Repasar láminas/.test(await page.locator('.d-next h2').innerText()) && /18:00/.test(await page.locator('.d-next').innerText()), 'a las 18:00 del día de clase, Inicio propone repasar la lámina');
+    const tasks = await page.locator('.d-today .task-row h3').allInnerTexts();
+    assert(tasks.indexOf('Repasar láminas de la sesión anterior') < tasks.indexOf('Indicar lección avanzada del PPT de preparación v4.1') && tasks.indexOf('Indicar lección avanzada del PPT de preparación v4.1') < tasks.findIndex(x => /Google Forms/.test(x)), 'Inicio ordena: lámina, registro de avance y quiz de Forms');
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
   }

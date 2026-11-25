@@ -6,7 +6,7 @@
    2) Glosario oficial (Glossary_for_PMP_2026_ES_v4.1.pdf): extrae término y definición textual y los guarda SOLO en
       este dispositivo (localStorage 'pmp-glossary-official'), porque es material de PMI y el repositorio es público. */
 
-let pdfjsLib = null, pdfImport = null, pdfBusy = false;
+let pdfjsLib = null, pdfImport = null, pdfBusy = false, pdfImportSession = null;
 const OFFICIAL_KEY = 'pmp-glossary-official';
 async function loadPdfjs() {
   if (pdfjsLib) return pdfjsLib;
@@ -197,14 +197,21 @@ async function importFormsPdf(file) {
   pdfBusy = true; render();
   try {
     const scan = await pdfScanForms(file);
-    pdfImport = {file: file.name, textless: !scan.lines.length, ...(scan.icons.length ? parseFormsVisual(scan) : parseFormsLines(scan.lines, scan.title))};
+    pdfImport = {file: file.name, session: defaultFormsSession(), textless: !scan.lines.length, ...(scan.icons.length ? parseFormsVisual(scan) : parseFormsLines(scan.lines, scan.title))};
     if (!pdfImport.blocks.length) toast(scan.lines.length ? 'No encontré preguntas en este PDF. Envíaselo a Claude para ajustar el lector.' : 'Este PDF no tiene texto ni íconos de calificación reconocibles. Imprime con «Gráficos de fondo» activado.');
   } catch (err) { toast('No se pudo leer el PDF: ' + err.message); pdfImport = null; }
   pdfBusy = false; render();
 }
+/* Huella del resultado: el mismo quiz con las mismas preguntas falladas no se importa dos veces. */
+const formsPrint = imp => [imp.title, imp.blocks.length, imp.blocks.filter(b => b.pick).map(b => b.n).join(',')].join('|');
+function formsSessions() { return [...(D.sessions || [])].filter(s => s.date <= today()).sort((a, b) => b.date.localeCompare(a.date)); }
+function defaultFormsSession() { const free = formsSessions().find(s => s.date >= BASELINE_START && !state.tasksDone?.['forms-s' + s.id]); return pdfImportSession ?? free?.id ?? null; }
 function saveFormsImport() {
   const imp = pdfImport; if (!imp) return;
   ensureResults();
+  const sid = imp.session ? Number(imp.session) : null, fp = formsPrint(imp);
+  const dup = state.results.find(r => r.kind === 'import' && r.fp === fp);
+  if (dup) { if (sid && !dup.session) { dup.session = sid; markTask('forms-s' + sid, true); } pdfImport = null; pdfImportSession = null; save(); render(); toast(`Este resultado ya estaba importado${dup.session ? ' (clase ' + dup.session + ')' : ''}: no se duplicó el historial ni los fallos.`); return; }
   const t = imp.topicId ? topicBy(imp.topicId) : null, module = imp.topicId ? imp.topicId.split('-')[0] : null;
   const next = workDay(plusDays(today(), 1), true); let n = 0;
   imp.blocks.filter(b => b.pick).forEach(b => {
@@ -217,8 +224,9 @@ function saveFormsImport() {
     n++;
   });
   const total = imp.blocks.length, wrong = imp.blocks.filter(b => b.pick).length;
-  recordResult({kind: 'import', label: imp.title, taskId: null, total, correct: total - wrong, dom: module ? {[module]: {total, correct: total - wrong}} : {}, wrong: [], source: imp.file});
-  pdfImport = null; save(); render();
+  recordResult({kind: 'import', label: imp.title, taskId: sid ? 'forms-s' + sid : null, session: sid, fp, total, correct: total - wrong, dom: module ? {[module]: {total, correct: total - wrong}} : {}, wrong: [], source: imp.file});
+  if (sid) markTask('forms-s' + sid, true);
+  pdfImport = null; pdfImportSession = null; save(); render();
   toast(`${n} ${n === 1 ? 'fallo guardado' : 'fallos guardados'}: volverán como tarjetas${t ? ' y reforzarán la tarea ' + t.code : ''}.`);
 }
 function renderPdfImport() {
@@ -228,11 +236,12 @@ function renderPdfImport() {
     return `<section class="card pdf-import"><div class="card-header"><div><h2>Revisa lo detectado</h2><p>${esc(imp.file)} · ${esc(imp.title)}</p></div></div>
     <p class="hint">Marqué como fallo ${imp.blocks.filter(b => b.wrong).length} de ${imp.blocks.length} preguntas (ícono o texto en rojo, puntaje menor o «Respuesta correcta»). Corrige lo que haga falta antes de guardar.</p>
     ${imp.textless ? `<p class="hint pdf-note">Este PDF no trae texto (lo hizo «Microsoft Print to PDF», que dibuja las letras como imagen). Guardaré la imagen de cada pregunta en este dispositivo para tus tarjetas. Para que el texto llegue también a tus otros dispositivos, imprime con el destino «Guardar como PDF».</p>` : ''}
+    <label class="field pdf-topic"><span>Clase a la que corresponde este quiz</span><select id="pdf-session"><option value="">Ninguna (quiz suelto)</option>${formsSessions().map(s => `<option value="${s.id}" ${Number(imp.session) === s.id ? 'selected' : ''}>Clase ${s.id} · ${date(s.date, {weekday: 'short', day: 'numeric', month: 'short'})}${state.tasksDone?.['forms-s' + s.id] ? ' · ya tiene quiz' : ''}</option>`).join('')}</select></label>
     <label class="field pdf-topic"><span>Tarea del ECO que se reforzará con estos fallos</span>${topics}</label>
     <div class="pdf-blocks">${imp.blocks.map((b, i) => `<label class="pdf-block ${b.pick ? 'wrong' : ''}"><input type="checkbox" data-pdf-pick="${i}" ${b.pick ? 'checked' : ''}><span><strong>${b.n}.</strong> ${b.textless && b.front ? `<span class="quiz-img-wrap"><img class="quiz-img" src="${b.front}" alt="Enunciado de la pregunta ${b.n}"></span>` : esc(b.prompt || '(sin texto)')}${b.correctText ? `<br><small>Correcta: ${esc(b.correctText)}</small>` : ''}${b.reasons.length ? `<br><small class="pdf-why">${esc(b.reasons.join(' · '))}</small>` : ''}</span></label>`).join('')}</div>
     <div class="actions">${button(`Guardar ${imp.blocks.filter(b => b.pick).length} fallos`, 'pdf-save', '')}${button('Descartar', 'pdf-cancel', 'white')}</div></section>`;
   }
-  return `<section class="card pdf-import"><div class="card-header"><div><h2>Importar un quiz de Google Forms</h2><p>PDF del «printable» de tus cuestionarios Q1–Q28</p></div>${icon('download')}</div>
+  return `<section class="card pdf-import"><div class="card-header"><div><h2>Importar un quiz de Google Forms</h2><p>${pdfImportSession ? `Quiz de la clase ${pdfImportSession} · ` : ''}PDF del «printable» de tus cuestionarios Q1–Q28</p></div>${icon('download')}</div>
     <p class="hint">En el formulario, abre «Ver puntuación», imprime y elige «Guardar como PDF» con «Gráficos de fondo» activado (también sirve «Microsoft Print to PDF», pero entonces solo guardo la imagen de cada pregunta). Las preguntas en rojo se guardan como fallos, vuelven como tarjetas y refuerzan su tarea del ECO en tus cuestionarios. El PDF se lee en tu dispositivo; no se sube a ningún lado.</p>
     <label class="button light file-button">${pdfBusy ? 'Leyendo el PDF…' : 'Elegir PDF'}<input type="file" id="forms-pdf" accept="application/pdf" ${pdfBusy ? 'disabled' : ''}></label></section>`;
 }
@@ -320,6 +329,7 @@ document.addEventListener('change', ev => {
   if (el.id === 'forms-pdf' && el.files[0]) importFormsPdf(el.files[0]);
   else if (el.id === 'gloss-pdf' && el.files[0]) importOfficialGlossary(el.files[0]);
   else if (el.id === 'pdf-topic' && pdfImport) pdfImport.topicId = el.value || null;
+  else if (el.id === 'pdf-session' && pdfImport) pdfImport.session = el.value ? Number(el.value) : null;
   else if (el.dataset.pdfPick !== undefined && pdfImport) { pdfImport.blocks[Number(el.dataset.pdfPick)].pick = el.checked; render(); }
   else if (el.id === 'gloss-all-cards') { state.settings.glossaryAllCards = el.checked; allCards.cache = null; save(); render(); }
 });

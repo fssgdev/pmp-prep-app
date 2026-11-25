@@ -2,7 +2,9 @@
 // Uso: node tools/build-ics.mjs          → escribe calendar.ics
 //      node tools/build-ics.mjs --check  → falla si calendar.ics no está al día
 // Fuente: data/calendar.json (sesiones INGENIUM con su lección v4.1) y data/weekly-plan.json (schedule, semanas).
-// Frecuencia: lunes a viernes rutina; miércoles y viernes clase; sábado cuestionario de 20; domingo descanso.
+// Frecuencia (línea base del 25/11, #3): lunes a viernes rutina; miércoles y viernes clase, con la lámina de repaso de la
+// clase anterior a las 18:00; sábado cuestionario de 20; domingo descanso; examen completo de 180 al terminar el curso.
+// Solo programación común: nada de avance personal, notas ni enlaces privados.
 import fs from 'fs';
 const root = new URL('../', import.meta.url);
 const cal = JSON.parse(fs.readFileSync(new URL('data/calendar.json', root)));
@@ -16,9 +18,10 @@ const z = (d, t) => new Date(d + 'T' + t + ':00-05:00').toISOString().replace(/[
 const addMin = (t, m) => { const [h, mm] = t.split(':').map(Number), x = h * 60 + mm + m; return String(Math.floor(x / 60)).padStart(2, '0') + ':' + String(x % 60).padStart(2, '0'); };
 const esc = s => String(s).replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\;');
 const fold = line => { const out = []; let s = line; while (Buffer.byteLength(s) > 74) { let i = 74; while (Buffer.byteLength(s.slice(0, i)) > 74) i--; out.push(s.slice(0, i)); s = ' ' + s.slice(i); } out.push(s); return out.join('\r\n'); };
-const STAMP = '20261124T000000Z';
+const STAMP = '20261125T000000Z';
+const BASELINE_START = '2026-11-25';
 const exam = S.examDate, sessions = [...cal.sessions].sort((a, b) => a.date.localeCompare(b.date));
-const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PMP Master Plan 2027//ES', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:PMP Master Plan 2027', 'X-WR-TIMEZONE:America/Lima', 'X-WR-CALDESC:' + esc('Plan de estudio PMP de Fabrizio: rutina de lunes a viernes, clases INGENIUM, cuestionario del sábado y exámenes. Se actualiza solo.'), 'REFRESH-INTERVAL;VALUE=DURATION:PT12H', 'X-PUBLISHED-TTL:PT12H'];
+const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PMP Master Plan 2027//ES', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:PMP Master Plan 2027', 'X-WR-TIMEZONE:America/Lima', 'X-WR-CALDESC:' + esc('Plan de estudio PMP: rutina de lunes a viernes, clases INGENIUM con su lámina de repaso a las 18:00, cuestionario del sábado y examen de fin de curso. Se actualiza solo.'), 'REFRESH-INTERVAL;VALUE=DURATION:PT12H', 'X-PUBLISHED-TTL:PT12H'];
 const ev = ({uid, d, start, end, summary, desc, alarm = 30, rrule, allDay}) => {
   L.push('BEGIN:VEVENT', 'UID:' + uid + '@pmp-master-plan-2027', 'DTSTAMP:' + STAMP);
   if (allDay) L.push('DTSTART;VALUE=DATE:' + d.replace(/-/g, ''), 'DTEND;VALUE=DATE:' + plusDays(d, 1).replace(/-/g, ''));
@@ -31,17 +34,17 @@ const ev = ({uid, d, start, end, summary, desc, alarm = 30, rrule, allDay}) => {
 // 1) Clases INGENIUM
 for (const s of sessions) {
   const [a, b] = (s.time || '20:00–22:00').split(/[–-]/).map(x => x.trim());
-  ev({uid: 'sesion-' + s.id, d: s.date, start: a, end: b, summary: `INGENIUM · Sesión ${s.id} · Lección ${s.lesson41.join(' y ')} (v4.1)`, desc: `${s.title}\nPPT: ${s.ppt}\nLección del curso v4.1: ${s.lesson41.join(' y ')} (${s.mapping === 'confirmada' ? 'confirmada con las notas del instructor' : 'proyección por confirmar'}).${s.progress ? '\n' + s.progress : ''}\nDespués de la clase: cuestionario de la sesión en la app.`});
+  ev({uid: 'sesion-' + s.id, d: s.date, start: a, end: b, summary: `INGENIUM · Sesión ${s.id} · Lección ${s.lesson41.join(' y ')} (v4.1)`, desc: `${s.title}\nPPT: ${s.ppt}\nLección del curso v4.1: ${s.lesson41.join(' y ')} (${s.mapping === 'confirmada' ? 'confirmada con las notas del instructor' : 'proyección por confirmar'}).${s.progress ? '\n' + s.progress : ''}\nDespués de la clase: registra el avance en la app, resuelve el quiz de Google Forms y carga su PDF.`});
 }
+// 1b) Lámina de repaso de la clase anterior, a las 18:00 del día de clase (la prepara GPT; se abre desde la app)
+sessions.forEach((s, i) => { const prev = sessions[i - 1]; if (prev && prev.date >= BASELINE_START) ev({uid: 'lamina-s' + prev.id, d: s.date, start: '18:00', end: '18:30', alarm: 0, summary: `PMP · Repasar láminas de la sesión ${prev.id}`, desc: `Antes de la clase de hoy: lámina de repaso de la clase ${prev.id} en la app (Inicio o Ruta).`}); });
 // 2) Rutina de lunes a viernes
 const days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'], first = (() => { let d = '2026-11-23'; while (!S.routineDays.includes(wd(d))) d = plusDays(d, 1); return d; })();
 ev({uid: 'rutina-lun-vie', d: first, start: S.routineTime, end: addMin(S.routineTime, 20), alarm: 0, rrule: `FREQ=WEEKLY;BYDAY=${S.routineDays.map(i => days[i]).join(',')};UNTIL=${z(plusDays(exam, -1), '23:59')}`, summary: 'PMP · Rutina: 4 tarjetas + Bullet Quiz de 5', desc: 'Flashcards 4/4 (primero las vencidas y tus preguntas falladas) y Bullet Quiz de 5 de la lección de la semana. Domingo: descanso.'});
 // 3) Sábados: cuestionario de 20 o examen completo
 const lastS = sessions[sessions.length - 1].date;
 let exam0 = plusDays(lastS, 1); while (wd(exam0) !== S.quizDay) exam0 = plusDays(exam0, 1);
-const quizOnOrBefore = d => { let x = d; while (wd(x) !== S.quizDay) x = plusDays(x, -1); return x; };
-const mock1 = quizOnOrBefore(plusDays(exam, -14)), mock2 = quizOnOrBefore(plusDays(exam, -7));
-const mocks = {[exam0]: ['0', 'Examen completo de fin de curso (180 preguntas)'], [mock1]: ['1', 'Simulacro completo 1 (180 preguntas)'], [mock2]: ['2', 'Simulacro completo 2 (180 preguntas)']};
+const mocks = {[exam0]: ['0', 'Examen completo de fin de curso (180 preguntas)']};
 const covered = d => [...new Set(wp.weeks.filter(w => w.start <= weekStart(d)).map(w => w.lesson))].sort((a, b) => a - b);
 let sat = '2026-11-28'; while (wd(sat) !== S.quizDay) sat = plusDays(sat, 1);
 for (let d = sat; d < plusDays(exam, -1); d = plusDays(d, 7)) {
@@ -49,8 +52,10 @@ for (let d = sat; d < plusDays(exam, -1); d = plusDays(d, 7)) {
   const ls = covered(d);
   ev({uid: 'sabado-' + d.replace(/-/g, ''), d, start: S.quizTime, end: addMin(S.quizTime, 60), summary: `PMP · Cuestionario de 20 preguntas (lecciones ${ls.length ? ls[0] + '–' + ls[ls.length - 1] : 'mixtas'})`, desc: `Lecciones v4.1 vistas hasta esta semana: ${ls.join(', ')}. Incluye tus preguntas falladas que toca repasar, ~40 % predictivo y todos los formatos del examen.`});
 }
-// 4) Tramo final sin clases: práctica mixta en los días de clase
-for (let d = plusDays(lastS, 1); d < plusDays(exam, -1); d = plusDays(d, 1)) if (S.classDays.includes(wd(d))) ev({uid: 'mixta-' + d.replace(/-/g, ''), d, start: '20:00', end: '21:00', summary: 'PMP · Práctica mixta de 20 preguntas', desc: 'En el horario que antes era de clase: los tres dominios y todos los enfoques.'});
+// 4) Repaso final antes del examen de fin de curso
+const lastSession = sessions[sessions.length - 1], finalReview = (() => { let d = plusDays(exam0, -1); while (S.restDays.includes(wd(d))) d = plusDays(d, -1); return d; })();
+if (lastSession.date >= BASELINE_START) ev({uid: 'lamina-s' + lastSession.id, d: finalReview, start: '18:00', end: '18:30', alarm: 0, summary: 'PMP · Repaso final con las láminas del curso', desc: `Lámina de la última clase y repaso general antes del examen de fin de curso del ${exam0}.`});
+// Los simulacros completos adicionales son voluntarios: no se programan.
 // 5) Examen
 ev({uid: 'examen-pmp', d: exam, allDay: true, alarm: null, summary: `Examen PMP${wp.schedule?.examConfirmed ? '' : ' (fecha tentativa)'}`, desc: 'Fecha configurada en data/weekly-plan.json (schedule.examDate). Cámbiala allí cuando la confirmes.'});
 L.push('END:VCALENDAR');
