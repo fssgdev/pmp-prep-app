@@ -114,3 +114,14 @@ tr.current-week td{background:#f2f7e8;font-weight:600;color:var(--ink)}
 .saved .sync-off i{width:5px;height:5px;background:#d39b52;border-radius:50%}
 .sync-msg{font-size:11px;margin-top:10px;min-height:1px}.sync-msg.ok{color:#4f7a3d}.sync-msg.bad{color:#a5553f}
 .sync-pass{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}.sync-pass summary{cursor:pointer;font-size:11px;font-weight:650;color:#4f6b45}
+/* iPhone con Dynamic Island / notch (26/11): la barra de estado (black-translucent) se pinta de verde y la barra
+   superior queda fija debajo, siempre visible y tocable (el logo vuelve a certiFicate). */
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top);background:#173f38;z-index:45;pointer-events:none}
+@media(max-width:700px){
+  .topbar{position:sticky;top:env(safe-area-inset-top);margin-top:env(safe-area-inset-top);z-index:40;background:#fffffff5;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+  main{padding-left:max(19px,env(safe-area-inset-left));padding-right:max(19px,env(safe-area-inset-right))}
+  .mobile-brand{display:flex!important;align-items:center;gap:6px;padding:8px 6px;margin-left:-6px;border-radius:10px;min-height:44px}
+  .mobile-brand:active{background:#eef2e8}
+}
+.mobile-more .cf-home{color:#3a3d7a!important;font-weight:700}.mobile-more .cf-home b{color:#d9902a;font-style:italic}
+@media(max-width:700px){.mobile-brand::before{content:'‹';font-size:22px;line-height:1;color:#7a9458;margin-right:2px}}

@@ -55,17 +55,21 @@ const view = page => page.evaluate(() => window.certiFicate?.view);
     assert(await page.locator('.cf-bio [data-cf="bio-on"]').isVisible(), 'ofrece activar Face ID en este dispositivo');
     await page.locator('[data-cf="bio-on"]').click(); await page.waitForTimeout(800);
     assert(await page.evaluate(() => !!localStorage.getItem('cf-bio')) && /Face ID/.test(await page.locator('.cf-note').innerText()), 'Face ID queda activado (solo se guarda el identificador de la credencial)');
-    const page2 = page; await page.evaluate(() => sessionStorage.clear()); // nueva sesión en la misma pestaña (el autenticador virtual es de esta pestaña)
-    await page2.goto(URL + '#flashcards'); await page2.reload(); await page2.waitForTimeout(2900); await page2.locator('.cf-splash').click(); await page2.waitForTimeout(600);
-    const lockOk = await view(page2) === 'auth' && await page2.locator('[data-cf="bio"]').isVisible();
-    assert(lockOk, 'en una nueva sesión pide Face ID antes de entrar');
-    assert(await page2.locator('[data-cf="use-pass"]').isVisible(), 'siempre se puede usar la contraseña en lugar de Face ID');
-    await page2.locator('[data-cf="bio"]').click(); await page2.waitForTimeout(800);
+    const page2 = page; await page.evaluate(() => { sessionStorage.clear(); localStorage.setItem('sb-prueba-auth-token', '{"guardada":true}'); }); // nueva sesión en la misma pestaña, con sesión de Supabase guardada
+    await page2.goto(URL + '#flashcards'); await page2.reload(); await page2.waitForTimeout(2900); await page2.locator('.cf-splash').click(); await page2.waitForTimeout(1000);
     const afterBio = [await view(page2), await page2.evaluate(() => location.hash)];
-    assert(afterBio[0] === 'app' && afterBio[1] === '#flashcards', 'con Face ID entra directo a la sección que se abrió (#flashcards) ' + JSON.stringify(afterBio));
+    assert(afterBio[0] === 'app' && afterBio[1] === '#flashcards', 'con Face ID activo, el mismo toque de la portada lanza Face ID y entra directo a la sección abierta (#flashcards) ' + JSON.stringify(afterBio));
+    // Si Face ID falla, queda la pantalla para reintentar o usar la contraseña.
+    await page2.evaluate(() => sessionStorage.clear()); await cdp.send('WebAuthn.disable');
+    await page2.reload(); await page2.waitForTimeout(2900); await page2.locator('.cf-splash').click(); await page2.waitForTimeout(1500);
+    assert(await view(page2) === 'auth' && await page2.locator('[data-cf="bio"]').isVisible() && await page2.locator('[data-cf="use-pass"]').isVisible(), 'si Face ID no se puede verificar, ofrece reintentar o usar la contraseña');
+    await cdp.send('WebAuthn.enable');
+    await page2.evaluate(() => sessionStorage.setItem('cf-unlocked', '1')); await page2.reload(); await page2.waitForTimeout(3200); // recarga en la misma sesión: entra sin volver a pedir Face ID
+    assert(await view(page2) === 'app', 'al recargar dentro de la misma sesión no vuelve a pedir Face ID');
     await page2.evaluate(() => certiFicate.hub()); await page2.waitForTimeout(300);
     page2.on('dialog', d => d.accept()); await page2.locator('[data-cf="logout"]').click(); await page2.waitForTimeout(500);
-    assert(await view(page2) === 'auth' && await page2.locator('#cf-login').isVisible(), 'cerrar sesión vuelve a la pantalla de acceso');
+    const lo = [await view(page2), await page2.locator('#cf-login').count(), await page2.locator('.cf-hub [data-cf="logout"]').count()];
+    assert(lo[0] === 'auth' && lo[1] === 1, 'cerrar sesión vuelve a la pantalla de acceso ' + JSON.stringify(lo));
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
   }

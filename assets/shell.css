@@ -10,7 +10,7 @@ html.cf-on,html.cf-on body{overflow:hidden}
 .cf-word.big{font-size:clamp(34px,9vw,52px);letter-spacing:-1.6px}
 
 /* ---- portada ---- */
-.cf-splash{flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:40px 20px calc(40px + env(safe-area-inset-bottom));cursor:pointer;text-align:center;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none}
+.cf-splash{flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:calc(40px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom));cursor:pointer;text-align:center;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none}
 .cf-stage{position:relative;width:min(300px,78vw);aspect-ratio:1/1;display:grid;place-items:center}
 .cf-steps{position:absolute;left:-6%;right:-6%;bottom:2%;width:112%;height:auto}
 .cf-steps path{stroke-dasharray:1;stroke-dashoffset:1;animation:cfDraw .9s .1s cubic-bezier(.6,0,.3,1) forwards}
@@ -44,7 +44,7 @@ html.cf-on,html.cf-on body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.cf *{animation-duration:.01s!important;animation-delay:0s!important}.cf-tap{opacity:1}}
 
 /* ---- acceso ---- */
-.cf-auth{flex-direction:column;align-items:center;justify-content:center;padding:28px 18px calc(28px + env(safe-area-inset-bottom))}
+.cf-auth{flex-direction:column;align-items:center;justify-content:center;padding:calc(28px + env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom))}
 .cf-card{width:min(420px,100%);background:#ffffff0d;border:1px solid #ffffff1f;border-radius:22px;padding:28px 24px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 30px 80px #0006;text-align:center}
 .cf-logo.mini{width:44px;height:44px;vertical-align:middle}
 .cf-card .cf-logo.mini{width:66px;height:66px;display:block;margin:0 auto 4px}
@@ -68,7 +68,7 @@ html.cf-on,html.cf-on body{overflow:hidden}
 .cf-foot{color:#7d81b8;font-size:11px;margin-top:16px;text-align:center}
 
 /* ---- centro ---- */
-.cf-hub{flex-direction:column;background:linear-gradient(180deg,#14163a 0,#14163a 210px,var(--paper) 210px)}
+.cf-hub{flex-direction:column;background:linear-gradient(180deg,#14163a 0,#14163a calc(210px + env(safe-area-inset-top)),var(--paper) calc(210px + env(safe-area-inset-top)))}
 .cf-top{display:flex;align-items:center;gap:10px;padding:16px 22px;padding-top:calc(16px + env(safe-area-inset-top));max-width:980px;width:100%;margin:0 auto;box-sizing:border-box}
 .cf-sp{flex:1}
 .cf-chip{background:#ffffff14;border:1px solid #ffffff26;color:#dfe0ff;border-radius:999px;padding:7px 12px;font:600 11px inherit;font-family:inherit;cursor:pointer;max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

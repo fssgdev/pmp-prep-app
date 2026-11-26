@@ -93,17 +93,35 @@
     setTimeout(() => { splashDone = true; root.classList.add('cf-ready'); if (unlocked) proceed(); }, reduce ? 300 : 2600);
   }
 
-  async function proceed() {
+  // ¿Hay una sesión de Supabase guardada en este navegador? (para lanzar Face ID sin esperar a la red)
+  const storedSession = () => { try { return Object.keys(localStorage).some(k => /^sb-.*-auth-token$/.test(k) && localStorage.getItem(k)); } catch { return false; } };
+  async function proceed(bioTry = null) {
     if (root.dataset.view !== 'splash' || root.classList.contains('cf-busy')) return;
     root.classList.add('cf-busy');
     const user = await waitSync();
     root.classList.remove('cf-busy');
     if (unlocked && (user || !window.PMPSync?.client)) return unlock();
-    if (user && bio()) return lockScreen(user);
+    if (user && bio()) {
+      if (bioTry) {
+        // Mientras Face ID responde se muestra la pantalla de acceso (con reintento y contraseña) en lugar de esperar en la portada.
+        lockScreen(user); msg('Verificando con Face ID…', false);
+        const ok = await bioTry.catch(() => false);
+        if (root.dataset.view !== 'auth' || !root.querySelector('[data-cf="bio"]')) return; // el usuario ya eligió otra opción
+        if (ok) return unlock();
+        msg('No se pudo verificar con Face ID. Vuelve a intentarlo o usa tu contraseña.', true); return;
+      }
+      return lockScreen(user);
+    }
     if (user) return unlock();
     login();
   }
-  root.querySelector('.cf-splash').addEventListener('click', () => { if (!splashDone) { splashDone = true; root.classList.add('cf-ready', 'cf-skip'); } proceed(); });
+  // Fluidez (26/11): con Face ID activo y sesión guardada, el mismo toque de la portada abre Face ID
+  // (debe llamarse dentro del gesto del usuario; iOS no lo permite después de una espera).
+  root.querySelector('.cf-splash').addEventListener('click', () => {
+    if (!splashDone) { splashDone = true; root.classList.add('cf-ready', 'cf-skip'); }
+    const bioTry = !unlocked && bio() && storedSession() && root.dataset.view === 'splash' && !root.classList.contains('cf-busy') ? bioCheck() : null;
+    proceed(bioTry);
+  });
   document.addEventListener('keydown', ev => { if (!root.hidden && root.dataset.view === 'splash' && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); root.querySelector('.cf-splash').click(); } });
 
   /* ---------- acceso ---------- */
