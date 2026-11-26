@@ -4,7 +4,7 @@
 (() => {
   const cfg = window.PMP_CONFIG || {};
   const enabled = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey);
-  let client = null, user = null, timer = null, status = 'local', lastError = '';
+  let client = null, user = null, timer = null, status = 'local', lastError = '', lastSync = '', lastPull = 0;
 
   const app = () => window.PMPApp;
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -17,7 +17,9 @@
   }
 
   function label() {
-    if (!enabled || !user) return '<i></i> Guardado en este dispositivo';
+    if (!enabled) return '<i></i> Guardado en este dispositivo';
+    // Sin sesión no hay sincronización: se dice claro y lleva a Ajustes para iniciarla (antes parecía «todo bien»).
+    if (!user) return '<button class="sync-off" data-action="settings" title="Inicia sesión en Ajustes para compartir tu progreso entre dispositivos"><i></i> Sin sincronizar · iniciar sesión</button>';
     return {
       syncing: '<i></i> Sincronizando…',
       synced: '<i></i> Sincronizado en la nube',
@@ -96,21 +98,26 @@
     const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', user.id).maybeSingle();
     if (error) throw error;
     if (!data) { await push(); return; }                       // primera vez: sube lo local
-    if (localUpdated() === data.updated_at) { setStatus('synced'); return; }
+    if (localUpdated() === data.updated_at) { synced(); return; }
     const local = app().getState(), merged = merge(local, data.state, localUpdated() > data.updated_at);
     const changedLocal = JSON.stringify(merged) !== JSON.stringify(local);
-    if (changedLocal && app().setState(merged)) app().toast('Progreso actualizado desde la nube.');
+    if (changedLocal) {
+      // Si el estado fusionado no se puede aplicar aquí, no se marca como sincronizado ni se pisa la nube.
+      if (!app().setState(merged)) { setStatus('error', 'No se pudo aplicar el progreso de la nube en este dispositivo.'); return; }
+      app().toast('Progreso actualizado desde la nube.');
+    }
     if (JSON.stringify(merged) !== JSON.stringify(data.state)) await write(merged);
     else { try { localStorage.setItem(app().KEY + '-updated', data.updated_at); } catch {} }
-    setStatus('synced');
+    synced();
   }
 
-  async function write(st) {
+  async function write(st, mark = true) {
     const updated_at = new Date().toISOString();
     const {error} = await client.from('progress').upsert({user_id: user.id, state: st, updated_at});
     if (error) throw error;
-    try { localStorage.setItem(app().KEY + '-updated', updated_at); } catch {}
+    if (mark) try { localStorage.setItem(app().KEY + '-updated', updated_at); } catch {}
   }
+  function synced() { lastSync = new Date().toISOString(); setStatus('synced'); }
 
   // Antes de escribir, lee la nube y fusiona: así un guardado no pisa lo que subió otro dispositivo.
   async function push() {
@@ -122,10 +129,14 @@
       let st = app().getState();
       if (data?.state && data.updated_at !== localUpdated()) {
         const merged = merge(st, data.state, true);
-        if (JSON.stringify(merged) !== JSON.stringify(st) && app().setState(merged)) st = merged;
+        if (JSON.stringify(merged) !== JSON.stringify(st)) {
+          // Nunca se sube solo lo local si la nube tenía algo más: se sube la fusión.
+          if (!app().setState(merged)) { await write(merged, false); setStatus('error', 'No se pudo aplicar el progreso de la nube en este dispositivo.'); return; }
+          st = merged;
+        }
       }
       await write(st);
-      setStatus('synced');
+      synced();
     } catch (e) { setStatus('error', e.message); }
   }
 
@@ -137,8 +148,8 @@
 
   function panel() {
     if (!enabled) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Aún no configurada. Mientras tanto, tu progreso se guarda en este navegador.</p></div>`;
-    if (user) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Sesión iniciada como <strong>${esc(user.email)}</strong>. Tu progreso se guarda automáticamente y se comparte entre tus dispositivos.${lastError ? '<br>Último error: ' + esc(lastError) : ''}</p><div class="actions"><button class="button light small" data-sync="now">Sincronizar ahora</button><button class="button white small" data-sync="logout">Cerrar sesión</button></div></div>`;
-    return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Escribe tu correo y abre el enlace que te llegará <strong>en este mismo dispositivo</strong>. Repite en cada dispositivo que uses.</p><form id="sync-login"><input type="email" name="email" required placeholder="tu@correo.com" aria-label="Correo"><button class="button small" type="submit">Enviar enlace</button></form></div>`;
+    if (user) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Sesión iniciada como <strong>${esc(user.email)}</strong>. Tu progreso se guarda automáticamente y se comparte entre tus dispositivos; al volver a la app se trae lo último de la nube.${lastSync ? '<br>Última sincronización: ' + esc(new Date(lastSync).toLocaleString('es-PE', {timeZone: 'America/Lima', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})) : ''}${lastError ? '<br>Último error: ' + esc(lastError) : ''}</p><div class="actions"><button class="button light small" data-sync="now">Sincronizar ahora</button><button class="button white small" data-sync="logout">Cerrar sesión</button></div></div>`;
+    return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint"><strong>Este dispositivo no está sincronizando:</strong> lo que hagas aquí no llega a tus otros dispositivos. Escribe tu correo y abre el enlace que te llegará <strong>en este mismo dispositivo y navegador</strong>. Usa el mismo correo en cada dispositivo.</p><form id="sync-login"><input type="email" name="email" required placeholder="tu@correo.com" aria-label="Correo"><button class="button small" type="submit">Enviar enlace</button></form></div>`;
   }
 
   document.addEventListener('submit', async ev => {
@@ -153,7 +164,7 @@
     const el = ev.target.closest('[data-sync]');
     if (!el) return;
     ev.preventDefault();
-    if (el.dataset.sync === 'now') { await pull().catch(e => setStatus('error', e.message)); app().toast('Sincronizado.'); }
+    if (el.dataset.sync === 'now') { await pull().catch(e => setStatus('error', e.message)); app().toast(status === 'error' ? 'No se pudo sincronizar: ' + lastError : 'Sincronizado: tienes lo último de la nube.'); }
     if (el.dataset.sync === 'logout') { await client.auth.signOut(); user = null; setStatus('local'); app().toast('Sesión cerrada. El progreso sigue guardado en este dispositivo.'); }
     document.getElementById('modal')?.close();
   });
@@ -166,14 +177,21 @@
       client.auth.onAuthStateChange((_event, session) => {
         const was = user?.id;
         user = session?.user || null;
+        if (!user) setStatus('local');
         if (user && user.id !== was) {
           if (location.search.includes('code=')) history.replaceState(null, '', location.pathname + location.hash);
           pull().catch(e => setStatus('error', e.message));
         }
       });
       window.addEventListener('online', () => user && pull().catch(() => {}));
+      // Traer lo último de la nube al volver a la pestaña (p. ej., si se dejó abierta desde la mañana) y cada 5 minutos.
+      const refresh = (force = false) => { if (!user || document.visibilityState === 'hidden') return; if (!force && Date.now() - lastPull < 20000) return; lastPull = Date.now(); pull().catch(e => setStatus('error', e.message)); };
+      document.addEventListener('visibilitychange', () => refresh());
+      window.addEventListener('focus', () => refresh());
+      window.addEventListener('pageshow', ev => ev.persisted && refresh(true));
+      setInterval(() => refresh(true), 5 * 60000);
     } catch (e) { setStatus('error', e.message); }
   }
 
-  window.PMPSync = {init, schedulePush, panel, label, merge, get enabled() { return enabled; }};
+  window.PMPSync = {init, schedulePush, panel, label, merge, pull: () => pull(), get enabled() { return enabled; }, get user() { return user; }};
 })();

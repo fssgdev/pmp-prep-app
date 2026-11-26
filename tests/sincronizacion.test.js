@@ -81,6 +81,22 @@ const syncNow = async d => { await d.page.evaluate(() => document.querySelector(
   await syncNow(A); await A.page.evaluate(() => { save(); }); await A.page.waitForTimeout(2500); await syncNow(B);
   const a2 = await snap(A.page), b2 = await snap(B.page);
   log(!a2.notes.includes('nota-A') && !b2.notes.includes('nota-A') && !row.state.notes.some(n => n.id === 'nota-A'), 'una nota borrada en B no reaparece en A ni en la nube');
+  // Pestaña abierta desde la mañana (caso del 25/11): A hace la rutina; B no recarga, solo vuelve a la pestaña.
+  await A.page.evaluate(() => { location.hash = 'inicio'; state.tasksDone[bulletId()] = stamp(); save(); });
+  await grade(A.page, 4); await A.page.waitForTimeout(2500);
+  const before = await B.page.evaluate(() => [!!state.tasksDone[bulletId()], cardsGradedToday()]);
+  await B.page.evaluate(() => { location.hash = 'inicio'; document.dispatchEvent(new Event('visibilitychange')); window.dispatchEvent(new Event('focus')); });
+  await B.page.waitForTimeout(2500);
+  const after = await B.page.evaluate(() => [!!state.tasksDone[bulletId()], cardsGradedToday(), document.querySelector('[data-routine="bullet"] .routine-count')?.textContent]);
+  log(!before[0] && after[0] && after[1] >= 4 && after[2] === '5/5', `al volver a una pestaña abierta, B trae el Bullet 5/5 y las tarjetas de A sin recargar (${JSON.stringify(after)})`);
+  // Si el estado de la nube no se puede aplicar en un dispositivo, ese dispositivo no pisa la nube con lo suyo.
+  const cloudTasks = Object.keys(row.state.tasksDone).length;
+  await B.page.evaluate(() => { window.__set = PMPApp.setState; PMPApp.setState = () => false; });
+  await A.page.evaluate(() => { state.tasksDone['prueba-solo-A'] = stamp(); save(); }); await A.page.waitForTimeout(2500);
+  await B.page.evaluate(() => { state.tasksDone['prueba-solo-B'] = stamp(); save(); }); await B.page.waitForTimeout(2500);
+  log(row.state.tasksDone['prueba-solo-A'] && row.state.tasksDone['prueba-solo-B'] && Object.keys(row.state.tasksDone).length >= cloudTasks + 2, 'un dispositivo que no puede aplicar la fusión sube la fusión, no solo lo suyo (no borra lo del otro)');
+  log(/Sin conexión/.test(await B.page.evaluate(() => PMPSync.label())), 'el error queda visible en la etiqueta de sincronización');
+  await B.page.evaluate(() => { PMPApp.setState = window.__set; });
   log(A.errors.length + B.errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify([...A.errors, ...B.errors]));
   await browser.close();
   process.exit(results.every(r => r[0]) ? 0 : 1);
