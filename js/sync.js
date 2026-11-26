@@ -4,7 +4,7 @@
 (() => {
   const cfg = window.PMP_CONFIG || {};
   const enabled = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey);
-  let client = null, user = null, timer = null, status = 'local', lastError = '', lastSync = '', lastPull = 0;
+  let client = null, otpClient = null, user = null, timer = null, status = 'local', lastError = '', lastSync = '', lastPull = 0;
 
   const app = () => window.PMPApp;
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -19,7 +19,7 @@
   function label() {
     if (!enabled) return '<i></i> Guardado en este dispositivo';
     // Sin sesión no hay sincronización: se dice claro y lleva a Ajustes para iniciarla (antes parecía «todo bien»).
-    if (!user) return '<button class="sync-off" data-action="settings" title="Inicia sesión en Ajustes para compartir tu progreso entre dispositivos"><i></i> Sin sincronizar · iniciar sesión</button>';
+    if (!user) return '<button class="sync-off" data-action="settings" data-focus="sync" title="Inicia sesión en Ajustes para compartir tu progreso entre dispositivos"><i></i> Sin sincronizar · iniciar sesión</button>';
     return {
       syncing: '<i></i> Sincronizando…',
       synced: '<i></i> Sincronizado en la nube',
@@ -149,27 +149,73 @@
   function panel() {
     if (!enabled) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Aún no configurada. Mientras tanto, tu progreso se guarda en este navegador.</p></div>`;
     if (user) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Sesión iniciada como <strong>${esc(user.email)}</strong>. Tu progreso se guarda automáticamente y se comparte entre tus dispositivos; al volver a la app se trae lo último de la nube.${lastSync ? '<br>Última sincronización: ' + esc(new Date(lastSync).toLocaleString('es-PE', {timeZone: 'America/Lima', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})) : ''}${lastError ? '<br>Último error: ' + esc(lastError) : ''}</p><div class="actions"><button class="button light small" data-sync="now">Sincronizar ahora</button><button class="button white small" data-sync="logout">Cerrar sesión</button></div></div>`;
-    return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint"><strong>Este dispositivo no está sincronizando:</strong> lo que hagas aquí no llega a tus otros dispositivos. Escribe tu correo y abre el enlace que te llegará <strong>en este mismo dispositivo y navegador</strong>. Usa el mismo correo en cada dispositivo.</p><form id="sync-login"><input type="email" name="email" required autocomplete="email" placeholder="tu@correo.com" aria-label="Correo"><button class="button small" type="submit">Enviar enlace</button></form><p class="sync-msg" role="status" aria-live="polite"></p></div>`;
+    // En la app de la pantalla de inicio del iPhone el enlace del correo se abre en Safari, que guarda su propia sesión:
+    // por eso se ofrece también entrar con el código de 6 dígitos del mismo correo (verifyOtp), que funciona en cualquier navegador.
+    const standalone = window.navigator.standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+    let saved = ''; try { saved = localStorage.getItem('pmp-sync-email') || ''; } catch {}
+    return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint"><strong>Este dispositivo no está sincronizando:</strong> lo que hagas aquí no llega a tus otros dispositivos. Escribe tu correo (el mismo en todos tus dispositivos) y te llegará un correo con un enlace para entrar.</p>
+      <form id="sync-login"><input type="email" name="email" required autocomplete="email" placeholder="tu@correo.com" aria-label="Correo" value="${esc(saved)}"><button class="button small" type="submit">Enviar correo</button></form>
+      <form id="sync-code"><input name="code" autocomplete="one-time-code" required placeholder="Pega aquí el enlace del correo" aria-label="Enlace o código del correo"><button class="button light small" type="submit">Entrar</button></form>
+      <p class="hint" style="margin-top:8px">${standalone ? '<strong>Estás en la app de la pantalla de inicio:</strong> si tocas el enlace se abre Safari, que inicia sesión allí y no aquí. En el correo, <strong>mantén presionado</strong> el botón del enlace → <strong>Copiar enlace</strong>, y pégalo arriba.' : 'Abre el enlace en este mismo navegador. Si lo recibes en otro lado (o usas la app de la pantalla de inicio), mantén presionado el enlace → Copiar enlace, y pégalo arriba.'}</p><p class="sync-msg" role="status" aria-live="polite"></p></div>`;
   }
 
   // «Load failed» (Safari) / «Failed to fetch» (Chrome): no se llegó al servidor. En el plan gratuito, Supabase pausa el proyecto tras una semana sin uso.
   const netFail = m => /load failed|failed to fetch|networkerror|network request failed/i.test(String(m || ''));
+  // Extrae el token del enlace del correo (también si viene envuelto por Gmail/Outlook o con el prefijo pkce_).
+  function tokenHashFrom(text) {
+    let t = String(text || '').trim();
+    for (let i = 0; i < 3; i++) { try { const d = decodeURIComponent(t); if (d === t) break; t = d; } catch { break; } }
+    if (!/\/auth\/v1\/verify|token_hash=/.test(t)) return null;
+    const m = t.match(/[?&](?:token_hash|token)=([A-Za-z0-9_\-]+)/);
+    return m ? {raw: m[1], plain: m[1].replace(/^pkce_/, '')} : null;
+  }
   const NET_MSG = 'No se pudo conectar con el servidor de sincronización. Si tienes internet, es probable que el proyecto de Supabase esté en pausa por inactividad: hay que reactivarlo desde supabase.com (Restore project).';
+  document.addEventListener('submit', async ev => {
+    if (ev.target.id !== 'sync-code') return;
+    ev.preventDefault();
+    const box = ev.target.closest('.sync-box'), out = box.querySelector('.sync-msg'), btn = ev.target.querySelector('button');
+    const email = String(box.querySelector('#sync-login [name=email]')?.value || '').trim(), raw = String(new FormData(ev.target).get('code') || '').trim();
+    const show = (msg, bad) => { out.textContent = msg; out.className = 'sync-msg ' + (bad ? 'bad' : 'ok'); app().toast(msg); };
+    if (!client) { show('No se pudo cargar el servicio de sincronización. Recarga la página.', true); return; }
+    const hash = tokenHashFrom(raw), code = /^\d{6,10}$/.test(raw.replace(/\s/g, '')) ? raw.replace(/\s/g, '') : '';
+    if (!hash && !code) { show('Eso no parece el enlace del correo. Mantén presionado el botón del correo, elige «Copiar enlace» y pégalo completo.', true); return; }
+    if (code && !email) { show('Escribe primero tu correo (el mismo al que llegó el código).', true); return; }
+    btn.disabled = true; btn.textContent = 'Verificando…';
+    try {
+      // Enlace: se verifica su token directamente (no necesita el navegador que pidió el correo). Código: con el correo.
+      let error;
+      if (code) ({error} = await client.auth.verifyOtp({email, token: code, type: 'email'}));
+      else for (const [h, type] of [[hash.plain, 'email'], [hash.plain, 'magiclink'], [hash.raw, 'email']].filter((x, i, a) => a.findIndex(y => y[0] === x[0] && y[1] === x[1]) === i)) {
+        ({error} = await client.auth.verifyOtp({token_hash: h, type}));
+        if (!error || !/invalid|expired|type|not found/i.test(error.message)) break;
+      }
+      if (error) show(/expired|invalid/i.test(error.message) ? 'El enlace ya se usó o venció (sirven una sola vez y por 1 hora). Pide un correo nuevo, no lo abras, y pega su enlace aquí.' : netFail(error.message) ? NET_MSG : 'No se pudo entrar: ' + error.message, true);
+      else { show('Sesión iniciada. Sincronizando tu progreso…', false); setTimeout(() => document.getElementById('modal')?.close(), 900); }
+    } catch (e) { show(netFail(e.message) ? NET_MSG : 'No se pudo entrar: ' + e.message, true); }
+    finally { btn.disabled = false; btn.textContent = 'Entrar'; }
+  });
+
   document.addEventListener('submit', async ev => {
     if (ev.target.id !== 'sync-login') return;
     ev.preventDefault();
     const form = ev.target, email = String(new FormData(form).get('email') || '').trim(), btn = form.querySelector('button'), out = form.parentElement.querySelector('.sync-msg');
     const show = (msg, bad) => { if (out) { out.textContent = msg; out.className = 'sync-msg ' + (bad ? 'bad' : 'ok'); } app().toast(msg); };
     if (!client) { show('No se pudo cargar el servicio de sincronización. Revisa tu conexión y recarga la página (Ctrl + Shift + R).', true); return; }
+    try { localStorage.setItem('pmp-sync-email', email); } catch {}
     btn.disabled = true; btn.textContent = 'Enviando…';
     try {
-      const {error} = await client.auth.signInWithOtp({email, options: {emailRedirectTo: location.origin + location.pathname}});
+      // En la app de la pantalla de inicio se pide el correo sin PKCE: así el enlace copiado se puede verificar aquí mismo.
+      const standalone = window.navigator.standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+      const sender = standalone ? (otpClient ||= window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {auth: {flowType: 'implicit', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'pmp-otp'}})) : client;
+      const {error} = await sender.auth.signInWithOtp({email, options: {emailRedirectTo: location.origin + location.pathname}});
       if (error) show(/rate|limit|seconds/i.test(error.message) ? 'Ya se enviaron varios enlaces hace poco. Usa el último correo que te llegó o espera unos minutos y vuelve a intentarlo.' : netFail(error.message) ? NET_MSG : 'No se pudo enviar el enlace: ' + error.message, true);
-      else show(`Enlace enviado a ${email}. Ábrelo en este mismo navegador (revisa también Spam o Promociones).`, false);
+      else show(`Correo enviado a ${email} (revisa también Spam o Promociones). Abre el enlace en este mismo navegador o pega abajo el enlace copiado.`, false);
     } catch (e) { show(netFail(e.message) ? NET_MSG : 'No se pudo enviar el enlace: ' + e.message, true); }
-    finally { btn.disabled = false; btn.textContent = 'Enviar enlace'; }
+    finally { btn.disabled = false; btn.textContent = 'Enviar correo'; }
   });
 
+  // Desde la etiqueta «Sin sincronizar», Ajustes se abre directo en la sección de sincronización (en el celular queda abajo).
+  document.addEventListener('click', ev => { if (ev.target.closest('[data-focus="sync"]')) setTimeout(() => { const box = document.querySelector('dialog[open] .sync-box'); box?.scrollIntoView({block: 'start', behavior: 'smooth'}); box?.querySelector('input')?.focus({preventScroll: true}); }, 60); });
   document.addEventListener('click', async ev => {
     const el = ev.target.closest('[data-sync]');
     if (!el) return;
