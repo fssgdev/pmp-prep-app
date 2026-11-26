@@ -148,13 +148,15 @@
 
   function panel() {
     if (!enabled) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Aún no configurada. Mientras tanto, tu progreso se guarda en este navegador.</p></div>`;
-    if (user) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Sesión iniciada como <strong>${esc(user.email)}</strong>. Tu progreso se guarda automáticamente y se comparte entre tus dispositivos; al volver a la app se trae lo último de la nube.${lastSync ? '<br>Última sincronización: ' + esc(new Date(lastSync).toLocaleString('es-PE', {timeZone: 'America/Lima', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})) : ''}${lastError ? '<br>Último error: ' + esc(lastError) : ''}</p><div class="actions"><button class="button light small" data-sync="now">Sincronizar ahora</button><button class="button white small" data-sync="logout">Cerrar sesión</button></div></div>`;
+    if (user) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Sesión iniciada como <strong>${esc(user.email)}</strong>. Tu progreso se guarda automáticamente y se comparte entre tus dispositivos; al volver a la app se trae lo último de la nube.${lastSync ? '<br>Última sincronización: ' + esc(new Date(lastSync).toLocaleString('es-PE', {timeZone: 'America/Lima', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})) : ''}${lastError ? '<br>Último error: ' + esc(lastError) : ''}</p><div class="actions"><button class="button light small" data-sync="now">Sincronizar ahora</button><button class="button white small" data-sync="logout">Cerrar sesión</button></div>
+      <details class="sync-pass"><summary>Crear contraseña para entrar sin correo</summary><p class="hint">Útil para la app de la pantalla de inicio del iPhone u otro navegador: entras con tu correo y esta contraseña, sin esperar enlaces.</p><form id="sync-setpass"><input type="password" name="pass" minlength="8" required autocomplete="new-password" placeholder="Nueva contraseña (mín. 8)" aria-label="Nueva contraseña"><button class="button light small" type="submit">Guardar contraseña</button></form><p class="sync-msg" role="status" aria-live="polite"></p></details></div>`;
     // En la app de la pantalla de inicio del iPhone el enlace del correo se abre en Safari, que guarda su propia sesión:
     // por eso se ofrece también entrar con el código de 6 dígitos del mismo correo (verifyOtp), que funciona en cualquier navegador.
     const standalone = window.navigator.standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
     let saved = ''; try { saved = localStorage.getItem('pmp-sync-email') || ''; } catch {}
     return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint"><strong>Este dispositivo no está sincronizando:</strong> lo que hagas aquí no llega a tus otros dispositivos. Escribe tu correo (el mismo en todos tus dispositivos) y te llegará un correo con un enlace para entrar.</p>
       <form id="sync-login"><input type="email" name="email" required autocomplete="email" placeholder="tu@correo.com" aria-label="Correo" value="${esc(saved)}"><button class="button small" type="submit">Enviar correo</button></form>
+      <form id="sync-pass"><input type="password" name="pass" required autocomplete="current-password" placeholder="Contraseña (si ya creaste una)" aria-label="Contraseña"><button class="button light small" type="submit">Entrar con contraseña</button></form>
       <form id="sync-code"><input name="code" autocomplete="one-time-code" required placeholder="Pega aquí el enlace del correo" aria-label="Enlace o código del correo"><button class="button light small" type="submit">Entrar</button></form>
       <p class="hint" style="margin-top:8px">${standalone ? '<strong>Estás en la app de la pantalla de inicio:</strong> si tocas el enlace se abre Safari, que inicia sesión allí y no aquí. En el correo, <strong>mantén presionado</strong> el botón del enlace → <strong>Copiar enlace</strong>, y pégalo arriba.' : 'Abre el enlace en este mismo navegador. Si lo recibes en otro lado (o usas la app de la pantalla de inicio), mantén presionado el enlace → Copiar enlace, y pégalo arriba.'}</p><p class="sync-msg" role="status" aria-live="polite"></p></div>`;
   }
@@ -170,6 +172,32 @@
     return m ? {raw: m[1], plain: m[1].replace(/^pkce_/, '')} : null;
   }
   const NET_MSG = 'No se pudo conectar con el servidor de sincronización. Si tienes internet, es probable que el proyecto de Supabase esté en pausa por inactividad: hay que reactivarlo desde supabase.com (Restore project).';
+  // Contraseña (Supabase Auth, proveedor de correo): crearla con la sesión iniciada y usarla donde el enlace no sirve.
+  document.addEventListener('submit', async ev => {
+    if (!['sync-pass', 'sync-setpass'].includes(ev.target.id)) return;
+    ev.preventDefault();
+    const form = ev.target, box = form.closest('.sync-box'), out = (form.closest('details') || box).querySelector('.sync-msg'), btn = form.querySelector('button'), label = btn.textContent;
+    const pass = String(new FormData(form).get('pass') || '');
+    const show = (msg, bad) => { out.textContent = msg; out.className = 'sync-msg ' + (bad ? 'bad' : 'ok'); app().toast(msg); };
+    if (!client) { show('No se pudo cargar el servicio de sincronización. Recarga la página.', true); return; }
+    btn.disabled = true; btn.textContent = 'Un momento…';
+    try {
+      if (form.id === 'sync-setpass') {
+        const {error} = await client.auth.updateUser({password: pass});
+        if (error) show(/reauth|recent/i.test(error.message) ? 'Por seguridad, Supabase pide volver a iniciar sesión antes de crear la contraseña. Cierra sesión, entra con un enlace nuevo y vuelve a intentarlo.' : /weak|short|least/i.test(error.message) ? 'La contraseña es muy débil: usa al menos 8 caracteres con letras y números.' : 'No se pudo guardar: ' + error.message, true);
+        else { show('Contraseña guardada. En otros navegadores o en la app de inicio entra con tu correo y esta contraseña.', false); form.reset(); }
+      } else {
+        const email = String(box.querySelector('#sync-login [name=email]')?.value || '').trim();
+        if (!email) { show('Escribe tu correo arriba.', true); return; }
+        try { localStorage.setItem('pmp-sync-email', email); } catch {}
+        const {error} = await client.auth.signInWithPassword({email, password: pass});
+        if (error) show(/invalid/i.test(error.message) ? 'Correo o contraseña incorrectos. Si aún no creaste una contraseña, créala primero desde un navegador donde tengas la sesión iniciada (Ajustes → Sincronización).' : netFail(error.message) ? NET_MSG : 'No se pudo entrar: ' + error.message, true);
+        else { show('Sesión iniciada. Sincronizando tu progreso…', false); setTimeout(() => document.getElementById('modal')?.close(), 900); }
+      }
+    } catch (e) { show(netFail(e.message) ? NET_MSG : 'Error: ' + e.message, true); }
+    finally { btn.disabled = false; btn.textContent = label; }
+  });
+
   document.addEventListener('submit', async ev => {
     if (ev.target.id !== 'sync-code') return;
     ev.preventDefault();
@@ -189,7 +217,7 @@
         ({error} = await client.auth.verifyOtp({token_hash: h, type}));
         if (!error || !/invalid|expired|type|not found/i.test(error.message)) break;
       }
-      if (error) show(/expired|invalid/i.test(error.message) ? 'El enlace ya se usó o venció (sirven una sola vez y por 1 hora). Pide un correo nuevo, no lo abras, y pega su enlace aquí.' : netFail(error.message) ? NET_MSG : 'No se pudo entrar: ' + error.message, true);
+      if (error) show(/expired|invalid/i.test(error.message) ? 'El enlace ya se usó o venció (sirven una sola vez). Ojo: en el iPhone, la vista previa al mantener presionado un enlace lo abre y lo gasta. Si ya tienes la sesión en Safari, es más fácil crear una contraseña allí (Ajustes → Sincronización) y entrar aquí con ella. (' + error.message + ')' : netFail(error.message) ? NET_MSG : 'No se pudo entrar: ' + error.message, true);
       else { show('Sesión iniciada. Sincronizando tu progreso…', false); setTimeout(() => document.getElementById('modal')?.close(), 900); }
     } catch (e) { show(netFail(e.message) ? NET_MSG : 'No se pudo entrar: ' + e.message, true); }
     finally { btn.disabled = false; btn.textContent = 'Entrar'; }
