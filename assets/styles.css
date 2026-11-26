@@ -112,3 +112,4 @@ tr.current-week td{background:#f2f7e8;font-weight:600;color:var(--ink)}
 /* Etiqueta de sincronización: sin sesión se ve y lleva a Ajustes */
 .saved .sync-off{border:0;background:#fcf3e6;color:#9a6a33;font-size:9px;font-weight:650;border-radius:6px;padding:4px 8px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .saved .sync-off i{width:5px;height:5px;background:#d39b52;border-radius:50%}
+.sync-msg{font-size:11px;margin-top:10px;min-height:1px}.sync-msg.ok{color:#4f7a3d}.sync-msg.bad{color:#a5553f}

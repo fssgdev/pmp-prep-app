@@ -149,15 +149,22 @@
   function panel() {
     if (!enabled) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Aún no configurada. Mientras tanto, tu progreso se guarda en este navegador.</p></div>`;
     if (user) return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint">Sesión iniciada como <strong>${esc(user.email)}</strong>. Tu progreso se guarda automáticamente y se comparte entre tus dispositivos; al volver a la app se trae lo último de la nube.${lastSync ? '<br>Última sincronización: ' + esc(new Date(lastSync).toLocaleString('es-PE', {timeZone: 'America/Lima', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})) : ''}${lastError ? '<br>Último error: ' + esc(lastError) : ''}</p><div class="actions"><button class="button light small" data-sync="now">Sincronizar ahora</button><button class="button white small" data-sync="logout">Cerrar sesión</button></div></div>`;
-    return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint"><strong>Este dispositivo no está sincronizando:</strong> lo que hagas aquí no llega a tus otros dispositivos. Escribe tu correo y abre el enlace que te llegará <strong>en este mismo dispositivo y navegador</strong>. Usa el mismo correo en cada dispositivo.</p><form id="sync-login"><input type="email" name="email" required placeholder="tu@correo.com" aria-label="Correo"><button class="button small" type="submit">Enviar enlace</button></form></div>`;
+    return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint"><strong>Este dispositivo no está sincronizando:</strong> lo que hagas aquí no llega a tus otros dispositivos. Escribe tu correo y abre el enlace que te llegará <strong>en este mismo dispositivo y navegador</strong>. Usa el mismo correo en cada dispositivo.</p><form id="sync-login"><input type="email" name="email" required autocomplete="email" placeholder="tu@correo.com" aria-label="Correo"><button class="button small" type="submit">Enviar enlace</button></form><p class="sync-msg" role="status" aria-live="polite"></p></div>`;
   }
 
   document.addEventListener('submit', async ev => {
     if (ev.target.id !== 'sync-login') return;
     ev.preventDefault();
-    const email = new FormData(ev.target).get('email');
-    const {error} = await client.auth.signInWithOtp({email, options: {emailRedirectTo: location.origin + location.pathname}});
-    app().toast(error ? 'No se pudo enviar el enlace: ' + error.message : 'Revisa tu correo y abre el enlace en este dispositivo.');
+    const form = ev.target, email = String(new FormData(form).get('email') || '').trim(), btn = form.querySelector('button'), out = form.parentElement.querySelector('.sync-msg');
+    const show = (msg, bad) => { if (out) { out.textContent = msg; out.className = 'sync-msg ' + (bad ? 'bad' : 'ok'); } app().toast(msg); };
+    if (!client) { show('No se pudo cargar el servicio de sincronización. Revisa tu conexión y recarga la página (Ctrl + Shift + R).', true); return; }
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    try {
+      const {error} = await client.auth.signInWithOtp({email, options: {emailRedirectTo: location.origin + location.pathname}});
+      if (error) show(/rate|limit|seconds/i.test(error.message) ? 'Ya se enviaron varios enlaces hace poco. Usa el último correo que te llegó o espera unos minutos y vuelve a intentarlo.' : 'No se pudo enviar el enlace: ' + error.message, true);
+      else show(`Enlace enviado a ${email}. Ábrelo en este mismo navegador (revisa también Spam o Promociones).`, false);
+    } catch (e) { show('No se pudo enviar el enlace: ' + e.message, true); }
+    finally { btn.disabled = false; btn.textContent = 'Enviar enlace'; }
   });
 
   document.addEventListener('click', async ev => {

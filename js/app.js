@@ -66,7 +66,7 @@ function validState(p){
  return true;
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));localStorage.setItem(KEY+'-updated',stamp());storageOK=true;}catch{storageOK=false;}window.PMPSync?.schedulePush();const el=$('#save-state');el.innerHTML=storageOK?(window.PMPSync?.label()||'<i></i> Guardado en este dispositivo'):'Sin guardar · exporta un respaldo';if(!storageOK&&!$('.storage-warning')){const w=document.createElement('div');w.className='storage-warning';w.textContent='El navegador no permite guardar. Exporta un respaldo antes de cerrar la aplicación.';$('.workspace').prepend(w);}}
-function toast(message){$('#toast').textContent=message;$('#toast').classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('#toast').classList.remove('show'),3200);}
+function toast(message){const t=$('#toast'),host=document.querySelector('dialog[open]')||document.body;if(t.parentElement!==host)host.append(t);/* con un diálogo abierto, el aviso va dentro de él para no quedar oculto detrás */t.textContent=message;$('#toast').classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('#toast').classList.remove('show'),3200);}
 function go(route){location.hash=route;}
 function moduleBy(id){return D.modules.find(m=>m.id===id)||D.modules[0];}
 function topicBy(id){return D.modules.flatMap(m=>m.topics).find(t=>t.id===id);}
