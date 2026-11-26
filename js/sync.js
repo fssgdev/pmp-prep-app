@@ -4,6 +4,7 @@
 (() => {
   const cfg = window.PMP_CONFIG || {};
   const enabled = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey);
+  let readyDone; const ready = new Promise(r => { readyDone = r; }); // se resuelve al conocer la sesión (o si no hay servicio)
   let client = null, otpClient = null, user = null, timer = null, status = 'local', lastError = '', lastSync = '', lastPull = 0;
 
   const app = () => window.PMPApp;
@@ -235,7 +236,7 @@
       // En la app de la pantalla de inicio se pide el correo sin PKCE: así el enlace copiado se puede verificar aquí mismo.
       const standalone = window.navigator.standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
       const sender = standalone ? (otpClient ||= window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {auth: {flowType: 'implicit', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'pmp-otp'}})) : client;
-      const {error} = await sender.auth.signInWithOtp({email, options: {emailRedirectTo: location.origin + location.pathname}});
+      const {error} = await sender.auth.signInWithOtp({email, options: {emailRedirectTo: location.origin + location.pathname, shouldCreateUser: false}});
       if (error) show(/rate|limit|seconds/i.test(error.message) ? 'Ya se enviaron varios enlaces hace poco. Usa el último correo que te llegó o espera unos minutos y vuelve a intentarlo.' : netFail(error.message) ? NET_MSG : 'No se pudo enviar el enlace: ' + error.message, true);
       else show(`Correo enviado a ${email} (revisa también Spam o Promociones). Abre el enlace en este mismo navegador o pega abajo el enlace copiado.`, false);
     } catch (e) { show(netFail(e.message) ? NET_MSG : 'No se pudo enviar el enlace: ' + e.message, true); }
@@ -249,19 +250,22 @@
     if (!el) return;
     ev.preventDefault();
     if (el.dataset.sync === 'now') { await pull().catch(e => setStatus('error', e.message)); app().toast(status === 'error' ? 'No se pudo sincronizar: ' + lastError : 'Sincronizado: tienes lo último de la nube.'); }
-    if (el.dataset.sync === 'logout') { await client.auth.signOut(); user = null; setStatus('local'); app().toast('Sesión cerrada. El progreso sigue guardado en este dispositivo.'); }
+    if (el.dataset.sync === 'logout') { await client.auth.signOut(); user = null; setStatus('local'); window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user: null}})); app().toast('Sesión cerrada. El progreso sigue guardado en este dispositivo.'); }
     document.getElementById('modal')?.close();
   });
 
   async function init() {
-    if (!enabled) return;
+    if (!enabled) { readyDone(null); return; }
+    setTimeout(() => readyDone(null), 8000); // sin respuesta del servicio: la pantalla de acceso ofrece seguir sin conexión
     try {
       await loadLibrary();
       client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {auth: {flowType: 'pkce', detectSessionInUrl: true, persistSession: true}});
       client.auth.onAuthStateChange((_event, session) => {
         const was = user?.id;
         user = session?.user || null;
+        readyDone(user);
         if (!user) setStatus('local');
+        window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user}}));
         if (user && user.id !== was) {
           if (location.search.includes('code=')) history.replaceState(null, '', location.pathname + location.hash);
           pull().catch(e => setStatus('error', e.message));
@@ -274,8 +278,8 @@
       window.addEventListener('focus', () => refresh());
       window.addEventListener('pageshow', ev => ev.persisted && refresh(true));
       setInterval(() => refresh(true), 5 * 60000);
-    } catch (e) { setStatus('error', e.message); }
+    } catch (e) { setStatus('error', e.message); readyDone(null); }
   }
 
-  window.PMPSync = {init, schedulePush, panel, label, merge, pull: () => pull(), get enabled() { return enabled; }, get user() { return user; }};
+  window.PMPSync = {init, schedulePush, panel, label, merge, ready, pull: () => pull(), get enabled() { return enabled; }, get user() { return user; }, get client() { return client; }};
 })();

@@ -3,32 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#173f38">
+  <meta name="theme-color" content="#14163a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="description" content="Tu centro de preparación PMP 2027: calendario INGENIUM, estudio, práctica y progreso.">
-  <title>PMP Master Plan 2027</title>
-  <link rel="icon" href="assets/icons/mark.svg" type="image/svg+xml">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="certiFicate: tu ruta de certificaciones. PMP Exam Prep y próximos programas de preparación.">
+  <title>certiFicate</title>
+  <link rel="icon" href="assets/icons/certificate.svg" type="image/svg+xml">
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="apple-mobile-web-app-title" content="PMP Plan">
-  <meta name="application-name" content="PMP Plan">
+  <meta name="apple-mobile-web-app-title" content="certiFicate">
+  <meta name="application-name" content="certiFicate">
 
 
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/shell.css">
 </head>
 <body>
   <a class="skip" href="#main">Ir al contenido</a>
   <aside class="sidebar" aria-label="Navegación principal">
+    <button class="cf-back" data-cf-hub title="Volver a tus certificaciones"><img src="assets/icons/certificate.svg" alt=""><span>← certi<b>F</b>icate</span></button>
     <a class="brand" href="#inicio"><img class="brand-logo" src="assets/icons/mark.svg" alt="" width="46" height="46"><span>PMP <b>MASTER PLAN</b><small>Tu objetivo. Tu siguiente nivel.</small></span></a>
     <div class="side-label">TU ESPACIO DE PREPARACIÓN</div>
     <nav id="navigation"></nav>
     <div class="side-bottom"><span class="live-dot"></span> LÍNEA BASE · ENERO 2027<p>Un paso a la vez.<br>Una decisión mejor cada día.</p><button class="side-help" data-action="help">Guía de uso <span>↗</span></button></div>
   </aside>
   <div class="workspace">
-    <header class="topbar"><div class="mobile-brand"><img src="assets/icons/mark.svg" alt="" width="26" height="26"> PMP <b>2027</b></div><div class="breadcrumb">MI PREPARACIÓN <span>/</span> <strong id="crumb">Centro de control</strong></div><div class="top-actions"><span class="saved" id="save-state"><i></i> Guardado en este dispositivo</span><button class="icon-button" data-action="settings" aria-label="Ajustes y respaldo" title="Ajustes y respaldo" id="settings-icon"></button><span class="avatar" aria-hidden="true">PM</span></div></header>
+    <header class="topbar"><div class="mobile-brand" data-cf-hub role="button" tabindex="0" title="Volver a certiFicate"><img src="assets/icons/certificate.svg" alt="" width="26" height="26"> PMP <b>2027</b></div><div class="breadcrumb">MI PREPARACIÓN <span>/</span> <strong id="crumb">Centro de control</strong></div><div class="top-actions"><span class="saved" id="save-state"><i></i> Guardado en este dispositivo</span><button class="icon-button" data-action="settings" aria-label="Ajustes y respaldo" title="Ajustes y respaldo" id="settings-icon"></button><span class="avatar" aria-hidden="true">PM</span></div></header>
     <main id="main" tabindex="-1"></main>
     <footer>Hecho para tu próximo paso. <span>PMP MASTER PLAN 2027 · Preparación independiente</span></footer>
   </div>
@@ -39,6 +41,7 @@
   <noscript><p style="padding:40px">Esta aplicación necesita JavaScript.</p></noscript>
   <script src="js/config.js"></script>
   <script src="js/sync.js"></script>
+  <script src="js/shell.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
