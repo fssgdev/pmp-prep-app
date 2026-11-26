@@ -49,21 +49,26 @@ const view = page => page.evaluate(() => window.certiFicate?.view);
     // Con sesión guardada: Face ID (autenticador virtual) para volver a entrar en este dispositivo.
     const {ctx, page, errors} = await ctxWith(browser, {logged: true});
     const cdp = await ctx.newCDPSession(page);
-    await cdp.send('WebAuthn.enable'); await cdp.send('WebAuthn.addVirtualAuthenticator', {options: {protocol: 'ctap2', transport: 'internal', hasResidentKey: true, hasUserVerification: true, isUserVerified: true, automaticPresenceSimulation: true}});
+    await cdp.send('WebAuthn.enable'); const {authenticatorId} = await cdp.send('WebAuthn.addVirtualAuthenticator', {options: {protocol: 'ctap2', transport: 'internal', hasResidentKey: true, hasUserVerification: true, isUserVerified: true, automaticPresenceSimulation: true}});
     await page.goto(URL); await page.waitForTimeout(2900); await page.locator('.cf-splash').click(); await page.waitForTimeout(800);
     assert(await view(page) === 'hub', 'con la sesión iniciada, tras la portada pasa directo al centro');
     assert(await page.locator('.cf-bio [data-cf="bio-on"]').isVisible(), 'ofrece activar Face ID en este dispositivo');
     await page.locator('[data-cf="bio-on"]').click(); await page.waitForTimeout(800);
-    assert(await page.evaluate(() => !!localStorage.getItem('cf-bio')) && /Face ID/.test(await page.locator('.cf-note').innerText()), 'Face ID queda activado (solo se guarda el identificador de la credencial)');
+    assert(await page.evaluate(() => JSON.stringify(Object.keys(JSON.parse(localStorage.getItem('cf-bio'))))) === '["id"]' && /Face ID/.test(await page.locator('.cf-note').innerText()), 'Face ID queda activado (cf-bio guarda solo el identificador de la credencial, sin correo ni fecha)');
+    assert(await page.locator('.cf-security summary').isVisible() && /no equivale a la seguridad de una app nativa/.test(await page.locator('.cf-security').textContent()), 'el centro explica qué protege Face ID (local) y qué protege la cuenta');
     const page2 = page; await page.evaluate(() => { sessionStorage.clear(); localStorage.setItem('sb-prueba-auth-token', '{"guardada":true}'); }); // nueva sesión en la misma pestaña, con sesión de Supabase guardada
     await page2.goto(URL + '#flashcards'); await page2.reload(); await page2.waitForTimeout(2900); await page2.locator('.cf-splash').click(); await page2.waitForTimeout(1000);
     const afterBio = [await view(page2), await page2.evaluate(() => location.hash)];
     assert(afterBio[0] === 'app' && afterBio[1] === '#flashcards', 'con Face ID activo, el mismo toque de la portada lanza Face ID y entra directo a la sección abierta (#flashcards) ' + JSON.stringify(afterBio));
     // Si Face ID falla, queda la pantalla para reintentar o usar la contraseña.
-    await page2.evaluate(() => sessionStorage.clear()); await cdp.send('WebAuthn.disable');
+    await page2.evaluate(() => sessionStorage.clear()); await cdp.send('WebAuthn.setUserVerified', {authenticatorId, isUserVerified: false}); // Face ID rechazado
     await page2.reload(); await page2.waitForTimeout(2900); await page2.locator('.cf-splash').click(); await page2.waitForTimeout(1500);
     assert(await view(page2) === 'auth' && await page2.locator('[data-cf="bio"]').isVisible() && await page2.locator('[data-cf="use-pass"]').isVisible(), 'si Face ID no se puede verificar, ofrece reintentar o usar la contraseña');
-    await cdp.send('WebAuthn.enable');
+    const lockTxt = await page2.locator('.cf-auth').innerText();
+    assert(!lockTxt.includes('prueba@ejemplo.test') && /p•••@e•••/.test(lockTxt) && await page2.locator('.cf-auth [data-cf="logout"]').isVisible(), 'la pantalla bloqueada no muestra el correo completo y ofrece cerrar sesión');
+    await page2.locator('[data-cf="bio"]').click(); await page2.waitForTimeout(600);
+    assert(await view(page2) === 'auth' && /Inténtalo de nuevo|contraseña/.test(await page2.locator('.cf-msg').innerText()), 'un nuevo intento fallido de Face ID se explica y deja reintentar');
+    await cdp.send('WebAuthn.setUserVerified', {authenticatorId, isUserVerified: true});
     await page2.evaluate(() => sessionStorage.setItem('cf-unlocked', '1')); await page2.reload(); await page2.waitForTimeout(3200); // recarga en la misma sesión: entra sin volver a pedir Face ID
     assert(await view(page2) === 'app', 'al recargar dentro de la misma sesión no vuelve a pedir Face ID');
     await page2.evaluate(() => certiFicate.hub()); await page2.waitForTimeout(300);
@@ -80,6 +85,28 @@ const view = page => page.evaluate(() => window.certiFicate?.view);
     assert(await page.locator('[data-cf="offline"]').isVisible(), 'sin conexión con el servicio, ofrece continuar con lo guardado');
     await page.locator('[data-cf="offline"]').click(); await page.waitForTimeout(300);
     assert(await view(page) === 'hub' && await page.locator('.cf-chip.off').count() === 1, 'y muestra el centro indicando «Sin sincronizar»');
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
+  {
+    // Sin conexión y con Face ID activo: continuar con lo guardado exige verificar primero. cf-bio antiguo se limpia (solo id).
+    const {ctx, page, errors} = await ctxWith(browser, {offline: true});
+    await ctx.addInitScript(() => { if (!sessionStorage.getItem('s')) { localStorage.setItem('cf-bio', JSON.stringify({id: 'AAAA', email: 'prueba@ejemplo.test', at: '2026-11-25'})); sessionStorage.setItem('s', '1'); } });
+    await page.goto(URL); await page.waitForTimeout(2900); await page.locator('.cf-splash').click(); await page.waitForTimeout(1500);
+    await page.locator('[data-cf="offline"]').click(); await page.waitForTimeout(800);
+    assert(await view(page) === 'auth' && /Face ID/.test(await page.locator('.cf-msg').innerText()), 'sin conexión y con Face ID activo, pide Face ID y no se salta el bloqueo');
+    assert(await page.evaluate(() => localStorage.getItem('cf-bio')) === '{"id":"AAAA"}', 'un cf-bio antiguo con correo y fecha queda reducido al identificador');
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
+  {
+    // Progreso aislado por cuenta: si entra otra cuenta en el dispositivo, lo local de la anterior no se mezcla ni se sube.
+    const ctx = await browser.newContext(); await ctx.route(/supabase-js/, r => r.fulfill({contentType: 'application/javascript', body: lib(true).replace("from(){", "from(){window.__ups=window.__ups||[];const self={select(){return self},eq(){return self},maybeSingle:async()=>({data:null,error:null}),upsert:async(r)=>{window.__ups.push(r);return {error:null}}};return self;},_x(){")}));
+    const page = await ctx.newPage(); const errors = []; page.on('pageerror', e => errors.push(e.message));
+    await page.addInitScript(() => { if (!sessionStorage.getItem('s')) { localStorage.setItem('pmp-master-plan-2027-v1', JSON.stringify({version: 1, topics: {}, attendance: {}, notes: [], errors: [], mocks: [], attempts: [{id: 'a-otra', questionId: 'q01', module: 'people', topicId: 'people-1', approach: 'Ágil', selected: [0], correct: true, date: '2026-11-20T10:00:00-05:00'}], questions: [], studySessions: [], settings: {examDate: '', examConfirmed: false, reminderTime: '07:30', dailyMinutes: 45}, tasksDone: {}, cards: {}, cardLog: []})); localStorage.setItem('pmp-sync-owner', 'u0'); sessionStorage.setItem('s', '1'); } });
+    await page.goto(URL + '#inicio'); await page.waitForTimeout(1800);
+    const iso = await page.evaluate(() => ({att: PMPApp.getState().attempts.length, backup: JSON.parse(localStorage.getItem('pmp-backup-u0') || 'null')?.attempts?.length, owner: localStorage.getItem('pmp-sync-owner'), up: (window.__ups || []).map(r => r.user_id + ':' + r.state.attempts.length)}));
+    assert(iso.att === 0 && iso.backup === 1 && iso.owner === 'u1' && iso.up.every(x => x === 'u1:0'), 'al entrar otra cuenta, el progreso de la anterior queda aparte y no se sube a la nueva ' + JSON.stringify(iso));
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
   }

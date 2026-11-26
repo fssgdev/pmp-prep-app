@@ -4,7 +4,9 @@
    - Acceso: cuenta de Supabase (correo + contraseña, o enlace por correo como respaldo). La contraseña no se guarda en el código:
      se crea desde Ajustes → Sincronización con la sesión iniciada.
    - Face ID / huella: bloqueo local con WebAuthn (autenticador de la plataforma). Es una comodidad para volver a entrar en este
-     dispositivo; la protección de los datos en la nube la da la sesión de Supabase.
+     dispositivo; la protección de los datos en la nube la da la sesión de Supabase. La verificación ocurre en el navegador: no cifra
+     nada ni reemplaza el control de acceso del servidor, y no equivale a la seguridad de una app nativa. En `cf-bio` solo se guarda
+     el identificador de la credencial ({id}); las versiones anteriores guardaban también el correo y la fecha y se limpian al leer.
    - Centro: programas en orden (PMP ene 2027, Brevete jun 2027, TOEFL iBT dic 2027, Lean Construction mar 2028); solo PMP está disponible.
    El resto de la app (PMP Exam Prep) no cambia: sus rutas (#inicio, #flashcards, …) siguen igual y #certificate muestra el centro. */
 (() => {
@@ -45,12 +47,13 @@
   const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   const unb64 = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4)), c => c.charCodeAt(0));
   const rand = n => crypto.getRandomValues(new Uint8Array(n));
-  const bio = () => { try { return JSON.parse(store.get('cf-bio') || 'null'); } catch { return null; } };
+  const bio = () => { try { const b = JSON.parse(store.get('cf-bio') || 'null'); if (!b?.id) return null; if (Object.keys(b).length > 1) store.set('cf-bio', JSON.stringify({id: b.id})); return {id: b.id}; } catch { return null; } };
   async function bioAvailable() { try { return !!(window.PublicKeyCredential && await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()); } catch { return false; } }
-  async function bioEnable(email) {
-    const cred = await navigator.credentials.create({publicKey: {challenge: rand(32), rp: {name: 'certiFicate', id: location.hostname}, user: {id: rand(16), name: email || 'certificate', displayName: email || 'certiFicate'},
+  async function bioEnable() {
+    // El nombre de la credencial es genérico: el correo no se guarda en el llavero ni en cf-bio (minimización, #10).
+    const cred = await navigator.credentials.create({publicKey: {challenge: rand(32), rp: {name: 'certiFicate', id: location.hostname}, user: {id: rand(16), name: 'certiFicate', displayName: 'certiFicate'},
       pubKeyCredParams: [{type: 'public-key', alg: -7}, {type: 'public-key', alg: -257}], authenticatorSelection: {authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'preferred'}, timeout: 60000}});
-    store.set('cf-bio', JSON.stringify({id: b64(cred.rawId), email: email || '', at: new Date().toISOString()}));
+    store.set('cf-bio', JSON.stringify({id: b64(cred.rawId)}));
   }
   async function bioCheck() {
     const b = bio(); if (!b) return false;
@@ -126,17 +129,21 @@
 
   /* ---------- acceso ---------- */
   function authFrame(inner) {
-    root.querySelector('.cf-auth').innerHTML = `<div class="cf-card">${logo('mini')}${word()}${inner}</div><p class="cf-foot">Tus datos se guardan cifrados en tu cuenta y en este dispositivo.</p>`;
+    root.querySelector('.cf-auth').innerHTML = `<div class="cf-card">${logo('mini')}${word()}${inner}</div><p class="cf-foot">Tu progreso se sincroniza con tu cuenta y queda guardado en este dispositivo.</p>`;
     show('auth');
   }
   const msg = (text, bad) => { const m = root.querySelector('.cf-msg'); if (m) { m.textContent = text; m.className = 'cf-msg ' + (bad ? 'bad' : 'ok'); } };
   const NET = /load failed|failed to fetch|networkerror|network request failed/i;
+  const PAUSED = 'No se pudo conectar con el servicio de acceso. Revisa tu internet; si la conexión está bien, el servicio puede estar en pausa (el plan gratuito de Supabase se pausa tras unos 7 días sin uso y se reactiva con «Restore project»).';
+  const showOffline = () => { const b = root.querySelector('.cf-offline'); if (b) b.hidden = false; };
+  // Correo parcial: antes de desbloquear no se muestra completo (#10).
+  const mask = e => { const [u, d] = String(e || '').split('@'); return u && d ? `${u[0]}•••@${d[0]}•••` : ''; };
 
   function login(note = '') {
-    const client = window.PMPSync?.client, saved = store.get('pmp-sync-email') || bio()?.email || '';
+    const client = window.PMPSync?.client, saved = store.get('pmp-sync-email') || ''; // pmp-sync-email: solo para rellenar el correo al volver a entrar
     if (!client) {
       authFrame(`<h1>Sin conexión con tu cuenta</h1><p class="cf-sub">No se pudo contactar el servicio de acceso. Puedes seguir con lo guardado en este dispositivo; se sincronizará cuando vuelva la conexión e inicies sesión.</p>
-        <div class="cf-actions"><button class="cf-btn" data-cf="offline">Continuar sin conexión</button><button class="cf-link" data-cf="retry">Reintentar</button></div>`);
+        <div class="cf-actions"><button class="cf-btn" data-cf="offline">Continuar sin conexión</button><button class="cf-link" data-cf="retry">Reintentar</button></div><p class="cf-msg" role="status" aria-live="polite"></p>`);
       return;
     }
     authFrame(`<h1>Inicia sesión</h1><p class="cf-sub">${esc(note) || 'Entra con tu cuenta para ver tus programas de preparación.'}</p>
@@ -144,6 +151,7 @@
       <label>Contraseña<input type="password" name="pass" required autocomplete="current-password" placeholder="••••••••"></label>
       <button class="cf-btn" type="submit">Entrar ${ico('arrow')}</button></form>
       <p class="cf-msg" role="status" aria-live="polite"></p>
+      <button class="cf-link cf-offline" data-cf="offline" hidden>Continuar sin conexión (solo lo guardado en este dispositivo)</button>
       <details class="cf-alt"><summary>¿Aún no tienes contraseña o la olvidaste?</summary>
         <p>Te enviamos un enlace de acceso. En la app de la pantalla de inicio del iPhone, mantén presionado el enlace del correo → «Copiar enlace» y pégalo aquí (sin abrir la vista previa).</p>
         <div class="cf-row"><button class="cf-btn ghost" data-cf="link-send">Enviar enlace a mi correo</button></div>
@@ -154,8 +162,9 @@
   }
 
   function lockScreen(user) {
-    authFrame(`<h1>Hola de nuevo</h1><p class="cf-sub">${esc(user?.email || '')}</p>
-      <div class="cf-actions"><button class="cf-btn" data-cf="bio">${ico('face')} Entrar con Face ID</button><button class="cf-link" data-cf="use-pass">Usar contraseña</button></div><p class="cf-msg" role="status" aria-live="polite"></p>`);
+    authFrame(`<h1>Hola de nuevo</h1><p class="cf-sub">Cuenta ${esc(mask(user?.email))} · bloqueada en este dispositivo</p>
+      <div class="cf-actions"><button class="cf-btn" data-cf="bio">${ico('face')} Entrar con Face ID</button><button class="cf-link" data-cf="use-pass">Usar contraseña</button></div><p class="cf-msg" role="status" aria-live="polite"></p>
+      <p class="cf-small"><button class="cf-link" data-cf="logout">¿No eres tú? Cerrar sesión en este dispositivo</button></p>`);
     setTimeout(() => root.querySelector('[data-cf="bio"]')?.focus(), 50);
   }
 
@@ -174,7 +183,7 @@
       if (f.id === 'cf-login') {
         const email = f.email.value.trim(); store.set('pmp-sync-email', email);
         const {error} = await client.auth.signInWithPassword({email, password: f.pass.value});
-        if (error) msg(/invalid/i.test(error.message) ? 'Correo o contraseña incorrectos. Si aún no creaste tu contraseña, entra con el enlace (abajo) y créala en Ajustes → Sincronización.' : NET.test(error.message) ? 'No se pudo conectar con el servicio de acceso. Revisa tu internet e inténtalo de nuevo.' : 'No se pudo entrar: ' + error.message, true);
+        if (error) msg(/invalid/i.test(error.message) ? 'Correo o contraseña incorrectos. Si aún no creaste tu contraseña, entra con el enlace (abajo) y créala en Ajustes → Sincronización.' : NET.test(error.message) || error.status >= 500 ? (showOffline(), PAUSED) : 'No se pudo entrar: ' + error.message, true);
         else { f.pass.value = ''; afterLogin(); }
       } else {
         const t = tokenFrom(f.link.value);
@@ -183,7 +192,7 @@
         for (const [h, type] of [[t.plain, 'email'], [t.plain, 'magiclink'], [t.raw, 'email']]) { ({error} = await client.auth.verifyOtp({token_hash: h, type})); if (!error || !/invalid|expired|type|not found/i.test(error.message)) break; }
         if (error) msg('El enlace ya se usó o venció. Pide uno nuevo y no abras su vista previa. (' + error.message + ')', true); else afterLogin();
       }
-    } catch (e) { msg(NET.test(e.message) ? 'No se pudo conectar con el servicio de acceso.' : 'Error: ' + e.message, true); }
+    } catch (e) { if (NET.test(e.message)) { showOffline(); msg(PAUSED, true); } else msg('Error: ' + e.message, true); }
     finally { if (btn.isConnected) { btn.disabled = false; btn.innerHTML = label; } }
   });
   function tokenFrom(text) {
@@ -197,7 +206,7 @@
   root.addEventListener('click', async ev => {
     const el = ev.target.closest('[data-cf]'); if (!el || !root.contains(el)) return;
     const a = el.dataset.cf, client = window.PMPSync?.client;
-    if (a === 'offline') unlock();
+    if (a === 'offline') { if (bio()) { msg('Verifica con Face ID para continuar sin conexión…', false); try { if (!(await bioCheck())) throw 0; } catch { msg('Para continuar sin conexión, verifica primero con Face ID.', true); return; } } unlock(); }
     if (a === 'retry') location.reload();
     if (a === 'bio') doBio();
     if (a === 'use-pass') login();
@@ -214,8 +223,8 @@
       finally { el.disabled = false; el.textContent = 'Enviar enlace a mi correo'; }
     }
     if (a === 'pmp') { sess.set('cf-unlocked', '1'); goPmp('inicio'); }
-    if (a === 'logout') { if (!confirm('¿Cerrar sesión en este dispositivo? Tu progreso queda guardado en la nube.')) return; try { await client?.auth.signOut(); } catch {} sess.set('cf-unlocked', ''); unlocked = false; window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user: null}})); login('Sesión cerrada.'); }
-    if (a === 'bio-on') { try { await bioEnable(window.PMPSync?.user?.email || store.get('pmp-sync-email') || ''); store.del('cf-bio-skip'); hub('Listo: la próxima vez podrás entrar con Face ID.'); } catch (e) { hub(e?.name === 'NotAllowedError' ? 'Activación cancelada.' : 'No se pudo activar en este dispositivo.'); } }
+    if (a === 'logout') { if (!confirm('¿Cerrar sesión en este dispositivo? El progreso ya sincronizado queda en tu cuenta.')) return; try { await client?.auth.signOut(); } catch {} sess.set('cf-unlocked', ''); unlocked = false; window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user: null}})); login('Sesión cerrada.'); }
+    if (a === 'bio-on') { try { await bioEnable(); store.del('cf-bio-skip'); hub('Listo: la próxima vez podrás entrar con Face ID.'); } catch (e) { hub(e?.name === 'NotAllowedError' ? 'Activación cancelada.' : 'No se pudo activar en este dispositivo.'); } }
     if (a === 'bio-skip') { store.set('cf-bio-skip', '1'); hub(); }
     if (a === 'bio-off') { store.del('cf-bio'); hub('Face ID desactivado en este dispositivo.'); }
   });
@@ -240,9 +249,13 @@
         <p class="cf-eyebrow">TU RUTA DE CERTIFICACIONES · 2027–2028</p>
         <h1>Hola, Fabrizio</h1><p class="cf-sub">Un programa a la vez. Cuando apruebes uno, el siguiente se habilita aquí.</p>
         ${note ? `<p class="cf-note">${esc(note)}</p>` : ''}
-        ${canBio ? `<div class="cf-bio">${ico('face', 'big')}<div><b>Entra más rápido con Face ID</b><span>Solo en este dispositivo. Siempre podrás usar tu contraseña.</span></div><button class="cf-btn small" data-cf="bio-on">Activar</button><button class="cf-link" data-cf="bio-skip">Ahora no</button></div>` : ''}
+        ${canBio ? `<div class="cf-bio">${ico('face', 'big')}<div><b>Entra más rápido con Face ID</b><span>Bloqueo local de este dispositivo. Tus datos en la nube los protege tu cuenta; siempre podrás usar tu contraseña.</span></div><button class="cf-btn small" data-cf="bio-on">Activar</button><button class="cf-link" data-cf="bio-skip">Ahora no</button></div>` : ''}
         <div class="cf-timeline">${PROGRAMS.map(card).join('')}</div>
         ${bio() ? '<p class="cf-small">Face ID activo en este dispositivo · <button class="cf-link" data-cf="bio-off">desactivar</button></p>' : ''}
+        <details class="cf-small cf-security"><summary>¿Qué protege Face ID y qué protege tu cuenta?</summary>
+          <p><b>Face ID / huella</b> es un bloqueo local de comodidad: pide tu rostro o huella antes de mostrar la app en este dispositivo. Solo se guarda el identificador de la credencial; tu rostro nunca sale del teléfono. No cifra los datos ni sustituye a tu cuenta, y no equivale a la seguridad de una app nativa.</p>
+          <p><b>Tu cuenta</b> (correo y contraseña, servicio Supabase) protege el progreso en la nube: solo tu sesión puede leerlo o escribirlo. Si cambias de cuenta en este dispositivo, el progreso de la anterior queda separado y no se mezcla.</p>
+          <p>Para salir del todo, usa «salir» arriba: cierra la sesión en este dispositivo.</p></details>
       </div>`;
     show('hub');
   }

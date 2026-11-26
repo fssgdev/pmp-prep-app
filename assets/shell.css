@@ -103,3 +103,6 @@ html.cf-on,html.cf-on body{overflow:hidden}
 .cf-back{display:flex;align-items:center;gap:8px;margin:0 0 18px 4px;color:#cfe0d4;font-size:11px;font-weight:700;letter-spacing:.3px;background:none;border:1px solid #49695b;border-radius:9px;padding:7px 10px;cursor:pointer;width:max-content}
 .cf-back img{width:18px;height:18px}.cf-back b{color:#f2b84b;font-style:italic}
 .mobile-brand{cursor:pointer}
+
+/* #10: explicación de seguridad y salida sin conexión */
+.cf-security{max-width:620px;margin:22px auto 0;text-align:left}.cf-security summary{cursor:pointer;text-align:center;color:#5a4fd0}.cf-security p{margin:8px 0;line-height:1.5}.cf-offline{display:block;margin:6px auto 0}.cf-offline[hidden]{display:none}

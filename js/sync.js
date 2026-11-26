@@ -95,7 +95,24 @@
     return out;
   }
 
+  // Progreso aislado por cuenta (#10): el estado local pertenece a la última cuenta que sincronizó (pmp-sync-owner). Si entra otra
+  // cuenta en este dispositivo, lo local se guarda aparte (pmp-backup-<id>) y no se mezcla ni se sube a la cuenta nueva; si esa
+  // cuenta ya tenía un respaldo aquí, se recupera. Sin dueño registrado (versiones anteriores), la cuenta actual adopta lo local.
+  const OWNER = 'pmp-sync-owner';
+  function isolate() {
+    let owner = ''; try { owner = localStorage.getItem(OWNER) || ''; } catch {}
+    if (!owner || owner === user.id) return true;
+    let back = null;
+    try { localStorage.setItem('pmp-backup-' + owner, JSON.stringify(app().getState())); back = JSON.parse(localStorage.getItem('pmp-backup-' + user.id) || 'null'); } catch { return false; }
+    if (!app().setState(back || app().fresh())) return false;
+    try { localStorage.removeItem('pmp-backup-' + user.id); localStorage.removeItem(app().KEY + '-updated'); localStorage.setItem(OWNER, user.id); } catch {}
+    app().toast('Cambiaste de cuenta: el progreso de la cuenta anterior quedó separado en este dispositivo.');
+    return true;
+  }
+  const isolated = () => { if (isolate()) return true; setStatus('error', 'No se pudo separar el progreso de la cuenta anterior en este dispositivo; no se sincronizó.'); return false; };
+
   async function pull() {
+    if (!isolated()) return;
     const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', user.id).maybeSingle();
     if (error) throw error;
     if (!data) { await push(); return; }                       // primera vez: sube lo local
@@ -118,11 +135,11 @@
     if (error) throw error;
     if (mark) try { localStorage.setItem(app().KEY + '-updated', updated_at); } catch {}
   }
-  function synced() { lastSync = new Date().toISOString(); setStatus('synced'); }
+  function synced() { lastSync = new Date().toISOString(); try { localStorage.setItem(OWNER, user.id); } catch {} setStatus('synced'); }
 
   // Antes de escribir, lee la nube y fusiona: así un guardado no pisa lo que subió otro dispositivo.
   async function push() {
-    if (!client || !user) return;
+    if (!client || !user || !isolated()) return;
     setStatus('syncing');
     try {
       const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', user.id).maybeSingle();
