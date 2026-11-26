@@ -152,6 +152,9 @@
     return `<div class="sync-box"><h3>Sincronización en la nube</h3><p class="hint"><strong>Este dispositivo no está sincronizando:</strong> lo que hagas aquí no llega a tus otros dispositivos. Escribe tu correo y abre el enlace que te llegará <strong>en este mismo dispositivo y navegador</strong>. Usa el mismo correo en cada dispositivo.</p><form id="sync-login"><input type="email" name="email" required autocomplete="email" placeholder="tu@correo.com" aria-label="Correo"><button class="button small" type="submit">Enviar enlace</button></form><p class="sync-msg" role="status" aria-live="polite"></p></div>`;
   }
 
+  // «Load failed» (Safari) / «Failed to fetch» (Chrome): no se llegó al servidor. En el plan gratuito, Supabase pausa el proyecto tras una semana sin uso.
+  const netFail = m => /load failed|failed to fetch|networkerror|network request failed/i.test(String(m || ''));
+  const NET_MSG = 'No se pudo conectar con el servidor de sincronización. Si tienes internet, es probable que el proyecto de Supabase esté en pausa por inactividad: hay que reactivarlo desde supabase.com (Restore project).';
   document.addEventListener('submit', async ev => {
     if (ev.target.id !== 'sync-login') return;
     ev.preventDefault();
@@ -161,9 +164,9 @@
     btn.disabled = true; btn.textContent = 'Enviando…';
     try {
       const {error} = await client.auth.signInWithOtp({email, options: {emailRedirectTo: location.origin + location.pathname}});
-      if (error) show(/rate|limit|seconds/i.test(error.message) ? 'Ya se enviaron varios enlaces hace poco. Usa el último correo que te llegó o espera unos minutos y vuelve a intentarlo.' : 'No se pudo enviar el enlace: ' + error.message, true);
+      if (error) show(/rate|limit|seconds/i.test(error.message) ? 'Ya se enviaron varios enlaces hace poco. Usa el último correo que te llegó o espera unos minutos y vuelve a intentarlo.' : netFail(error.message) ? NET_MSG : 'No se pudo enviar el enlace: ' + error.message, true);
       else show(`Enlace enviado a ${email}. Ábrelo en este mismo navegador (revisa también Spam o Promociones).`, false);
-    } catch (e) { show('No se pudo enviar el enlace: ' + e.message, true); }
+    } catch (e) { show(netFail(e.message) ? NET_MSG : 'No se pudo enviar el enlace: ' + e.message, true); }
     finally { btn.disabled = false; btn.textContent = 'Enviar enlace'; }
   });
 
