@@ -10587,5 +10587,1232 @@
       "Borrar el backlog pierde información útil para la operación y para futuras mejoras."
     ],
     "rationale": "En el cierre ágil se transfiere el producto y su backlog pendiente a quien lo operará, se libera al equipo de forma ordenada y se cierra con una retrospectiva y un reconocimiento."
+  },
+  {
+    "id": "v10-p11-001",
+    "module": "people",
+    "topicId": "people-1",
+    "aux": "agile-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "objetivo-producto-pedido",
+    "prompt": "El objetivo de producto de la app de un taller mecánico es reducir a la mitad las llamadas para pedir citas. El gerente comercial pide al dueño del producto que agregue al backlog una tienda en línea de repuestos, porque «el app ya está y conviene aprovecharla». ¿Qué debería hacer el dueño del producto?",
+    "options": [
+      "Rechazar el pedido de inmediato, porque cualquier función que no figure en la visión inicial queda fuera del producto y deberá esperar a un proyecto nuevo con su propio presupuesto.",
+      "Contrastar el pedido con el objetivo de producto junto con el gerente y, si refleja un nuevo objetivo de negocio, llevarlo al patrocinador para actualizar la visión.",
+      "Pedir al equipo que estime la tienda en la próxima planificación para que el gerente vea cuánto costaría y decida él mismo.",
+      "Agregar la tienda al final del backlog para atenderla cuando se terminen las funciones de citas, sin discutirla con el gerente."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "La visión puede evolucionar; descartar por principio impide evaluar una oportunidad que quizá sea valiosa.",
+      "El objetivo de producto es el filtro para ordenar el backlog: se contrasta el pedido con él y, si la dirección del negocio cambia, la visión se actualiza con quien tiene la autoridad, no por acumulación.",
+      "Estimar no responde si la función aporta al objetivo, y la decisión sobre el backlog corresponde al dueño del producto.",
+      "Acumular pedidos que no sirven al objetivo diluye la visión y llena el backlog de trabajo que compite sin criterio."
+    ],
+    "rationale": "La visión y el objetivo de producto orientan las decisiones del backlog. Un pedido fuera de ese objetivo se evalúa contra él; si refleja un cambio de estrategia, la visión se revisa explícitamente con el patrocinador para que todos sigan compartiendo la misma dirección."
+  },
+  {
+    "id": "v10-p11-002",
+    "module": "people",
+    "topicId": "people-1",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "dropdown",
+    "category": "Conceptual",
+    "family": "vision-en-cascada",
+    "prompt": "Un hospital se construye con un plan predictivo y su sistema de admisión digital se desarrolla en sprints. Completa cómo se conecta la visión en los distintos niveles del proyecto.",
+    "items": [
+      "La visión del proyecto ___.",
+      "El objetivo de cada sprint del equipo digital ___.",
+      "Cuando un hito de la obra se mueve, la visión ___."
+    ],
+    "choices": [
+      [
+        "describe el resultado que ambos componentes deben lograr juntos para pacientes y personal",
+        "la define cada equipo a su criterio",
+        "es una lista de entregables con fechas",
+        "se redacta por separado para la obra y para el sistema digital"
+      ],
+      [
+        "repite la visión completa del hospital",
+        "enumera las historias sin relación entre sí",
+        "explica qué parte de esa visión acerca el incremento de las próximas dos semanas",
+        "lo fija el patrocinador para todo el proyecto al inicio"
+      ],
+      [
+        "se mantiene si el resultado buscado no cambia, y se comunica cómo afecta el camino para lograrlo",
+        "deja de aplicarse al componente digital",
+        "se reescribe para que coincida con la nueva fecha",
+        "se reemplaza por el cronograma actualizado"
+      ]
+    ],
+    "correct": [
+      0,
+      2,
+      0
+    ],
+    "rationale": "En un proyecto híbrido la visión es una sola y describe el resultado común. Cada objetivo de sprint traduce una parte de esa visión a un horizonte corto. Un cambio de fechas modifica el camino, no el propósito: se comunica su efecto sin reescribir la visión."
+  },
+  {
+    "id": "v10-p13-001",
+    "module": "people",
+    "topicId": "people-3",
+    "aux": "agile-1",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "acuerdo-de-trabajo",
+    "prompt": "El equipo que desarrolla el sistema de reservas de una cadena de cines acordó no integrar código sin revisión de un compañero. Un desarrollador sénior se salta el acuerdo «para ganar tiempo» y dos integrantes piden al líder que lo sancione. ¿Qué debería hacer el líder?",
+    "options": [
+      "Eliminar la regla de revisión, ya que si un desarrollador sénior la considera lenta probablemente no aporta valor al equipo.",
+      "Informar al gerente funcional del desarrollador para que lo corrija en su evaluación anual de desempeño.",
+      "Sancionar al desarrollador frente al equipo para dejar claro que el acuerdo es obligatorio, que nadie está por encima de las reglas y que el líder respalda a quienes sí las cumplen.",
+      "Facilitar que el equipo revise su acuerdo de trabajo, hable de por qué se lo saltan y decida cómo lo hará cumplir, y conversar en privado con el desarrollador."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Quitar la regla por la queja de una persona desconoce un acuerdo de todos y la razón de calidad que lo motivó.",
+      "Escalar sin intentar resolverlo dentro del equipo quita autonomía y deja el acuerdo sin dueño.",
+      "La sanción pública genera temor y traslada al líder una responsabilidad que el equipo asumió al crear el acuerdo.",
+      "El acuerdo es del equipo: el líder facilita que lo revise y lo haga cumplir, y atiende en privado la conducta individual. Así se refuerza la responsabilidad compartida."
+    ],
+    "rationale": "Un equipo autoorganizado se hace responsable de sus propios acuerdos. El líder de servicio facilita su revisión y su cumplimiento y aborda en privado la conducta de una persona, en lugar de imponer castigos o eliminar reglas por conveniencia."
+  },
+  {
+    "id": "v10-p13-002",
+    "module": "people",
+    "topicId": "people-3",
+    "aux": "agile-1",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Mentalidad",
+    "family": "liderazgo-segun-situacion",
+    "prompt": "En la ampliación de un colegio, con una obra predictiva y un equipo ágil que desarrolla la plataforma de matrícula, empareja cada situación con la forma de liderazgo más adecuada.",
+    "items": [
+      "Un andamio presenta una falla estructural y hay alumnos cerca de la zona",
+      "El equipo de la plataforma, con años trabajando junto, propone cómo organizar sus pruebas",
+      "Se incorpora una cuadrilla nueva que nunca ha trabajado con el sistema de permisos de la obra",
+      "Dos especialistas discrepan sobre la ubicación de los tableros de red y ambos tienen argumentos válidos"
+    ],
+    "options": [
+      "Delegar: confiar en el equipo y apoyar la decisión que tome.",
+      "Esperar a la siguiente reunión de coordinación para tratar el tema con todos.",
+      "Orientar: explicar el procedimiento, mostrar cómo se hace y acompañar al inicio.",
+      "Dirigir: dar instrucciones claras e inmediatas para proteger a las personas.",
+      "Facilitar: ayudar a que lleguen a una solución basada en criterios compartidos."
+    ],
+    "correct": [
+      3,
+      0,
+      2,
+      4
+    ],
+    "rationale": "El liderazgo se adapta a la situación: ante un riesgo inmediato se dirige; un equipo maduro recibe autonomía; quien es nuevo necesita orientación; un desacuerdo técnico se facilita con criterios comunes. Esperar no corresponde a ninguna de estas situaciones."
+  },
+  {
+    "id": "v10-p14-001",
+    "module": "people",
+    "topicId": "people-4",
+    "aux": "agile-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Lectura",
+    "family": "matriz-involucramiento",
+    "table": {
+      "title": "Matriz de evaluación del involucramiento · plataforma de pedidos de una distribuidora",
+      "head": [
+        "Interesado",
+        "Actual",
+        "Deseado",
+        "Próxima decisión que le toca"
+      ],
+      "rows": [
+        [
+          "Jefa de almacén",
+          "Se resiste",
+          "Apoya",
+          "Aprobar el nuevo proceso de despacho, que sale en el sprint 8 (en 3 semanas)"
+        ],
+        [
+          "Gerente de finanzas",
+          "Neutral",
+          "Apoya",
+          "Revisar los reportes de la versión de abril"
+        ],
+        [
+          "Vendedores de campo",
+          "Apoya",
+          "Apoya",
+          "Probar el catálogo en cada revisión del sprint"
+        ],
+        [
+          "Patrocinador",
+          "Apoya",
+          "Lidera",
+          "Aprobar el presupuesto del segundo semestre"
+        ]
+      ]
+    },
+    "prompt": "El dueño del producto revisa esta matriz para planificar las acciones de involucramiento del próximo mes. ¿Qué debería hacer primero?",
+    "options": [
+      "Reunirse con la jefa de almacén para entender sus preocupaciones sobre el nuevo despacho e incorporarla al refinamiento de esas historias antes del sprint 8.",
+      "Mantener el plan de comunicación actual, ya que los vendedores de campo, que son los usuarios principales y prueban el catálogo en cada revisión, ya están donde deben estar.",
+      "Invitar al gerente de finanzas a todas las revisiones de sprint, porque su posición neutral puede volverse resistencia más adelante.",
+      "Pedir al patrocinador que asuma el liderazgo del producto, ya que es el interesado con más poder sobre el presupuesto."
+    ],
+    "correct": [
+      0
+    ],
+    "why": [
+      "La jefa de almacén tiene la brecha más amplia (se resiste → apoya) y su aprobación es necesaria en tres semanas: conviene entender su resistencia e involucrarla en las historias que la afectan.",
+      "Que un grupo esté bien no elimina las brechas de los demás; ignorarlas pone en riesgo el lanzamiento.",
+      "La brecha del gerente de finanzas existe, pero su decisión es más lejana y una brecha neutral → apoya es menos urgente que una resistencia.",
+      "La brecha del patrocinador es real, pero su decisión no es inminente y no corresponde trasladarle el rol del dueño del producto."
+    ],
+    "rationale": "La matriz compara el involucramiento actual con el deseado. Se prioriza la brecha mayor cuya decisión está más cerca, y se cierra con participación real: escuchar sus preocupaciones e incorporar a la persona en el refinamiento de lo que la afecta."
+  },
+  {
+    "id": "v10-p14-002",
+    "module": "people",
+    "topicId": "people-4",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "hotspot",
+    "category": "Lectura",
+    "family": "plan-involucramiento-vecinos",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Plan de involucramiento · renovación de un mercado municipal (obra predictiva + app de puestos en sprints)",
+      "cols": [
+        "Forma de involucramiento prevista"
+      ],
+      "rows": [
+        {
+          "label": "Comerciantes del mercado (usuarios del app)",
+          "cells": [
+            "Prueban el app en la revisión de cada sprint"
+          ]
+        },
+        {
+          "label": "Vecinos de la calle lateral (cierre de vía y ruido desde la próxima semana)",
+          "cells": [
+            "Informe trimestral por correo electrónico"
+          ]
+        },
+        {
+          "label": "Gerencia municipal (patrocinador)",
+          "cells": [
+            "Comité mensual de avance integrado"
+          ]
+        },
+        {
+          "label": "Proveedor de pagos digitales",
+          "cells": [
+            "Reunión técnica al inicio de cada versión"
+          ]
+        }
+      ]
+    },
+    "prompt": "Haz clic en el interesado cuya forma de involucramiento no es adecuada para la situación actual.",
+    "correct": [
+      1
+    ],
+    "rationale": "Los vecinos sufrirán el cierre de la vía y el ruido desde la próxima semana: un informe trimestral por correo llega tarde y no permite escuchar sus preocupaciones. Necesitan comunicación previa y un canal de diálogo. Las demás formas de involucramiento corresponden a la influencia y la frecuencia de participación de cada interesado."
+  },
+  {
+    "id": "v10-p16-001",
+    "module": "people",
+    "topicId": "people-6",
+    "aux": "agile-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Lectura",
+    "family": "pronostico-probabilistico",
+    "table": {
+      "title": "Equipo de soporte de una aseguradora · tiempo de ciclo de los últimos 60 pedidos",
+      "head": [
+        "Porcentaje de pedidos terminados",
+        "En … días o menos"
+      ],
+      "rows": [
+        [
+          "50 %",
+          "4"
+        ],
+        [
+          "70 %",
+          "6"
+        ],
+        [
+          "85 %",
+          "9"
+        ],
+        [
+          "95 %",
+          "14"
+        ]
+      ]
+    },
+    "prompt": "La gerente de siniestros pide una fecha exacta para un pedido que acaba de entrar al flujo y quiere saber si estará listo «en una semana». ¿Qué respuesta gestiona mejor su expectativa?",
+    "options": [
+      "Prometer los siete días que pide la gerente y, si el pedido se retrasa, pedir al equipo que trabaje horas adicionales o que suspenda temporalmente otros pedidos en curso.",
+      "Comprometer cuatro días, porque es el tiempo de ciclo más frecuente y la gerente quedará satisfecha con una respuesta rápida.",
+      "Explicar que hay un 70 % de probabilidad de terminarlo en 6 días y un 85 % en 9, y acordar con ella si la urgencia justifica priorizarlo de forma especial.",
+      "Decirle que en un enfoque ágil no se dan fechas y que el pedido estará listo cuando el equipo lo termine."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "Prometer lo que se pide sin datos y compensar con horas extra no es sostenible y oculta el riesgo.",
+      "El 50 % significa que la mitad de los pedidos tarda más: comprometer ese valor crea una expectativa que fallará con frecuencia.",
+      "Un pronóstico con probabilidades basado en datos reales es honesto y le permite decidir; si necesita más certeza, se acuerda una prioridad explícita.",
+      "Los equipos ágiles sí pronostican; negarse a dar información daña la confianza."
+    ],
+    "rationale": "Las expectativas se gestionan con transparencia: un pronóstico basado en el tiempo de ciclo histórico expresa la incertidumbre en probabilidades y permite al interesado decidir si necesita una clase de servicio urgente."
+  },
+  {
+    "id": "v10-p16-002",
+    "module": "people",
+    "topicId": "people-6",
+    "aux": "agile-2",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Mentalidad",
+    "family": "terminado-segun-cliente",
+    "prompt": "En la revisión del sprint, el cliente de un sistema de inventarios para una cadena de ferreterías dice que una función «no está terminada» porque su personal todavía no fue capacitado. Para el equipo, la función cumple su definición de terminado y sus criterios de aceptación. ¿Qué DOS acciones gestionan mejor la expectativa? Selecciona DOS.",
+    "options": [
+      "Agregar la capacitación al sprint en curso sin consultar al dueño del producto, para que el cliente quede conforme en la próxima revisión.",
+      "Hacer visible con el cliente qué incluye la definición de terminado y acordar qué significa «terminado» para él antes de las próximas revisiones.",
+      "Explicar al cliente que la definición de terminado es un asunto interno del equipo y que la capacitación del personal no forma parte del alcance del proyecto de software.",
+      "Que el dueño del producto incorpore al backlog el trabajo de capacitación y lo ordene según su valor para el cliente."
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "why": [
+      "Cambiar el sprint por fuera del dueño del producto rompe la forma en que se gestiona el alcance.",
+      "La diferencia nace de expectativas implícitas: hacer explícito qué significa «terminado» evita el mismo desencuentro en cada revisión.",
+      "La definición de terminado es del equipo, pero ocultarla al cliente perpetúa la confusión y desconoce una necesidad real.",
+      "La capacitación es una necesidad legítima: entra al backlog y el dueño del producto la ordena junto con lo demás."
+    ],
+    "rationale": "Las expectativas se gestionan haciendo explícitos los criterios (definición de terminado y criterios de aceptación) y canalizando las necesidades nuevas por el backlog, donde el dueño del producto decide su prioridad."
+  },
+  {
+    "id": "v10-p21-001",
+    "module": "process",
+    "topicId": "process-1",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Conceptual",
+    "family": "plan-integrado-hibrido",
+    "prompt": "Un centro de distribución se construye con línea base predictiva y su sistema de gestión de almacén se desarrolla en sprints. Empareja cada elemento con el lugar del plan integrado donde se gestiona.",
+    "items": [
+      "Fecha contractual de entrega de la nave a los operadores",
+      "Orden de las funciones del sistema de almacén",
+      "Fecha en que el sistema debe conectarse con los lectores instalados en la nave",
+      "Capacidad del equipo de software para las próximas dos semanas"
+    ],
+    "options": [
+      "Línea base del cronograma maestro",
+      "Hito de integración compartido por ambos planes",
+      "Registro de lecciones aprendidas",
+      "Backlog del producto y hoja de ruta de versiones",
+      "Planificación del sprint"
+    ],
+    "correct": [
+      0,
+      3,
+      1,
+      4
+    ],
+    "rationale": "El plan integrado combina niveles: los compromisos contractuales viven en la línea base; el orden de las funciones, en el backlog y la hoja de ruta; los puntos donde ambos componentes deben encontrarse, en hitos de integración visibles en los dos planes; y el detalle de corto plazo, en la planificación del sprint."
+  },
+  {
+    "id": "v10-p21-002",
+    "module": "process",
+    "topicId": "process-1",
+    "aux": "agile-2",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "plan-detallado-pmo",
+    "prompt": "La PMO de un banco pide al equipo ágil que desarrolla la nueva banca por internet un diagrama de Gantt con todas las tareas de los próximos 12 meses, para controlar el avance. ¿Qué debería proponer el director del proyecto?",
+    "options": [
+      "Negarse a entregar planes, porque en un enfoque ágil la PMO no debe intervenir en la forma de trabajar del equipo.",
+      "Ofrecer una hoja de ruta de versiones con objetivos y un pronóstico basado en la velocidad, detallar solo los próximos sprints y acordar con la PMO cómo se informará el avance.",
+      "Pedir al equipo que planifique todos los sprints del año en la primera planificación, para que el Gantt sea lo más exacto posible.",
+      "Preparar el Gantt de 12 meses con todas las tareas estimadas hoy y actualizarlo cada vez que el equipo cambie algo, para que la PMO tenga el control que pide y no se generen tensiones."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "La PMO tiene una necesidad legítima de visibilidad; negarse daña la gobernanza y la confianza.",
+      "La planificación ágil es progresiva: visión y versiones a largo plazo, detalle a corto plazo, y un acuerdo sobre la información que necesita la PMO.",
+      "Planificar todos los sprints al inicio contradice la planificación progresiva y el aprendizaje entre iteraciones.",
+      "Detallar 12 meses de tareas cuando el alcance va a evolucionar genera un plan que pierde vigencia en semanas y mucho retrabajo."
+    ],
+    "rationale": "En un enfoque adaptativo, el plan de entrega se elabora por niveles: una hoja de ruta con versiones y objetivos, un pronóstico basado en datos y detalle solo para el horizonte cercano. Se acuerda con la gobernanza cómo se informará el avance."
+  },
+  {
+    "id": "v10-p22-001",
+    "module": "process",
+    "topicId": "process-2",
+    "aux": "agile-4",
+    "approach": "Ágil",
+    "type": "hotspot",
+    "category": "Lectura",
+    "family": "listo-para-sprint",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Backlog refinado · app de una red de gimnasios (definición de listo: criterios de aceptación acordados, tamaño de un sprint o menos y sin dependencias bloqueantes; el equipo termina unos 20 puntos por sprint)",
+      "cols": [
+        "Estado del refinamiento"
+      ],
+      "rows": [
+        {
+          "label": "Reservar clases grupales",
+          "cells": [
+            "Criterios acordados · 13 puntos · espera la API de horarios del proveedor, aún sin fecha"
+          ]
+        },
+        {
+          "label": "Congelar la membresía por viaje",
+          "cells": [
+            "Criterios acordados · 5 puntos · sin dependencias"
+          ]
+        },
+        {
+          "label": "Recomendaciones personalizadas",
+          "cells": [
+            "Criterios por definir · 8 puntos · sin dependencias"
+          ]
+        },
+        {
+          "label": "Pagar con billetera digital",
+          "cells": [
+            "Criterios acordados · 40 puntos · sin dependencias"
+          ]
+        }
+      ]
+    },
+    "prompt": "Haz clic en el estado del único ítem que cumple la definición de listo y puede entrar a la próxima planificación del sprint.",
+    "correct": [
+      1
+    ],
+    "rationale": "«Congelar la membresía» tiene criterios acordados, cabe en un sprint y no depende de nadie. «Reservar clases» está bloqueada por una API sin fecha, «Recomendaciones» aún no tiene criterios de aceptación y «Billetera digital» es demasiado grande y debe dividirse antes de entrar a un sprint."
+  },
+  {
+    "id": "v10-p22-002",
+    "module": "process",
+    "topicId": "process-2",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "trazabilidad-edt-backlog",
+    "prompt": "En un edificio de oficinas, la obra tiene una EDT con línea base y la app de control de accesos se desarrolla con un backlog. Al refinar una épica, el equipo descubre que necesita lectores biométricos en cada piso, que no figuran en ningún paquete de trabajo de la EDT. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Que el dueño del producto priorice la épica más arriba, ya que el backlog tiene precedencia sobre la EDT en un proyecto híbrido.",
+      "Pedir al equipo de la app que retire la épica del backlog, porque todo lo que no está en la EDT queda automáticamente fuera del alcance del proyecto.",
+      "Indicar al contratista eléctrico que instale los lectores aprovechando que ya está trabajando en los pisos, y regularizar el cambio en el cierre de la obra cuando se conozca el costo final.",
+      "Analizar el impacto de los lectores en la obra y presentarlo al control integrado de cambios para actualizar la EDT, enlazando la épica con el nuevo paquete de trabajo."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Ordenar el backlog no autoriza trabajo en la obra: la prioridad de la épica no cambia la línea base predictiva.",
+      "La épica responde a una necesidad real; descartarla sin análisis no resuelve el vacío de alcance que se descubrió.",
+      "Instalar sin aprobación cambia la línea base de la obra fuera del control de cambios y genera costos sin autorizar.",
+      "El trabajo físico afecta la línea base de la obra: se analiza y se decide en el control integrado de cambios, y se mantiene la trazabilidad entre la épica y el paquete de trabajo."
+    ],
+    "rationale": "En un proyecto híbrido el alcance vive en dos artefactos que deben mantenerse trazables. Un descubrimiento del componente ágil que exige trabajo en el componente predictivo se gestiona con el control integrado de cambios y se enlazan la épica y el paquete de trabajo."
+  },
+  {
+    "id": "v10-p25-001",
+    "module": "process",
+    "topicId": "process-5",
+    "aux": "agile-4",
+    "approach": "Ágil",
+    "type": "dropdown",
+    "category": "Conceptual",
+    "family": "clausulas-contrato-agil",
+    "prompt": "Una cooperativa contratará a una empresa para desarrollar su app de créditos con un equipo ágil. Completa qué mecanismo contractual responde a cada necesidad.",
+    "items": [
+      "Para pagar a medida que se entrega valor utilizable, se pacta ___.",
+      "Para que la cooperativa pueda reemplazar historias aún no iniciadas por otras de tamaño similar, se incluye ___.",
+      "Para terminar antes si las funciones más valiosas ya se entregaron, se incluye ___."
+    ],
+    "choices": [
+      [
+        "un pago por horas sin criterios de aceptación",
+        "un pago por cada incremento aceptado según criterios acordados",
+        "un pago único al final del proyecto",
+        "un anticipo del 100 % del monto total"
+      ],
+      [
+        "una cláusula de cambio sin costo dentro de un alcance de tamaño equivalente",
+        "la prohibición de cambios después de firmar",
+        "un comité que apruebe cada cambio de historia",
+        "una penalidad por cada cambio solicitado"
+      ],
+      [
+        "una penalidad por terminación anticipada igual al saldo total",
+        "la obligación de completar todo el backlog inicial",
+        "una prórroga automática del contrato",
+        "una cláusula de terminación anticipada con un pago acordado"
+      ]
+    ],
+    "correct": [
+      1,
+      0,
+      3
+    ],
+    "rationale": "Los contratos para trabajo ágil alinean el pago con el valor entregado (pago por incremento aceptado), permiten cambiar el alcance no iniciado sin renegociar (cambio sin costo) y facilitan terminar cuando ya se obtuvo suficiente valor (terminación anticipada con un pago acordado)."
+  },
+  {
+    "id": "v10-p25-002",
+    "module": "process",
+    "topicId": "process-5",
+    "aux": "agile-2",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "obligaciones-comprador-agil",
+    "prompt": "En la construcción de una clínica, el contrato de obra es predictivo y el sistema de historias clínicas lo desarrolla un proveedor en sprints. El proveedor reclama que la clínica no asigna a nadie con autoridad para aclarar requisitos y que dos incrementos fueron rechazados al final por observaciones que nadie le dio antes. ¿Qué debería hacer el director del proyecto de la clínica?",
+    "options": [
+      "Asegurar que la clínica asigne un dueño del producto con autoridad y tiempo para participar en el refinamiento y las revisiones, como requiere la forma de trabajo pactada.",
+      "Cambiar de proveedor, porque el rechazo de dos incrementos demuestra que el actual no tiene la capacidad necesaria.",
+      "Aplicar la penalidad prevista en el contrato por los incrementos rechazados, ya que el proveedor es el especialista y es responsable de entender los requisitos por su cuenta.",
+      "Pedir al proveedor que, en adelante, documente todos los requisitos en una especificación completa y firmada por la clínica antes de iniciar cada sprint."
+    ],
+    "correct": [
+      0
+    ],
+    "why": [
+      "En un contrato ágil, el comprador también tiene obligaciones: un dueño del producto disponible y con autoridad que aclare, priorice y acepte en cada sprint.",
+      "Cambiar de proveedor sin atender la causa repetirá el problema con el siguiente.",
+      "Penalizar ignora que la causa está del lado del comprador: nadie le dio retroalimentación oportuna.",
+      "Exigir especificaciones completas antes de cada sprint vuelve predictivo un trabajo pactado como ágil y no resuelve la falta de un interlocutor con autoridad."
+    ],
+    "rationale": "La colaboración con el proveedor exige que el comprador cumpla su parte: un representante empoderado que participe en el refinamiento y en las revisiones. Antes de penalizar o cambiar de proveedor, se analiza la causa del rechazo."
+  },
+  {
+    "id": "v10-p26-001",
+    "module": "process",
+    "topicId": "process-6",
+    "aux": "agile-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Cálculo",
+    "family": "evm-agil",
+    "prompt": "La versión 1 de un portal de licitaciones suma 200 puntos, se planificó en 10 sprints y tiene un presupuesto de S/ 500 000 (se asume un gasto uniforme por sprint). Al cerrar el sprint 4, el equipo completó 64 puntos y el costo real es de S/ 220 000. Usando la gestión del valor ganado ágil, ¿qué describe mejor la situación?",
+    "options": [
+      "CPI = 0,80 y SPI ≈ 0,73: el cronograma es el mayor problema, porque va peor que el costo.",
+      "CPI ≈ 1,38 y SPI = 1,25: el proyecto está por debajo del presupuesto y adelantado, porque los cocientes superan 1.",
+      "CPI ≈ 0,73 y SPI = 0,80: el proyecto gasta más de lo previsto por cada punto completado y entrega menos de lo planificado.",
+      "CPI ≈ 0,91 y SPI = 0,80: el costo está casi en línea con el plan, y solo el cronograma necesita atención."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "Intercambia los índices: el CPI es 0,73 y el SPI es 0,80, así que el costo es el desvío mayor.",
+      "Invierte los cocientes (AC/EV y PV/EV); con la fórmula correcta ambos índices son menores que 1.",
+      "EV = 64/200 × 500 000 = 160 000; PV = 4/10 × 500 000 = 200 000. CPI = 160 000/220 000 ≈ 0,73 y SPI = 160 000/200 000 = 0,80.",
+      "Compara el valor planificado con el costo real (200 000/220 000) en lugar del valor ganado, y subestima el desvío de costo."
+    ],
+    "rationale": "En el valor ganado ágil, el EV es el porcentaje de puntos completados por el presupuesto (32 % × 500 000 = 160 000) y el PV es el porcentaje de sprints transcurridos por el presupuesto (40 % × 500 000 = 200 000). CPI = EV/AC ≈ 0,73 y SPI = EV/PV = 0,80: sobrecosto y retraso."
+  },
+  {
+    "id": "v10-p26-002",
+    "module": "process",
+    "topicId": "process-6",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Lectura",
+    "family": "reservas-hibrido",
+    "table": {
+      "title": "Estado de reservas · terminal terrestre (obra predictiva + app de venta de pasajes en sprints)",
+      "head": [
+        "Reserva",
+        "Monto inicial (S/ mil)",
+        "Usado (S/ mil)",
+        "Quién autoriza su uso"
+      ],
+      "rows": [
+        [
+          "Contingencia de la obra (riesgos identificados)",
+          "400",
+          "150",
+          "Director del proyecto, según el plan de respuesta"
+        ],
+        [
+          "Contingencia del app (riesgos identificados)",
+          "60",
+          "10",
+          "Director del proyecto, según el plan de respuesta"
+        ],
+        [
+          "Reserva de gestión (imprevistos no identificados)",
+          "300",
+          "0",
+          "Patrocinador"
+        ]
+      ]
+    },
+    "prompt": "El dueño del producto quiere agregar al app la venta de pasajes para un nuevo tipo de servicio, que no estaba en la visión aprobada, y propone pagarla con la contingencia del app porque «queda casi todo el monto». ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Aprobar el uso de la contingencia del app, porque está casi intacta, el dueño del producto tiene autoridad sobre el alcance del componente ágil y así no se toca el presupuesto de la obra.",
+      "Explicar que la contingencia cubre riesgos identificados, intentar incorporar la función cambiando prioridades dentro del presupuesto y, si necesita más fondos, llevar el cambio al patrocinador.",
+      "Usar directamente la reserva de gestión, ya que la nueva función es un imprevisto que nadie identificó en la planificación y esa reserva sigue completa.",
+      "Pasar fondos de la contingencia de la obra al app, porque ese componente ya no usará todo su monto."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "La contingencia está destinada a riesgos identificados, no a alcance nuevo; usarla así deja esos riesgos sin cobertura.",
+      "Un alcance nuevo no es un riesgo: primero se intenta incorporarlo cambiando prioridades dentro del presupuesto y, si se necesitan más fondos, se decide con el patrocinador mediante control de cambios.",
+      "La reserva de gestión no la controla el director ni el dueño del producto, y una función nueva no es un imprevisto: es un cambio de alcance.",
+      "Mover contingencias entre componentes sin análisis ni aprobación desarma la protección de la obra."
+    ],
+    "rationale": "Las reservas tienen un propósito y un responsable: la contingencia cubre riesgos identificados y la reserva de gestión la autoriza el patrocinador. Un alcance nuevo se gestiona en el backlog dentro del presupuesto o, si requiere fondos, mediante control de cambios."
+  },
+  {
+    "id": "v10-p26-003",
+    "module": "process",
+    "topicId": "process-6",
+    "aux": "agile-5",
+    "approach": "Ágil",
+    "type": "hotspot",
+    "category": "Lectura",
+    "family": "costo-sin-valor",
+    "hotspot": {
+      "kind": "chart"
+    },
+    "chart": {
+      "type": "line",
+      "title": "App de mantenimiento de flotas · costo acumulado y valor aceptado",
+      "yLabel": "S/ mil / puntos",
+      "labels": [
+        "Sprint 1",
+        "Sprint 2",
+        "Sprint 3",
+        "Sprint 4",
+        "Sprint 5",
+        "Sprint 6",
+        "Sprint 7"
+      ],
+      "series": [
+        {
+          "name": "Costo acumulado (S/ mil)",
+          "values": [
+            30,
+            60,
+            90,
+            120,
+            150,
+            180,
+            210
+          ]
+        },
+        {
+          "name": "Puntos aceptados acumulados",
+          "values": [
+            18,
+            40,
+            61,
+            61,
+            61,
+            84,
+            106
+          ]
+        }
+      ]
+    },
+    "prompt": "El patrocinador revisa el gráfico de costo acumulado y valor aceptado del equipo. Haz clic en el primer sprint en el que se gastó dinero sin que aumentara el valor aceptado.",
+    "correct": [
+      3
+    ],
+    "rationale": "En el sprint 4 el costo sube de S/ 90 mil a S/ 120 mil, pero los puntos aceptados se mantienen en 61: es el primer sprint con gasto sin valor aceptado (en el sprint 5 se repite). Es una señal para analizar la causa, por ejemplo historias que no cumplen la definición de terminado o un bloqueo externo."
+  },
+  {
+    "id": "v10-p27-001",
+    "module": "process",
+    "topicId": "process-7",
+    "aux": "agile-2",
+    "approach": "Ágil",
+    "type": "multi",
+    "category": "Mentalidad",
+    "family": "calidad-incorporada",
+    "prompt": "Los defectos que llegan a producción en la app de una empresa de mudanzas se duplicaron en los últimos tres sprints, aunque todas las historias pasaron su revisión. ¿Qué DOS acciones incorporan la calidad en el trabajo del equipo? Selecciona DOS.",
+    "options": [
+      "Agregar a la definición de terminado pruebas de regresión automatizadas que se ejecuten en cada integración.",
+      "Crear una fase de inspección a cargo del área de calidad al final de cada versión, antes de liberar el producto.",
+      "Escribir con el dueño del producto ejemplos concretos para los criterios de aceptación antes de desarrollar cada historia.",
+      "Reducir la cantidad de historias por sprint sin cambiar la forma de trabajo, para que el equipo tenga más tiempo de revisar."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "why": [
+      "Las pruebas automatizadas en la definición de terminado detectan las regresiones en cuanto aparecen y evitan que lleguen a producción.",
+      "Una inspección al final detecta tarde y concentra el retrabajo; la calidad se construye durante el desarrollo, no se agrega al final.",
+      "Acordar ejemplos antes de desarrollar previene malentendidos y convierte los criterios en pruebas verificables desde el inicio.",
+      "Bajar el volumen sin cambiar las prácticas no ataca la causa de los defectos."
+    ],
+    "rationale": "En los enfoques ágiles la calidad se incorpora al trabajo: definición de terminado exigente con pruebas automatizadas y criterios de aceptación con ejemplos acordados antes de desarrollar. Las inspecciones tardías y la simple reducción de volumen no previenen los defectos."
+  },
+  {
+    "id": "v10-p27-002",
+    "module": "process",
+    "topicId": "process-7",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "match",
+    "category": "Conceptual",
+    "family": "artefactos-calidad-hibrido",
+    "prompt": "En un proyecto híbrido de un condominio con su app de reservas de áreas comunes, empareja cada elemento de calidad con su propósito.",
+    "items": [
+      "Criterios de aceptación de una historia del app",
+      "Definición de terminado del equipo del app",
+      "Protocolo de prueba de presión de las tuberías",
+      "Auditoría de calidad de los procesos del proyecto"
+    ],
+    "options": [
+      "Condiciones específicas que debe cumplir esa función para que el dueño del producto la acepte.",
+      "Estándar de calidad que cumple cualquier incremento antes de considerarse terminado.",
+      "Control que verifica que un entregable físico cumple su especificación antes de aceptarlo.",
+      "Lista de defectos detectados por los usuarios después de la entrega.",
+      "Revisión independiente de si el equipo sigue los procesos y estándares acordados."
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      4
+    ],
+    "rationale": "Los criterios de aceptación son propios de cada historia; la definición de terminado se aplica a todo incremento; el protocolo de prueba controla un entregable físico (control de calidad); la auditoría revisa los procesos (aseguramiento de la calidad). Una lista de defectos posteriores no define calidad por adelantado."
+  },
+  {
+    "id": "v10-p28-001",
+    "module": "process",
+    "topicId": "process-8",
+    "aux": "agile-5",
+    "approach": "Ágil",
+    "type": "dropdown",
+    "category": "Lectura",
+    "family": "burndown-estancado",
+    "chart": {
+      "type": "line",
+      "title": "Burndown del sprint 5 · horas de trabajo restantes",
+      "yLabel": "horas",
+      "labels": [
+        "Día 1",
+        "Día 2",
+        "Día 3",
+        "Día 4",
+        "Día 5",
+        "Día 6",
+        "Día 7",
+        "Día 8",
+        "Día 9",
+        "Día 10"
+      ],
+      "series": [
+        {
+          "name": "Ideal",
+          "values": [
+            200,
+            178,
+            156,
+            133,
+            111,
+            89,
+            67,
+            44,
+            22,
+            0
+          ]
+        },
+        {
+          "name": "Real",
+          "values": [
+            200,
+            186,
+            184,
+            185,
+            183,
+            160,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ]
+    },
+    "prompt": "El equipo que desarrolla un sistema de turnos para un banco revisa su burndown en la reunión diaria del día 6 de un sprint de 10 días. Completa el análisis.",
+    "items": [
+      "Entre el día 2 y el día 5, el gráfico muestra que ___.",
+      "Lo más adecuado es que el equipo ___."
+    ],
+    "choices": [
+      [
+        "el trabajo restante casi no bajó, lo que sugiere un bloqueo o trabajo que no se está terminando",
+        "el equipo trabajó más rápido de lo planificado",
+        "se agregó mucho trabajo nuevo al sprint cada día",
+        "el sprint ya no puede cumplir ningún objetivo"
+      ],
+      [
+        "alargue el sprint dos días para recuperar lo perdido",
+        "deje de actualizar el burndown hasta que la tendencia mejore",
+        "espere a la retrospectiva para tratar el tema",
+        "analice la causa en la reunión diaria y converse con el dueño del producto si debe ajustar el alcance para proteger el objetivo del sprint"
+      ]
+    ],
+    "correct": [
+      0,
+      3
+    ],
+    "rationale": "Una línea real casi plana durante varios días indica que el trabajo no se está completando: hay un bloqueo, tareas demasiado grandes o trabajo a medias. El equipo inspecciona la causa de inmediato y, si hace falta, ajusta el alcance con el dueño del producto sin alargar el sprint."
+  },
+  {
+    "id": "v10-p28-002",
+    "module": "process",
+    "topicId": "process-8",
+    "aux": "agile-5",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "agregar-personas-tarde",
+    "prompt": "A dos sprints de la fecha de lanzamiento de una app de delivery, el pronóstico muestra que faltarán unos 30 puntos. El patrocinador propone sumar cuatro desarrolladores de otra área para terminar todo a tiempo. ¿Qué debería recomendar el director del proyecto?",
+    "options": [
+      "Pedir al equipo actual que haga horas extra durante los dos sprints, porque es más rápido que capacitar a gente nueva.",
+      "Postergar el lanzamiento hasta completar todo el backlog, sin analizar qué funciones son indispensables.",
+      "Aceptar los cuatro desarrolladores de inmediato y repartirles las historias pendientes, porque más capacidad aumenta la velocidad del equipo de forma proporcional y así se protege la fecha comprometida.",
+      "Explicar que incorporar personas al final suele bajar la velocidad mientras se integran, y proponer con el dueño del producto qué alcance de menor valor puede pasar a una versión posterior."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Las horas extra sostenidas bajan la calidad y no son un ritmo sostenible.",
+      "Mover la fecha sin analizar el valor de lo pendiente ignora la opción de lanzar lo esencial a tiempo.",
+      "Sumar personas tarde exige integración y coordinación; en el corto plazo suele reducir la velocidad en lugar de aumentarla.",
+      "Con poco tiempo, lo más efectivo es transparentar el efecto de sumar personas y ajustar el alcance según el valor, protegiendo la fecha."
+    ],
+    "rationale": "Comprimir el cronograma de un equipo ágil al final rara vez se logra agregando personas. Lo habitual es ajustar el alcance según el valor con el dueño del producto y explicar con datos el efecto de cada opción."
+  },
+  {
+    "id": "v10-p210-001",
+    "module": "process",
+    "topicId": "process-10",
+    "aux": "agile-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Lectura",
+    "family": "cierre-por-valor",
+    "table": {
+      "title": "Backlog restante · plataforma de citas de una red de clínicas veterinarias",
+      "head": [
+        "Ítem",
+        "Valor estimado por el dueño del producto (1–10)",
+        "Costo estimado (sprints)"
+      ],
+      "rows": [
+        [
+          "Exportar historial a PDF",
+          "2",
+          "1"
+        ],
+        [
+          "Temas de color personalizados",
+          "1",
+          "1"
+        ],
+        [
+          "Integración con un software contable que usa una sola sede",
+          "2",
+          "2"
+        ],
+        [
+          "Traducción al inglés",
+          "1",
+          "1"
+        ]
+      ]
+    },
+    "prompt": "Ya se entregaron las funciones de mayor valor y la plataforma está en uso. El dueño del producto muestra el backlog restante; el contrato con el equipo permite terminar antes. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Recomendar al patrocinador cerrar el proyecto, ya que el valor de lo pendiente no justifica su costo, y entregar ese backlog documentado a quien operará la plataforma.",
+      "Pedir al equipo que termine los ítems restantes más rápido, reduciendo pruebas, para cerrar con todo el alcance completo.",
+      "Dejar el proyecto abierto sin equipo asignado, por si en el futuro alguien necesita alguna de esas funciones.",
+      "Continuar hasta completar todo el backlog, porque el presupuesto aprobado alcanza, el equipo ya conoce el producto y el compromiso inicial con el patrocinador fue entregar todas las funciones."
+    ],
+    "correct": [
+      0
+    ],
+    "why": [
+      "Cuando lo pendiente aporta poco frente a su costo, lo adecuado es proponer el cierre, transferir el backlog y liberar los recursos.",
+      "Reducir pruebas sacrifica la calidad para completar funciones que casi no aportan.",
+      "Un proyecto abierto sin trabajo activo genera costos y confusión; el trabajo futuro se gestiona desde la operación.",
+      "Gastar en trabajo de poco valor solo porque hay presupuesto no maximiza el valor; el alcance de un proyecto ágil es variable."
+    ],
+    "rationale": "En un enfoque ágil, el proyecto puede cerrarse cuando el valor de lo que queda ya no justifica su costo. El director lo recomienda a quien tiene la autoridad, se transfiere el backlog pendiente y se liberan los recursos."
+  },
+  {
+    "id": "v10-b32-001",
+    "module": "business",
+    "topicId": "business-2",
+    "aux": "agile-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "evidencia-cumplimiento-continua",
+    "prompt": "El área de auditoría interna de una financiera exige que el equipo ágil del nuevo sistema de préstamos entregue, al final del proyecto, un expediente con la trazabilidad de cada requisito regulatorio hasta su prueba. El equipo teme detenerse semanas para armarlo. ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Pedir a auditoría una excepción, porque los equipos ágiles priorizan el software funcionando sobre la documentación exhaustiva.",
+      "Planificar dos sprints al final del proyecto dedicados solo a reconstruir la trazabilidad a partir de los registros existentes, para que el equipo no pierda ritmo durante el desarrollo.",
+      "Acordar con auditoría qué evidencia necesita y generarla durante cada sprint como parte de la definición de terminado, por ejemplo con requisitos enlazados a sus pruebas automatizadas.",
+      "Asignar a un analista que documente en paralelo lo que el equipo hace, sin cambiar la forma de trabajo del equipo."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "El cumplimiento no es opcional: el valor del software funcionando no exime de la evidencia que exige la organización.",
+      "Reconstruir la evidencia al final es costoso, propenso a errores y retrasa la entrega.",
+      "Integrar la evidencia en el trabajo diario (definición de terminado, trazabilidad automática) cumple con auditoría sin detener la entrega.",
+      "Documentar desde afuera produce evidencia desconectada del trabajo real y duplica el esfuerzo."
+    ],
+    "rationale": "En entornos regulados, el cumplimiento se integra en el flujo ágil: se acuerda con los responsables qué evidencia se necesita y se genera de forma continua como parte de la definición de terminado."
+  },
+  {
+    "id": "v10-b32-002",
+    "module": "business",
+    "topicId": "business-2",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "hotspot",
+    "category": "Lectura",
+    "family": "matriz-cumplimiento-hibrida",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Matriz de cumplimiento · hotel con sistema de reservas propio (hoy: semana 20)",
+      "cols": [
+        "Responsable · fecha límite · estado"
+      ],
+      "rows": [
+        {
+          "label": "Certificado de seguridad en edificaciones (obra)",
+          "cells": [
+            "Ingeniera de seguridad · semana 30 · documentación en preparación"
+          ]
+        },
+        {
+          "label": "Registro del banco de datos personales de huéspedes (sistema de reservas)",
+          "cells": [
+            "Responsable por definir · semana 22, antes de la salida en vivo · sin iniciar"
+          ]
+        },
+        {
+          "label": "Licencia de funcionamiento municipal",
+          "cells": [
+            "Administrador del hotel · semana 34 · programada"
+          ]
+        },
+        {
+          "label": "Prueba anual del sistema contra incendios",
+          "cells": [
+            "Contratista de instalaciones · semana 32 · programada"
+          ]
+        }
+      ]
+    },
+    "prompt": "Haz clic en la obligación que requiere acción inmediata del director del proyecto.",
+    "correct": [
+      1
+    ],
+    "rationale": "El registro del banco de datos personales vence en dos semanas, antes de que el sistema salga en vivo, no tiene responsable y no se ha iniciado: hay que asignar un responsable e integrarlo como condición de la salida en vivo. Las demás obligaciones tienen responsable y fechas con margen."
+  },
+  {
+    "id": "v10-b33-001",
+    "module": "business",
+    "topicId": "business-3",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "hotspot",
+    "category": "Lectura",
+    "family": "registro-cambios-hibrido",
+    "hotspot": {
+      "kind": "grid",
+      "title": "Registro de cambios · planta de tratamiento de agua con sistema de monitoreo desarrollado en sprints",
+      "cols": [
+        "Cómo se gestionó"
+      ],
+      "rows": [
+        {
+          "label": "Reordenar dos historias del tablero de monitoreo",
+          "cells": [
+            "Lo decidió el dueño del producto en el refinamiento"
+          ]
+        },
+        {
+          "label": "Ampliar el cuarto de bombas en 12 m² (afecta costo y cronograma de la obra)",
+          "cells": [
+            "Lo aprobó verbalmente el residente de obra; el contratista ya está construyendo"
+          ]
+        },
+        {
+          "label": "Cambiar el proveedor de sensores por uno equivalente",
+          "cells": [
+            "Análisis de impacto y aprobación del comité de cambios; plan actualizado"
+          ]
+        },
+        {
+          "label": "Agregar una alerta por correo al tablero, dentro de la capacidad del sprint",
+          "cells": [
+            "Lo incorporó el dueño del producto con los desarrolladores"
+          ]
+        }
+      ]
+    },
+    "prompt": "Haz clic en el cambio que se gestionó de forma incorrecta.",
+    "correct": [
+      1
+    ],
+    "rationale": "Ampliar el cuarto de bombas modifica el costo y el cronograma de la línea base de la obra: requiere análisis de impacto y aprobación según la gobernanza, y actualizar el plan antes de ejecutar. Una aprobación verbal del residente se salta el control de cambios. Los cambios del backlog dentro de la capacidad los gestiona el dueño del producto."
+  },
+  {
+    "id": "v10-b33-002",
+    "module": "business",
+    "topicId": "business-3",
+    "aux": "agile-4",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "limite-autoridad-po",
+    "prompt": "Una aseguradora contrató a un equipo ágil con capacidad fija y presupuesto anual aprobado por el comité directivo. El dueño del producto quiere reemplazar una épica por un nuevo módulo de seguros para mascotas, pero ese módulo exige contratar un servicio externo que eleva el presupuesto anual un 15 %, por encima del límite de su autoridad. ¿Qué debería hacer?",
+    "options": [
+      "Pedir al equipo que construya el servicio externo por su cuenta para no superar el presupuesto, aunque no esté en su especialidad.",
+      "Preparar el análisis de impacto en valor, costo y plazo y llevarlo al comité directivo, que tiene la autoridad sobre el presupuesto, antes de comprometer el cambio.",
+      "Descartar el módulo de mascotas, porque en un contrato de capacidad fija no se pueden aprobar aumentos de presupuesto.",
+      "Reemplazar la épica en el backlog y empezar el módulo, porque el dueño del producto decide el contenido del backlog."
+    ],
+    "correct": [
+      1
+    ],
+    "why": [
+      "Construir algo fuera de la especialidad del equipo para evitar la gobernanza crea riesgos técnicos y oculta el costo real.",
+      "El cambio supera la autoridad del dueño del producto: se analiza su impacto y lo decide quien controla el presupuesto, según la gobernanza acordada.",
+      "La capacidad fija no impide pedir más presupuesto; descartar sin análisis puede perder valor.",
+      "El dueño del producto ordena el backlog, pero un aumento de presupuesto por encima de su límite requiere otra autoridad."
+    ],
+    "rationale": "En entornos ágiles, el dueño del producto decide dentro de los límites que fija la gobernanza. Un cambio que supera esos límites (aquí, el presupuesto) se analiza y se lleva a quien tiene la autoridad antes de comprometerlo."
+  },
+  {
+    "id": "v10-b36-001",
+    "module": "business",
+    "topicId": "business-6",
+    "aux": "agile-3",
+    "approach": "Ágil",
+    "type": "hotspot",
+    "category": "Lectura",
+    "family": "cuello-de-botella-prueba",
+    "hotspot": {
+      "kind": "chart"
+    },
+    "chart": {
+      "type": "line",
+      "title": "Mesa de ayuda de una universidad · ítems en cada columna al cierre de la semana",
+      "yLabel": "ítems",
+      "labels": [
+        "Sem 1",
+        "Sem 2",
+        "Sem 3",
+        "Sem 4",
+        "Sem 5",
+        "Sem 6",
+        "Sem 7"
+      ],
+      "series": [
+        {
+          "name": "En desarrollo",
+          "values": [
+            6,
+            6,
+            7,
+            6,
+            6,
+            7,
+            6
+          ]
+        },
+        {
+          "name": "En prueba",
+          "values": [
+            3,
+            3,
+            3,
+            6,
+            9,
+            12,
+            15
+          ]
+        },
+        {
+          "name": "Terminados en la semana",
+          "values": [
+            7,
+            8,
+            7,
+            5,
+            4,
+            3,
+            3
+          ]
+        }
+      ]
+    },
+    "prompt": "En su retrospectiva, el equipo de la mesa de ayuda revisa la evolución de su tablero para elegir una mejora. Haz clic en la primera semana en la que empezó a acumularse trabajo en prueba.",
+    "correct": [
+      3
+    ],
+    "rationale": "Hasta la semana 3 hay unos tres ítems en prueba; en la semana 4 suben a seis y siguen creciendo, mientras bajan los terminados. Ahí empieza el cuello de botella en prueba: la mejora debe atacar esa etapa (por ejemplo, un límite de trabajo en curso o que los desarrolladores ayuden a probar) en lugar de iniciar más desarrollo."
+  },
+  {
+    "id": "v10-b36-002",
+    "module": "business",
+    "topicId": "business-6",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "aprendizaje-entre-equipos",
+    "prompt": "En un programa de tres colegios, cada uno con obra predictiva y un equipo ágil para su plataforma educativa, las retrospectivas de los equipos ágiles y las lecciones de las obras repiten el mismo problema: las salas de cómputo se entregan sin los puntos de red que las plataformas necesitan para sus pruebas. ¿Qué debería hacer el director del programa?",
+    "options": [
+      "Registrar el problema en el repositorio de lecciones aprendidas del programa para que esté disponible cuando termine el último colegio.",
+      "Indicar a los contratistas que instalen más puntos de red de los previstos en todas las salas, por si acaso.",
+      "Pedir a cada equipo que siga resolviendo el problema en su propia retrospectiva, porque la mejora continua es responsabilidad de cada equipo.",
+      "Organizar una revisión conjunta de obras y equipos ágiles para analizar la causa común, acordar un cambio en la forma de coordinar las entregas y verificar su efecto en el siguiente colegio."
+    ],
+    "correct": [
+      3
+    ],
+    "why": [
+      "Guardar la lección para el final no evita que se repita en los colegios que aún están en curso.",
+      "Agregar puntos de red sin analizar la causa trata un síntoma y aumenta el costo sin asegurar que se resuelva.",
+      "Si el problema cruza equipos, cada retrospectiva aislada solo ve una parte y no cambia la coordinación entre componentes.",
+      "Un problema sistémico se mejora a nivel del programa: se analiza la causa con todos los involucrados, se prueba un cambio y se verifica su resultado."
+    ],
+    "rationale": "La mejora continua también opera entre equipos: cuando la misma causa aparece en varios componentes, se analiza en conjunto, se acuerda un cambio en el proceso de coordinación y se verifica su efecto en el siguiente ciclo."
+  },
+  {
+    "id": "v10-b37-001",
+    "module": "business",
+    "topicId": "business-7",
+    "aux": "agile-1",
+    "approach": "Ágil",
+    "type": "single",
+    "category": "Mentalidad",
+    "family": "rol-dueno-producto-empoderado",
+    "prompt": "Una empresa de transporte adopta el trabajo ágil por primera vez. El gerente comercial designa como dueña del producto a una practicante con dos horas semanales disponibles y sin autoridad para priorizar, porque «los gerentes no tienen tiempo para reuniones». ¿Qué debería hacer el director del proyecto?",
+    "options": [
+      "Explicar al patrocinador y al gerente qué exige el rol, cómo afecta al valor del producto, y acordar un dueño del producto con autoridad y tiempo suficientes.",
+      "Pedir al equipo que decida las prioridades por votación hasta que el gerente tenga tiempo.",
+      "Volver a un enfoque predictivo, porque la organización todavía no está preparada para el trabajo ágil.",
+      "Aceptar la designación y que el director del proyecto tome las decisiones de prioridad cuando la practicante no pueda."
+    ],
+    "correct": [
+      0
+    ],
+    "why": [
+      "Adoptar el enfoque ágil cambia roles en la organización: hay que explicar ese impacto a quienes deciden y lograr un dueño del producto empoderado y disponible.",
+      "Votar prioridades sin conocimiento del negocio no reemplaza al representante del valor.",
+      "Abandonar el enfoque ante la primera dificultad no gestiona el cambio; la organización necesita apoyo para adoptar los nuevos roles.",
+      "El director asumiría un rol que no le corresponde, y las decisiones de valor quedarían sin el negocio."
+    ],
+    "rationale": "Apoyar el cambio organizacional incluye ayudar a la organización a entender los nuevos roles que trae el enfoque ágil y lo que exigen, en particular un dueño del producto con autoridad y tiempo suficientes."
+  },
+  {
+    "id": "v10-b37-002",
+    "module": "business",
+    "topicId": "business-7",
+    "aux": "agile-6",
+    "approach": "Híbrido",
+    "type": "single",
+    "category": "Lectura",
+    "family": "preparacion-cambio-areas",
+    "table": {
+      "title": "Encuesta de preparación para el nuevo sistema de control de obra (salida en vivo en el próximo sprint)",
+      "head": [
+        "Área",
+        "Conoce el motivo del cambio",
+        "Quiere usar el sistema",
+        "Sabe usarlo",
+        "Puede usarlo en su trabajo diario"
+      ],
+      "rows": [
+        [
+          "Oficina técnica",
+          "Sí",
+          "Sí",
+          "Sí",
+          "Sí"
+        ],
+        [
+          "Supervisores de campo",
+          "Sí",
+          "Sí",
+          "Sí",
+          "No: en obra no hay señal y vuelven a las planillas en Excel"
+        ],
+        [
+          "Logística",
+          "Sí",
+          "Parcial",
+          "Sí",
+          "Sí"
+        ],
+        [
+          "Administración",
+          "Sí",
+          "Sí",
+          "Parcial",
+          "Sí"
+        ]
+      ]
+    },
+    "prompt": "La constructora implementa el sistema en etapas. Según la encuesta, ¿qué acción debería priorizar el director del proyecto antes de la salida en vivo?",
+    "options": [
+      "Repetir la capacitación a todas las áreas antes de la salida en vivo, porque más formación siempre mejora la adopción y refuerza a quienes respondieron «parcial».",
+      "Lanzar una campaña de comunicación sobre los beneficios del sistema, dirigida a toda la empresa.",
+      "Quitar la barrera de conectividad de los supervisores de campo, por ejemplo con un modo sin conexión, y acompañarlos en obra durante las primeras semanas.",
+      "Pedir a los supervisores que dejen de usar Excel desde el lanzamiento, bajo advertencia de sanción."
+    ],
+    "correct": [
+      2
+    ],
+    "why": [
+      "Los supervisores ya saben usar el sistema: más capacitación no elimina la barrera que les impide usarlo.",
+      "Todas las áreas conocen el motivo del cambio; la comunicación no resuelve el problema práctico.",
+      "La brecha es de capacidad en el puesto de trabajo: sin señal no pueden usarlo. Hay que quitar la barrera y acompañar la adopción en campo.",
+      "Prohibir la alternativa sin resolver la causa genera resistencia y datos incompletos."
+    ],
+    "rationale": "Para que un cambio se adopte, las personas necesitan conocer el motivo, querer el cambio, saber hacerlo y poder hacerlo en su contexto. La acción se dirige a la brecha concreta: aquí, una barrera práctica que impide usar el sistema en obra."
   }
 ]
