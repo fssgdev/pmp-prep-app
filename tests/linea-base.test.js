@@ -12,6 +12,8 @@ const assert = (c, m) => { if (!c) throw new Error('FALLO: ' + m); console.log('
   const fresh = async (time, vp = {width: 1366, height: 900}) => {
     const ctx = await browser.newContext({viewport: vp}); const page = await ctx.newPage(); const errors = [];
     page.on('pageerror', e => errors.push(e.message)); await page.route(/supabase-js|fonts\.g/, r => r.abort());
+    // La suite crea versiones sintéticas; no debe depender de cuántas láminas reales se hayan publicado.
+    await page.route(/\/data\/slides\.json(?:\?.*)?$/, r => r.fulfill({json: {slides: []}}));
     await page.clock.install({time: new Date(time)});
     const boot = async h => { await page.goto(URL + '#' + h); await page.waitForFunction(() => typeof classLogDialog === 'function' && typeof state === 'object'); await page.evaluate(() => render()); };
     return {ctx, page, errors, boot};

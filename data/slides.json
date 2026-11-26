@@ -1,4 +1,16 @@
 {
   "note": "Láminas de repaso que GPT publica directamente (ver AGENTS.md → «Publicar una lámina»). Cada entrada apunta a un archivo en slides/. El repositorio es público: solo síntesis originales, sin material protegido ni texto de apuntes personales o notas del profesor.",
-  "slides": []
+  "slides": [
+    {
+      "session": 7,
+      "version": 1,
+      "file": "slides/clase-07-v1.pdf",
+      "title": "Lámina clase 7 · Visión compartida y autorización del proyecto",
+      "status": "provisional",
+      "createdAt": "2026-11-26T00:42:00-05:00",
+      "author": "GPT",
+      "note": "Repaso original de ECO 1.1; pendiente de confirmar el alcance completo de la clase.",
+      "sources": ["ECO 1.1", "Banco de estudio PMP Exam Prep"]
+    }
+  ]
 }
