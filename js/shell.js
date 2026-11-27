@@ -82,8 +82,24 @@
 
   let unlocked = AUTO || sess.get('cf-unlocked') === '1', splashDone = false, wantPast = false;
   const startHash = location.hash.slice(1).split('/')[0];
-  const show = view => { root.dataset.view = view; root.hidden = false; document.documentElement.classList.add('cf-on'); window.scrollTo(0, 0); };
-  const hide = () => { root.hidden = true; document.documentElement.classList.remove('cf-on'); };
+  // Privacidad y accesibilidad (#10): mientras la portada, el acceso o el centro están a la vista, el resto de la página (PMP) queda
+  // inerte: fuera del árbol de accesibilidad, del lector de pantalla y de la navegación con teclado. Al entrar a PMP se restaura.
+  const inerted = new Set();
+  // inert + aria-hidden: aria-hidden cubre lectores y navegadores sin soporte de inert (Safari < 15.5).
+  const seal = () => { for (const el of document.body.children) if (el !== root && !inerted.has(el) && !el.inert && el.tagName !== 'SCRIPT') { el.inert = true; el.setAttribute('aria-hidden', 'true'); inerted.add(el); } };
+  new MutationObserver(() => { if (!root.hidden) seal(); }).observe(document.body, {childList: true});
+  const focusView = view => setTimeout(() => {
+    if (root.hidden || root.dataset.view !== view || root.contains(document.activeElement) && document.activeElement !== root) return;
+    const t = root.querySelector(`.cf-${view} .cf-tap, .cf-${view} h1`); if (!t) return;
+    if (t.tagName === 'H1') t.tabIndex = -1; t.focus({preventScroll: true});
+  }, 80);
+  const show = view => { root.dataset.view = view; root.hidden = false; document.documentElement.classList.add('cf-on'); seal(); window.scrollTo(0, 0); focusView(view); };
+  const hide = () => {
+    const had = !root.hidden && root.contains(document.activeElement); // el foco estaba en el portal: pasa al contenido de PMP
+    root.hidden = true; document.documentElement.classList.remove('cf-on');
+    inerted.forEach(el => { el.inert = false; el.removeAttribute('aria-hidden'); }); inerted.clear();
+    if (had) document.getElementById('main')?.focus({preventScroll: true});
+  };
   const goPmp = (route = 'inicio') => { hide(); if (location.hash.slice(1) !== route) location.hash = route; else window.PMPApp?.render?.(); };
   const unlock = () => { unlocked = true; sess.set('cf-unlocked', '1'); if (startHash && startHash !== HUB && !wantPast) { wantPast = true; goPmp(location.hash.slice(1) || 'inicio'); } else hub(); };
   const syncReady = () => (window.PMPSync?.ready || Promise.resolve(null));

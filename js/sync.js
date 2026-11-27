@@ -111,12 +111,16 @@
   }
   const isolated = () => { if (isolate()) return true; setStatus('error', 'No se pudo separar el progreso de la cuenta anterior en este dispositivo; no se sincronizó.'); return false; };
 
+  // Cada operación queda atada a la sesión con la que empezó (#10): si mientras espera a la red se cierra la sesión o entra otra
+  // cuenta, su resultado se descarta (no se fusiona en el progreso local de la otra cuenta ni se sube con otro user_id).
+  const current = uid => !!uid && user?.id === uid;
   async function pull() {
-    if (!isolated()) return;
-    const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', user.id).maybeSingle();
+    const uid = user?.id; if (!uid || !isolated()) return;
+    const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', uid).maybeSingle();
+    if (!current(uid)) return;
     if (error) throw error;
     if (!data) { await push(); return; }                       // primera vez: sube lo local
-    if (localUpdated() === data.updated_at) { synced(); return; }
+    if (localUpdated() === data.updated_at) { synced(uid); return; }
     const local = app().getState(), merged = merge(local, data.state, localUpdated() > data.updated_at);
     const changedLocal = JSON.stringify(merged) !== JSON.stringify(local);
     if (changedLocal) {
@@ -124,44 +128,49 @@
       if (!app().setState(merged)) { setStatus('error', 'No se pudo aplicar el progreso de la nube en este dispositivo.'); return; }
       app().toast('Progreso actualizado desde la nube.');
     }
-    if (JSON.stringify(merged) !== JSON.stringify(data.state)) await write(merged);
+    if (JSON.stringify(merged) !== JSON.stringify(data.state)) { if (!(await write(merged, true, uid))) return; }
     else { try { localStorage.setItem(app().KEY + '-updated', data.updated_at); } catch {} }
-    synced();
+    synced(uid);
   }
 
-  async function write(st, mark = true) {
+  async function write(st, mark, uid) {
+    if (!current(uid)) return false;
     const updated_at = new Date().toISOString();
-    const {error} = await client.from('progress').upsert({user_id: user.id, state: st, updated_at});
+    const {error} = await client.from('progress').upsert({user_id: uid, state: st, updated_at});
     if (error) throw error;
+    if (!current(uid)) return false;
     if (mark) try { localStorage.setItem(app().KEY + '-updated', updated_at); } catch {}
+    return true;
   }
-  function synced() { lastSync = new Date().toISOString(); try { localStorage.setItem(OWNER, user.id); } catch {} setStatus('synced'); }
+  function synced(uid) { if (!current(uid)) return; lastSync = new Date().toISOString(); try { localStorage.setItem(OWNER, uid); } catch {} setStatus('synced'); }
 
   // Antes de escribir, lee la nube y fusiona: así un guardado no pisa lo que subió otro dispositivo.
   async function push() {
-    if (!client || !user || !isolated()) return;
+    const uid = user?.id;
+    if (!client || !uid || !isolated()) return;
     setStatus('syncing');
     try {
-      const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', user.id).maybeSingle();
+      const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', uid).maybeSingle();
+      if (!current(uid)) return;
       if (error) throw error;
       let st = app().getState();
       if (data?.state && data.updated_at !== localUpdated()) {
         const merged = merge(st, data.state, true);
         if (JSON.stringify(merged) !== JSON.stringify(st)) {
           // Nunca se sube solo lo local si la nube tenía algo más: se sube la fusión.
-          if (!app().setState(merged)) { await write(merged, false); setStatus('error', 'No se pudo aplicar el progreso de la nube en este dispositivo.'); return; }
+          if (!app().setState(merged)) { await write(merged, false, uid); setStatus('error', 'No se pudo aplicar el progreso de la nube en este dispositivo.'); return; }
           st = merged;
         }
       }
-      await write(st);
-      synced();
-    } catch (e) { setStatus('error', e.message); }
+      if (await write(st, true, uid)) synced(uid);
+    } catch (e) { if (current(uid)) setStatus('error', e.message); }
   }
 
   function schedulePush() {
     if (!user) return;
     clearTimeout(timer);
-    timer = setTimeout(() => push().catch(e => setStatus('error', e.message)), 1500);
+    const uid = user.id; // un guardado pendiente pertenece a la cuenta que lo hizo
+    timer = setTimeout(() => { if (current(uid)) push().catch(e => setStatus('error', e.message)); }, 1500);
   }
 
   function panel() {
@@ -267,7 +276,7 @@
     if (!el) return;
     ev.preventDefault();
     if (el.dataset.sync === 'now') { await pull().catch(e => setStatus('error', e.message)); app().toast(status === 'error' ? 'No se pudo sincronizar: ' + lastError : 'Sincronizado: tienes lo último de la nube.'); }
-    if (el.dataset.sync === 'logout') { await client.auth.signOut(); user = null; setStatus('local'); window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user: null}})); app().toast('Sesión cerrada. El progreso sigue guardado en este dispositivo.'); }
+    if (el.dataset.sync === 'logout') { await client.auth.signOut(); user = null; clearTimeout(timer); setStatus('local'); window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user: null}})); app().toast('Sesión cerrada. El progreso sigue guardado en este dispositivo.'); }
     document.getElementById('modal')?.close();
   });
 
@@ -280,6 +289,7 @@
       client.auth.onAuthStateChange((_event, session) => {
         const was = user?.id;
         user = session?.user || null;
+        if (user?.id !== was) clearTimeout(timer); // cambio de cuenta o cierre de sesión: se descarta el guardado pendiente
         readyDone(user);
         if (!user) setStatus('local');
         window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user}}));

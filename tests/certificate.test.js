@@ -5,7 +5,8 @@ const URL = 'http://localhost:8765/';
 const results = []; const assert = (ok, m) => { results.push(ok); console.log((ok ? 'ok  ' : 'XX  ') + m); };
 const lib = logged => `window.supabase={createClient(){let cb;return {auth:{onAuthStateChange(f){cb=f;setTimeout(()=>f('INITIAL_SESSION',${logged ? "{user:{id:'u1',email:'prueba@ejemplo.test'}}" : 'null'}),60);},
   signInWithPassword:async(a)=>{if(a.password!=='clave-de-prueba')return {error:{message:'Invalid login credentials'}};setTimeout(()=>cb('SIGNED_IN',{user:{id:'u1',email:a.email}}),10);return {error:null};},
-  signInWithOtp:async()=>({error:null}),verifyOtp:async()=>({error:null}),signOut:async()=>{setTimeout(()=>cb('SIGNED_OUT',null),5);return {};}},
+  signInWithOtp:async(a)=>{(window.__otp=window.__otp||[]).push(['send',a.email,a.options&&a.options.shouldCreateUser]);return {error:null};},
+  verifyOtp:async(a)=>{(window.__otp=window.__otp||[]).push(['verify',a.token_hash,a.type]);if(a.token_hash!=='enlace-sintetico-123')return {error:{message:'Token has expired or is invalid'}};setTimeout(()=>cb('SIGNED_IN',{user:{id:'u1',email:'prueba@ejemplo.test'}}),10);return {error:null};},signOut:async()=>{setTimeout(()=>cb('SIGNED_OUT',null),5);return {};}},
   from(){return {select(){return this},eq(){return this},maybeSingle:async()=>({data:null,error:null}),upsert:async()=>({error:null})}}}}}`;
 async function ctxWith(browser, {logged = false, offline = false, width = 390} = {}) {
   const ctx = await browser.newContext({viewport: {width, height: 844}});
@@ -26,6 +27,16 @@ const view = page => page.evaluate(() => window.certiFicate?.view);
     await page.locator('.cf-splash').click(); await page.waitForTimeout(500);
     assert(await view(page) === 'auth' && await page.locator('#cf-login').isVisible(), 'un toque lleva al inicio de sesión (sin sesión)');
     assert(await page.locator('#main').evaluate(el => el.getBoundingClientRect().top >= 0) && await page.locator('#cf-shell').evaluate(el => getComputedStyle(el).position === 'fixed' && el.getBoundingClientRect().height >= innerHeight - 1), 'la app de PMP queda tapada hasta iniciar sesión');
+    // #10: detrás del portal, PMP no está en el árbol de accesibilidad ni en la navegación con teclado.
+    const inertAll = () => page.evaluate(() => [...document.body.children].filter(el => el.id !== 'cf-shell' && el.tagName !== 'SCRIPT').every(el => el.inert));
+    assert(await inertAll(), 'mientras se muestra el acceso, todo el contenido de PMP queda inerte');
+    const aria = await page.locator('body').ariaSnapshot();
+    assert(/Inicia sesión/.test(aria) && !/MI PREPARACIÓN|Ir al contenido|Navegación principal|Centro de control|Guía de uso/i.test(aria), 'el árbol accesible solo contiene la vista de acceso');
+    const tabs = []; for (let i = 0; i < 14; i++) { await page.keyboard.press('Tab'); tabs.push(await page.evaluate(() => { const a = document.activeElement; return document.getElementById('cf-shell').contains(a) ? 'cf' : a === document.body || !a ? 'navegador' : 'PMP:' + (a.id || a.className || a.tagName); })); }
+    assert(!tabs.some(t => t.startsWith('PMP')) && tabs.filter(t => t === 'cf').length >= 8, 'con Tab el foco recorre solo la vista de acceso, nunca PMP (14 pulsaciones) ' + JSON.stringify([...new Set(tabs)]));
+    const ax = await (await page.context().newCDPSession(page)).send('Accessibility.getFullAXTree');
+    const axNames = ax.nodes.filter(n => !n.ignored).map(n => n.name?.value || '').join(' | ');
+    assert(/Inicia sesión/.test(axNames) && !/Tu día de estudio|Centro de control|Ir al contenido|Guía de uso/.test(axNames), 'el árbol de accesibilidad real de Chrome (CDP) tampoco expone PMP');
     await page.fill('#cf-login [name=email]', 'prueba@ejemplo.test'); await page.fill('#cf-login [name=pass]', 'otra'); await page.locator('#cf-login button').click(); await page.waitForTimeout(300);
     assert(/incorrectos/.test(await page.locator('.cf-msg').innerText()) && await view(page) === 'auth', 'con una contraseña incorrecta no entra y lo explica');
     await page.fill('#cf-login [name=pass]', 'clave-de-prueba'); await page.locator('#cf-login button').click(); await page.waitForTimeout(1200);
@@ -38,8 +49,12 @@ const view = page => page.evaluate(() => window.certiFicate?.view);
     assert(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 1, 'el centro no se desborda a 390 px');
     await page.locator('[data-cf="pmp"]').click(); await page.waitForTimeout(500);
     assert(await view(page) === 'app' && await page.evaluate(() => location.hash) === '#inicio' && await page.locator('main h1').isVisible(), '«Entrar» abre PMP Exam Prep en su Inicio');
+    const restored = await page.evaluate(() => ({inert: [...document.body.children].filter(el => el.inert).length, focus: document.activeElement?.id}));
+    assert(restored.inert === 0 && restored.focus === 'main', 'al entrar a PMP se restaura el contenido (nada inerte) y el foco pasa a la vista principal ' + JSON.stringify(restored));
+    assert(/Tu día de estudio/.test(await page.locator('body').ariaSnapshot()), 'y PMP vuelve a estar en el árbol accesible');
     await page.locator('.mobile-brand').click(); await page.waitForTimeout(300);
     assert(await view(page) === 'hub', 'el logo de la barra superior vuelve al centro');
+    assert(await inertAll() && await page.evaluate(() => document.getElementById('cf-shell').contains(document.activeElement)), 'en el centro, PMP vuelve a quedar inerte y el foco está en el centro');
     await page.goBack(); await page.waitForTimeout(300);
     assert(await view(page) === 'app', 'el botón Atrás regresa a PMP');
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
@@ -75,6 +90,52 @@ const view = page => page.evaluate(() => window.certiFicate?.view);
     page2.on('dialog', d => d.accept()); await page2.locator('[data-cf="logout"]').click(); await page2.waitForTimeout(500);
     const lo = [await view(page2), await page2.locator('#cf-login').count(), await page2.locator('.cf-hub [data-cf="logout"]').count()];
     assert(lo[0] === 'auth' && lo[1] === 1, 'cerrar sesión vuelve a la pantalla de acceso ' + JSON.stringify(lo));
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
+  {
+    // Acceso completo por enlace (respaldo), sin enviar correos: el doble entrega una sesión sintética al verificar el token.
+    const {ctx, page, errors} = await ctxWith(browser);
+    await page.goto(URL + '#flashcards'); await page.waitForTimeout(2900); await page.locator('.cf-splash').click(); await page.waitForTimeout(500);
+    await page.fill('#cf-login [name=email]', 'prueba@ejemplo.test'); await page.locator('.cf-alt summary').click();
+    await page.locator('[data-cf="link-send"]').click(); await page.waitForTimeout(300);
+    assert(/Enlace enviado/.test(await page.locator('.cf-msg').innerText()) && JSON.stringify(await page.evaluate(() => window.__otp[0])) === '["send","prueba@ejemplo.test",false]', '«Enviar enlace» pide el enlace sin crear cuentas nuevas (doble, sin correo real)');
+    await page.fill('#cf-paste [name=link]', 'https://ejemplo.supabase.co/auth/v1/verify?token=pkce_vencido-999&type=magiclink'); await page.locator('#cf-paste button').click(); await page.waitForTimeout(400);
+    assert(await view(page) === 'auth' && /venció/.test(await page.locator('.cf-msg').innerText()) && await page.evaluate(() => !window.PMPSync.user), 'un enlace vencido no entra y lo explica');
+    const wrapped = 'https://www.google.com/url?q=' + encodeURIComponent('https://ejemplo.supabase.co/auth/v1/verify?token=pkce_enlace-sintetico-123&type=magiclink&redirect_to=x');
+    await page.fill('#cf-paste [name=link]', wrapped); await page.locator('#cf-paste button').click(); await page.waitForTimeout(1200);
+    const st = await page.evaluate(() => ({v: certiFicate.view, hash: location.hash, user: PMPSync.user?.id, last: window.__otp.at(-1), inert: [...document.body.children].filter(el => el.inert).length}));
+    assert(st.user === 'u1' && st.last[1] === 'enlace-sintetico-123' && st.v === 'app' && st.hash === '#flashcards' && st.inert === 0, 'un enlace válido (incluso envuelto por el correo) inicia la sesión sintética y entra a la sección abierta ' + JSON.stringify(st));
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
+  {
+    // Operaciones de sincronización atadas a su sesión: una lectura en curso de la cuenta u1 no se aplica ni se sube si entra otra cuenta
+    // o se cierra la sesión mientras espera a la red; un guardado pendiente se descarta al cambiar de cuenta.
+    const remoteU1 = {version: 1, topics: {}, attendance: {}, notes: [], errors: [], mocks: [], attempts: [{id: 'a-nube-u1', questionId: 'q01', module: 'people', topicId: 'people-1', approach: 'Ágil', selected: [0], correct: true, date: '2026-11-20T10:00:00-05:00'}], questions: [], studySessions: [], settings: {examDate: '', examConfirmed: false, reminderTime: '07:30', dailyMinutes: 45}, tasksDone: {}, cards: {}, cardLog: []};
+    const slowLib = `window.supabase={createClient(){let cb;return {auth:{onAuthStateChange(f){cb=f;window.__auth=(e,u)=>f(e,u?{user:u}:null);setTimeout(()=>f('INITIAL_SESSION',{user:{id:'u1',email:'prueba@ejemplo.test'}}),60);},signOut:async()=>{cb('SIGNED_OUT',null);return {};}},
+      from(){let who;const self={select(){return self},eq(k,v){who=v;return self},maybeSingle:async()=>{const w=who;(window.__reads=window.__reads||[]).push(w);await new Promise(r=>setTimeout(r,window.__delay||0));return {data:w==='u1'?{state:${JSON.stringify(remoteU1)},updated_at:'2026-11-20T15:00:00.000Z'}:null,error:null};},upsert:async(r)=>{(window.__ups=window.__ups||[]).push({uid:r.user_id,ids:r.state.attempts.map(a=>a.id),t:Date.now()});return {error:null};}};return self;}}}}`;
+    const ctx = await browser.newContext(); await ctx.route(/supabase-js/, r => r.fulfill({contentType: 'application/javascript', body: slowLib}));
+    const page = await ctx.newPage(); const errors = []; page.on('pageerror', e => errors.push(e.message));
+    await page.addInitScript(() => { window.__delay = 700; });
+    await page.goto(URL + '#inicio'); await page.waitForFunction(() => (window.__reads || []).includes('u1')); await page.waitForTimeout(100); // la lectura inicial de u1 sigue en curso (700 ms)
+    await page.evaluate(() => window.__auth('SIGNED_IN', {id: 'u2', email: 'otra@ejemplo.test'}));
+    await page.waitForTimeout(1600);
+    const sw = await page.evaluate(() => ({local: PMPApp.getState().attempts.map(a => a.id), ups: window.__ups || [], owner: localStorage.getItem('pmp-sync-owner'), user: PMPSync.user?.id}));
+    assert(sw.user === 'u2' && !sw.local.includes('a-nube-u1') && sw.ups.every(u => u.uid === 'u2' && !u.ids.includes('a-nube-u1')) && sw.owner === 'u2', 'una lectura en curso de u1 no se fusiona en la cuenta u2 ni se sube con otro user_id ' + JSON.stringify(sw));
+    // Guardado pendiente de u2 y cierre de sesión antes de que se envíe: no se sube nada después.
+    await page.evaluate(() => { window.__ups = []; window.__delay = 0; const s = PMPApp.getState(); s.attempts.push({id: 'a-local-u2', questionId: 'q02', module: 'people', topicId: 'people-1', approach: 'Ágil', selected: [1], correct: false, date: '2026-11-27T10:00:00-05:00'}); PMPApp.setState(s); PMPSync.schedulePush(); });
+    await page.evaluate(() => window.__auth('SIGNED_OUT', null)); await page.waitForTimeout(2200);
+    const lo = await page.evaluate(() => ({ups: window.__ups, label: document.getElementById('save-state').textContent}));
+    assert(lo.ups.length === 0 && /Sin sincronizar/.test(lo.label), 'un guardado pendiente no se envía tras cerrar la sesión ' + JSON.stringify(lo));
+    // Lectura en curso y cierre de sesión durante la espera: no se aplica ni se sube.
+    await page.evaluate(() => { window.__delay = 700; window.__auth('SIGNED_IN', {id: 'u1', email: 'prueba@ejemplo.test'}); }); await page.waitForTimeout(200);
+    await page.evaluate(() => window.__auth('SIGNED_OUT', null)); await page.waitForTimeout(1200);
+    const lo2 = await page.evaluate(() => ({ups: window.__ups, local: PMPApp.getState().attempts.map(a => a.id), label: document.getElementById('save-state').textContent}));
+    assert(lo2.ups.length === 0 && !lo2.local.includes('a-nube-u1') && !/Sin conexión/.test(lo2.label), 'una lectura en curso no se aplica ni se sube si la sesión se cierra mientras espera ' + JSON.stringify(lo2));
+    // Control: con la sesión estable, la misma lectura sí se aplica (la prueba no pasa por no sincronizar nunca).
+    await page.evaluate(() => { window.__delay = 50; window.__auth('SIGNED_IN', {id: 'u1', email: 'prueba@ejemplo.test'}); }); await page.waitForTimeout(1500);
+    assert(await page.evaluate(() => PMPApp.getState().attempts.some(a => a.id === 'a-nube-u1')), 'control: con la sesión estable, el progreso de la nube de u1 sí llega');
     assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
     await ctx.close();
   }
