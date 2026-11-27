@@ -11,6 +11,17 @@
       "author": "GPT",
       "note": "Repaso original de ECO 1.1; pendiente de confirmar el alcance completo de la clase.",
       "sources": ["ECO 1.1", "Banco de estudio PMP Exam Prep"]
+    },
+    {
+      "session": 7,
+      "version": 2,
+      "file": "slides/clase-07-v2.pdf",
+      "title": "Lámina clase 7 · Visión, valor y mandato",
+      "status": "provisional",
+      "createdAt": "2026-11-27T15:02:00-05:00",
+      "author": "GPT",
+      "note": "Repaso original del foco ECO 1.1 confirmado; alcance completo de la sesión pendiente de verificar.",
+      "sources": ["ECO 1.1", "Lección 3 v4.1", "Banco de práctica"]
     }
   ]
 }
