@@ -140,6 +140,43 @@ const view = page => page.evaluate(() => window.certiFicate?.view);
     await ctx.close();
   }
   {
+    // Generación de sesión (#10, revisión del 27/11): si la misma cuenta cierra sesión y vuelve a entrar (sesión renovada), una
+    // lectura o un error que quedó en curso de la sesión anterior no actualiza el estado ni la etiqueta; renovar el token sí conserva
+    // la sesión vigente. Doble de Supabase en memoria, sin datos reales.
+    const att = id => ({id, questionId: 'q01', module: 'people', topicId: 'people-1', approach: 'Ágil', selected: [0], correct: true, date: '2026-11-20T10:00:00-05:00'});
+    const base = {version: 1, topics: {}, attendance: {}, notes: [], errors: [], mocks: [], attempts: [], questions: [], studySessions: [], settings: {examDate: '', examConfirmed: false, reminderTime: '07:30', dailyMinutes: 45}, tasksDone: {}, cards: {}, cardLog: []};
+    const genLib = `window.__base=${JSON.stringify(base)};window.__remote=null;window.__stamp='2026-11-20T15:00:00.000Z';
+      window.supabase={createClient(){return {auth:{onAuthStateChange(f){window.__auth=(e,u)=>f(e,u?{user:u}:null);setTimeout(()=>f('INITIAL_SESSION',{user:{id:'u1',email:'prueba@ejemplo.test'}}),60);},signOut:async()=>({})},
+      from(){const self={select(){return self},eq(){return self},maybeSingle:async()=>{const d=window.__delay||0,fail=window.__fail,st=window.__remote,stamp=window.__stamp;await new Promise(r=>setTimeout(r,d));if(fail)return {data:null,error:{message:'Failed to fetch'}};return {data:st?{state:st,updated_at:stamp}:null,error:null};},
+      upsert:async(r)=>{(window.__ups=window.__ups||[]).push(r.state.attempts.map(a=>a.id));return {error:null};}};return self;}}}}`;
+    const ctx = await browser.newContext(); await ctx.route(/supabase-js/, r => r.fulfill({contentType: 'application/javascript', body: genLib}));
+    const page = await ctx.newPage(); const errors = []; page.on('pageerror', e => errors.push(e.message));
+    await page.goto(URL + '#inicio'); await page.waitForFunction(() => PMPSync.user?.id === 'u1'); await page.waitForTimeout(600);
+    const remoteWith = (id, stamp) => page.evaluate(([id, stamp]) => { const s = JSON.parse(JSON.stringify(window.__base)); if (id) s.attempts.push({id, questionId: 'q01', module: 'people', topicId: 'people-1', approach: 'Ágil', selected: [0], correct: true, date: '2026-11-20T10:00:00-05:00'}); window.__remote = s; window.__stamp = stamp; }, [id, stamp]);
+    // 1) Lectura de la sesión anterior que termina después de la renovación de la misma cuenta.
+    await remoteWith('a-sesion-anterior', '2026-11-27T10:00:00.000Z'); await page.evaluate(() => { window.__ups = []; window.__delay = 800; PMPSync.pull(); });
+    await page.waitForTimeout(150);
+    await remoteWith(null, '2026-11-27T11:00:00.000Z'); await page.evaluate(() => { window.__delay = 0; window.__auth('SIGNED_OUT', null); window.__auth('SIGNED_IN', {id: 'u1', email: 'prueba@ejemplo.test'}); });
+    await page.waitForTimeout(1300);
+    const r1 = await page.evaluate(() => ({local: PMPApp.getState().attempts.map(a => a.id), ups: window.__ups, label: document.getElementById('save-state').textContent}));
+    assert(!r1.local.includes('a-sesion-anterior') && r1.ups.every(u => !u.includes('a-sesion-anterior')) && /Sincronizado/.test(r1.label), 'misma cuenta, sesión renovada: la lectura de la sesión anterior no actualiza ni sube el estado ' + JSON.stringify(r1));
+    // 2) Error tardío de la sesión anterior: no deja «Sin conexión» en la sesión vigente.
+    await page.evaluate(() => { window.__fail = true; window.__delay = 800; window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true})); }); await page.waitForTimeout(150); // refresco al volver a la app
+    await page.evaluate(() => { window.__fail = false; window.__delay = 0; window.__auth('SIGNED_OUT', null); window.__auth('SIGNED_IN', {id: 'u1', email: 'prueba@ejemplo.test'}); });
+    await page.waitForTimeout(1300);
+    const r2 = await page.evaluate(() => document.getElementById('save-state').textContent);
+    assert(/Sincronizado/.test(r2) && !/Sin conexión/.test(r2), 'un error tardío de la sesión anterior no cambia la etiqueta de la sesión vigente ' + JSON.stringify(r2));
+    // 3) Control: renovar el token (TOKEN_REFRESHED) no abre una sesión nueva; la lectura en curso sí se aplica.
+    await remoteWith('a-token-renovado', '2026-11-27T12:00:00.000Z'); await page.evaluate(() => { window.__delay = 500; PMPSync.pull(); }); await page.waitForTimeout(150);
+    await page.evaluate(() => window.__auth('TOKEN_REFRESHED', {id: 'u1', email: 'prueba@ejemplo.test'})); await page.waitForTimeout(900);
+    assert(await page.evaluate(() => PMPApp.getState().attempts.some(a => a.id === 'a-token-renovado')), 'control: con el token renovado en la misma sesión, la lectura en curso sí se aplica');
+    // 4) Control: un error de la sesión vigente sí se muestra.
+    await page.evaluate(() => { window.__fail = true; window.__delay = 0; PMPSync.pull(); }); await page.waitForTimeout(400);
+    assert(/Sin conexión/.test(await page.evaluate(() => document.getElementById('save-state').textContent)), 'control: un error de la sesión vigente sí queda visible');
+    assert(errors.length === 0, 'sin errores de JavaScript ' + JSON.stringify(errors));
+    await ctx.close();
+  }
+  {
     // Sin servicio de acceso (sin internet): se puede seguir con lo guardado en el dispositivo.
     const {ctx, page, errors} = await ctxWith(browser, {offline: true});
     await page.goto(URL); await page.waitForTimeout(2900); await page.locator('.cf-splash').click(); await page.waitForTimeout(1500);

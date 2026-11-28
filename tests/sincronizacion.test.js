@@ -88,7 +88,9 @@ const syncNow = async d => { await d.page.evaluate(() => document.querySelector(
   await B.page.evaluate(() => { location.hash = 'inicio'; document.dispatchEvent(new Event('visibilitychange')); window.dispatchEvent(new Event('focus')); });
   await B.page.waitForTimeout(2500);
   const after = await B.page.evaluate(() => [!!state.tasksDone[bulletId()], cardsGradedToday(), document.querySelector('[data-routine="bullet"] .routine-count')?.textContent]);
-  log(!before[0] && after[0] && after[1] >= 4 && after[2] === '5/5', `al volver a una pestaña abierta, B trae el Bullet 5/5 y las tarjetas de A sin recargar (${JSON.stringify(after)})`);
+  // Sábado y domingo no hay rutina en Inicio (cuestionario o descanso): ahí basta con que lleguen el Bullet y las tarjetas.
+  const weekend = /^(sáb|dom)/i.test(new Date().toLocaleDateString('es-PE', {timeZone: 'America/Lima', weekday: 'short'}));
+  log(!before[0] && after[0] && after[1] >= 4 && (after[2] === '5/5' || (weekend && after[2] == null)), `al volver a una pestaña abierta, B trae el Bullet 5/5 y las tarjetas de A sin recargar (${JSON.stringify(after)})`);
   // Si el estado de la nube no se puede aplicar en un dispositivo, ese dispositivo no pisa la nube con lo suyo.
   const cloudTasks = Object.keys(row.state.tasksDone).length;
   await B.page.evaluate(() => { window.__set = PMPApp.setState; PMPApp.setState = () => false; });

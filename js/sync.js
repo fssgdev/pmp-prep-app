@@ -5,7 +5,7 @@
   const cfg = window.PMP_CONFIG || {};
   const enabled = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey);
   let readyDone; const ready = new Promise(r => { readyDone = r; }); // se resuelve al conocer la sesión (o si no hay servicio)
-  let client = null, otpClient = null, user = null, timer = null, status = 'local', lastError = '', lastSync = '', lastPull = 0;
+  let client = null, otpClient = null, user = null, gen = 0, timer = null, status = 'local', lastError = '', lastSync = '', lastPull = 0;
 
   const app = () => window.PMPApp;
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -111,16 +111,23 @@
   }
   const isolated = () => { if (isolate()) return true; setStatus('error', 'No se pudo separar el progreso de la cuenta anterior en este dispositivo; no se sincronizó.'); return false; };
 
-  // Cada operación queda atada a la sesión con la que empezó (#10): si mientras espera a la red se cierra la sesión o entra otra
-  // cuenta, su resultado se descarta (no se fusiona en el progreso local de la otra cuenta ni se sube con otro user_id).
-  const current = uid => !!uid && user?.id === uid;
-  async function pull() {
-    const uid = user?.id; if (!uid || !isolated()) return;
+  // Cada operación queda atada a la sesión con la que empezó (#10): cuenta + generación de sesión. La generación aumenta al cerrar
+  // sesión o cambiar de cuenta (también si luego vuelve a entrar la misma cuenta), pero no al renovar el token. Si mientras espera
+  // a la red la sesión deja de ser la vigente, su resultado y sus errores se descartan: no se fusiona en el progreso local, no se
+  // sube con otro user_id ni deja avisos de error de una sesión anterior.
+  const session = () => user ? {uid: user.id, gen} : null;
+  const current = t => !!t && user?.id === t.uid && gen === t.gen;
+  const newSession = () => { gen++; clearTimeout(timer); };
+  // Ejecuta una operación con la sesión vigente y solo muestra su error si esa sesión sigue vigente.
+  const guarded = (fn, t = session()) => fn(t).catch(e => { if (current(t)) setStatus('error', e.message); });
+  async function pull(t = session()) {
+    if (!current(t) || !isolated()) return;
+    const uid = t.uid;
     const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', uid).maybeSingle();
-    if (!current(uid)) return;
+    if (!current(t)) return;
     if (error) throw error;
-    if (!data) { await push(); return; }                       // primera vez: sube lo local
-    if (localUpdated() === data.updated_at) { synced(uid); return; }
+    if (!data) { await push(t); return; }                      // primera vez: sube lo local
+    if (localUpdated() === data.updated_at) { synced(t); return; }
     const local = app().getState(), merged = merge(local, data.state, localUpdated() > data.updated_at);
     const changedLocal = JSON.stringify(merged) !== JSON.stringify(local);
     if (changedLocal) {
@@ -128,49 +135,49 @@
       if (!app().setState(merged)) { setStatus('error', 'No se pudo aplicar el progreso de la nube en este dispositivo.'); return; }
       app().toast('Progreso actualizado desde la nube.');
     }
-    if (JSON.stringify(merged) !== JSON.stringify(data.state)) { if (!(await write(merged, true, uid))) return; }
+    if (JSON.stringify(merged) !== JSON.stringify(data.state)) { if (!(await write(merged, true, t))) return; }
     else { try { localStorage.setItem(app().KEY + '-updated', data.updated_at); } catch {} }
-    synced(uid);
+    synced(t);
   }
 
-  async function write(st, mark, uid) {
-    if (!current(uid)) return false;
+  async function write(st, mark, t) {
+    if (!current(t)) return false;
     const updated_at = new Date().toISOString();
-    const {error} = await client.from('progress').upsert({user_id: uid, state: st, updated_at});
+    const {error} = await client.from('progress').upsert({user_id: t.uid, state: st, updated_at});
+    if (!current(t)) return false;
     if (error) throw error;
-    if (!current(uid)) return false;
     if (mark) try { localStorage.setItem(app().KEY + '-updated', updated_at); } catch {}
     return true;
   }
-  function synced(uid) { if (!current(uid)) return; lastSync = new Date().toISOString(); try { localStorage.setItem(OWNER, uid); } catch {} setStatus('synced'); }
+  function synced(t) { if (!current(t)) return; lastSync = new Date().toISOString(); try { localStorage.setItem(OWNER, t.uid); } catch {} setStatus('synced'); }
 
   // Antes de escribir, lee la nube y fusiona: así un guardado no pisa lo que subió otro dispositivo.
-  async function push() {
-    const uid = user?.id;
-    if (!client || !uid || !isolated()) return;
+  async function push(t = session()) {
+    if (!client || !current(t) || !isolated()) return;
+    const uid = t.uid;
     setStatus('syncing');
     try {
       const {data, error} = await client.from('progress').select('state, updated_at').eq('user_id', uid).maybeSingle();
-      if (!current(uid)) return;
+      if (!current(t)) return;
       if (error) throw error;
       let st = app().getState();
       if (data?.state && data.updated_at !== localUpdated()) {
         const merged = merge(st, data.state, true);
         if (JSON.stringify(merged) !== JSON.stringify(st)) {
           // Nunca se sube solo lo local si la nube tenía algo más: se sube la fusión.
-          if (!app().setState(merged)) { await write(merged, false, uid); setStatus('error', 'No se pudo aplicar el progreso de la nube en este dispositivo.'); return; }
+          if (!app().setState(merged)) { if (!(await write(merged, false, t))) return; setStatus('error', 'No se pudo aplicar el progreso de la nube en este dispositivo.'); return; }
           st = merged;
         }
       }
-      if (await write(st, true, uid)) synced(uid);
-    } catch (e) { if (current(uid)) setStatus('error', e.message); }
+      if (await write(st, true, t)) synced(t);
+    } catch (e) { if (current(t)) setStatus('error', e.message); }
   }
 
   function schedulePush() {
     if (!user) return;
     clearTimeout(timer);
-    const uid = user.id; // un guardado pendiente pertenece a la cuenta que lo hizo
-    timer = setTimeout(() => { if (current(uid)) push().catch(e => setStatus('error', e.message)); }, 1500);
+    const t = session(); // un guardado pendiente pertenece a la sesión que lo hizo
+    timer = setTimeout(() => { if (current(t)) guarded(push, t); }, 1500);
   }
 
   function panel() {
@@ -275,8 +282,8 @@
     const el = ev.target.closest('[data-sync]');
     if (!el) return;
     ev.preventDefault();
-    if (el.dataset.sync === 'now') { await pull().catch(e => setStatus('error', e.message)); app().toast(status === 'error' ? 'No se pudo sincronizar: ' + lastError : 'Sincronizado: tienes lo último de la nube.'); }
-    if (el.dataset.sync === 'logout') { await client.auth.signOut(); user = null; clearTimeout(timer); setStatus('local'); window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user: null}})); app().toast('Sesión cerrada. El progreso sigue guardado en este dispositivo.'); }
+    if (el.dataset.sync === 'now') { await guarded(pull); app().toast(status === 'error' ? 'No se pudo sincronizar: ' + lastError : 'Sincronizado: tienes lo último de la nube.'); }
+    if (el.dataset.sync === 'logout') { newSession(); user = null; await client.auth.signOut(); user = null; setStatus('local'); window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user: null}})); app().toast('Sesión cerrada. El progreso sigue guardado en este dispositivo.'); }
     document.getElementById('modal')?.close();
   });
 
@@ -286,21 +293,23 @@
     try {
       await loadLibrary();
       client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {auth: {flowType: 'pkce', detectSessionInUrl: true, persistSession: true}});
-      client.auth.onAuthStateChange((_event, session) => {
+      client.auth.onAuthStateChange((event, sess) => {
         const was = user?.id;
-        user = session?.user || null;
-        if (user?.id !== was) clearTimeout(timer); // cambio de cuenta o cierre de sesión: se descarta el guardado pendiente
+        user = sess?.user || null;
+        // Cierre de sesión o cambio de cuenta: nueva generación (se descartan el guardado pendiente y las operaciones en curso).
+        // Renovar el token (TOKEN_REFRESHED) o reconfirmar la misma sesión no abre una generación nueva.
+        if (user?.id !== was || event === 'SIGNED_OUT') newSession();
         readyDone(user);
         if (!user) setStatus('local');
         window.dispatchEvent(new CustomEvent('pmp-auth', {detail: {user}}));
         if (user && user.id !== was) {
           if (location.search.includes('code=')) history.replaceState(null, '', location.pathname + location.hash);
-          pull().catch(e => setStatus('error', e.message));
+          guarded(pull);
         }
       });
-      window.addEventListener('online', () => user && pull().catch(() => {}));
+      window.addEventListener('online', () => user && guarded(pull));
       // Traer lo último de la nube al volver a la pestaña (p. ej., si se dejó abierta desde la mañana) y cada 5 minutos.
-      const refresh = (force = false) => { if (!user || document.visibilityState === 'hidden') return; if (!force && Date.now() - lastPull < 20000) return; lastPull = Date.now(); pull().catch(e => setStatus('error', e.message)); };
+      const refresh = (force = false) => { if (!user || document.visibilityState === 'hidden') return; if (!force && Date.now() - lastPull < 20000) return; lastPull = Date.now(); guarded(pull); };
       document.addEventListener('visibilitychange', () => refresh());
       window.addEventListener('focus', () => refresh());
       window.addEventListener('pageshow', ev => ev.persisted && refresh(true));
@@ -308,5 +317,5 @@
     } catch (e) { setStatus('error', e.message); readyDone(null); }
   }
 
-  window.PMPSync = {init, schedulePush, panel, label, merge, ready, pull: () => pull(), get enabled() { return enabled; }, get user() { return user; }, get client() { return client; }};
+  window.PMPSync = {init, schedulePush, panel, label, merge, ready, pull: () => guarded(pull), get enabled() { return enabled; }, get user() { return user; }, get client() { return client; }};
 })();
